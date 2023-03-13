@@ -1,0 +1,52 @@
+/*
+Custom Css
+*/
+
+/*중고거래 이미지가 자기 옆을 내어주도록*/
+#open_used{
+  display: flex;
+  flex-wrap: nowrap;
+  }
+
+.writeForm{
+  width: 70%;
+  max-height: calc(100vh - 100px); /* 화면 높이에서 footer 높이를 빼준 값 */
+  overflow-y: auto; /* 스크롤바 생성 */
+  
+}  
+
+.select_categories{
+  width: 60%;
+}
+
+.select_subject{
+  width: 30%;
+}
+
+.input_name_meerchandise{
+  width: 90.5%;
+}
+
+.table_writingContent{
+  position: relative;
+  padding-top: 12px;
+  padding-bottom: 50px;
+}
+
+.container_na {
+  display: block;
+
+  position: relative;
+  text-size-adjust: none;
+  font-weight: 400;
+  font-family: "Apple SD Gothic Neo", "맑은 고딕", "Malgun Gothic", 돋움, dotum, sans-serif;
+  background-color: var(--skinColor);
+  color: var(--skinTextColor);
+
+
+  font-family: "Apple SD Gothic Neo", "맑은 고딕", "Malgun Gothic", 돋움, dotum, sans-serif;
+  background-color: var(--skinColor);
+  color: var(--skinTextColor);
+
+
+}
