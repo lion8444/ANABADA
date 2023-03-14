@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.anabada.domain.UserDTO;
 
-@Repository
 @Mapper
 public interface UserDAO {
 	
