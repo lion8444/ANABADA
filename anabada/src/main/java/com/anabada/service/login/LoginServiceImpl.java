@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.anabada.dao.UserDAO;
 import com.anabada.domain.UserDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class LoginServiceImpl implements LoginService {
 
@@ -17,7 +20,9 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Override
 	public List<UserDTO> allUser() {
+		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		List<UserDTO> list = dao.allUser();
+		log.debug("{}",list);
 		return list;
 	}
 

@@ -3,10 +3,8 @@
 <mapper namespace="com.anabada.dao.UserDAO">
     <select id="allUser" resultType="UserDTO">
         select
-            user_email
-            , user_nick
-            , user_addr
+            *
         from
-            anabada
+            user
     </select>
 </mapper>
