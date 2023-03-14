@@ -12,6 +12,6 @@ public class IndexController {
 	@GetMapping({"", "/"})
 	public String index() {
 		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		return "index";
+		return "mainPage";
 	}
 }
