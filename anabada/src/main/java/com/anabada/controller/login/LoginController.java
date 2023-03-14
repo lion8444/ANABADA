@@ -25,6 +25,6 @@ public class LoginController {
 		List<UserDTO> list = service.allUser();
 		
 		m.addAttribute("list", list);
-		return "/loginForm";
+		return "/checkPwForm";
 	}
 }
