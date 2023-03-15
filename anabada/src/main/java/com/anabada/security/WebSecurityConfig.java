@@ -26,6 +26,9 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .antMatchers(
         		"/",
+        		"/report",
+        		"/review",
+        		"/inquiry",
         		"/assets/**",
                 "/img/**",
                 "/css/**",
