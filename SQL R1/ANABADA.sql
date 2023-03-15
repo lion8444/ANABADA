@@ -1,4 +1,30 @@
 -- MySQL Workbench Forward Engineering
+-- used_id = USED
+-- rent_id = RENT
+-- auction_id = AUCT
+-- file_id = FILE
+-- uDetail_id = UDET
+-- rDetail_id = RDET
+-- aDetail_id = ADET
+-- report_id = REPO
+-- inquiry_id = INQU
+-- review_id = REVI
+-- category_id = CATE
+-- aBid_id = ABID
+-- uTrade_id = UTRA
+-- rTrade_id = RTRA
+-- aTrade_id = ATRA
+-- chat_id = CHAT
+-- chatRoom_id = ROOM
+-- bTemp_id = BTEM
+-- cTemp_id = CTEM
+-- char_id = CHAR
+-- uChar_id = UCHA
+-- loc_id = LOCA
+-- uloc_id = ULOC
+-- sloc_id = SLOC
+-- wish_id = WISH
+-- uBuy_id = UBUY
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -13,6 +39,21 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `anabada` DEFAULT CHARACTER SET utf8 ;
 USE `anabada` ;
+
+DROP TABLE if exists anabada_seq;
+CREATE TABLE `anabada_seq` (
+  `seq_name` varchar(4) NOT NULL COMMENT '시퀀스에 사용될 명칭',
+  `seq_no` int COMMENT '시퀀스 no',
+  PRIMARY KEY (`seq_name`)
+);
+
+DROP TABLE if exists anabada_save_file;
+CREATE TABLE `anabada_save_file` (
+   `board_status` varchar(4) not null
+   , `file_date` datetime default now() COMMENT '파일 저장시간'
+   , `file_no` int NOT NULL COMMENT '저장 파일 no'
+   , PRIMARY KEY (`board_status`)
+);
 
 -- -----------------------------------------------------
 -- Table `anabada`.`user`

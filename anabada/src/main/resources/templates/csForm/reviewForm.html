@@ -40,7 +40,10 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/test.css}">
+
+	<!-- 제이쿼리 -->
+	<script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/js_csForm.js}"></script>
 
 	<title>리뷰 작성</title>
 </head>
@@ -165,15 +168,38 @@
 				<!-- 후기 작성 폼 -->
 				<div class="d-block agent-box p-5">
 					<div class="reviewbox">
-						<form th:action="@{/review}" method="post">
+						<form th:action="@{/review}" method="post" onsubmit="return reviewValidation();">
+
 							<input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 일단 value로 직접 테스트 -->
 							<input type="hidden" name="review_person" value="pt@naver.com">
 							<input type="hidden" name="board_status" value="중고거래">
 							<input type="hidden" name="board_no" value="2">
+
 							<h3>거래후기</h3>
-							<span>★★★★★</span>
-							<textarea name="review_comment" id="" cols="150" rows="10" placeholder="정성스런 후기를 작성해 주세요!"></textarea>
-							<input class="btn btn-primary" type="submit" value="후기 작성">
+							<!-- <fieldset class="starFieldSet">
+								<span class="text-bold">별점을 선택해주세요</span>
+								<input type="radio" name="review_comment" value="5" id="rate1"><label
+									for="rate1">★</label>
+								<input type="radio" name="review_comment" value="4" id="rate2"><label
+									for="rate2">★</label>
+								<input type="radio" name="review_comment" value="3" id="rate3"><label
+									for="rate3">★</label>
+								<input type="radio" name="review_comment" value="2" id="rate4"><label
+									for="rate4">★</label>
+								<input type="radio" name="review_comment" value="1" id="rate5"><label
+									for="rate5">★</label>
+							</fieldset> -->
+
+							<span class="star">
+								★★★★★
+								<span>★★★★★</span>
+								<input type="range" name="review_star" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+							</span>
+							<div class="starMent">별점을 입력해 주세요!</div>
+							<textarea name="review_comment" id="review_comment" cols="150" rows="10" placeholder="정성스런 후기를 작성해 주세요!"></textarea>
+							<input class="btn btn-success" type="submit" value="후기 작성">
+							<a th:href="@{/}"><input type="button" value="취소" class="btn btn-success"></a>
+
 						</form>
 					</div>
 				</div>

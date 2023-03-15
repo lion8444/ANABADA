@@ -59,28 +59,42 @@ public class CSController {
 			, ArrayList<MultipartFile> upload) {
 		log.debug("신고하기로 올라온 데이터 : {}", report);
 		
-//		log.debug("업로드된 파일 이름 : {}", ((MultipartFile) upload).getOriginalFilename());
-//		log.debug("업로드된 파일의 타입 : {}", ((MultipartFile) upload).getContentType());
-//		log.debug("업로드된 파일의 사이즈 : {}", ((MultipartFile) upload).getSize());
-//		log.debug("업로드된 파일 is Empty?? : {}", upload.isEmpty());
-		
-		for (MultipartFile multipartFile : upload) {
-			log.debug("파일 형식 : {}", multipartFile);
+		// 첨부파일 없을 때 - 신고하기만 처리
+		if(upload.get(0).isEmpty()) {
+			
+			log.debug("신고하기 - 첨부파일 X");
+			
+			service.insertReport(report);
+			
+			return "redirect:/";
 		}
-		
-		
-		if(upload != null && upload.size() != 0) {			
-			for(int i = 0; i < upload.size(); ++i) {
-				String filename = FileService.saveFile(upload.get(i), uploadPath);
-				file.setFile_origin(upload.get(i).getOriginalFilename());
-				file.setFile_saved(filename);
-				service.insertFile(file);
-			}			
-		}
-		
+				
+//		for (MultipartFile multipartFile : upload) {
+//			if(multipartFile.isEmpty()) {
+//				
+//				log.debug("사이즈: {}", multipartFile.isEmpty());
+//				service.insertReport(report);
+//				
+//				return "redirect:/";
+//			}
+//		}
+				
+		// 첨부파일 있을 때 - 파일 저장 후 신고하기 처리
+		for(int i = 0; i < upload.size(); ++i) {
+			
+			String filename = FileService.saveFile(upload.get(i), uploadPath);
+			
+			file.setFile_origin(upload.get(i).getOriginalFilename());
+			
+			file.setFile_saved(filename);
+			
+			service.insertFile(file);
+		}			
+			
 		service.insertReport(report);
 		
-		
+		log.debug("첨부파일과 신고하기 처리");
+			
 		return "redirect:/";
 	}
 	
@@ -102,11 +116,36 @@ public class CSController {
 	 * @return 리다이렉트
 	 */
 	@PostMapping("/inquiry")
-	public String inquiry(Inquiry inquiry) {
+	public String inquiry(
+			Inquiry inquiry
+			, File file
+			, ArrayList<MultipartFile> upload) {
 		
 		log.debug("문의하기로 올라온 데이터 : {}", inquiry);
 		
+		// 첨부파일 없을 때 - 문의하기만 처리
+		if(upload.get(0).isEmpty()) {
+			log.debug("문의하기 - 첨부파일 X");
+			
+			service.insertInquiry(inquiry);
+			
+			return "redirect:/";
+		}
+		
+		// 첨부파일 있을 때 - 파일 저장 후 문의하기 처리
+		for(int i = 0; i < upload.size(); ++i) {
+			String filename = FileService.saveFile(upload.get(i), uploadPath);
+			
+			file.setFile_origin(upload.get(i).getOriginalFilename());
+			
+			file.setFile_saved(filename);
+			
+			service.insertFile(file);
+		}
+		
 		service.insertInquiry(inquiry);
+		
+		log.debug("첨부파일과 문의하기 처리");
 		
 		return "redirect:/";
 	}

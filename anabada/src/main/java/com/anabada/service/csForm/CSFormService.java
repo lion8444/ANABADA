@@ -20,7 +20,8 @@ public interface CSFormService {
 	
 	// 후기 처리
 	public int insertReview(Review review);
-
+	
+	// 파일 저장
 	public int insertFile(File file);
 
 }

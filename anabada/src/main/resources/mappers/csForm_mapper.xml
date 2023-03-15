@@ -15,7 +15,7 @@
         )
         VALUES
         (
-        	1
+        	func_seq_10('REPO')
         	, #{user_email}
         	, #{report_reported}
         	, #{report_category}
@@ -36,7 +36,7 @@
     	)
     	VALUES
     	(
-    		3
+    		func_seq_10('INQU')
     		, #{user_email}
     		, #{inq_category}
     		, #{inq_title}
@@ -59,7 +59,7 @@
     	)
     	VALUES
     	(
-    		2
+    		func_seq_10('REVI')
     		, #{user_email}
     		, #{review_person}
     		, #{board_status}
@@ -86,7 +86,7 @@
     	)
     	VALUES
     	(
-    		5
+    		func_seq_10('FILE')
     		, #{board_no}
     		, #{board_status}
     		<if test="file_origin != null and file_origin != '' ">
