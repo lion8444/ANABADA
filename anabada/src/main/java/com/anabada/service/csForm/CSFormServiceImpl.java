@@ -58,7 +58,12 @@ public class CSFormServiceImpl implements CSFormService {
 		
 		return result;
 	}
-
+	
+	/**
+	 * 파일 저장 처리
+	 * @param file 올라온 파일 데이터
+	 * @return 저장된 개수
+	 */
 	@Override
 	public int insertFile(File file) {
 		int result = dao.insertFile(file);

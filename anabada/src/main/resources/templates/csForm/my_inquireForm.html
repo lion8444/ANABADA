@@ -19,13 +19,12 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/test.css}">
-<!--
+
+
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/js_csForm.js}"></script>
     
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
 </head>
 
 <body>
@@ -178,14 +177,17 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
                 <hr width="80%">
                 <div class="row">
-                    <form th:action="@{/inquiry}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="user_email" value="anabada@gmail.com">
+                    <form th:action="@{/inquiry}" method="post" enctype="multipart/form-data" onsubmit="return inquiryValidation();">
+                        
+                        <input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 일단 value로 직접 테스트 -->
+                    <!--<input type="hidden" name="board_status" value="중고거래"> --> 
+                    <!--<input type="hidden" name="board_no" value="3"> -->
                         <table id="inquireform">
                             <tr>
                                 <th>문의유형</th>
                                 <td>
-                                    <select name="inq_category">
-                                        <option>문의 유형을 선택해 주세요.</option>
+                                    <select name="inq_category" id="inq_category">
+                                        <option value="">문의 유형을 선택해 주세요.</option>
                                         <option value="건의사항">건의사항</option>
                                         <option value="문의">문의</option>
                                     </select>
@@ -194,27 +196,27 @@ https://templatemo.com/tm-559-zay-shop
                             <tr>
                                 <th>제목</th>
                                 <td>
-                                    <input type="text" name="inq_title" placeholder="제목을 입력해주세요">
+                                    <input type="text" name="inq_title" id="inq_title" placeholder="제목을 입력해주세요">
                                 </td>
                             </tr>
                             <tr>
                                 <th>내용</th>
                                 <td>
-                                    <textarea name="inq_content" cols="30" rows="10" width="450px" placeholder="빠른 답변을 위해 10자 이상 입력해 주세요."></textarea>
+                                    <textarea name="inq_content" id="inq_content" cols="30" rows="10" width="450px" placeholder="빠른 답변을 위해 10자 이상 입력해 주세요."></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <th>사진첨부</th>
                                 <td>
-                                    <input type="file" name="">
+                                    <input type="file" name="upload" multiple>
                                     <div>첨부사진.jpg</div>
                                     <p>*.JPG, PNG, GIF 파일만 최대 10장 업로드 가능 합니다.</p>
                                 </td>
                             </tr>
                         </table>
                         <hr width="80%">
-                        <input type="submit" value="문의 접수">
-                        <a href=""><input type="button" value="취소"></a>
+                        <input type="submit" value="문의 접수" class="btn btn-success">
+                        <a th:href="@{/}"><input type="button" value="취소" class="btn btn-success"></a>
                     </form>
                 </div>
             </div>
@@ -423,7 +425,7 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/assets/js/templatemo.js}"></script>

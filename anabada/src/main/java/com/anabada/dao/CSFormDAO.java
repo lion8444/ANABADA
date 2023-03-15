@@ -33,5 +33,10 @@ public interface CSFormDAO {
 	 */
 	public int insertReview(Review review);
 
+	/**
+	 * 파일 저장 처리
+	 * @param file : 올라온 파일
+	 * @return 저장된 개수
+	 */
 	public int insertFile(File file);
 }

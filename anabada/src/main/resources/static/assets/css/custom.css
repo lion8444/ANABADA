@@ -285,3 +285,86 @@ pjh 추가 Custom Css
   float:right;
   width: 30%;
 } */  
+
+
+
+ 
+/* 후기 - 별점 관련 css - 1 */
+.starFieldSet{
+    display: inline-block;
+    direction: rtl;
+    border:0;
+}
+/* #myform fieldset legend{
+    text-align: right;
+} */
+.starFieldSet input[type=radio]{
+    display: none;
+}
+.starFieldSet label{
+    font-size: 3em;
+    color: transparent;
+    text-shadow: 0 0 0 #f0f0f0;
+}
+.starFieldSet label:hover{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+    cursor: pointer;
+}
+.starFieldSet label:hover ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+.starFieldSet input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+}
+/* #reviewContents {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 1.5px #D3D3D3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+} */
+
+/* 후기 - 별점 관련 css - 2 */
+.star {
+  position: relative;
+  font-size: 32px;
+  color: #ddd;
+}
+
+.star input {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  opacity: 0;
+}
+
+.star span {
+  width: 0;
+  position: absolute;
+  left: 0;
+  color: rgba(250, 208, 0, 0.99);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.starMent {
+  color: black;
+  display: inline-block;
+}
+
+.imageZone {
+  width: 100px;
+  min-height: 150px;
+  padding: 10px;
+  border: 1px dotted #00f;
+}
+
+.imageZone:empty:before {
+  content: attr(data-placeholder);
+  color: #999;
+  font-size: .9em;
+}
