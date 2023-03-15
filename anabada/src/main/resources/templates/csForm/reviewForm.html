@@ -5,7 +5,9 @@
 * License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 <!doctype html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,25 +22,25 @@
 	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
-	<link rel="stylesheet" href="assets/property_fonts/icomoon/style.css">
-	<link rel="stylesheet" href="assets/property_fonts/flaticon/font/flaticon.css">
+	<link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+	<link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
 
-	<link rel="stylesheet" href="assets/property_css/tiny-slider.css">
-	<link rel="stylesheet" href="assets/property_css/aos.css">
-	<link rel="stylesheet" href="assets/property_css/style.css">
+	<link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+	<link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+	<link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
 
 	<!-- zay에서 가져온 css -->
-	<link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+	<link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/css/test.css">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/test.css}">
 
 	<title>리뷰 작성</title>
 </head>
@@ -130,9 +132,9 @@
 				<div class="col-lg-7">
 					<div class="img-property-slide-wrap">
 						<div class="img-property-slide">
-							<img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
-							<img src="assets/property_images/img_2.jpg" alt="Image" class="img-fluid">
-							<img src="assets/property_images/img_3.jpg" alt="Image" class="img-fluid">
+							<img th:src="@{/assets/property_images/img_1.jpg}" alt="Image" class="img-fluid">
+							<img th:src="@{/assets/property_images/img_2.jpg}" alt="Image" class="img-fluid">
+							<img th:src="@{/assets/property_images/img_3.jpg}" alt="Image" class="img-fluid">
 						</div>
 					</div>
 				</div>
@@ -144,7 +146,7 @@
 					
 					<div class="d-block agent-box p-5">
 						<div class="img mb-4">
-							<img src="assets/property_images/person_2-min.jpg" alt="Image" class="img-fluid">
+							<img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid">
 						</div>
 						<div class="text">
 							<h3 class="mb-0">Alicia Huston</h3>
@@ -160,12 +162,17 @@
 						</div>
 					</div>
 				</div>
+				<!-- 후기 작성 폼 -->
 				<div class="d-block agent-box p-5">
 					<div class="reviewbox">
-						<form action="" method="post">
+						<form th:action="@{/review}" method="post">
+							<input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 일단 value로 직접 테스트 -->
+							<input type="hidden" name="review_person" value="pt@naver.com">
+							<input type="hidden" name="board_status" value="중고거래">
+							<input type="hidden" name="board_no" value="2">
 							<h3>거래후기</h3>
 							<span>★★★★★</span>
-							<textarea name="" id="" cols="150" rows="10" placeholder="정성스런 후기를 작성해 주세요!"></textarea>
+							<textarea name="review_comment" id="" cols="150" rows="10" placeholder="정성스런 후기를 작성해 주세요!"></textarea>
 							<input class="btn btn-primary" type="submit" value="후기 작성">
 						</form>
 					</div>
@@ -258,11 +265,11 @@
     </div>
 
 
-    <script src="assets/property_js/bootstrap.bundle.min.js"></script>
-    <script src="assets/property_js/tiny-slider.js"></script>
-    <script src="assets/property_js/aos.js"></script>
-    <script src="assets/property_js/navbar.js"></script>
-    <script src="assets/property_js/counter.js"></script>
-    <script src="assets/property_js/custom.js"></script>
+    <script th:src="@{/assets/property_js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
+    <script th:src="@{/assets/property_js/aos.js}"></script>
+    <script th:src="@{/assets/property_js/navbar.js}"></script>
+    <script th:src="@{/assets/property_js/counter.js}"></script>
+    <script th:src="@{/assets/property_js/custom.js}"></script>
   </body>
   </html>
