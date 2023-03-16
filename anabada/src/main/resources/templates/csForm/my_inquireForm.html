@@ -180,8 +180,8 @@
                     <form th:action="@{/inquiry}" method="post" enctype="multipart/form-data" onsubmit="return inquiryValidation();">
                         
                         <input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 일단 value로 직접 테스트 -->
-                    <!--<input type="hidden" name="board_status" value="중고거래"> --> 
-                    <!--<input type="hidden" name="board_no" value="3"> -->
+                    <!--<input type="hidden" name="board_status" th:value="중고거래"> --> 
+                    <!--<input type="hidden" name="board_no" th:value="3"> -->
                         <table id="inquireform">
                             <tr>
                                 <th>문의유형</th>
@@ -208,15 +208,27 @@
                             <tr>
                                 <th>사진첨부</th>
                                 <td>
-                                    <input type="file" name="upload" multiple>
-                                    <div>첨부사진.jpg</div>
                                     <p>*.JPG, PNG, GIF 파일만 최대 10장 업로드 가능 합니다.</p>
+                                    <div style="display: inline;">
+                                        <label for="img_upload">
+                                            <img th:src="@{/img/csForm_imgs/addpic.JPG}" style="width:100px; height:100px; cursor: pointer;">
+                                        </label>
+                                        <input type="file" name="upload" id="img_upload"
+                                               onchange="previewImage(this,'View_area')"
+                                               style="display: none;" multiple>
+                             
+                                        <span id='View_area'
+                                              style='position:relative; color: black; border: 0px solid black;'>
+                                        </span>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
                         <hr width="80%">
-                        <input type="submit" value="문의 접수" class="btn btn-success">
-                        <a th:href="@{/}"><input type="button" value="취소" class="btn btn-success"></a>
+                        <div class="reportButtons" >
+                            <input type="submit" value="문의 접수" class="btn btn-success">
+                            <a th:href="@{/}"><input type="button" value="취소" class="btn btn-success"></a>
+                        </div>
                     </form>
                 </div>
             </div>

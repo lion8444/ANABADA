@@ -135,13 +135,17 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+					<div id="reporttop">
+						<div class="inquiretext" style="color: black;">신고하기</div>
+					</div>
 					<form th:action="@{/report}" method="post" enctype="multipart/form-data" onsubmit="return reportValidation();">
 						<input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 신고자 이메일 일단 직접 value로 처리-->
-					<!--<input type="hidden" name="board_status" value="중고거래"> --> <!-- 일단 value로 직접 테스트 -->
-					<!-- input type="hidden" name="board_no" value="3"> -->
+					<!--<input type="hidden" name="board_status" th:value="중고거래"> --> <!-- 일단 value로 직접 테스트 -->
+					<!-- input type="hidden" name="board_no" th:value="3"> -->
 						<div class="row">
 							<div class="reportbox">
-								<table id="inquireform">								
+								<hr width="90%">
+								<table id="inquireform" style="color: black;">								
 									<tr>
 										<th>신고유형</th>											
 										<td>
@@ -156,6 +160,7 @@
 										<th>신고대상</th>
 										<td>
 											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요.">
+											<p id="reported"></p>
 											<span  style="color: red;">※신고대상은 1명만 가능합니다.</span>
 										</td>
 									</tr>
@@ -174,17 +179,33 @@
 									<tr>
 										<th>사진첨부</th>
 										<td>
-											<input type="file" id="btnAtt" name="upload" multiple>
-											<div class="imageZone"></div>
-											<p>*.JPG, PNG, GIF 파일만 최대 10장 업로드 가능 합니다.</p>
+											<!-- <input type="file" id="btnAtt" name="upload" multiple style="color: black;"> -->
+											<!-- <div class="imageZone"></div> -->
+											<p style="color: black;">*.JPG, PNG, GIF 파일만 최대 10장 업로드 가능 합니다.</p>
+											<div style="display: inline;">
+												<label for="img_upload">
+													<img th:src="@{/img/csForm_imgs/addpic.JPG}" style="width:100px; height:100px; cursor: pointer;">
+												</label>
+												<input type="file" name="upload" id="img_upload"
+													   onchange="previewImage(this,'View_area')"
+													   style="display: none;" multiple>
+									 
+												<span id='View_area'
+													  style='position:relative; color: black; border: 0px solid black;'>
+												</span>
+											</div>
+											<!-- <div id="resultDiv">
+												<p th:text="${log}"></p>
+											</div> -->
 										</td>
 									</tr>
 								</table>
-								<div class="col-12">
+								<hr width="90%">
+								<div class="reportButtons" >
 									<input type="submit" value="신고 하기" class="btn btn-success">
 									<a th:href="@{/}"><input type="button" value="취소" class="btn btn-success"></a>
 								</div>
-							</div>							
+							</div>					
 						</div>
 					</form>
 				</div>

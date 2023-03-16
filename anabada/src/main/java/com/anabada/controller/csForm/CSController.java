@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,10 +56,17 @@ public class CSController {
 	 */
 	@PostMapping("/report")
 	public String report(
-			Report report
+			@AuthenticationPrincipal UserDetails user
+			, Report report
 			, File file
 			, ArrayList<MultipartFile> upload) {
 		log.debug("신고하기로 올라온 데이터 : {}", report);
+		
+		if(!report.getUser_email().equals(user.getUsername())) {
+			log.debug("신고하기 - ID일치 X");
+			return "redirect:/";
+		}
+		
 		
 		// 첨부파일 없을 때 - 신고하기만 처리
 		if(upload.get(0).isEmpty()) {
@@ -68,17 +77,7 @@ public class CSController {
 			
 			return "redirect:/";
 		}
-				
-//		for (MultipartFile multipartFile : upload) {
-//			if(multipartFile.isEmpty()) {
-//				
-//				log.debug("사이즈: {}", multipartFile.isEmpty());
-//				service.insertReport(report);
-//				
-//				return "redirect:/";
-//			}
-//		}
-				
+								
 		// 첨부파일 있을 때 - 파일 저장 후 신고하기 처리
 		for(int i = 0; i < upload.size(); ++i) {
 			
