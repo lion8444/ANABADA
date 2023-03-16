@@ -78,6 +78,15 @@ Custom Css
     background-color: #f8f9fa;
  }
 
+ #reporttop {
+    width: 90%;
+    height: 40px;
+    border : 1px solid grey;
+    border-radius : 5px;
+    background-color: #f8f9fa;
+    margin-left: 300px;
+ }
+
  .translist {
     display: inline-block;
     vertical-align: middle;
@@ -157,7 +166,7 @@ Custom Css
 
  #inquireform th {
    text-align: left;
-   width: 100px;
+   width: 500px;
  }
 
  #inquireform td select, #inquireform td input, #inquireform td textarea  {
@@ -306,6 +315,7 @@ pjh 추가 Custom Css
     color: transparent;
     text-shadow: 0 0 0 #f0f0f0;
 }
+
 .starFieldSet label:hover{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
     cursor: pointer;
@@ -313,9 +323,10 @@ pjh 추가 Custom Css
 .starFieldSet label:hover ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
-.starFieldSet input[type=radio]:checked ~ label{
+.starFieldSet input[type=checkbox]:checked ~ label{
     text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
 }
+
 /* #reviewContents {
     width: 100%;
     height: 150px;
@@ -330,7 +341,7 @@ pjh 추가 Custom Css
 /* 후기 - 별점 관련 css - 2 */
 .star {
   position: relative;
-  font-size: 32px;
+  font-size: 50px;
   color: #ddd;
 }
 
@@ -356,6 +367,7 @@ pjh 추가 Custom Css
   display: inline-block;
 }
 
+/* 이미지 처리 관련 css */
 .imageZone {
   width: 100px;
   min-height: 150px;
@@ -367,4 +379,18 @@ pjh 추가 Custom Css
   content: attr(data-placeholder);
   color: #999;
   font-size: .9em;
+}
+
+.reportButtons {
+  width: 170px;
+  margin-left: 300px;
+  display: inline-block;
+  text-align: center;
+}
+
+.reviewButtons {
+  width: 170px;
+  text-align: center;
+  display: inline-block;
+  margin-left: 500px;
 }
