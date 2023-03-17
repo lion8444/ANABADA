@@ -9,6 +9,8 @@ import com.anabada.domain.UserDTO;
 @Service
 public interface LoginService {
 
-	List<UserDTO> allUser();
+	int joinUser(UserDTO user);
+
+	UserDTO findUser(String username);
 
 }

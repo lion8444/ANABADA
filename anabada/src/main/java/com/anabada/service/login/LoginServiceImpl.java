@@ -1,9 +1,7 @@
 package com.anabada.service.login;
 
-import java.util.List;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.UserDAO;
@@ -18,12 +16,23 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private UserDAO dao;
 	
+	@Autowired
+	PasswordEncoder encoder;
+	
 	@Override
-	public List<UserDTO> allUser() {
-		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		List<UserDTO> list = dao.allUser();
-		log.debug("{}",list);
-		return list;
+	public int joinUser(UserDTO user) {
+		String pwd = encoder.encode(user.getUser_pwd());
+		user.setUser_pwd(pwd);
+		int res = dao.joinUser(user);
+		return res;
 	}
+
+	@Override
+	public UserDTO findUser(String username) {
+		UserDTO user = dao.findUser(username);
+		return user;
+	}
+
+	
 
 }
