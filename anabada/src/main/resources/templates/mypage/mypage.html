@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>ANABADA - My Page</title>
@@ -159,7 +161,8 @@ https://templatemo.com/tm-559-zay-shop
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" href="">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/report}">신고하기</a></li>
                             <li><a class="text-decoration-none" href="">나의 문의 내역</a></li>
                             <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
                             <li><a class="text-decoration-none" href="">나의 신고 내역</a></li>

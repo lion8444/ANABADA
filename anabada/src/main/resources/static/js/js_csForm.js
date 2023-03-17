@@ -1,27 +1,39 @@
 // csForm 관련 자바스크립트 커스텀 파일
 
-
+let email_check = '';
 $(document).ready(function() {
-//    $('#report_reported').on('keyup', reportedValidation);
-
+   $('#report_reported').on('keyup', reportedValidation);
 });
 
-// function reportedValidation() {
-//     let report_reported = $('#report_reported');
-//     let reported = $('#reported');
-//     $.ajax({
-//         url: 'reportedValidation'
-//         , type: 'post'
-//         , data: {reported: report_reported.val()}
-//         , dataType: 'text'
-//         , success: function(d) {
-//             alert(d);
-//         }
-//         , error: function(e) {
-//             alert(JSON.stringify(e));
-//         }
-//     })
-// }
+function reportedValidation() {
+    let report_reported = $('#report_reported');
+    let reported_ok = $('.reported_ok');
+
+    $.ajax({
+        url: 'reportedValidation'
+        , type: 'post'
+        , data: {reported: report_reported.val()}
+        , dataType: 'json'
+        , success: function(result) {
+            if(result == 0) {
+                email_check = false;
+                reported_ok.html('해당 이메일은 등록되지 않은 사용자 입니다.');
+                reported_ok.css('color', 'red');
+                console.log($('.reported_ok').html());
+            }
+
+            if(result == 1) {
+                email_check = true;
+                reported_ok.html('사용자가 확인 되었습니다.');
+                reported_ok.css('color', 'green');
+                console.log($('.reported_ok').html());
+            }
+        }
+        , error: function(e) {
+            alert(JSON.stringify(e));
+        }                                                       
+    })
+}
 
 // 신고하기 양식 검증
 function reportValidation() {
@@ -29,6 +41,7 @@ function reportValidation() {
     let report_reported = $('#report_reported').val();
     let report_comment = $('#report_comment').val();
     let report_url = $('#report_url').val();
+    let report_ok = $('.report_ok').text();
 
     if(category == '') {
         alert('카테고리를 설정해 주세요.')
@@ -53,12 +66,21 @@ function reportValidation() {
 
         return false;
     }
+
+    if(!email_check) {
+        alert('등록되지 않은 사용자를 입력하셨습니다.');
+
+        return false;
+    }
     
     if(confirm('신고 하시겠습니까?')) {
-		alert('신고가 완료되었습니다.')
+		alert('신고가 완료되었습니다.');
+
 		return true;
 	} else {
-		alert('신고가 취소 되었습니다.')
+		alert('신고가 취소 되었습니다.');
+
+
 		return false;
 	}
 
