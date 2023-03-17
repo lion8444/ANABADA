@@ -1,7 +1,10 @@
 package com.anabada.controller.csForm;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.anabada.service.csForm.CSFormService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,10 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class RestCSController {
+	
+	@Autowired
+	CSFormService service;
 
 	@PostMapping("/reportedValidation")
-	public String reportedValidation(String reported) {
+	public int reportedValidation(String reported) {
+		log.debug("신고대상 ajax진입");
 		log.debug("들어온 데이터: {}", reported);
-		return "ㅎㅇㅎㅇ";
+		
+		int result = service.selectUserById(reported);
+			
+		return result;
 	}
 }

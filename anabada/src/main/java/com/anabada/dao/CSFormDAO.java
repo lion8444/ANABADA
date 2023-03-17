@@ -4,8 +4,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.Rental;
+import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Report;
 import com.anabada.domain.Review;
+import com.anabada.domain.Used;
+import com.anabada.domain.Used_detail;
 
 /**
  * 신고하기, 후기, 문의하기 DAO 인터페이스
@@ -39,4 +43,39 @@ public interface CSFormDAO {
 	 * @return 저장된 개수
 	 */
 	public int insertFile(File file);
+	
+	/**
+	 * 중고거래 글 완료 검색 - 중고거래글 id로
+	 * @param used_id 중고거래글 id
+	 * @return 검색된 개수
+	 */ 
+	public Used_detail selectUsedDetailById(String used_id);
+
+	/**
+	 * 중고거래 글 검색 - 중고거래글 id로
+	 * @param used_id : 중고거래 글 ID
+	 * @return 검색된 개수
+	 */
+	public Used selectUsedByID(String used_id);
+
+	/**
+	 * 렌탈거래 글 검색 - 렌탈거래글 id로
+	 * @param rental_id 렌탈거래글 id
+	 * @return 검색된 개수
+	 */
+	public Rental_detail selectRentalDetailById(String rental_id);
+
+	/**
+	 * 렌탈거래 글 검색 - 렌탈거래글 id로
+	 * @param rental_id 렌탈거래글 id
+	 * @return
+	 */
+	public Rental selectRentalById(String rental_id);
+
+	/**
+	 * 실시간 받아온 이메일로 등록된 유저가 있는지 검색
+	 * @param reported 신고대상으로 입력되는 이메일
+	 * @return 검색된 개수
+	 */
+	public int selectUserById(String reported);
 }

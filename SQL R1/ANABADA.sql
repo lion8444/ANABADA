@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`report` (
   `user_email` VARCHAR(50) NOT NULL,
   `report_reported` VARCHAR(45) NOT NULL,
   `report_category` VARCHAR(45) NOT NULL,
-  `report_url` VARCHAR(45) NULL,
+  `report_url` VARCHAR(255) NULL,
   `report_comment` VARCHAR(45) NOT NULL,
   `report_answer` VARCHAR(45) NULL,
   `report_status` VARCHAR(45) NULL DEFAULT '접수 완료',

@@ -29,6 +29,8 @@ public class WebSecurityConfig {
         		"/report",
         		"/review",
         		"/inquiry",
+        		"/mypage",
+        		"/reportedValidation",
         		"/assets/**",
                 "/img/**",
                 "/css/**",

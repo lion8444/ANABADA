@@ -138,6 +138,7 @@
 					<div id="reporttop">
 						<div class="inquiretext" style="color: black;">신고하기</div>
 					</div>
+					<!-- 신고하기 폼 -->
 					<form th:action="@{/report}" method="post" enctype="multipart/form-data" onsubmit="return reportValidation();">
 						<input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 신고자 이메일 일단 직접 value로 처리-->
 					<!--<input type="hidden" name="board_status" th:value="중고거래"> --> <!-- 일단 value로 직접 테스트 -->
@@ -145,6 +146,7 @@
 						<div class="row">
 							<div class="reportbox">
 								<hr width="90%">
+								<p th:text="${modelTest}"></p>
 								<table id="inquireform" style="color: black;">								
 									<tr>
 										<th>신고유형</th>											
@@ -160,7 +162,7 @@
 										<th>신고대상</th>
 										<td>
 											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요.">
-											<p id="reported"></p>
+											<div class="reported_ok"></div>
 											<span  style="color: red;">※신고대상은 1명만 가능합니다.</span>
 										</td>
 									</tr>
@@ -173,7 +175,7 @@
 									<tr>
 										<th>URL</th>
 										<td>
-											<input type="text" name="report_url" id="report_url" placeholder="신고할 게시물의 URL을 입력해 주세요">
+											<input type="text" name="report_url" id="report_url" th:value="${url}" placeholder="신고할 게시물의 URL을 입력해 주세요">
 										</td>
 									</tr>
 									<tr>
@@ -202,7 +204,7 @@
 								</table>
 								<hr width="90%">
 								<div class="reportButtons" >
-									<input type="submit" value="신고 하기" class="btn btn-success">
+									<input type="submit" value="신고 하기" class="btn btn-success" id="singoButton">
 									<a th:href="@{/}"><input type="button" value="취소" class="btn btn-success"></a>
 								</div>
 							</div>					

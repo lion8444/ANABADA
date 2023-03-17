@@ -168,12 +168,10 @@
 				<!-- 후기 작성 폼 -->
 				<div class="d-block agent-box p-5">
 					<div class="reviewbox">
+						<!-- 리뷰하기 폼 -->
 						<form th:action="@{/review}" method="post" onsubmit="return reviewValidation();">
 
-							<input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 일단 value로 직접 테스트 -->
-							<input type="hidden" name="review_person" value="pt@naver.com">
-							<input type="hidden" name="board_status" value="중고거래">
-							<input type="hidden" name="board_no" value="2">
+							<input type="hidden" name="user_email" th:value="${used_Detail.user_email}"> <!-- 일단 value로 직접 테스트 -->
 
 							<h3>거래후기</h3>
 							<!-- <fieldset class="starFieldSet">

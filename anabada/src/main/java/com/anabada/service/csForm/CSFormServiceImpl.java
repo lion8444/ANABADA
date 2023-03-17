@@ -6,8 +6,12 @@ import org.springframework.stereotype.Service;
 import com.anabada.dao.CSFormDAO;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.Rental;
+import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Report;
 import com.anabada.domain.Review;
+import com.anabada.domain.Used;
+import com.anabada.domain.Used_detail;
 
 /**
  * 신고하기, 후기, 문의하기 서비스 인터페이스임플
@@ -67,6 +71,51 @@ public class CSFormServiceImpl implements CSFormService {
 	@Override
 	public int insertFile(File file) {
 		int result = dao.insertFile(file);
+		return result;
+	}
+
+	/**
+	 * 중고거래 글 완료 검색 - 중고거래글 id로
+	 */
+	@Override
+	public Used_detail selectUsedDetailById(String used_id) {
+		Used_detail usedDetail = dao.selectUsedDetailById(used_id);
+		return usedDetail;
+	}
+	
+	/**
+	 * 중고거래 글 검색 - 중고거래글 id로
+	 */
+	@Override
+	public Used selectUsedByID(String used_id) {
+		Used used = dao.selectUsedByID(used_id);
+		return used;
+	}
+
+	/**
+	 * 렌탈거래 완료 글 검색 - 렌탈거래글 id로
+	 */
+	@Override
+	public Rental_detail selectRentalDetailById(String rental_id) {
+		Rental_detail rentalDetail = dao.selectRentalDetailById(rental_id);
+		return rentalDetail;
+	}
+
+	/**
+	 * 렌탈거래 글 검색 - 렌탈거래글 id로
+	 */
+	@Override
+	public Rental selectRentalById(String rental_id) {
+		Rental rental = dao.selectRentalById(rental_id);
+		return rental;
+	}
+
+	/**
+	 * 실시간 받아온 이메일로 등록된 유저가 있는지 검색
+	 */
+	@Override
+	public int selectUserById(String reported) {
+		int result = dao.selectUserById(reported);
 		return result;
 	}
 }
