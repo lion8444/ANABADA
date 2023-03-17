@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.AuctionDAO">
+   
+    <select id="findOneAuction" parameterType="String" resultType="Auction">
+    	SELECT * FROM auction WHERE auction_id = #{auction_id}
+    </select>
+    
+    <select id="findUser" parameterType="String" resultType="UserDTO">
+    	SELECT * FROM user WHERE user_email = #{user_email}
+    </select>
+    
+    <select id="findOneAuctiondetail" parameterType="String" resultType="Auction_detail">
+    	SELECT * FROM auction_detail WHERE auction_id = #{auction_id} ORDER BY aDetail_price DESC LIMIT 1
+    </select>
+
+	<insert id="bid" parameterType="Auction_detail">
+		INSERT INTO auction_detail
+			(aDetail_id, auction_id, user_email, aDetail_person, aDetail_phone
+			, aDetail_post,  aDetail_addr1, aDetail_addr2, aDetail_memo
+			, aDetail_price)
+		VALUES
+			(func_seq_10('ADET'), #{auction_id}, #{user_email}, #{aDetail_person}, #{aDetail_phone}
+			, #{aDetail_post},  #{aDetail_addr1}, #{aDetail_addr2}, #{aDetail_memo}
+			, #{aDetail_price})
+	</insert>
+	
+	<update id="usemoney" parameterType="map">
+    	UPDATE user
+    	SET user_account = #{account}
+    	WHERE user_email = #{user_email}
+    </update>
+</mapper>
