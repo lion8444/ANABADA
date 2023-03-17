@@ -5,34 +5,48 @@ DELETE FROM `anabada`.`user`;
 
 INSERT INTO `anabada`.`user`
 (`user_email`,
+`user_name`,
 `user_nick`,
 `user_pwd`,
 `user_phone`,
-`user_addr`,
+`user_post`,
+`user_addr1`,
+`user_addr2`,
+`user_account`,
 `user_nation`)
 VALUES
 ('anabada@gmail.com',
+'홍길동',
 'anabada',
 '1111',
 '01012345678',
-'서울시 강남구 삼성동 SICT 사무실',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
+'100000000',
 '한국'
 );
 
 
 INSERT INTO `anabada`.`user`
 (`user_email`,
+`user_name`,
 `user_nick`,
 `user_pwd`,
 `user_phone`,
-`user_addr`,
+`user_post`,
+`user_addr1`,
+`user_addr2`,
 `user_nation`)
 VALUES
 ('ptsd@gmail.com',
 'ptsd',
+'ptsd',
 '3333',
 '008114865342424',
-'서울시 강남구 역삼동 I-Park 102동 1001호',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
 '일본'
 );
 
@@ -340,7 +354,7 @@ INSERT INTO `anabada`.`rental`
 `rental_content`,
 `rental_quality`,
 `rental_sDate`,
-`retal_eDate`,
+`rental_eDate`,
 `uloc_id`,
 `sloc_id`)
 VALUES
@@ -468,7 +482,12 @@ INSERT INTO `anabada`.`used_detail`
 `used_id`,
 `user_email`,
 `uDetail_method`,
-`uDetail_addr`,
+`uDetail_person`,
+`uDetail_phone`,
+`uDetail_post`,
+`uDetail_addr1`,
+`uDetail_addr2`,
+`uDetail_memo`,
 `chat_id`,
 `uDetail_price`)
 VALUES
@@ -476,7 +495,12 @@ VALUES
 'u0001',
 'anabada@gmail.com',
 '안전거래',
-'서울시 용산구 용사역 4번출구 3번 계단',
+'홈길동',
+'01012345567',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
+'내일까지 보내주세요.',
 'ch0001',
 900000);
 
@@ -492,7 +516,12 @@ INSERT INTO `anabada`.`rental_detail`
 `rental_id`,
 `user_email`,
 `chat_id`,
-`rDetail_addr`,
+`rDetail_person`,
+`rDetail_phone`,
+`rDetail_memo`,
+`rDetail_post`,
+`rDetail_addr1`,
+`rDetail_addr2`,
 `rDetail_price`,
 `rDetail_sDate`,
 `rDetail_eDate`)
@@ -501,7 +530,12 @@ VALUES
 'r0001',
 'anabada@gmail.com',
 'ch0001',
-'서울시 용산구 용사역 4번출구 3번 계단',
+'임꺽정',
+'01034456774',
+'문 열려있어요',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
 80000,
 '2023-06-01',
 '2023-06-29');
@@ -519,14 +553,22 @@ INSERT INTO `anabada`.`auction_detail`
 `auction_id`,
 `user_email`,
 `chat_id`,
-`aDetail_addr`,
+`aDetail_person`,
+`aDetail_phone`,
+`aDetail_post`,
+`aDetail_addr1`,
+`aDetail_addr2`,
 `aDetail_price`)
 VALUES
 ('ad0001',
 'a0001',
 'anabada@gmail.com',
 'ch0001',
-'서울시 용산구 용사역 4번출구 3번 계단',
+'아무개',
+'01022222222',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
 120000);
 
 

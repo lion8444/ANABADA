@@ -1,13 +1,15 @@
-package com.anabada.service.rent;
+package com.anabada.dao;
 
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
+
+import org.apache.ibatis.annotations.Mapper;
 
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.UserDTO;
 
-@Service
-public interface RentService {
+@Mapper
+public interface RentalDAO {
 
 	int purchase(Rental_detail rd);
 
@@ -15,7 +17,6 @@ public interface RentService {
 
 	UserDTO findUser(String user_email);
 
-	int usemoney(String user_email, int user_account);
-	
-	
+	int usemoney(HashMap<String, Object> map);
+
 }

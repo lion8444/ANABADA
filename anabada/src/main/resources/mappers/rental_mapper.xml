@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.RentalDAO">
+
+    <insert id="purchase" parameterType="Rental_detail">
+    	INSERT INTO rental_detail
+	    	(rDetail_id, rental_id, user_email,
+	    	 rDetail_person, rDetail_phone, rDetail_memo,
+	    	 rDetail_post, rDetail_addr1, rDetail_addr2,
+	    	 rDetail_price, rDetail_sDate,
+	    	 rDetail_eDate)
+		VALUES
+    		(func_seq_10('RDET'), 'r0001', 'anabada@gmail.com',
+    		#{rDetail_person}, #{rDetail_phone}, #{rDetail_memo},
+    		#{rDetail_post}, #{rDetail_addr1}, #{rDetail_addr2},
+    		#{rDetail_price}, #{rDetail_sDate},
+    		#{rDetail_eDate})
+    </insert>
+    
+    <select id="findOneRental" parameterType="String" resultType="Rental">
+    	SELECT rental_id, user_email, category_id, rental_title, rental_date, rental_price
+    	, rental_content, rental_quality
+    	, DATE_FORMAT(rental_sDate, '%Y-%m-%d') AS rental_sDate
+    	, DATE_FORMAT(rental_eDate, '%Y-%m-%d') AS rental_eDate
+    	, rental_status, uloc_id, sloc_id
+    	FROM rental WHERE rental_id = #{rental_id}
+    </select>
+    
+    <select id="findUser" parameterType="String" resultType="UserDTO">
+    	SELECT * FROM user WHERE user_email = #{user_email}
+    </select>
+    
+    <update id="usemoney" parameterType="map">
+    	UPDATE user
+    	SET user_account = #{account}
+    	WHERE user_email = #{user_email}
+    </update>
+</mapper>
