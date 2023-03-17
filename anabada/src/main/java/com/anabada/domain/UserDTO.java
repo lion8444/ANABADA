@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,10 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO implements UserDetails {
-	
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5633326669236264844L;
 	
 	private String user_email;
+	private String user_name;
 	private String user_nick;
 	private String user_pwd;
 	private String user_phone;
@@ -28,6 +32,8 @@ public class UserDTO implements UserDetails {
 	private String user_role;
 	private String user_nation;
 	private String user_date;
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
@@ -64,3 +70,5 @@ public class UserDTO implements UserDetails {
 		return true;
 	}
 }
+
+
