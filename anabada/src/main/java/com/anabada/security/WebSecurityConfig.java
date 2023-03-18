@@ -29,6 +29,7 @@ public class WebSecurityConfig {
         		"/auction/**",
         		"/rent/**",
         		"/used/**",
+        		"/admin/**",
         		"/jQuery/**",
         		"/assets/**",
                 "/img/**",
