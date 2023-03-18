@@ -10,7 +10,7 @@
 	    	 rDetail_price, rDetail_sDate,
 	    	 rDetail_eDate)
 		VALUES
-    		(func_seq_10('RDET'), 'r0001', 'anabada@gmail.com',
+    		(func_seq_10('RDET'), #{rental_id}, #{user_email},
     		#{rDetail_person}, #{rDetail_phone}, #{rDetail_memo},
     		#{rDetail_post}, #{rDetail_addr1}, #{rDetail_addr2},
     		#{rDetail_price}, #{rDetail_sDate},

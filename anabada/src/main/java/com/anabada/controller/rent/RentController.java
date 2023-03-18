@@ -51,11 +51,11 @@ public class RentController {
 			,String rDetail_memo
 			,int user_account) {
 		
-		
-		Rental_detail rd = new Rental_detail(null, rental_id, null, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
+		String user_email = "anabada@gmail.com";
+
+		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
 		int j = service.purchase(rd);		
 		
-		String user_email = "anabada@gmail.com";
 		int i = service.usemoney(user_email, user_account);		
 		
 		if(j == 0 || i ==0) {
