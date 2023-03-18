@@ -1,13 +1,15 @@
-package com.anabada.service.used;
+package com.anabada.dao;
 
-import org.springframework.stereotype.Service;
+import java.util.HashMap;
+
+import org.apache.ibatis.annotations.Mapper;
 
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
-@Service
-public interface UsedService {
+@Mapper
+public interface UsedDAO {
 
 	UserDTO findUser(String user_email);
 
@@ -17,6 +19,6 @@ public interface UsedService {
 
 	int purchase(Used_detail used_detail);
 
-	int usemoney(String user_email, int user_account);
+	int usemoney(HashMap<String, Object> map);
 
 }
