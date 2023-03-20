@@ -28,9 +28,15 @@ SELECT `auction_detail`.`aDetail_id`,
     `auction_detail`.`auction_id`,
     `auction_detail`.`user_email`,
     `auction_detail`.`chat_id`,
-    `auction_detail`.`aDetail_addr`,
+    `auction_detail`.`aDetail_person`,
+    `auction_detail`.`aDetail_phone`,    
+	`auction_detail`.`aDetail_post`,
+	`auction_detail`.`aDetail_addr1`,
+    `auction_detail`.`aDetail_addr2`,
     `auction_detail`.`aDetail_price`,
-    `auction_detail`.`aDetail_status`
+    `auction_detail`.`aDetail_status`,
+	`auction_detail`.`aDetail_Date`
+ 
 FROM `anabada`.`auction_detail`;
 
 SELECT `board_temp`.`bTemp_id`,
@@ -120,7 +126,7 @@ SELECT `rental`.`rental_id`,
     `rental`.`rental_content`,
     `rental`.`rental_quality`,
     `rental`.`rental_sDate`,
-    `rental`.`retal_eDate`,
+    `rental`.`rental_eDate`,
     `rental`.`rental_status`,
     `rental`.`uloc_id`,
     `rental`.`sloc_id`
@@ -130,11 +136,14 @@ SELECT `rental_detail`.`rDetail_id`,
     `rental_detail`.`rental_id`,
     `rental_detail`.`user_email`,
     `rental_detail`.`chat_id`,
-    `rental_detail`.`rDetail_addr`,
+	`rental_detail`.`rDetail_post`,
+	`rental_detail`.`rDetail_addr1`,
+    `rental_detail`.`rDetail_addr2`,
     `rental_detail`.`rDetail_price`,
     `rental_detail`.`rDetail_status`,
     `rental_detail`.`rDetail_sDate`,
-	`rental_detail`.`rDetail_eDate`
+	`rental_detail`.`rDetail_eDate`,
+	`rental_detail`.`rDetail_Date`
 FROM `anabada`.`rental_detail`;
 
 SELECT `report`.`report_id`,
@@ -192,24 +201,17 @@ SELECT `used_detail`.`uDetail_id`,
     `used_detail`.`used_id`,
     `used_detail`.`user_email`,
     `used_detail`.`uDetail_method`,
-    `used_detail`.`uDetail_addr`,
+	`used_detail`.`uDetail_post`,
+	`used_detail`.`uDetail_addr1`,
+    `used_detail`.`uDetail_addr2`,
+	`used_detail`.`uDetail_memo`,
     `used_detail`.`chat_id`,
     `used_detail`.`uDetail_price`,
-    `used_detail`.`uDetail_status`
+    `used_detail`.`uDetail_status`,
+	`used_detail`.`uDetail_Date`
 FROM `anabada`.`used_detail`;
 
-SELECT `user`.`user_email`,
-    `user`.`user_nick`,
-    `user`.`user_pwd`,
-    `user`.`user_phone`,
-    `user`.`user_addr`,
-    `user`.`user_level`,
-    `user`.`user_trade`,
-    `user`.`user_penalty`,
-    `user`.`user_account`,
-    `user`.`user_role`,
-    `user`.`user_nation`,
-    `user`.`user_date`
+SELECT *
 FROM `anabada`.`user`;
 
 SELECT `user_character`.`uChar_id`,
@@ -232,3 +234,11 @@ SELECT `wish`.`wish_id`,
     `wish`.`board_status`,
     `wish`.`board_no`
 FROM `anabada`.`wish`;
+
+SET GLOBAL log_bin_trust_function_creators = 1;
+
+SELECT used_id, used_title, user_email, used_date, used_status FROM `anabada`.`used` AS used
+UNION
+SELECT rental_id, rental_title, user_email, rental_date, rental_status FROM `anabada`.`rental` AS rental
+UNION
+SELECT auction_id, auction_title, user_email, auction_date, auction_status FROM  `anabada`.`auction` AS auction;

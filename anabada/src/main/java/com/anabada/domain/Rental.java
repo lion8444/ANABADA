@@ -17,7 +17,7 @@ public class Rental {
 	String rental_content;
 	String rental_quality;
 	String rental_sDate;
-	String retal_eDate;
+	String rental_eDate;
 	String rental_status;
 	String uloc_id;
 	String sloc_id;
