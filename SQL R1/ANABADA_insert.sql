@@ -37,6 +37,7 @@ INSERT INTO `anabada`.`user`
 `user_post`,
 `user_addr1`,
 `user_addr2`,
+`user_role`,
 `user_nation`)
 VALUES
 ('ptsd@gmail.com',
@@ -47,6 +48,7 @@ VALUES
 '06164',
 '서울특별시 강남구 삼성동 159 코엑스',
 'SCIT사무실',
+'ROLE_ADMIN',
 '일본'
 );
 
@@ -327,7 +329,7 @@ INSERT INTO `anabada`.`used`
 `uloc_id`,
 `sloc_id`)
 VALUES
-('u0001',
+('USED0001',
 'anabada@gmail.com',
 'cate0001',
 '갤럭시 플립 팔아요',
@@ -358,7 +360,7 @@ INSERT INTO `anabada`.`rental`
 `uloc_id`,
 `sloc_id`)
 VALUES
-('r0001',
+('RENT0001',
 'anabada@gmail.com',
 'cate0001',
 '닌텐도 스위치 렌탈',
@@ -389,7 +391,7 @@ INSERT INTO `anabada`.`auction`
 `uloc_id`,
 `sloc_id`)
 VALUES
-('a0001',
+('AUCT0001',
 'anabada@gmail.com',
 'cate0001',
 '조말론 잉글리쉬 페어 앤 프리지아 센트 써라운드™ 디퓨저',
@@ -421,7 +423,7 @@ VALUES
 'anabada@gmail.com',
 'ptsd@gmail.com',
 '렌탈거래',
-'r0001',
+'RENT0001',
 2,
 'A급이라고 했는데 완전 C급이에요. 외관 상태도 안좋고 충전기 연결도 잘 안됩니다.');
 
@@ -467,7 +469,7 @@ VALUES
 ('w0001',
 'anabada@gmail.com',
 '옥션거래',
-'a0001');
+'AUCT0001');
 
 
 -- -----------------------------------------------------
@@ -491,7 +493,7 @@ INSERT INTO `anabada`.`used_detail`
 `uDetail_price`)
 VALUES
 ('ud0001',
-'u0001',
+'USED0001',
 'anabada@gmail.com',
 '홈길동',
 '01012345567',
@@ -525,7 +527,7 @@ INSERT INTO `anabada`.`rental_detail`
 `rDetail_eDate`)
 VALUES
 ('rd0001',
-'r0001',
+'RENT0001',
 'anabada@gmail.com',
 'ch0001',
 '임꺽정',
@@ -559,7 +561,7 @@ INSERT INTO `anabada`.`auction_detail`
 `aDetail_price`)
 VALUES
 ('ad0001',
-'a0001',
+'AUCT0001',
 'anabada@gmail.com',
 'ch0001',
 '아무개',
@@ -584,7 +586,7 @@ INSERT INTO `anabada`.`auction_bid`
 `bid_price`)
 VALUES
 ('ab0001',
-'a0001',
+'AUCT0001',
 'anabada@gmail.com',
 110000);
 
@@ -602,7 +604,7 @@ INSERT INTO `anabada`.`utrade`
 `uDetail_id`)
 VALUES
 ('ut0001',
-'u0001',
+'USED0001',
 'ud0001');
 
 
@@ -618,7 +620,7 @@ INSERT INTO `anabada`.`rtrade`
 `rDetail_id`)
 VALUES
 ('rt0001',
-'r0001',
+'RENT0001',
 'rd0001');
 
 
@@ -635,5 +637,5 @@ INSERT INTO `anabada`.`atrade`
 `aDetail_id`)
 VALUES
 ('at0001',
-'a0001',
+'AUCT0001',
 'ad0001');
