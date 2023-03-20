@@ -25,13 +25,14 @@ public class RentController {
 	private RentService service;
 	
 	@GetMapping({"purchase"})
-	public String purchase(String rental_id, Model model) {
+	public String purchase(@AuthenticationPrincipal UserDetails user
+				,String rental_id, Model model) {
 		Rental rental = service.findOneRental(rental_id);
-		String user_email = "anabada@gmail.com";
-		UserDTO user = service.findUser(user_email);
+		String user_email = user.getUsername();
+		UserDTO userone = service.findUser(user_email);
 		
 		model.addAttribute("rental", rental);
-		model.addAttribute("user", user);
+		model.addAttribute("user", userone);
 
 		return "rental/rentalPurchase(RBRP).html";
 	}
@@ -51,7 +52,7 @@ public class RentController {
 			,String rDetail_memo
 			,int user_account) {
 		
-		String user_email = "anabada@gmail.com";
+		String user_email = user.getUsername();
 
 		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
 		int j = service.purchase(rd);		

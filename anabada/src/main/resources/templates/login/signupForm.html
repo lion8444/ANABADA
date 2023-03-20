@@ -96,22 +96,21 @@
                   <div class="form-group">
                     <label for="" class="font_size">우편번호</label>
                     <input type="button" value="우편번호검색" id="postCodeBtn" class="btn btn-success" style="position:absolute; right: 0;"> 
-                    <input type="text" class="form-control font_size" id="postCode" placeholder="우편번호를 검색해 주세요." readonly>
+                    <input type="text" class="form-control font_size" id="postCode" name="user_post" placeholder="우편번호를 검색해 주세요." readonly>
                     <span class="check_html"></span>
                   </div>
 
                   <div class="form-group">
                     <label for="text" class="font_size">주소</label>
-                    <input type="text" class="form-control font_size" id="address" readonly>
+                    <input type="text" class="form-control font_size" id="address" name="user_addr1" readonly>
                     <span class="check_html"></span>
                   </div>
 
                   <div class="form-group">
                     <label for="text" class="font_size">상세 주소</label>
-                    <input type="text" class="form-control font_size" id="addrDetail">
+                    <input type="text" class="form-control font_size" id="addrDetail" name="user_addr2">
                     <span class="check_html"></span>
                   </div>
-                  <input type="hidden" name="user_addr" id="user_addr">
                   <div class="d-flex mb-5 align-items-center">
                     <label class="control control--checkbox mb-3 mb-sm-0"><span class="caption">당사 사이트 <a th:href="@{/policy}">정책에 동의 합니다.</a></span>
                     <input type="checkbox" id="policy">

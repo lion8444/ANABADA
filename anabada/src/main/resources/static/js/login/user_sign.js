@@ -10,7 +10,7 @@ let postcheck = false;
 
 $(document).ready(function () {
     //$("#joinFormSubmit").prop('disabled', true);
-    alertValue();
+    //alertValue();
     
     $("#username").on("keyup", nameRegCheck);
     $("#nickname").on("keyup", nickNameRegCheck);
@@ -284,8 +284,7 @@ function addrUser() {
 function joinFormSubmit() {
     let check = nncheck&&ncheck&&echeck&&pcheck&&re_pcheck&&phonecheck&&postcheck;
     let policy = $("#policy").is(':checked');
-    let addr = $("#postCode").val() + "," + $("#address").val() + "," + $("#addrDetail").val() + "," + $("#user_addr").val();
-    $("#user_addr").val(addr);
+;
     if(!check) {
         alert("입력란을 정확히 전부 입력해주세요.");
         $("#username").focus();

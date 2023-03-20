@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.AdminDAO">
+   
+    <select id="findalluser" resultType="UserDTO">
+    	SELECT * FROM user
+    </select>
+    
+    <select id="findboard" resultType="Admin_board">
+		SELECT used_id AS id, used_title AS title, user_email, used_date AS date, used_status AS status FROM used
+		UNION
+		SELECT rental_id AS id, rental_title AS title, user_email, rental_date AS date, rental_status AS status FROM rental
+		UNION
+		SELECT auction_id AS id, auction_title AS title, user_email, auction_date AS date, auction_status AS status FROM auction
+    </select>
+    
+    <update id="statusUpdate" parameterType="map">
+    	<if test='id.startsWith("USED")'>
+			UPDATE used
+	    	SET used_status = #{select}
+	    	WHERE used_id = #{id}
+		</if>
+		<if test='id.startsWith("RENT")'>
+			UPDATE rental
+	    	SET rental_status = #{select}
+	    	WHERE rental_id = #{id}
+		</if>
+		<if test='id.startsWith("AUCT")'>
+			UPDATE auction
+	    	SET auction_status = #{select}
+	    	WHERE auction_id = #{id}
+		</if>
+	</update>
+</mapper>
