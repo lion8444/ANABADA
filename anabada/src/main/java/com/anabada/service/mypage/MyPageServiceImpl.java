@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.anabada.dao.MyPageDAO;
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.Report;
 import com.anabada.domain.UserDTO;
 
 @Service
@@ -40,6 +41,12 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<Inquiry> selectInquiryList(String user_email) {
 		List<Inquiry> list = dao.selectInquiryList(user_email);
+		return list;
+	}
+
+	@Override
+	public List<Report> selectReportList(String user_email) {
+		List<Report> list = dao.selectReportList(user_email);
 		return list;
 	}
 

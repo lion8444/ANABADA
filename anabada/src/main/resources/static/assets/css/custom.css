@@ -397,9 +397,28 @@ pjh 추가 Custom Css
 }
 
 .inquirelist {
-  display: block;
+  display: inline-block;
 }
 
 .inq_answer {
   display: none;
 }
+
+#inquirebox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.inquirereply {
+  position: absolute;
+  right: 190px;
+}
+
+.inq_answer {
+  display: none;
+}
+
+/* #inquirebox:hover .inq_answer {
+  display: block;
+} */

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.Report;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.mypage.MyPageService;
 
@@ -109,5 +110,24 @@ public class MyPageController {
 		return "/mypage/my_checkPwForm";
 	}
 	
+	@GetMapping("/myreportlist")
+	public String myreportlist(
+			@AuthenticationPrincipal UserDetails user
+			, String user_email
+			, Model model) {
+		
+//		if(!user_email.equals(user.getUsername())) {
+//			log.debug("아이디 일치 X");
+//			return "redirect:/";
+//		}
+		
+		user_email = "anabada@gmail.com";
+		
+		List<Report> list = service.selectReportList(user_email);
+		
+		model.addAttribute("report", list);
+		
+		return "mypage/my_reportList";
+	}
 	
 }

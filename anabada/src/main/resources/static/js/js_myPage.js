@@ -2,19 +2,20 @@
 
 $(document).ready(function() {
 
-    let inquirelist = $('#inquirebox .inquirelist');
-    let inq_answer = $('#inquire .inq_answer');
+    let inquirelist = $('.inquirelist');
+    let inq_answer = $('.inq_answer');
+    
+    inquirelist.on('click', function() {
+        $(this).next('.inq_answer').css('display', 'block');
+    });
 
-	// $('.inquirelist').on('click', showReply);
+    inq_answer.on('click', function() {
+        $(this).css('display', 'none');
+    });
 
-    // $('.inq_answer').on('click', hideReply);
+    // inquirelist.on('click', function() {
+    //     $('.inq_answer').toggle('show');
+    // });
+
+   
 });
-
-function showReply() {
-    $(this).slideDown();
-    // $('.inq_answer').slideDown();
-}
-
-function hideReply() {
-    $(this).slideUp();
-}

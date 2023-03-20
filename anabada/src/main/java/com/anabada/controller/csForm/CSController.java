@@ -220,28 +220,27 @@ public class CSController {
 	@GetMapping("/review_used")
 	public String review_used(
 			@AuthenticationPrincipal UserDetails user
-			, String used_id
 			, Model model) {
 		
 		// 리뷰할 글이 없거나 완료 상태가 아닌 글인지 체크 
-		Used_detail usedDetail = service.selectUsedDetailById(used_id);
+//		Used_detail usedDetail = service.selectUsedDetailById(used_id);
 		
-		if(usedDetail == null) {
-			log.debug("해당 글 X or 완료 상태 X");
-			
-			return "redirect:/";
-		}
+//		if(usedDetail == null) {
+//			log.debug("해당 글 X or 완료 상태 X");
+//			
+//			return "redirect:/";
+//		}
 		
-		// 구매자 이메일과 현재 로그인한 이메일이 같지 않을 경우 처리 X
-		if(!usedDetail.getUser_email().equals(user.getUsername())) {
-			log.debug("구매자 ID가 아님");
+//		// 구매자 이메일과 현재 로그인한 이메일이 같지 않을 경우 처리 X
+//		if(!usedDetail.getUser_email().equals(user.getUsername())) {
+//			log.debug("구매자 ID가 아님");
+//			
+//			return "redirect:/";
+//		}
+//		
+//		model.addAttribute("used_Detail", usedDetail);
 			
-			return "redirect:/";
-		}
-		
-		model.addAttribute("used_Detail", usedDetail);
-			
-		return "csForm/reviewForm?used_id=" + usedDetail.getUsed_id();
+		return "csForm/reviewForm";
 	}
 	
 	/**
@@ -274,7 +273,7 @@ public class CSController {
 		model.addAttribute("rental_Detail", rentalDetail);
 		model.addAttribute("rental", rental);
 			
-		return "csForm/reviewForm?rental_id=" + rentalDetail.getRDetail_id();
+		return "csForm/reviewForm";
 	}
 	
 	/**
