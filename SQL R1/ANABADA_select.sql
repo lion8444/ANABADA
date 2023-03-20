@@ -211,21 +211,7 @@ SELECT `used_detail`.`uDetail_id`,
 	`used_detail`.`uDetail_Date`
 FROM `anabada`.`used_detail`;
 
-SELECT `user`.`user_email`,
-    `user`.`user_name`,
-    `user`.`user_nick`,
-    `user`.`user_pwd`,
-    `user`.`user_phone`,
-    `user`.`user_post`,
-	`user`.`user_addr1`,
-    `user`.`user_addr2`,
-    `user`.`user_level`,
-    `user`.`user_trade`,
-    `user`.`user_penalty`,
-    `user`.`user_account`,
-    `user`.`user_role`,
-    `user`.`user_nation`,
-    `user`.`user_date`
+SELECT *
 FROM `anabada`.`user`;
 
 SELECT `user_character`.`uChar_id`,

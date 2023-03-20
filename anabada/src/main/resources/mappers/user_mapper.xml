@@ -9,7 +9,9 @@
 			,user_nick
 			,user_pwd
 			,user_phone
-			,user_addr
+			,user_post
+			,user_addr1
+			,user_addr2
 			,user_nation
 		)
 		VALUES
@@ -19,7 +21,9 @@
 			, #{user_nick}
 			, #{user_pwd}
 			, #{user_phone}
-			, #{user_addr}
+			, #{user_post}
+			, #{user_addr1}
+			, #{user_addr2}		
 			, #{user_nation}
 		)
 	</insert>

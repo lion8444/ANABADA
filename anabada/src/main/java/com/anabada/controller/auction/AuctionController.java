@@ -46,7 +46,7 @@ public class AuctionController {
 			, Auction_detail auction_detail
 			, int user_account
 			) {
-		String user_email = "anabada@gmail.com";
+		String user_email = user.getUsername();
 		auction_detail.setUser_email(user_email);
 		int k = service.bid(auction_detail);
 		

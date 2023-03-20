@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
  *	0314
  */
 @Slf4j
+@RequestMapping({"csform"})
 @Controller
 public class CSController {
 	
@@ -143,12 +145,13 @@ public class CSController {
 	 */
 	@GetMapping("/inquiry")
 	public String inquiry(
-			String user_email
+			@AuthenticationPrincipal UserDetails user
+			,String user_email
 			, Model model) {
 		
 		log.debug("문의하기 작성 폼 이동");
 		
-		user_email = "anabada@gmail.com";
+		user_email = user.getUsername();
 		
 		UserDTO userdto = service.selectUserById(user_email);
 		
@@ -237,7 +240,7 @@ public class CSController {
 			log.debug("구매자 ID가 아님");
 			
 			return "redirect:/";
-		}
+		} 	
 		
 		model.addAttribute("used_Detail", usedDetail);
 			

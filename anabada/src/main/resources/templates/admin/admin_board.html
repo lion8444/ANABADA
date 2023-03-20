@@ -21,36 +21,37 @@
     <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
     <script>
 		$(document).ready(function(){
-			//$('.confirm').on("click", confirm($('.user_email').val()));
-	
-		});	
-	
-		function modify(index){
-			$('.modify'+index).hide();
-			$('.confirm'+index).show();
-		}
-		
-	/*
-		function confirm(user_email){
-			$.ajax({
-				url: 'confirm'
-				, type: 'get'
-				, dataType: 'json'
-				, success: function(user){
-					$('.name').val(user.user_name);
-					$('.phone').val(user.user_phone);
-					$('.post').val(user.user_post);	
-					$('.addr1').val(user.user_addr1);	
-					$('.addr2').val(user.user_addr2);		
 
-				}
-				, error: function(){
-					alert("실패");
-				}
-				
-			});
-		}
-		*/
+		});	
+
+	function modify(index){
+		$('.modify'+index).hide();
+		$('.confirm'+index).show();
+		$('.status'+index).hide();
+		$('.select'+index).show();
+	}		
+	
+	function confirm(index){
+		
+		$.ajax({
+			url: 'confirm'
+			, type: 'get'
+			, data: {'select': $('select[name=status]').val(), 'index':index}
+			, dataType: 'text'
+			, success: function(change){
+				$('.status'+index).html(change);
+				$('.modify'+index).show();
+				$('.confirm'+index).hide();		
+				$('.status'+index).show();
+				$('.select'+index).hide();
+			}
+			, error: function(){
+				alert("실패");
+			}
+			
+		});
+	}
+	
 	</script>
   </head>
   <body>
@@ -324,41 +325,41 @@
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>회원 번호</th>
-                          <th>이메일</th>
-                          <th>닉네임</th>
-                          <th>이름</th>
-                          <th>핸드폰 번호</th>
-                          <th>국적</th>
-                          <th>우편번호</th>                          
-                          <th>주소</th>
-                          <th>등급</th>
-                          <th>가입일자</th>
-                          <th>계정상태</th>
+                          <th>게시물 번호</th>
+                          <th>게시 위치</th>
+                          <th>제목</th>
+                          <th>작성자 이메일</th>
+                          <th>작성 일자</th>
+                          <th>상태</th>
                           <th>관리</th>
-                          <th>게시물</th>
-                          
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:each="user, i: ${user}">
+                        <tr th:each="board, i: ${board}">
                           <td th:text="${i.index}+1" class="index"></td>
-                          <td th:text="${user.user_email}" class="user_email"></td>
-                          <td th:text="${user.user_nick}"></td>
-                          <td th:text="${user.user_name}"></td>
-                          <td th:text="${user.user_phone}"></td>
-                          <td th:text="${user.user_nation}"></td>
-                          <td th:text="${user.user_post}"></td>                         
-                          <td th:text="|${user.user_addr1} ${user.user_addr2}|"></td>
-                          <td th:text="${user.user_role}"></td>
-                          <td th:text="${user.user_date}"></td>
-                          <td th:if="${user.user_status == True}"><span>정상</span></td>
-                          <td th:if="${user.user_status == False}"><span>중단</span></td>
-                          
-                          <td><input type="button" th:class="|modify${i.index}|" th:onclick="|modify(${i.index})|" value="수정">
-                          <input type="button" th:class="|confirm${i.index}|" value="변경" style="display:none;">
+                          <td th:if="${#strings.startsWith(board.id,'USED')}">
+                          	<span>중고거래</span>
                           </td>
-                          <td><input type="button" th:class="|board${i.index}|" value="관리"></td> 
+                           <td th:if="${#strings.startsWith(board.id,'RENT')}">
+                          	<span>렌탈거래</span>
+                          </td>
+                          <td th:if="${#strings.startsWith(board.id,'AUCT')}">
+                          	<span>경매거래</span>
+                          </td>                                                   
+                          
+                          <td th:text="${board.title}"></td>
+                          <td th:text="${board.user_email}" class="user_email"></td>
+                          <td th:text="${board.date}"></td>
+                          <td th:text="${board.status}" th:class="|status${i.index}|"></td>
+                          <td th:class="|select${i.index}|" style="display:none;">
+                          	<select name="status">
+                          		<option value="post">게시</option>
+                          		<option value="unpost">중지</option>
+                          	</select>
+                          </td>
+                          <td><input type="button" th:class="|modify${i.index}|" th:onclick="|modify(${i.index})|" value="수정">
+                          <input type="button" th:class="|confirm${i.index}|" value="변경" th:onclick="|confirm(${i.index})|" style="display:none;">
+                          </td>
                         </tr>
                       </tbody>
                     </table>

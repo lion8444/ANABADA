@@ -12,14 +12,7 @@ import com.anabada.domain.Admin_board;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.admin.AdminService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@RequestMapping({"admin"})	
-@Controller
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
+@RequestMapping({"admin"})
 @Controller
 public class AdminController {
 	@Autowired
@@ -40,6 +33,7 @@ public class AdminController {
 
 		return "admin/admin_board.html";
 	}
+	
 	@GetMapping("/admin")
 	public String adminPage() {
 		return "admin/admin_index";

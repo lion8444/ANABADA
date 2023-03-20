@@ -108,12 +108,12 @@ https://templatemo.com/tm-559-zay-shop
 			url: 'myaddr'
 			, type: 'get'
 			, dataType: 'json'
-			, success: function(user){
-				$('.name').val(user.user_name);
-				$('.phone').val(user.user_phone);
-				$('.post').val(user.user_post);	
-				$('.addr1').val(user.user_addr1);	
-				$('.addr2').val(user.user_addr2);		
+			, success: function(userone){
+				$('.name').val(userone.user_name);
+				$('.phone').val(userone.user_phone);
+				$('.post').val(userone.user_post);	
+				$('.addr1').val(userone.user_addr1);	
+				$('.addr2').val(userone.user_addr2);		
 
 			}
 			, error: function(){

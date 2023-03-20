@@ -28,15 +28,11 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .antMatchers(
         		"/",
-        		"/auction/**",
-        		"/rent/**",
-        		"/used/**",
-        		"/admin/**",
-        		"/jQuery/**",
         		"/join",
         		"/signup",
         		"/check/**",
         		"/assets/**",
+        		"/jQuery/**",
                 "/img/**",
                 "/css/**",
                 "/js/**").permitAll()
@@ -71,7 +67,7 @@ public class WebSecurityConfig {
         .dataSource(dataSource)
         // 인증 (로그인)
         .usersByUsernameQuery(
-        		"select user_email username, user_pwd password, user_account enable " +
+        		"select user_email username, user_pwd password, user_status enable " +
                 "from user " +
                 "where user_email = ?")
         // 권한

@@ -24,16 +24,17 @@ public class UsedController {
 	private UsedService service;
 	
 	@GetMapping({"purchase"})
-	public String purchase(String used_id, Model model) {
+	public String purchase(@AuthenticationPrincipal UserDetails user
+			,String used_id, Model model) {
 		Used used = service.findOneUsed(used_id);
 //		Used_detail used_detail= service.findOneUseddetail(used_id);
-		String user_email = "anabada@gmail.com";
-		UserDTO user = service.findUser(user_email);
+		String user_email = user.getUsername();
+		UserDTO userone = service.findUser(user_email);
 //		//Auction_bid auction_bid= service.findOneAuctionbid();
 		
 		model.addAttribute("used", used);
 //		model.addAttribute("auction_detail", auction_detail);
-		model.addAttribute("user", user);
+		model.addAttribute("user", userone);
 
 		return "used/usedPurchase(JPBP).html";
 	}
@@ -44,7 +45,7 @@ public class UsedController {
 			, Used_detail used_detail
 			, int user_account
 			) {
-		String user_email = "anabada@gmail.com";
+		String user_email = user.getUsername();
 		used_detail.setUser_email(user_email);
 		int k = service.purchase(used_detail);
 		
