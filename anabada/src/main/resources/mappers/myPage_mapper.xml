@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.MyPageDAO">
+    
+    <!-- 유저 이메일로 유저의 정보 검색 -->
+    <select id="selectUserById" resultType="UserDTO" parameterType="String">
+        SELECT
+            *
+        FROM
+            user
+        WHERE
+        	user_email = #{user_email}
+    </select>
+    
+    <!-- 유저 이메일로 유저의 다마고치 정보 검색 -->
+    <select id="selectUserDama" resultType="CharacterDTO" parameterType="String">
+    	SELECT
+			* 
+		FROM 
+			`character` c, user_character uc
+		WHERE
+			c.char_id = uc.character_char_id
+		    and
+		    uc.user_email = #{user_email}
+    </select>
+    
+    <!-- 유저 이메일로 유저의 문의 내역 리스트 검색 -->
+    <select id="selectInquiryList" resultType="Inquiry" parameterType="String">
+    	SELECT
+    		*
+    	FROM
+    		INQUIRY
+    	WHERE
+    		user_email = #{user_email}
+    </select>
+</mapper>

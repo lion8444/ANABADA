@@ -8,17 +8,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/css/test.css">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/test.css}">
+
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/js_myPage.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -55,7 +59,7 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}">
                 ANABADA
             </a>
 
@@ -161,8 +165,9 @@ https://templatemo.com/tm-559-zay-shop
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" href="">문의하기</a></li>
-                            <li><a class="text-decoration-none" href="">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/inquiry(user_email=${user.user_email})}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/report}">신고하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/myinquirelist(user_email=${user.user_email})}">나의 문의 내역</a></li>
                             <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
                             <li><a class="text-decoration-none" href="">나의 신고 내역</a></li>
                         </ul>
@@ -175,14 +180,15 @@ https://templatemo.com/tm-559-zay-shop
                     <div class="inquiretext">나의 문의 내역</div>
                 </div>
                 <hr width="80%">
-                <div class="row">
-                    <div>
-                        <div class="inquirelist">
-                            문의 한 내역1
-                            <span><input id="downarrow" type="image" src="assets/img/down-arrow.png"></span>
-                        </div>
-                        <div class="inquirereply">답변 O</div>
-                    </div>      
+                <div class="row" th:each="inquiry : ${inquiry}">
+                    <div id="inquirebox">
+                        <div class="inquirelist" th:text="${inquiry.inq_title}">문의 제목</div>                        
+                        <!-- <input id="downarrow" type="image" th:if="${inquiry.inq_answer != null}" th:src="@{/assets/img/down-arrow.png}">                         -->
+                        <div class="inquirereply" th:if="${inquiry.inq_answer != null}">답변 O</div>
+                        <div class="inquirereply" th:if="${inquiry.inq_answer == null}">답변 X</div>
+                        <div class="inq_answer" id="inq_answer" th:if="${inquiry.inq_answer != null}" th:text="${inquiry.inq_answer}">문의 답변 내용</div>
+                    </div>
+                    <br>      
                 </div>
             </div>
         </div>
@@ -220,16 +226,16 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="carousel-item active">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -239,16 +245,16 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -258,16 +264,16 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -390,11 +396,11 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/js/templatemo.js}"></script>
+    <script th:src="@{/assets/js/custom.js}"></script>
     <!-- End Script -->
 </body>
 

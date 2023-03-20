@@ -24,6 +24,7 @@ import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_detail;
+import com.anabada.domain.UserDTO;
 import com.anabada.service.csForm.CSFormService;
 import com.anabada.util.FileService;
 
@@ -141,9 +142,17 @@ public class CSController {
 	 * @return 문의하기 작성 폼
 	 */
 	@GetMapping("/inquiry")
-	public String inquiry() {
+	public String inquiry(
+			String user_email
+			, Model model) {
 		
 		log.debug("문의하기 작성 폼 이동");
+		
+		user_email = "anabada@gmail.com";
+		
+		UserDTO userdto = service.selectUserById(user_email);
+		
+		model.addAttribute("user", userdto);
 		
 		return "csForm/my_inquireForm";
 	}
