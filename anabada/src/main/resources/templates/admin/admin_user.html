@@ -18,27 +18,44 @@
     <link rel="stylesheet" th:href="@{/assets/admin_assets/css/custom.css}">
     <!-- End layout styles -->
     <link rel="shortcut icon" th:href="@{/assets/admin_assets/images/favicon.ico}" />
+    <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+    <script>
+		$(document).ready(function(){
+			//$('.confirm').on("click", confirm($('.user_email').val()));
+	
+		});	
+	
+		function modify(index){
+			$('.modify'+index).hide();
+			$('.confirm'+index).show();
+		}
+		
+	/*
+		function confirm(user_email){
+			$.ajax({
+				url: 'confirm'
+				, type: 'get'
+				, dataType: 'json'
+				, success: function(user){
+					$('.name').val(user.user_name);
+					$('.phone').val(user.user_phone);
+					$('.post').val(user.user_post);	
+					$('.addr1').val(user.user_addr1);	
+					$('.addr2').val(user.user_addr2);		
+
+				}
+				, error: function(){
+					alert("실패");
+				}
+				
+			});
+		}
+		*/
+	</script>
   </head>
   <body>
     <div class="container-scroller">
-      <div class="row p-0 m-0 proBanner" id="proBanner">
-        <div class="col-md-12 p-0 m-0">
-          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
-            <div class="ps-lg-1">
-              <div class="d-flex align-items-center justify-content-between">
-                <p class="mb-0 font-weight-medium me-3 buy-now-text">Free 24/7 customer support, updates, and more with this template!</p>
-                <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/?utm_source=organic&utm_medium=banner&utm_campaign=buynow_demo" target="_blank" class="btn me-2 buy-now-btn border-0">Get Pro</a>
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/"><i class="mdi mdi-home me-3 text-white"></i></a>
-              <button id="bannerClose" class="btn border-0 p-0">
-                <i class="mdi mdi-close text-white me-0"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -298,16 +315,12 @@
 
 
               <!-- 일자별 요약 테이블 -->
-              <div class="col-md-7 grid-margin stretch-card">
+              <div class="grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">일자별 요약</h4>
+                    <h4 class="card-title">회원 관리</h4>
                     <!-- <canvas id="traffic-chart"></canvas>
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div> -->
-                    <div class="gotodaysdetails">
-                      <a href=""><h4 class="card-title"><u>일자별 요약상세</u></h4></a>
-                    </div>
-                    </p>
                     <table class="table table-hover">
                       <thead>
                         <tr>
@@ -328,20 +341,22 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>2023-03-13</td>
-                          <td>중고정보</td>
-                          <td>렌탈정보</td>
-                          <td>경매정보</td>
-                          <td>가입자정보</td>
-                          <td>방문자정보</td>                         
-                          <td>방문자정보</td>
-                          <td>방문자정보</td>
-                          <td>방문자정보</td>
-                          <td>방문자정보</td>
-                          <td>방문자정보</td>
-                          <td>방문자정보</td>
-                          <td>1일매출액 : </td>
+                        <tr th:each="user, i: ${user}">
+                          <td th:text="${i.index}+1" class="index"></td>
+                          <td th:text="${user.user_email}" class="user_email"></td>
+                          <td th:text="${user.user_nick}"></td>
+                          <td th:text="${user.user_name}"></td>
+                          <td th:text="${user.user_phone}"></td>
+                          <td th:text="${user.user_nation}"></td>
+                          <td th:text="${user.user_post}"></td>                         
+                          <td th:text="|${user.user_addr1} ${user.user_addr2}|"></td>
+                          <td th:text="${user.user_role}"></td>
+                          <td th:text="${user.user_date}"></td>
+                          <td th:text="${user.user_status}"></td>
+                          <td><input type="button" th:class="|modify${i.index}|" th:onclick="|modify(${i.index})|" value="수정">
+                          <input type="button" th:class="|confirm${i.index}|" value="변경" style="display:none;">
+                          </td>
+                          <td><input type="button" th:class="|board${i.index}|" value="관리"></td> 
                         </tr>
                       </tbody>
                     </table>
