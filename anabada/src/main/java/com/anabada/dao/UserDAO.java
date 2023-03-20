@@ -10,5 +10,12 @@ import com.anabada.domain.UserDTO;
 @Mapper
 public interface UserDAO {
 	
-	List<UserDTO> allUser();
+	int nickNameCheck(String user_nick);
+
+	int emailCheck(String user_email);
+	
+	int joinUser(UserDTO user);
+
+	UserDTO findUser(String username);
+
 }
