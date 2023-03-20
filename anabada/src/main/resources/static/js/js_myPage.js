@@ -2,7 +2,8 @@
 
 $(document).ready(function() {
 
-    $('.inq_answer').hide();
+    let inquirelist = $('#inquirebox .inquirelist');
+    let inq_answer = $('#inquire .inq_answer');
 
 	// $('.inquirelist').on('click', showReply);
 

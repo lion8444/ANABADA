@@ -395,3 +395,11 @@ pjh 추가 Custom Css
   display: inline-block;
   margin-left: 500px;
 }
+
+.inquirelist {
+  display: block;
+}
+
+.inq_answer {
+  display: none;
+}
