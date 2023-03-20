@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.Report;
 import com.anabada.domain.UserDTO;
 
 public interface MyPageService {
@@ -28,5 +29,7 @@ public interface MyPageService {
 	 * @return 유저가 했던 모든 문의내역 리스트
 	 */
 	public List<Inquiry> selectInquiryList(String user_email);
+
+	public List<Report> selectReportList(String user_email);
 
 }

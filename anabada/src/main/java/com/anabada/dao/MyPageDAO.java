@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.Report;
 import com.anabada.domain.UserDTO;
 
 @Mapper
@@ -31,5 +32,7 @@ public interface MyPageDAO {
 	 * @return 유저의 문의내역 리스트
 	 */
 	public List<Inquiry> selectInquiryList(String user_email);
+
+	public List<Report> selectReportList(String user_email);
 
 }

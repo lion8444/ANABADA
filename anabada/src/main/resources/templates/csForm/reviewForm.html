@@ -171,7 +171,7 @@
 						<!-- 리뷰하기 폼 -->
 						<form th:action="@{/review}" method="post" onsubmit="return reviewValidation();">
 
-							<input type="hidden" name="user_email" th:value="${used_Detail.user_email}"> <!-- 일단 value로 직접 테스트 -->
+							<input type="hidden" name="user_email" value=""> <!-- 일단 value로 직접 테스트 -->
 
 							<h3>거래후기</h3>
 							<!-- <fieldset class="starFieldSet">
