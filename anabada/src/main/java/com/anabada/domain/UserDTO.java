@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,21 +14,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO implements UserDetails {
-	
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5633326669236264844L;
 	
 	private String user_email;
+	private String user_name;
 	private String user_nick;
 	private String user_pwd;
 	private String user_phone;
-	private String user_addr;
+	private String user_post;
+	private String user_addr1;
+	private String user_addr2;
 	private int user_level;
 	private int user_trade;
 	private int user_penalty;
-	private boolean user_account;
+	private int user_account;
 	private String user_role;
+	private boolean user_status;
 	private String user_nation;
 	private String user_date;
+	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
@@ -51,7 +60,7 @@ public class UserDTO implements UserDetails {
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return this.user_account;
+		return this.user_status;
 	}
 	@Override
 	public boolean isCredentialsNonExpired() {
@@ -64,3 +73,5 @@ public class UserDTO implements UserDetails {
 		return true;
 	}
 }
+
+

@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>관리자 페이지</title>
+    <title>일자별 요약 상세</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/admin_assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="assets/admin_assets/vendors/css/vendor.bundle.base.css">
@@ -19,6 +19,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="assets/admin_assets/images/favicon.ico" />
   </head>
+
   <body>
     <div class="container-scroller">
       <div class="row p-0 m-0 proBanner" id="proBanner">
@@ -294,155 +295,65 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title">
-                <span class="page-title-icon bg-gradient-primary text-white me-2">
-                  <i class="mdi mdi-home"></i>
-                </span> Dashboard
-              </h3>
-              <nav aria-label="breadcrumb">
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-
             <!-- 대시보드(메인) 컨텐츠 시작 -->
-
-            <!-- 주간 판매량 -->
+            <!-- 체크박스 -->
             <div class="row">
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-danger card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="assets/admin_assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">&#8361; 15,000</h2>
-                    <h6 class="card-text">Increased by 60%</h6>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 주간 방문자수 -->
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-info card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="assets/admin_assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Visitors <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">6334</h2>
-                    <h6 class="card-text">Decreased by 10%</h6>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 주간 회원 가입자 수-->
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-success card-img-holder text-white">
-                  <div class="card-body">
-                    <img src="assets/admin_assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Join Members <i class="mdi mdi-diamond mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">2052</h2>
-                    <h6 class="card-text">Increased by 5%</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 반기별 월별 거래량 그래프 -->
-            <div class="row">
-              <div class="col-md-5 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="clearfix">
-                      <h4 class="card-title float-left">반기별 월별 거래량</h4>
-                      <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
-                    </div>  
-                    <canvas id="visit-sale-chart" class="mt-4"></canvas>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 일자별 요약 테이블 -->
-              <div class="col-md-7 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">일자별 요약</h4>
-                    <!-- <canvas id="traffic-chart"></canvas>
-                    <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div> -->
-                    <div class="gotodaysdetails">
-                      <a href=""><h4 class="card-title"><u>일자별 요약상세</u></h4></a>
+              <div class="detailscheckbox">
+                <div class="col-lg-6 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">일자별 요약상세</h4>
+                      <form action="" method="post">
+                        <table class="table">
+                          <tbody>
+                            <tr>
+                              <th>거래종류</th>
+                              <td><input type="checkbox" name="" value="">중고거래</td>                  
+                              <td><input type="checkbox" name="" value="">렌탈</td>
+                              <td><input type="checkbox" name="" value="">경매</td>         
+                            </tr>
+                            <tr>
+                              <th>국적</th>
+                              <td><input type="checkbox" name="" value="">한국</td>  
+                              <td><input type="checkbox" name="" value="">日本</td>    
+                            </tr>
+                            <tr>
+                              <th>거주지</th>
+                              <td><input type="checkbox" name="" value="">한국</td>
+                              <td><input type="checkbox" name="" value="">日本</td>                         
+                            </tr>
+                            <tr>
+                              <th>사용자</th>
+                              <td><input type="checkbox" name="" value="">방문자 수</td>
+                              <td><input type="checkbox" name="" value="">가입자 수</td>                
+                            </tr>
+                            <tr>
+                              <th>기간</th>
+                              <td><input type="date" name=""></td>                     
+                            </tr>
+                            <tr>
+                              <td colspan="2">
+                                <input class="btn btn-success btn-fw" type="submit" value="검색">
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </form>
                     </div>
-                    </p>
-                    <table class="table table-hover">
-                      <thead>
-                        <tr>
-                          <th>일자</th>
-                          <th>중고</th>
-                          <th>렌탈</th>
-                          <th>경매</th>
-                          <th>가입</th>
-                          <th>방문자</th>
-                          <th>1일 매출액</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>2023-03-13</td>
-                          <td>중고정보</td>
-                          <td class="text-danger"> 렌탈정보 <i class="mdi mdi-arrow-down"></i></td>
-                          <td>경매정보</td>
-                          <td>가입자정보</td>
-                          <td>방문자정보</td>
-                          <td>1일매출액 : </td>
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- 문의 내역 리스트 -->
-            <div class="row">
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">문의</h4>
-                    <table class="table">
-                      <hr>
-                      <tbody>
-                        <tr>
-                          <td>[건의사항] 기능 추가해 주세요.</td>
-                          <td><label class="badge badge-danger">문의 처리 상황</label></td>                         
-                        </tr>
-                      </tbody>
-                    </table>
+              <!-- 그래프 -->
+              <div class="detailsgraph">        
+                <div class="col-lg-9 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">일자별 요약상세 그래프</h4>
+                      <canvas id="lineChart" style="height:250px"></canvas>
+                    </div>
                   </div>
-                </div>
               </div>
-
-              <!-- 신고 내역 리스트 -->
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">들어온 신고</h4>            
-                    <table class="table">
-                      <hr>
-                      <tbody>
-                        <tr>
-                          <td>[게시판 댓글] 언제 가능할까요?</td>
-                          <td><label class="badge badge-danger">신고 처리 상황</label></td>
-                        </tr>                  
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>                                       
+            </div>                                                 
           </div>
           <!-- 대시보드(메인) 컨텐츠 끝 -->
           <!-- content-wrapper ends -->
@@ -475,6 +386,8 @@
     <!-- Custom js for this page -->
     <script src="assets/admin_assets/js/dashboard.js"></script>
     <script src="assets/admin_assets/js/todolist.js"></script>
+    <script src="assets/admin_assets/js/chart.js"></script>
+
     <!-- End custom js for this page -->
   </body>
 </html>

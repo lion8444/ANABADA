@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Inquiry;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * 230317
  */
 @Slf4j
+@RequestMapping({"mypage"})
 @Controller
 public class MyPageController {
 	
@@ -43,7 +45,7 @@ public class MyPageController {
 //			return "redirect:/";
 //		}
 		
-		user_email = "anabada@gmail.com";
+		user_email = user.getUsername();
 		
 		// 현재 로그인한 유저의 개인 정보
 		UserDTO userDTO = service.selectUserById(user_email);
@@ -79,7 +81,7 @@ public class MyPageController {
 		
 //		log.debug("유저이메일:{}", user_email);
 		
-		String email = "anabada@gmail.com";
+		String email = user.getUsername();
 		
 		UserDTO userdto = service.selectUserById(email);
 		

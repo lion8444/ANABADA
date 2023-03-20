@@ -1,41 +1,57 @@
 -- -----------------------------------------------------
 -- Table `anabada`.`user`
 -- -----------------------------------------------------
-DELETE FROM `anabada`.`user`;
-
+-- DELETE FROM `anabada`.`user`;
+/*
 INSERT INTO `anabada`.`user`
 (`user_email`,
+`user_name`,
 `user_nick`,
 `user_pwd`,
 `user_phone`,
-`user_addr`,
+`user_post`,
+`user_addr1`,
+`user_addr2`,
+`user_account`,
 `user_nation`)
 VALUES
 ('anabada@gmail.com',
+'홍길동',
 'anabada',
 '1111',
 '01012345678',
-'서울시 강남구 삼성동 SICT 사무실',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
+'100000000',
 '한국'
 );
 
 
 INSERT INTO `anabada`.`user`
 (`user_email`,
+`user_name`,
 `user_nick`,
 `user_pwd`,
 `user_phone`,
-`user_addr`,
+`user_post`,
+`user_addr1`,
+`user_addr2`,
+`user_role`,
 `user_nation`)
 VALUES
 ('ptsd@gmail.com',
 'ptsd',
+'ptsd',
 '3333',
 '008114865342424',
-'서울시 강남구 역삼동 I-Park 102동 1001호',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
+'ROLE_ADMIN',
 '일본'
 );
-
+*/
 -- -----------------------------------------------------
 -- Table `anabada`.`character`
 -- -----------------------------------------------------
@@ -49,7 +65,7 @@ INSERT INTO `anabada`.`character`
 `char_two`,
 `char_three`)
 VALUES
-('ch0001',
+('CHAR0001',
 '다마고치',
 'S',
 'one.jpg',
@@ -68,9 +84,9 @@ INSERT INTO `anabada`.`user_character`
 `user_email`,
 `character_char_id`)
 VALUES
-('uch0001',
+('UCHA0001',
 'anabada@gmail.com',
-'ch0001');
+'CHAR0001');
 
 
 -- -----------------------------------------------------
@@ -88,7 +104,7 @@ INSERT INTO `anabada`.`char_temp`
 `cTemp_two`,
 `cTemp_three`)
 VALUES
-('ct0001',
+('CTEM0001',
 'anabada@gmail.com',
 '준비중',
 'ST',
@@ -108,7 +124,7 @@ INSERT INTO `anabada`.`egg`
 (`egg_id`,
 `egg_file`)
 VALUES
-('e0001',
+('EGGI0001',
 'egg.jpg');
 
 -- -----------------------------------------------------
@@ -125,12 +141,12 @@ INSERT INTO `anabada`.`inquiry`
 `inq_content`,
 `inq_answer`)
 VALUES
-('inq0002',
+('INQU0001',
 'anabada@gmail.com',
 '배송문의',
 '배송 도착이라고 하는데 못받음',
 '배송 도착 완료라고 뜨는데 택배를 받지 못했습니다. 결제한지가 언젠데 왜 아직도 안오나요?',
-'asdasd');
+'ㅈㅅ');
 
 
 -- -----------------------------------------------------
@@ -148,7 +164,7 @@ INSERT INTO `anabada`.`report`
 `report_comment`,
 `report_answer`)
 VALUES
-('rp0001',
+('REPO0001',
 'anabada@gmail.com',
 'ptsd@gmail.com',
 '사기 신고',
@@ -170,9 +186,9 @@ INSERT INTO `anabada`.`file`
 `file_origin`,
 `file_saved`)
 VALUES
-('f0001',
+('FILE0001',
 '중고거래',
-'u0001',
+'USED0001',
 'origin.jpg',
 'saved.jpg');
 
@@ -186,7 +202,7 @@ INSERT INTO `anabada`.`chatroom`
 (`chatRoom_id`,
 `user_email`)
 VALUES
-('chr0001',
+('ROOM0001',
 'anabada@gmail.com');
 
 -- -----------------------------------------------------
@@ -201,8 +217,8 @@ INSERT INTO `anabada`.`chat`
 `user_email`,
 `chat_contents`)
 VALUES
-('ch0001',
-'chr0001',
+('CHAT0001',
+'ROOM0001',
 'anabada@gmail.com',
 '사기꾼이신가요?');
 
@@ -219,7 +235,7 @@ INSERT INTO `anabada`.`category`
 `category_mid`,
 `category_sub`)
 VALUES
-('cate0001',
+('CATE0001',
 '전자기기',
 '핸드폰',
 '아이폰');
@@ -238,7 +254,7 @@ INSERT INTO `anabada`.`used_buy`
 `uBuy_title`,
 `uBuy_content`)
 VALUES
-('ub0001',
+('UBUY0001',
 'anabada@gmail.com',
 'cate0001',
 '아이폰 12pro 삼',
@@ -256,7 +272,7 @@ INSERT INTO `anabada`.`location`
 `loc_lat`,
 `loc_lon`) 	
 VALUES
-('loc0001',
+('LOCA0001',
 '삼성 코엑스',
 '37.5117',
 '127.0592');
@@ -273,8 +289,8 @@ INSERT INTO `anabada`.`user_location`
 `loc_id`,
 `user_email`)
 VALUES
-('uloc0001',
-'loc0001',
+('ULOC0001',
+'LOCA0001',
 'anabada@gmail.com');
 
 
@@ -290,8 +306,8 @@ INSERT INTO `anabada`.`sale_location`
 `loc_id`,
 `user_email`)
 VALUES
-('sloc0001',
-'loc0001',
+('SLOC0001',
+'LOCA0001',
 'anabada@gmail.com');
 
 
@@ -313,15 +329,15 @@ INSERT INTO `anabada`.`used`
 `uloc_id`,
 `sloc_id`)
 VALUES
-('u0001',
+('USED0001',
 'anabada@gmail.com',
-'cate0001',
+'CATE0001',
 '갤럭시 플립 팔아요',
 1000000,
 '갤럭시 플립 언박스 제품 팔아요. 완전 새재품입니다.',
 'S',
-'uloc0001',
-'sloc0001');
+'ULOC0001',
+'SLOC0001');
 
 
 -- -----------------------------------------------------
@@ -340,21 +356,21 @@ INSERT INTO `anabada`.`rental`
 `rental_content`,
 `rental_quality`,
 `rental_sDate`,
-`retal_eDate`,
+`rental_eDate`,
 `uloc_id`,
 `sloc_id`)
 VALUES
-('r0001',
+('RENT0001',
 'anabada@gmail.com',
-'cate0001',
+'CATE0001',
 '닌텐도 스위치 렌탈',
 20000,
 '남동생이 여행가서 닌텐도 스위치 렌탈해드립니다. 슈퍼마리오, 포켓몬스터 게임이 있어 필요하시면 같이 빌려드립니다.',
 'B',
 '2023-05-01',
 '2023-06-30',
-'uloc0001',
-'sloc0001');
+'ULOC0001',
+'SLOC0001');
 
 
 -- -----------------------------------------------------
@@ -375,16 +391,16 @@ INSERT INTO `anabada`.`auction`
 `uloc_id`,
 `sloc_id`)
 VALUES
-('a0001',
+('AUCT0001',
 'anabada@gmail.com',
-'cate0001',
+'CATE0001',
 '조말론 잉글리쉬 페어 앤 프리지아 센트 써라운드™ 디퓨저',
 '2023-03-25',
 '80000',
 '조말론 디퓨저 오픈하지 않은 제품 팝니다. 정가는 14만 4천원 입니다.',
 'S',
-'uloc0001',
-'sloc0001');
+'ULOC0001',
+'SLOC0001');
 
 
 -- -----------------------------------------------------
@@ -403,11 +419,11 @@ INSERT INTO `anabada`.`review`
 `review_star`,
 `review_comment`)
 VALUES
-('rev0001',
+('REVI0001',
 'anabada@gmail.com',
 'ptsd@gmail.com',
 '렌탈거래',
-'r0001',
+'RENT0001',
 2,
 'A급이라고 했는데 완전 C급이에요. 외관 상태도 안좋고 충전기 연결도 잘 안됩니다.');
 
@@ -428,14 +444,14 @@ INSERT INTO `anabada`.`board_temp`
 `bTemp_finish`,
 `sloc_id`)
 VALUES
-('bt0001',
+('BTEM0001',
 'anabada@gmail.com',
-'cate0001',
+'CATE0001',
 'test',
 100000,
 '테스트 중입니다.',
 '2023-11-11',
-'sloc0001');
+'SLOC0001');
 
 
 -- -----------------------------------------------------
@@ -450,10 +466,10 @@ INSERT INTO `anabada`.`wish`
 `board_status`,
 `board_no`)
 VALUES
-('w0001',
+('WISH0001',
 'anabada@gmail.com',
 '옥션거래',
-'a0001');
+'AUCT0001');
 
 
 -- -----------------------------------------------------
@@ -467,17 +483,25 @@ INSERT INTO `anabada`.`used_detail`
 (`uDetail_id`,
 `used_id`,
 `user_email`,
-`uDetail_method`,
-`uDetail_addr`,
+`uDetail_person`,
+`uDetail_phone`,
+`uDetail_post`,
+`uDetail_addr1`,
+`uDetail_addr2`,
+`uDetail_memo`,
 `chat_id`,
 `uDetail_price`)
 VALUES
-('ud0001',
-'u0001',
+('UDET0001',
+'USED0001',
 'anabada@gmail.com',
-'안전거래',
-'서울시 용산구 용사역 4번출구 3번 계단',
-'ch0001',
+'홈길동',
+'01012345567',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
+'내일까지 보내주세요.',
+'CHAT0001',
 900000);
 
 
@@ -492,16 +516,26 @@ INSERT INTO `anabada`.`rental_detail`
 `rental_id`,
 `user_email`,
 `chat_id`,
-`rDetail_addr`,
+`rDetail_person`,
+`rDetail_phone`,
+`rDetail_memo`,
+`rDetail_post`,
+`rDetail_addr1`,
+`rDetail_addr2`,
 `rDetail_price`,
 `rDetail_sDate`,
 `rDetail_eDate`)
 VALUES
-('rd0001',
-'r0001',
+('RDET0001',
+'RENT0001',
 'anabada@gmail.com',
-'ch0001',
-'서울시 용산구 용사역 4번출구 3번 계단',
+'CHAT0001',
+'임꺽정',
+'01034456774',
+'문 열려있어요',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
 80000,
 '2023-06-01',
 '2023-06-29');
@@ -519,14 +553,22 @@ INSERT INTO `anabada`.`auction_detail`
 `auction_id`,
 `user_email`,
 `chat_id`,
-`aDetail_addr`,
+`aDetail_person`,
+`aDetail_phone`,
+`aDetail_post`,
+`aDetail_addr1`,
+`aDetail_addr2`,
 `aDetail_price`)
 VALUES
-('ad0001',
-'a0001',
+('ADET0001',
+'AUCT0001',
 'anabada@gmail.com',
-'ch0001',
-'서울시 용산구 용사역 4번출구 3번 계단',
+'CHAT0001',
+'아무개',
+'01022222222',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
 120000);
 
 
@@ -543,8 +585,8 @@ INSERT INTO `anabada`.`auction_bid`
 `user_email`,
 `bid_price`)
 VALUES
-('ab0001',
-'a0001',
+('ABID0001',
+'AUCT0001',
 'anabada@gmail.com',
 110000);
 
@@ -561,9 +603,9 @@ INSERT INTO `anabada`.`utrade`
 `used_id`,
 `uDetail_id`)
 VALUES
-('ut0001',
-'u0001',
-'ud0001');
+('UTRA0001',
+'USED0001',
+'UDET0001');
 
 
 -- -----------------------------------------------------
@@ -577,9 +619,9 @@ INSERT INTO `anabada`.`rtrade`
 `rental_id`,
 `rDetail_id`)
 VALUES
-('rt0001',
-'r0001',
-'rd0001');
+('RTRA0001',
+'RENT0001',
+'RDET0001');
 
 
 -- -----------------------------------------------------
@@ -594,6 +636,8 @@ INSERT INTO `anabada`.`atrade`
 `auction_id`,
 `aDetail_id`)
 VALUES
-('at0001',
-'a0001',
-'ad0001');
+('ATRA0001',
+'AUCT0001',
+'ADET0001');
+
+commit;

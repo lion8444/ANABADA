@@ -2,10 +2,10 @@ body {
   font-family: "Roboto", sans-serif;
   background-color: #f8fafb; }
 
-p {
-  /* color: #b3b3b3; */
-  /* font-weight: 300; */
- }
+/* p {
+  color: #b3b3b3;
+  font-weight: 300;
+ } */
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
@@ -88,7 +88,7 @@ h2 {
   background-size: cover;
   background-position: center; }
 
-.content a {
+.content button {
   color: #888;
   text-decoration: underline; }
 
@@ -105,7 +105,7 @@ h2 {
 .content .btn-pill {
   border-radius: 30px; }
 
-.social-login a {
+.social-login button {
   text-decoration: none;
   position: relative;
   text-align: center;
@@ -115,7 +115,7 @@ h2 {
   height: 50px;
   border-radius: 50%;
   display: inline-block; }
-  .social-login a span {
+  .social-login button span {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -132,9 +132,9 @@ h2 {
     background: #1da1f2; }
     .social-login a.twitter:hover {
       background: #0d95e8; }
-  .social-login a.google {
+  .social-login .google {
     background: #ea4335; }
-    .social-login a.google:hover {
+    .social-login .google:hover {
       background: #e82e1e; }
 
 .control {
