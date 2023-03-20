@@ -11,14 +11,16 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 /**
  * Security 설정
  */
 @Configuration
 public class WebSecurityConfig {
+	
     @Autowired
     private DataSource dataSource;
-
+    
     //설정
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,21 +32,29 @@ public class WebSecurityConfig {
         		"/rent/**",
         		"/used/**",
         		"/jQuery/**",
+        		"/join",
+        		"/signup",
+        		"/check/**",
         		"/assets/**",
                 "/img/**",
                 "/css/**",
                 "/js/**").permitAll()
+//        .antMatchers("/admin/**").hasRole("ROLE_ADMIN")		// admin만 허용
         .anyRequest().authenticated()
         .and()
         .formLogin()					
         .loginPage("/login")			// 변경 필요
-        .loginProcessingUrl("/login").permitAll()
+        .loginProcessingUrl("/login")
+        .defaultSuccessUrl("/")
+        .permitAll() // 로그인 성공 시 redirect 이동
         .usernameParameter("user_email")
         .passwordParameter("user_pwd")
         .and()
         .logout()
         .logoutUrl("/logout")
-        .logoutSuccessUrl("/").permitAll()
+        .logoutSuccessUrl("/")
+//        .and().oauth2Login().userInfoEndpoint().userService(customOAuth2UserService)
+        .permitAll()
         .and()
         .cors()
         .and()
@@ -60,14 +70,14 @@ public class WebSecurityConfig {
         .dataSource(dataSource)
         // 인증 (로그인)
         .usersByUsernameQuery(
-        		"select user_email username, user_pwd password, enabled " +
-                "from bbs_member " +
-                "where memberid = ?")
+        		"select user_email username, user_pwd password, user_account enable " +
+                "from user " +
+                "where user_email = ?")
         // 권한
         .authoritiesByUsernameQuery(
-        		"select memberid username, rolename role_name " +
-                "from bbs_member " +
-                "where memberid = ?");
+        		"select user_email username, user_role role_name " +
+                "from user " +
+                "where user_email = ?");
     }
 
     // 단방향 비밀번호 암호화 
