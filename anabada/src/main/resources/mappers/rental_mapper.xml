@@ -31,7 +31,7 @@
     </select>
     
     <update id="usemoney" parameterType="map">
-    	UPDATE user
+    	UPDATE used
     	SET user_account = #{account}
     	WHERE user_email = #{user_email}
     </update>
