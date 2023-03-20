@@ -145,12 +145,22 @@
     </select>
     
     <!-- 실시간 받아온 이메일로 등록된 유저가 있는지 검색 -->
-    <select id="selectUserById" resultType="int" parameterType="String">
+    <select id="checkUserinOn" resultType="int" parameterType="String">
     	SELECT 
     		COUNT(user_email)
     	FROM
     		user
     	WHERE
     		user_email = #{reported}
+    </select>
+    
+    <!-- 받아온 이메일로 유저의 정보 검색 -->
+    <select id="selectUserById" resultType="USerDTO" parameterType="String">
+    	SELECT 
+    		*
+    	FROM
+    		user
+    	WHERE
+    		user_email = #{user_email}
     </select>
 </mapper>

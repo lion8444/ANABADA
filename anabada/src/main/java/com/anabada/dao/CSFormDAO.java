@@ -10,6 +10,7 @@ import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_detail;
+import com.anabada.domain.UserDTO;
 
 /**
  * 신고하기, 후기, 문의하기 DAO 인터페이스
@@ -77,5 +78,12 @@ public interface CSFormDAO {
 	 * @param reported 신고대상으로 입력되는 이메일
 	 * @return 검색된 개수
 	 */
-	public int selectUserById(String reported);
+	public int checkUserinOn(String reported);
+
+	/**
+	 * 받아온 이메일로 등록된 유저의 정보 검색
+	 * @param user_email
+	 * @return
+	 */
+	public UserDTO selectUserById(String user_email);
 }

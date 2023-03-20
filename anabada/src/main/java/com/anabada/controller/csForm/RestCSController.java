@@ -25,7 +25,7 @@ public class RestCSController {
 		log.debug("신고대상 ajax진입");
 		log.debug("들어온 데이터: {}", reported);
 		
-		int result = service.selectUserById(reported);
+		int result = service.checkUserinOn(reported);
 			
 		return result;
 	}

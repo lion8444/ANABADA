@@ -8,6 +8,7 @@ import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_detail;
+import com.anabada.domain.UserDTO;
 
 /**
  * 신고하기, 후기, 문의하기 서비스 인터페이스
@@ -40,7 +41,10 @@ public interface CSFormService {
 	// 등록된 렌탈 거래 글 검색 - 렌탈id로
 	public Rental selectRentalById(String rental_id);
 
-	// 실시간 받아온 이메일로 등록된 유저가 있는지 검색 
-	public int selectUserById(String reported);
+	// 실시간 받아온 이메일로 등록된 유저가 있는지 검색 있으면 1, 없으면 0 반환
+	public int checkUserinOn(String reported);
+	
+	// user_email로 등록된 유저의 정보 검색
+	public UserDTO selectUserById(String user_email);
 
 }
