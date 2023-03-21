@@ -55,6 +55,13 @@ CREATE TABLE `anabada_save_file` (
    , PRIMARY KEY (`board_status`)
 );
 
+DROP TABLE if exists anabada_save_file;
+CREATE TABLE `anabada_save_file` (
+   `board_status` varchar(4) not null
+   , `file_date` datetime default now() COMMENT '파일 저장시간'
+   , `file_no` int NOT NULL COMMENT '저장 파일 no'
+   , PRIMARY KEY (`board_status`)
+);
 -- -----------------------------------------------------
 -- Table `anabada`.`user`
 -- -----------------------------------------------------
