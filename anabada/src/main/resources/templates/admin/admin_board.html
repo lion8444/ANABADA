@@ -36,7 +36,7 @@
 		$.ajax({
 			url: 'confirm'
 			, type: 'get'
-			, data: {'select': $('select[name=status]').val(), 'index':index}
+			, data: {'select': $('select[name=status' + index + ']').val(), 'index':index}
 			, dataType: 'text'
 			, success: function(change){
 				$('.status'+index).html(change);
@@ -319,7 +319,7 @@
               <div class="grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">회원 관리</h4>
+                    <h4 class="card-title">게시물 관리</h4>
                     <!-- <canvas id="traffic-chart"></canvas>
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div> -->
                     <table class="table table-hover">
@@ -352,7 +352,7 @@
                           <td th:text="${board.date}"></td>
                           <td th:text="${board.status}" th:class="|status${i.index}|"></td>
                           <td th:class="|select${i.index}|" style="display:none;">
-                          	<select name="status">
+                          	<select th:name="|status${i.index}|">
                           		<option value="post">게시</option>
                           		<option value="unpost">중지</option>
                           	</select>

@@ -21,28 +21,40 @@
     <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
     <script>
 		$(document).ready(function(){
-			//$('.confirm').on("click", confirm($('.user_email').val()));
 	
 		});	
 	
 		function modify(index){
 			$('.modify'+index).hide();
 			$('.confirm'+index).show();
-		}
+			$('.statusn'+index).hide();
+			$('.selectn'+index).show();
+			$('.statuss'+index).hide();
+			$('.selects'+index).show();
+		}		
 		
-	/*
-		function confirm(user_email){
+		function confirm(index){
+			
 			$.ajax({
-				url: 'confirm'
-				, type: 'get'
+				url: 'usermodify'
+				, type: 'post'
+				, data: {'selectn': $('.nick'+index).val(), 'selects': $('select[name=user_status'+index+']').val(), 'index':index}
 				, dataType: 'json'
-				, success: function(user){
-					$('.name').val(user.user_name);
-					$('.phone').val(user.user_phone);
-					$('.post').val(user.user_post);	
-					$('.addr1').val(user.user_addr1);	
-					$('.addr2').val(user.user_addr2);		
-
+				, success: function(newuser){
+					if(newuser.user_status == 1){
+						$('.statuss'+index).html('활성');
+					}
+					else if(newuser.user_status == 0){
+						$('.statuss'+index).html('비활성');
+					}			
+					
+					$('.statusn'+index).html(newuser.user_nick);
+					$('.modify'+index).show();
+					$('.confirm'+index).hide();		
+					$('.statusn'+index).show();
+					$('.selectn'+index).hide();
+					$('.statuss'+index).show();
+					$('.selects'+index).hide();
 				}
 				, error: function(){
 					alert("실패");
@@ -50,7 +62,12 @@
 				
 			});
 		}
-		*/
+		
+		function userboard(index){
+			location.href = '/admin/board?user_email=' + $('.email'+index).html();
+			
+		}
+		
 	</script>
   </head>
   <body>
@@ -343,8 +360,9 @@
                       <tbody>
                         <tr th:each="user, i: ${user}">
                           <td th:text="${i.index}+1" class="index"></td>
-                          <td th:text="${user.user_email}" class="user_email"></td>
-                          <td th:text="${user.user_nick}"></td>
+                          <td th:text="${user.user_email}" th:class="|email${i.index}|"></td>
+                          <td th:text="${user.user_nick}" th:class="|statusn${i.index}|"></td>
+                          <td th:class="|selectn${i.index}|" style="display:none;"><input type="text" th:class="|nick${i.index}|"  style="width:100px;"></td>
                           <td th:text="${user.user_name}"></td>
                           <td th:text="${user.user_phone}"></td>
                           <td th:text="${user.user_nation}"></td>
@@ -352,14 +370,19 @@
                           <td th:text="|${user.user_addr1} ${user.user_addr2}|"></td>
                           <td th:text="${user.user_role}"></td>
                           <td th:text="${user.user_date}"></td>
-                          <td th:if="${user.user_status == True}"><span>정상</span></td>
-                          <td th:if="${user.user_status == False}"><span>중단</span></td>
-                          
-                          <td><input type="button" th:class="|modify${i.index}|" th:onclick="|modify(${i.index})|" value="수정">
-                          <input type="button" th:class="|confirm${i.index}|" value="변경" style="display:none;">
+                          <td th:if="${user.user_status == True}" th:class="|statuss${i.index}|"><span>활성</span></td>
+                          <td th:if="${user.user_status == False}" th:class="|statuss${i.index}|"><span>비활성</span></td>
+                          <td th:class="|selects${i.index}|" style="display:none;">
+                          	<select th:name="|user_status${i.index}|">
+                          		<option value="True">활성</option>
+                          		<option value="False">비활성</option>
+                          	</select>
                           </td>
-                          <td><input type="button" th:class="|board${i.index}|" value="관리"></td> 
-                        </tr>
+                          <td><input type="button" th:class="|modify${i.index}|" th:onclick="|modify(${i.index})|" value="수정">
+                          <input type="button" th:class="|confirm${i.index}|" value="변경" th:onclick="|confirm(${i.index})|" style="display:none;">
+                          </td>
+                          <td><input type="button" th:class="|board${i.index}|" value="관리" th:onclick="|userboard(${i.index})|"></td> 
+                        </tr>																	
                       </tbody>
                     </table>
                   </div>
