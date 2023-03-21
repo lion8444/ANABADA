@@ -16,8 +16,18 @@
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
-    <link rel="stylesheet" th:href="@{assets/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- 페이지 이동 스크립트  -->
+    <!-- <script>
+        function pagingFormSubmit(currentPage) {
+            var form = document.getElementById('pagingForm');
+            var page = document.getElementById('page');
+            page.value = currentPage;
+            form.submit();
+        }
+    </script> -->
 <!--
     
 TemplateMo 559 Zay Shop
@@ -60,7 +70,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{usedSellBoard}">중고</a>
+                            <a class="nav-link" th:href="@{/usedSellBoard}">중고</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="rentalPage.html">렌탈</a>
@@ -125,95 +135,49 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </div>
 
-    <!-- 글 쓰는 폼 -->
-    
-    <form th:action="@{usedSellWrite}" method="post" 
+    <!-- 넣을부분 -->
+
+    <header>
+        <h1>[ 게시글 읽기]</h1>
+        </header>
+        <section>
+            <form th:action="@{usedBuyBoardRead}" method="get" 
             enctype="multipart/form-data">
-            <input type="hidden" name="user_email" value="anabada@gmail.com">
-            <input type="hidden" name="uloc_id" value="uloc0001">
-            <input type="hidden" name="sloc_id" value="sloc0001">
-          
-    <table>
-        <tr>
-            <th><h1>중고 거래 파는 글 쓰기</h1></th>
-            <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                <input type="submit" value="임시등록">
-                <input type="submit" value="등록">
-            </td>
-        </tr>
-    </table>
-
-    <section class="writeForm">
-
-        <div class="categories_option">
-            <select id="category_id" name="category_id" class="select_categories">
-                <option value="cate0001">피규어/완구/취미</option>
-                <option value="2">피규어/완구/취미</option>
-                <option value="3">피규어/완구/취미</option>
-            </select>
-        </div>    
-          
-        <div class="name_merchandise">
-            <input type="text" id="used_title" name="used_title" placeholder="상품명을 입력하세요" class="input_name_meerchandise">
-        </div>
-
-    <table class="table_writingContent">
-        <tr>
-            <th>
-                판매 가격*
-            </th>
-        </tr>
-            
-        <tr>
-            <td>
-                <input type="text" id="used_price" name="used_price" placeholder="가격을 입력해 주세요" class="input_price"> 원
-            </td>
-        </tr>
-
-        <tr>
-            <th>상품 상태</th>
-        </tr>
-
-        <tr>
-            <th>
-                <!-- 일단해보고 안되면 다시해보자 -->
-                <input type="checkbox" id="used_quality" name="used_quality" value="미개봉"> 미개봉
-                <input type="checkbox" id="used_quality" name="used_quality" value="사용감 있음"> 사용감 있음
-                <input type="checkbox" id="used_quality" name="used_quality" value="파손 있음"> 파손 있음
-            </th>
-        </tr>
-        </table>
-    
-        <div class="">
-            * 등록시 주의사항
-        </div>
-
-        <div class="">
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-        </div>
-
-        <div class="">
-            <p>사진첨부(10장까지 가능)</p>
-            <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
-        </div>
-        </table>
-
-        <div class="">
-            *글 편집하는 기능 넣는 부분
-        </div>
-
-        <div class="">
-            <textarea name="used_content" id="used_content" style="width:400px">
-            </textarea>
-        </div>
-    </form>
-    </section>
+                <table>
+                    <tr>
+                        <th style="width: 100px;">작성자 이메일</th>
+                        <td th:text="${used_buy.user_email}" style="width: 600px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>제목</th>
+                            <td th:text="${used_buy.uBuy_title}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>카테고리</th>
+                            <td th:text="${used_buy.category_id}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>상품상태</th>
+                            <td th:text="${used_buy.uBuy_status}">
+                        </td>
+                    </tr>
+                  
+                </table>
+                <br>
+               
+                <!-- <div th:if="${#authentication.name}==${board.memberid}">
+                    <a th:href="@{/board/update(num=${board.boardnum})}">수정</a>    
+                    <a th:href="|javascript:deleteBoard(${board.boardnum})|">삭제</a>   
+                </div> -->
+            </form>
+        </section>
 
 
-    
 
-    
+
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">

@@ -1,6 +1,32 @@
 -- -----------------------------------------------------
 -- Table `anabada`.`user`
 -- -----------------------------------------------------
+-- used_id = USED
+-- rent_id = RENT
+-- auction_id = AUCT
+-- file_id = FILE
+-- uDetail_id = UDET
+-- rDetail_id = RDET
+-- aDetail_id = ADET
+-- report_id = REPO
+-- inquiry_id = INQU
+-- review_id = REVI
+-- category_id = CATE
+-- aBid_id = ABID
+-- uTrade_id = UTRA
+-- rTrade_id = RTRA
+-- aTrade_id = ATRA
+-- chat_id = CHAT
+-- chatRoom_id = ROOM
+-- bTemp_id = BTEM
+-- cTemp_id = CTEM
+-- char_id = CHAR
+-- uChar_id = UCHA
+-- loc_id = LOCA
+-- uloc_id = ULOC
+-- sloc_id = SLOC
+-- wish_id = WISH
+-- uBuy_id = UBUY
 DELETE FROM `anabada`.`user`;
 
 INSERT INTO `anabada`.`user`

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.UsedDAO">
+ 
+    
+    <!--중고 팝니다 글 저장 매퍼-->
+    <insert id="usedSellWrite" parameterType="Used">
+    	 INSERT INTO
+    		used(
+	    		used_id
+				,user_email
+				,category_id
+				,used_title
+				,used_price
+				,used_content
+				,used_quality
+				,uloc_id
+				,sloc_id
+    		    )
+    	VALUES(
+	    		func_seq_10('USED')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{used_title}
+    			,#{used_price}
+    			,#{used_content}
+    			,#{used_quality}
+    			,#{uloc_id}
+				,#{sloc_id}
+    			)
+    	<selectKey keyProperty="used_id" keyColumn="used_id" resultType="String" order="AFTER">
+    		SELECT 
+    			used_id 
+    		from 
+    			used
+    		order by
+    			used_date desc
+    		LIMIT 1
+    	</selectKey>
+    </insert>
+    
+    <insert id="insertFile" parameterType="File">
+    	INSERT INTO
+    		file(
+    			file_id
+    			,board_status
+    			,board_no
+    		<if test="file_origin !=null and file_origin != ''">
+    			,file_origin
+    		</if>
+    		<if test="file_saved !=null and file_saved != ''">
+    			,file_saved
+    		</if>
+    			)
+    		VALUES
+    			(
+    			func_seq_10('FILE')
+    			,#{board_status}
+    			,#{board_no}
+    		<if test="file_origin !=null and file_origin != ''">
+    			,#{file_origin}
+    		</if>
+    		<if test="file_saved !=null and file_saved != ''">
+    			,#{file_saved}
+    		</if>
+    			)
+    </insert>
+    
+    <insert id="usedBuyWrite" parameterType="Used_buy">
+    	 INSERT INTO
+    		used_buy(
+	    		uBuy_id
+				,user_email
+				,category_id
+				,uBuy_title
+				,uBuy_content
+				,uBuy_status
+    		    )
+    	VALUES(
+	    		func_seq_10('UBUY')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{uBuy_title}
+    			,#{uBuy_content}
+    			,#{uBuy_status}
+    			)
+    </insert>
+    <!-- 중고거래 파는 글 다 가져오기 -->
+    <select id="usedSellBoard" resultType="Used" parameterType="map">
+    	SELECT
+    		*
+    	FROM
+    		used
+    	<!-- WHERE
+    		used_id
+    	IN
+    	(SELECT board_no from file ) -->
+    	
+    	<!-- 검색어가 null이 아니면 where조건을 추가한다 -->
+		<!-- 검색대상이 used_title이면 제목에서 검색한다 -->
+		<!-- 검색대상이 used_content이면 본문에서 검색한다 -->
+		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
+		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='used_title'">
+					upper(used_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type =='used_content'">
+					upper(used_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				
+				<if test ="type == 'all'">
+					upper(used_title) like '%' || #{searchWord} || '%'
+					or upper(used_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+    </select>
+    
+    <!-- 전체 글 개수 -->
+	<select id="total" parameterType="map" resultType="int">
+		select count(*) from used
+		<if test="type != null and searchWord != null">
+		<where>	
+			<if test="type == 'used_title'">
+				upper(used_title) like '%' || upper(#{searchWord}) || '%'
+			</if>
+			<if test="type == 'used_contents'">
+				upper(used_contents) like '%' || upper(#{searchWord}) || '%'
+			</if>
+			<if test="type == 'user_email'">
+				user_email = #{searchWord}
+			</if>
+			<if test="type == 'all'">
+				upper(used_title) like '%' || upper(#{searchWord}) || '%'
+				or upper(used_contents) like '%' || upper(#{searchWord}) || '%'
+				or user_email = #{searchWord}
+			</if>
+		</where>	
+		</if>
+	</select>
+    <!-- 중고거래 사는 글 다 가져오기 -->
+    <select id="usedBuyBoard" resultType="Used_buy">
+    	SELECT
+    		*
+    	FROM
+    		used_buy
+    	ORDER BY
+    		uBuy_id DESC
+    </select>
+    
+    <!-- 중고거래 사는 글 한개 읽기 -->
+    <select id="usedBuyBoardRead" parameterType="String" resultType="Used_buy">
+    	SELECT
+    		uBuy_id
+			,user_email
+			,category_id
+			,uBuy_title
+			,uBuy_content
+			,uBuy_status
+    	FROM
+    		used_buy
+    	WHERE
+    		uBuy_id = #{uBuy_id}
+    </select>
+    
+    <select id="fileList" resultType="File">
+    	SELECT
+    		*
+    	FROM
+    		file
+    	where
+    		board_no = #{user_id}
+    </select>
+    
+     <!-- 중고거래 파는 글 한개 읽기 -->
+    <select id="usedSellBoardRead" parameterType="String" resultType="Used">
+    	SELECT
+    		used_id
+			, user_email
+			, category_id
+			, used_title
+			, DATE_FORMAT(used_date, '%Y-%m-%d')
+			, used_price
+			, used_content
+			, used_quality
+			, used_status
+			, uloc_id
+			, sloc_id
+    	FROM
+    		used
+    	WHERE
+    		used_id = #{used_id}
+    </select>
+    
+   <!--  <select id="fileList" resultType="File">
+    	SELECT
+    		*
+    	FROM
+    		file
+    	where
+    		board_no = #{user_id}
+    </select> -->
+    
+    <!-- 중고거래 파는 글 삭제 -->
+    <delete id="usedSellBoardDelete" parameterType="Used">
+        DELETE
+        FROM
+                used
+        WHERE
+                used_id = #{used_id}
+        AND
+                user_email = #{user_email}
+		</delete>
+</mapper>

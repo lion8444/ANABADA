@@ -16,8 +16,8 @@
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
-    <link rel="stylesheet" th:href="@{assets/css/custom.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 <!--
     
 TemplateMo 559 Zay Shop
@@ -48,7 +48,7 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{index.html}">
                 Anabada
             </a>
 
@@ -60,16 +60,17 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{usedSellBoard}">중고</a>
+                            <!-- <a class="nav-link" th:href="@{used/SellBoard}">중고</a> 리퀘스트 매핑 넣고 바꿔-->
+                            <a class="nav-link" th:href="@{/usedSellBoard}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="rentalPage.html">렌탈</a>
+                            <a class="nav-link" href="">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="auctionPage.html">경매</a>
+                            <a class="nav-link" href="">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">지도</a>
+                            <a class="nav-link" href="">지도</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">프로젝트 소개</a>
@@ -125,95 +126,115 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </div>
 
-    <!-- 글 쓰는 폼 -->
-    
-    <form th:action="@{usedSellWrite}" method="post" 
-            enctype="multipart/form-data">
-            <input type="hidden" name="user_email" value="anabada@gmail.com">
-            <input type="hidden" name="uloc_id" value="uloc0001">
-            <input type="hidden" name="sloc_id" value="sloc0001">
-          
-    <table>
-        <tr>
-            <th><h1>중고 거래 파는 글 쓰기</h1></th>
-            <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                <input type="submit" value="임시등록">
-                <input type="submit" value="등록">
-            </td>
-        </tr>
-    </table>
 
-    <section class="writeForm">
 
-        <div class="categories_option">
-            <select id="category_id" name="category_id" class="select_categories">
-                <option value="cate0001">피규어/완구/취미</option>
-                <option value="2">피규어/완구/취미</option>
-                <option value="3">피규어/완구/취미</option>
-            </select>
-        </div>    
-          
-        <div class="name_merchandise">
-            <input type="text" id="used_title" name="used_title" placeholder="상품명을 입력하세요" class="input_name_meerchandise">
+    <!-- Start Banner Hero -->
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./assets/img/banner_img_01.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1 text-success"><b>Zay</b> eCommerce</h1>
+                                <h3 class="h2">Tiny and Perfect eCommerce Template</h3>
+                                <p>
+                                    Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1). 
+                                    This template is 100% free provided by <a rel="sponsored" class="text-success" href="https://templatemo.com" target="_blank">TemplateMo</a> website. 
+                                    Image credits go to <a rel="sponsored" class="text-success" href="https://stories.freepik.com/" target="_blank">Freepik Stories</a>,
+                                    <a rel="sponsored" class="text-success" href="https://unsplash.com/" target="_blank">Unsplash</a> and
+                                    <a rel="sponsored" class="text-success" href="https://icons8.com/" target="_blank">Icons 8</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 class="h1">Proident occaecat</h1>
+                                <h3 class="h2">Aliquip ex ea commodo consequat</h3>
+                                <p>
+                                    You are permitted to use this Zay CSS template for your commercial websites. 
+                                    You are <strong>not permitted</strong> to re-distribute the template ZIP file in any kind of template collection websites.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./assets/img/banner_img_03.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 class="h1">Repr in voluptate</h1>
+                                <h3 class="h2">Ullamco laboris nisi ut </h3>
+                                <p>
+                                    We bring you 100% free CSS templates for your websites. 
+                                    If you wish to support TemplateMo, please make a small contribution via PayPal or tell your friends about our website. Thank you.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+    <!-- End Banner Hero -->
 
-    <table class="table_writingContent">
-        <tr>
-            <th>
-                판매 가격*
-            </th>
-        </tr>
-            
-        <tr>
-            <td>
-                <input type="text" id="used_price" name="used_price" placeholder="가격을 입력해 주세요" class="input_price"> 원
-            </td>
-        </tr>
-
-        <tr>
-            <th>상품 상태</th>
-        </tr>
-
-        <tr>
-            <th>
-                <!-- 일단해보고 안되면 다시해보자 -->
-                <input type="checkbox" id="used_quality" name="used_quality" value="미개봉"> 미개봉
-                <input type="checkbox" id="used_quality" name="used_quality" value="사용감 있음"> 사용감 있음
-                <input type="checkbox" id="used_quality" name="used_quality" value="파손 있음"> 파손 있음
-            </th>
-        </tr>
-        </table>
-    
-        <div class="">
-            * 등록시 주의사항
+    <!-- 카테고리 들 -->
+        <div class="col">
+            <div class="col-12 col-md-4 p-5 mt-3" id="open_used">
+                <a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+                <span>동네의 주민들과 중고물품을 자유롭게 거래해요</span>
+                <h5 class="text-center mt-3 mb-3">우리동네 중고 거래 장터</h5>
+                <p class="text-center"><a class="btn btn-success">중고거래 하러가기</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">이웃과 함께 써요 렌탈 서비스</h2>
+                <p class="text-center"><a class="btn btn-success">렌탈하러 가기</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">좋은 물건이 있다면?<br>
+                                                     경매에 참여해 보세요!
+                </h2>
+                <p class="text-center"><a class="btn btn-success">경매하러 가기</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">아나바다에만 있다!<br>다마고치 시스템!</h2>
+                <p class="text-center">매너있는 거래로 다마고치를 성장시켜 신뢰있는 거래를 해보세요</p>
+                <p class="text-center"><a class="btn btn-success">다마고치 보러가기</a></p>
+            </div>
         </div>
-
-        <div class="">
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-        </div>
-
-        <div class="">
-            <p>사진첨부(10장까지 가능)</p>
-            <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
-        </div>
-        </table>
-
-        <div class="">
-            *글 편집하는 기능 넣는 부분
-        </div>
-
-        <div class="">
-            <textarea name="used_content" id="used_content" style="width:400px">
-            </textarea>
-        </div>
-    </form>
     </section>
-
-
-    
-
-    
+    <!-- End Categories of The Month -->
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
