@@ -13,7 +13,20 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `anabada` DEFAULT CHARACTER SET utf8 ;
 USE `anabada` ;
+DROP TABLE if exists anabada_seq;
+CREATE TABLE `anabada_seq` (
+  `seq_name` varchar(4) NOT NULL COMMENT '시퀀스에 사용될 명칭',
+  `seq_no` int COMMENT '시퀀스 no',
+  PRIMARY KEY (`seq_name`)
+);
 
+DROP TABLE if exists anabada_save_file;
+CREATE TABLE `anabada_save_file` (
+   `board_status` varchar(4) not null
+   , `file_date` datetime default now() COMMENT '파일 저장시간'
+   , `file_no` int NOT NULL COMMENT '저장 파일 no'
+   , PRIMARY KEY (`board_status`)
+);
 -- -----------------------------------------------------
 -- Table `anabada`.`user`
 -- -----------------------------------------------------
