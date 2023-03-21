@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`user` (
   `user_penalty` INT NULL DEFAULT 0,
   `user_account` INT NULL DEFAULT 0,
   `user_role` VARCHAR(15) NULL DEFAULT 'ROLE_USER',
-  `user_status` INT DEFAULT 1,
+  `user_status` INT DEFAULT 1,	
   `user_nation` VARCHAR(10) NOT NULL,
   `user_date` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`user_email`),

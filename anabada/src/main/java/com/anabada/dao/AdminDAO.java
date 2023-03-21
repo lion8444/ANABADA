@@ -12,9 +12,13 @@ import com.anabada.domain.UserDTO;
 public interface AdminDAO {
 
 	ArrayList<UserDTO> findalluser();
-
+	
 	ArrayList<Admin_board> findboard();
 
+	ArrayList<Admin_board> findboard(String user_email);
+
 	int statusUpdate(HashMap<String, Object> map);
+
+	int usermodify(HashMap<String, Object> map);
 
 }

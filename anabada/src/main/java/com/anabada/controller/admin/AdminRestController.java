@@ -1,12 +1,14 @@
 package com.anabada.controller.admin;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.anabada.domain.Auction_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.admin.AdminService;
 
@@ -26,5 +28,11 @@ public class AdminRestController {
 		String change = service.statusChange(select, index);
 		return change;
 	}
+
 	
+	@PostMapping({"usermodify"})
+	public UserDTO usermodify(String selectn, String selects, Integer index) {
+		UserDTO newuser = service.usermodify(selectn, selects, index);
+		return newuser;
+	}
 }

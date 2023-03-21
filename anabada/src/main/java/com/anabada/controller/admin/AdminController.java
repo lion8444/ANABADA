@@ -27,8 +27,8 @@ public class AdminController {
 	}
 	
 	@GetMapping({"board"})
-	public String board(Model model) {
-		ArrayList<Admin_board> board = service.findboard();
+	public String board(Model model, String user_email) {
+		ArrayList<Admin_board> board = service.findboard(user_email);
 		model.addAttribute("board", board);
 
 		return "admin/admin_board.html";

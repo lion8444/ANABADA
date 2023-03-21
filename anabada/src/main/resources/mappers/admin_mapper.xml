@@ -6,12 +6,21 @@
     	SELECT * FROM user
     </select>
     
-    <select id="findboard" resultType="Admin_board">
+    <select id="findboard" parameterType="String"  resultType="Admin_board">
 		SELECT used_id AS id, used_title AS title, user_email, used_date AS date, used_status AS status FROM used
+		<if test='user_email != null and user_email != ""'>
+		WHERE user_email = #{user_email}
+		</if>
 		UNION
 		SELECT rental_id AS id, rental_title AS title, user_email, rental_date AS date, rental_status AS status FROM rental
+		<if test='user_email != null and user_email != ""'>
+		WHERE user_email = #{user_email}
+		</if>
 		UNION
 		SELECT auction_id AS id, auction_title AS title, user_email, auction_date AS date, auction_status AS status FROM auction
+		<if test='user_email != null and user_email != ""'>
+		WHERE user_email = #{user_email}
+		</if>
     </select>
     
     <update id="statusUpdate" parameterType="map">
@@ -30,5 +39,14 @@
 	    	SET auction_status = #{select}
 	    	WHERE auction_id = #{id}
 		</if>
+	</update>
+	
+	<update id="usermodify" parameterType="map">
+			UPDATE user
+		    SET user_status = #{selects}
+		<if test='selectn != null and selectn != ""'>
+	    	, user_nick = #{selectn}
+	    </if>	    	
+	   		WHERE user_email = #{email}
 	</update>
 </mapper>
