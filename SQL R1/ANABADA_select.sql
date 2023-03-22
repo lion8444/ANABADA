@@ -95,11 +95,7 @@ SELECT `egg`.`egg_id`,
     `egg`.`egg_file`
 FROM `anabada`.`egg`;
 
-SELECT `file`.`file_id`,
-    `file`.`board_status`,
-    `file`.`board_no`,
-    `file`.`file_origin`,
-    `file`.`file_saved`
+SELECT *
 FROM `anabada`.`file`;
 
 SELECT `inquiry`.`inq_id`,

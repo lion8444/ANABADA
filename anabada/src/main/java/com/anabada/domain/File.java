@@ -13,4 +13,5 @@ public class File {
 	String board_no;
 	String file_origin;
 	String file_saved;
+	String save_date;
 }

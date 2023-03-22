@@ -2,6 +2,9 @@
 -- Table `anabada`.`user`
 -- -----------------------------------------------------
 -- DELETE FROM `anabada`.`user`;
+update user
+set user_account = 100000000
+where user_email = 'anabada@gmail.com';
 /*
 INSERT INTO `anabada`.`user`
 (`user_email`,

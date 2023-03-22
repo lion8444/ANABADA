@@ -205,8 +205,8 @@
     		*
     	FROM
     		file
-    	where
-    		board_no = #{user_id}
+    	WHERE (board_no, file_id) in (
+    		SELECT board_no, min(file_id) FROM file GROUP BY board_no)
     </select>
     
      <!-- 중고거래 파는 글 한개 읽기 -->
@@ -248,5 +248,39 @@
                 used_id = #{used_id}
         AND
                 user_email = #{user_email}
-		</delete>
+	</delete>
+
+ <select id="recommendList" resultType="Used" parameterType="map">
+    	SELECT
+    		*
+    	FROM
+    		used
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='used_title'">
+					upper(used_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type =='used_content'">
+					upper(used_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				
+				<if test ="type == 'all'">
+					upper(used_title) like '%' || #{searchWord} || '%'
+					or upper(used_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+    </select>
+    
+    <select id="gettitle" resultType="String">
+    	SELECT uBuy_title FROM used_buy
+    </select>
+	
 </mapper>
