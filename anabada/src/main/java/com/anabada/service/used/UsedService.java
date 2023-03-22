@@ -63,9 +63,9 @@ public interface UsedService {
 	
 	//사는 글 목록 한개 출력
 	public Used_buy usedBuyBoardRead(String num);
-	
-	
-	
+
+	ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord);
+
 
 	
 }

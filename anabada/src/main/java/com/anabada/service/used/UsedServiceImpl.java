@@ -2,6 +2,7 @@ package com.anabada.service.used;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,14 @@ import com.anabada.dao.UsedDAO;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
+import com.anabada.domain.Used_detail;
+import com.anabada.domain.UserDTO;
 import com.anabada.util.PageNavigator;
 
+import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
+import kr.co.shineware.nlp.komoran.core.Komoran;
+import kr.co.shineware.nlp.komoran.model.KomoranResult;
+import kr.co.shineware.nlp.komoran.model.Token;
 import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Slf4j
@@ -180,14 +187,36 @@ public class UsedServiceImpl implements UsedService {
 		return used_buy ;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
+		//검색 대상과 검색어
+		
+        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+        ArrayList<String> miningList = dao.gettitle();
+        
+        for (String mining : miningList) {
+        KomoranResult analyzeResultList = komoran.analyze(mining);
+        	
+        System.out.println(analyzeResultList.getPlainText());
+
+//        List<Token> tokenList = analyzeResultList.getTokenList();
+//        for (Token token : tokenList) {
+//            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
+//        }        
+        
+        }
+        
+        
+        
+		HashMap<String, String> map = new HashMap<>();
+		map.put("type", type);
+		map.put("searchWord", searchWord);
+		//조회 결과 중 위치, 개수 지정
+		RowBounds rb = new RowBounds(startRecord, countPerPage);
+		ArrayList<Used> recommendList = dao.recommendList(map, rb);
+		
+		return recommendList;
+	}
 
 }

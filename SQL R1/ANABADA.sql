@@ -226,6 +226,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`file` (
   `board_no` VARCHAR(20) NULL,
   `file_origin` VARCHAR(100) NULL,
   `file_saved` VARCHAR(100) NULL,
+  `save_date` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`file_id`))
 ENGINE = InnoDB;
 

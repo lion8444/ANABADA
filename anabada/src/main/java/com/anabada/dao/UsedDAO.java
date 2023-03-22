@@ -1,10 +1,15 @@
 package com.anabada.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
+import com.anabada.domain.File;
 import com.anabada.domain.Used;
+import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
@@ -60,6 +65,9 @@ public interface UsedDAO {
 	 * 중고거래 사는 글 한개 출력*/
 	public Used_buy usedBuyBoardRead(String num);
 
-	
+	ArrayList<Used> recommendList(HashMap<String, String> map, RowBounds rb);
+
+	ArrayList<String> gettitle();
+
 	
 }

@@ -17,20 +17,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
+import com.anabada.domain.Used_detail;
+import com.anabada.domain.UserDTO;
 import com.anabada.service.used.UsedService;
 import com.anabada.util.FileService;
+import com.anabada.util.PageNavigator;
 
 import lombok.extern.slf4j.Slf4j;
 
 
-import com.anabada.util.PageNavigator;
-
-
-
-
 
 @Slf4j
-//@RequestMapping("/used") 
+@RequestMapping("/used") 
 @Controller
 public class UsedController {
 	@Autowired
@@ -60,16 +58,18 @@ public class UsedController {
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord);
 		
-		ArrayList<Used>usedSellList = service.usedSellBoard(
+		ArrayList <Used> usedSellList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord);
-		ArrayList<File> fileList = service.fileList();
+		ArrayList <File> fileList = service.fileList();
+		
+		ArrayList <Used> recommendList = service.recommendList(
+				navi.getStartRecord(),countPerPage, type, searchWord);
 		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("fileList", fileList);
-		
 		log.debug("filelist {}: ", fileList);
 		return "used/usedSellBoard(JPB)";
 	}
@@ -145,7 +145,7 @@ public class UsedController {
 	         service.usedSellWrite(used);
 	         return "redirect:/";
 	    }
-			
+		
 		for(int i = 0; i < upload.size(); ++i) {
 	         String filename = FileService.saveFile(upload.get(i), uploadPath);
 	         file.setFile_origin(upload.get(i).getOriginalFilename());
@@ -156,6 +156,7 @@ public class UsedController {
 	         file.setBoard_status("중고 거래");
 	         
 	         service.insertFile(file);
+	         
 	      }         
 
 		//로그인한 아이디 읽어서 Used객체에 추가
@@ -221,13 +222,6 @@ public class UsedController {
 		return "used/usedBuyBoardRead(JSBR)";
 	}
 
-	
-	
-	
-	
-	@Autowired
-	private UsedService service;
-	
 	@GetMapping({"purchase"})
 	public String purchase(@AuthenticationPrincipal UserDetails user
 			,String used_id, Model model) {
