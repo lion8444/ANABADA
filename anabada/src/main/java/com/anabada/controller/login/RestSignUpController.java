@@ -34,6 +34,13 @@ public class RestSignUpController {
 		return availAble;
 	}
 	
+	@PostMapping("check/phone")
+	public int phoneCheck(String user_phone) {
+		log.debug("이메일 체크 {}", user_phone);
+		int availAble = cservice.phoneCheck(user_phone);
+		return availAble;
+	}
+	
 	@PostMapping("signup")
 	public int joinTest(UserDTO user) {
 		log.debug("회원가입 동작 중");

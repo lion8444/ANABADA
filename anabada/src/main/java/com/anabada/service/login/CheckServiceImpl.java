@@ -26,4 +26,10 @@ public class CheckServiceImpl implements CheckService {
 		return availAble;
 	}
 
+	@Override
+	public int phoneCheck(String user_phone) {
+		int availAble = dao.phoneCheck(user_phone);
+		return availAble;
+	}
+
 }

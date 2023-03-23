@@ -193,15 +193,15 @@ https://templatemo.com/tm-559-zay-shop
                               <p class="mb-4">회원님의 정보를 안전하게 확인하기 위해 비밀번호를 한 번 더 확인합니다.</p>
                             </div>
                             <!-- 비밀번호 재설정 -->
-                            <form action="#" method="post">
+                            <form th:action="@{/mypage/checkPw}" method="post">
                               <div class="form-group first">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control" readonly>
+                                <label for="user_email">Email</label>
+                                <!-- <input type="text" name="user_email" class="form-control" th:value="${user_email}" readonly> -->
             
                               </div>
                               <div class="form-group last mb-4">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password">
+                                <label for="user_pwd">Password</label>
+                                <input type="password" name="user_pwd" class="form-control" id="password">
                                 
                               </div>              
                               <input type="submit" value="비밀번호 확인" class="btn btn-pill text-white btn-block btn-primary">

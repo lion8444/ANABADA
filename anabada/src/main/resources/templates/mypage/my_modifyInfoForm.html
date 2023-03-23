@@ -7,33 +7,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
 
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/css/test.css">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/test.css}">
     
     <!-- signUpForm에서 가져온 CSS-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/signup_fonts/icomoon/style.css">
+    <link rel="stylesheet" th:href="@{/assets/signup_fonts/icomoon/style.css}">
 
-    <link rel="stylesheet" href="assets/signup_css/owl.carousel.min.css">
+    <link rel="stylesheet" th:href="@{/assets/signup_css/owl.carousel.min.css}">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="assets/signup_css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/signup_css/bootstrap.min.css}">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
     
     <!-- Style -->
-    <link rel="stylesheet" href="assets/signup_css/style.css">
-    <link rel="stylesheet" href="assets/signup_css/signup_custom.css">
+    <link rel="stylesheet" th:href="@{/assets/signup_css/style.css}">
+    <link rel="stylesheet"th:href="@{/assets/signup_css/signup_custom.css}">
 
+    <!-- 제이 쿼리 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
 </head>
 
 <body>
@@ -186,44 +191,56 @@
                             <h1 class="anabada">ANABADA</h1>
                             <h3>회원정보수정</h3>
                         </div>
-                        <form action="#" method="post">
+                        <form th:action="@{/mypage/checkPw}" method="post">
+                            <!-- <input type="hidden" id="user_email" name="user_email" th:value="${user.user_email}"> -->
+
                             <div class="form-group first">
-                            <label for="">현재비밀번호</label>
-                            <input type="text" class="form-control" id="name">
-        
+                                <label for="user">현재비밀번호</label>
+                                <input type="password" name="nowPw" class="form-control" id="now_password">
+                                <span class="check_html" id="dd"></span>
                             </div>
+
                             <div class="form-group first">
-                            <label for="">변경할 비밀번호</label>
-                            <input type="password" class="form-control" id="email" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요. ">
-        
+                                <label for="">변경할 비밀번호</label>
+                                <input type="password" class="form-control" name="user_pwd" id="password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요. ">
+                                <span class="check_html"></span>
                             </div>
+
                             <div class="form-group">
-                            <label for="">변경할 비밀번호 확인</label>
-                            <input type="password" class="form-control" id="password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요. ">
-                    
-                            </div>
-        
-                            <div class="form-group">
-                            <label for="phone">phone</label>
-                            <input type="button" value="인증" class="btn btn-success" > 
-                            <input type="text" class="form-control" name="" placeholder="핸드폰번호 변경시 인증이 필요합니다.">                   
+                                <label for="">변경할 비밀번호 확인</label>
+                                <input type="password" class="form-control" id="re-password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요. ">
+                                <span class="check_html"></span>
                             </div>
         
                             <div class="form-group">
-                            <label for="">address</label>
-                            <input type="button" value="우편번호검색" class="btn btn-success" > 
-                            <input type="text" class="form-control" id="password" placeholder="우편번호를 검색해 주세요." readonly>                   
+                                <label for="phone">phone</label>
+                                <input type="button" value="인증" class="btn btn-success" style="position:absolute; right: 75px;"> 
+                                <!-- <input type="text" class="form-control" name="user_phone" id="user_phone" th:value="${user.user_phone}" placeholder="핸드폰번호 변경시 인증이 필요합니다.">                    -->
+                                <span class="check_html"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="font_size">우편번호</label>
+                                <input type="button" value="우편번호검색" id="postCodeBtn" class="btn btn-success" style="position:absolute; right: 75px;"> 
+                                <!-- <input type="text" class="form-control font_size" id="postCode" name="user_post" th:value="${user.user_post}" placeholder="우편번호를 검색해 주세요." readonly> -->
+                                <span class="check_html"></span>
+                              </div>
+        
+                            <div class="form-group">
+                                <label for="">주소</label>
+                                <!-- <input type="text" class="form-control" id="address" name="user_add1" th:value="${user.user_addr1}" readonly>                    -->
+                                <span class="check_html"></span>
                             </div>
         
                             <div class="form-group">
-                            <label for="text">detailed address</label>
-                            <input type="text" class="form-control" id="password">                   
+                                <label for="text">상세 주소</label>
+                                <!-- <input type="text" class="form-control" id="addrDetail" name=user_addr2"" th:value="${user.user_addr2}">          -->
+                                <span class="check_html"></span>          
                             </div>
                             
                             <span class="d-block text-center my-4 text-muted">탈퇴를 원하시면 우측의 회원탈퇴 버튼을 눌러주세요.&nbsp;<input type="button" class="btn btn-success"  value="탈퇴하기"></span>
-                            
-                            
-                            <input type="submit" value="수정하기" class="btn btn-pill text-white btn-block btn-primary">
+                                                        
+                            <input type="submit" value="수정하기" id="modifyFormSubmit" class="btn btn-pill text-white btn-block btn-primary">
                         </form>
                         </div>
                     </div>
@@ -264,16 +281,16 @@
                                     <div class="carousel-item active">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -283,16 +300,16 @@
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -302,16 +319,16 @@
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -434,11 +451,11 @@
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/js/templatemo.js}"></script>
+    <script th:src="@{/assets/js/custom.js}"></script>
     <!-- End Script -->
 </body>
 

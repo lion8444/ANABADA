@@ -6,17 +6,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/css/test.css">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/test.css}">
 <!--
     
 TemplateMo 559 Zay Shop
@@ -170,46 +170,83 @@ https://templatemo.com/tm-559-zay-shop
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
                 <div id="transbox">
-                    <div class="translist">중고 거래 찜</div>
-                    <div class="translist">렌탈 찜</div>
-                    <div class="translist">경매 찜</div>
+                    <div class="translist">
+                        <input type="button" value="중고 거래 찜" th:onclick="|location.href='@{/mypage/mywantlistused(user_email=${us.user_email})}'|">
+                    </div>
+                    <div class="translist">
+                        <input type="button" value="렌탈 찜" th:onclick="|location.href='@{/mypage/mywantlistrental(user_email=${us.user_email})}'|">
+                    </div>
+                    <div class="translist">
+                        <input type="button" value="경매 찜" th:onclick="|location.href='@{/mypage/mywantlistauction(user_email=${us.user_email})}'|">
+                    </div>
                 </div>
-                <div id="mylistbox">
+
+                <!-- 중고 거래 찜 목록 -->
+                <div id="mylistbox" th:each="list : ${myWantListUsed}" th:if="${myWantListUsed} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
-                                <div>
-                                    <span>중고</span>
+                                <div class="mypageImg">
+                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
                                 </div>
-                                <div>
-                                    <a href=""><img class="myauctionpic" src="assets/img/39.jpg" alt="거래 글 대표사진"></a>
-                                    <a href=""><span>산지 1달 된 lespo팝니다! 상태좋음!</span></a>
+                            </td>
+                            <td >   
+                                <div class="mypageTitle">
+                                    <a><span th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mypageTwo">
+                                    <p th:text="${list.used_status}">게시글 상태</p>                                   
+                                    <p th:text="${list.used_date}">날짜</p>
                                 </div>
                             </td>
                         </tr>
                     </table>
+                </div>
+
+                <!-- 렌탈 거래 찜 목록 -->
+                <div id="mylistbox" th:each="list : ${myWantListRental}" th:if="${myWantListRental} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
-                                <div>
-                                    <span>렌탈</span>
+                                <div class="mypageImg">
+                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
                                 </div>
-                                <div>
-                                    <a href=""><img class="myauctionpic" src="assets/img/39.jpg" alt="거래 글 대표사진"></a>
-                                    <a href=""><span>공기청정기 렌탈</span></a>
+                            </td>
+                            <td >   
+                                <div class="mypageTitle">
+                                    <a><span th:text="${list.rental_title}" style="text-align: center;">제목</span></a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mypageTwo">
+                                    <p th:text="${list.rental_status}">게시글 상태</p>                                   
+                                    <p th:text="${list.rental_date}">날짜</p>
                                 </div>
                             </td>
                         </tr>
                     </table>
+                </div>
+
+                <!-- 경매 거래 찜 목록 -->
+                <div id="mylistbox" th:each="list : ${myWantListAuction}" th:if="${myWantListAuction} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
-                                <div>
-                                    <span>경매</span>
+                                <div class="mypageImg">
+                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
                                 </div>
-                                <div>
-                                    <a href=""><img class="myauctionpic" src="assets/img/39.jpg" alt="거래 글 대표사진"></a>
-                                    <a href=""><span>향수 경매</span></a>
+                            </td>
+                            <td >   
+                                <div class="mypageTitle">
+                                    <a><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mypageTwo">
+                                    <p th:text="${list.auction_status}">게시글 상태</p>                                   
+                                    <p th:text="${list.auction_date}">날짜</p>
                                 </div>
                             </td>
                         </tr>
@@ -251,16 +288,16 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="carousel-item active">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -270,16 +307,16 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -289,16 +326,16 @@ https://templatemo.com/tm-559-zay-shop
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -421,11 +458,11 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/js/templatemo.js}"></script>
+    <script th:src="@{/assets/js/custom.js}"></script>
     <!-- End Script -->
 </body>
 
