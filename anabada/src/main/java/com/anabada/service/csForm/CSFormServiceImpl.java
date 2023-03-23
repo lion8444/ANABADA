@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.CSFormDAO;
+import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
@@ -74,15 +75,6 @@ public class CSFormServiceImpl implements CSFormService {
 		int result = dao.insertFile(file);
 		return result;
 	}
-
-	/**
-	 * 중고거래 글 완료 검색 - 중고거래글 id로
-	 */
-	@Override
-	public Used_detail selectUsedDetailById(String used_id) {
-		Used_detail usedDetail = dao.selectUsedDetailById(used_id);
-		return usedDetail;
-	}
 	
 	/**
 	 * 중고거래 글 검색 - 중고거래글 id로
@@ -91,15 +83,6 @@ public class CSFormServiceImpl implements CSFormService {
 	public Used selectUsedByID(String used_id) {
 		Used used = dao.selectUsedByID(used_id);
 		return used;
-	}
-
-	/**
-	 * 렌탈거래 완료 글 검색 - 렌탈거래글 id로
-	 */
-	@Override
-	public Rental_detail selectRentalDetailById(String rental_id) {
-		Rental_detail rentalDetail = dao.selectRentalDetailById(rental_id);
-		return rentalDetail;
 	}
 
 	/**
@@ -128,4 +111,17 @@ public class CSFormServiceImpl implements CSFormService {
 		UserDTO userDTO = dao.selectUserById(user_email);
 		return userDTO;
 	}
+
+	@Override
+	public Used_detail selectUsedFinished(String used_id) {
+		Used_detail ud = dao.selectUsedFinished(used_id);
+		return ud;
+	}
+
+	@Override
+	public Rental_detail selectRentalFinished(String rental_id) {
+		Rental_detail rd = dao.selectRentalFinished(rental_id);
+		return rd;
+	}
+
 }

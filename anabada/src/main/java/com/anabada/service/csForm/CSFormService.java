@@ -1,5 +1,6 @@
 package com.anabada.service.csForm;
 
+import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
@@ -29,14 +30,8 @@ public interface CSFormService {
 	// 파일 저장
 	public int insertFile(File file);
 
-	// 중고 거래 완료 글 검색 - 중고id로
-	public Used_detail selectUsedDetailById(String used_id);
-
 	// 등록된 중고 거래 글 검색 - 중고id로
 	public Used selectUsedByID(String used_id);
-
-	// 렌탈 거래 완료 글 검색 - 렌탈id로
-	public Rental_detail selectRentalDetailById(String rental_id);
 
 	// 등록된 렌탈 거래 글 검색 - 렌탈id로
 	public Rental selectRentalById(String rental_id);
@@ -46,5 +41,11 @@ public interface CSFormService {
 	
 	// user_email로 등록된 유저의 정보 검색
 	public UserDTO selectUserById(String user_email);
+
+	// 중고 거래 완료 글 검색(조인)
+	public Used_detail selectUsedFinished(String used_id);
+
+	// 렌탈 거래 완료 글 검색(조인)
+	public Rental_detail selectRentalFinished(String rental_id);
 
 }

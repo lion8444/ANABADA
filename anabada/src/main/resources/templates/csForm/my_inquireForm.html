@@ -179,7 +179,7 @@
                 <hr width="80%">
                 <div class="row">
                     <!-- 문의하기 폼 -->
-                    <form th:action="@{/inquiry}" method="post" enctype="multipart/form-data" onsubmit="return inquiryValidation();">
+                    <form th:action="@{/csform/inquiry}" method="post" enctype="multipart/form-data" onsubmit="return inquiryValidation();">
                         
                         <input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 일단 value로 직접 테스트 -->
                         <input type="hidden" name="board_status" th:value="문의하기"> 
