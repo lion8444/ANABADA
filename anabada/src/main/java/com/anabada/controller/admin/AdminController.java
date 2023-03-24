@@ -39,9 +39,7 @@ public class AdminController {
 	
 	@GetMapping("/admin")
 	public String adminPage() {
-//		ArrayList<Auction_detail> ad = service.getauctiondetail();
-//		ArrayList<Rental_detail> rd = service.getrentaldetail();
-//		ArrayList<Used_detail> ud = service.getuseddetail();
+		int sum = service.salesamount();
 		
 		return "admin/admin_index";
 	}

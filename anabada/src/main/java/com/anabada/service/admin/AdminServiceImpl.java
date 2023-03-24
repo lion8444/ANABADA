@@ -2,16 +2,12 @@ package com.anabada.service.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.AdminDAO;
 import com.anabada.domain.Admin_board;
-import com.anabada.domain.Auction_detail;
-import com.anabada.domain.Rental_detail;
-import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -131,5 +127,11 @@ public class AdminServiceImpl implements AdminService {
 
 				
 		return num;
+	}
+	@Override
+	public int salesamount() {
+		
+		
+		return 0;
 	}
 }

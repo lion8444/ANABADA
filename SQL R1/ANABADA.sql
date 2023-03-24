@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`user_character` (
   `char_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`uChar_id`),
   INDEX `fk_user_character_user_idx` (`user_email` ASC) VISIBLE,
-  INDEX `fk_user_character_character1_idx` (`character_char_id` ASC) VISIBLE,
+  INDEX `fk_user_character_character1_idx` (`char_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_character_user`
     FOREIGN KEY (`user_email`)
     REFERENCES `anabada`.`user` (`user_email`)
