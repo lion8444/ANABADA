@@ -158,11 +158,27 @@ https://templatemo.com/tm-559-zay-shop
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-9 text-center mt-5">
-                    <a href="" style="position:absolute; right: 30px;">신고</a>
+                    <a href="">신고</a>
+
+                    <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
+                    <a th:href="@{/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a>
+    
+                    <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
+                    <a th:href="@{/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a>
+
+                    <!-- 로그인 했을경우 -->
                     <!-- <div th:if="${#authentication.name}==${used.user_email}">
-                        <a th:href="@{/board/update(num=${board.boardnum})}">수정</a>     -->
-                        <!-- <a th:href="|javascript:usedSellBoardDelete(${used.used_id})|" >삭제</a>    -->
-                    <!-- </div> -->
+                        <a th:href="@{/board/update(num=${board.boardnum})}">수정</a>     
+                        <a th:href="|javascript:usedSellBoardDelete(${used.used_id})|" >삭제</a>
+                     </div> -->
+                     <!-- <a th:href="@{/usedSellBoardDelete?used_id=${used.used_id}&file_saved=${used.file_saved}}">삭제</a> -->
+                     
+                  
+                    <!-- 터지는 이유 아이디랑 사진이 없어서 데이터를 못받아오기 때문에 오류가 터짐 
+                        즉 히든으로 아이디를 넣어주자 사진이랑-->
+
+                    
+
                     <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
                         <ol class="breadcrumb text-center justify-content-center">
                             <li class="breadcrumb-item active text-white-50" aria-current="page">사진설명</li>
@@ -172,8 +188,7 @@ https://templatemo.com/tm-559-zay-shop
             </div>
         </div>
         
-    
-        
+
         <div class="section">
             <div class="container">
                 <div class="row justify-content-between">
@@ -181,22 +196,30 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
                                 <!-- 상품 이미지 넣는 부분 -->
+                                <!-- 사진이 출력되는 코드 -->
+                                <!-- <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
+                                <div class="property-item mb-30">
+                                <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                                    <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
+                                </a> -->
                                 <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
                                 <img src="assets/property_images/img_2.jpg" alt="Image" class="img-fluid">
                                 <img src="assets/property_images/img_3.jpg" alt="Image" class="img-fluid">
                             </div>
                         </div>
                     </div>
-                <div class="col-lg-4">
-                    <!-- jp_002_상품상세 -->
-                    <h2 class="heading text-primary" th:text="${used_sell.used_title}">제목</h2>
-                    <p class="meta" th:text="${used_sell.used_price}">가격</p><br>
-                    <p class="text-black-50" th:text="${used_sell.used_content}">내용</p>
-                    <p class="text-black-30" th:text="${used_sell.used_quality}">퀄리티</p>
-                    <p class="text-black-30">* 배송시 배송료 별도</p>
+                
+                    <div class="col-lg-4">
+                        <!-- jp_002_상품상세 -->
+                        <input type="hidden" name="used_id" id="used_id" th:value="${used_sell.used_id}">
+                        <h2 class="heading text-primary" th:text="${used_sell.used_title}">제목</h2>
+                        <p class="meta" th:text="${used_sell.used_price}">가격</p><br>
+                        <p class="text-black-50" th:text="${used_sell.used_content}">내용</p>
+                        <p class="text-black-30" th:text="${used_sell.used_quality}">퀄리티</p>
+                        <p class="text-black-30">* 배송시 배송료 별도</p>
 
-                    <!-- 구매페이지로 이동 -->
-                    <input type="button" value="바로구매">
+                        <!-- 구매페이지로 이동 -->
+                        <input type="button" value="바로구매">
                     
                     <!-- jp_004_판매자 카드 -->
                     <div class="d-block agent-box p-5">
@@ -213,13 +236,13 @@ https://templatemo.com/tm-559-zay-shop
                                 <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
                                 <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
                                 <li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li>
-
+                                
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-         </div>
+        </div>
        
         <!-- 지도넣는 부분 -->
 
@@ -233,7 +256,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
             </div>
         </div>
-
+        
         <!-- 데이터를 9개를 넣으면 이쁘게 3x3으로 뜨는데 하나 넣고 each 돌리면 한줄로 쫙나옴
              이거 테이블 만들어야 할 수도 있음 이건 나중에 -->
                                 <!--item-->
@@ -534,7 +557,12 @@ https://templatemo.com/tm-559-zay-shop
                             </div>
                         </div>
 
-
+                        <!-- <form th:action="@{/usedSellBoardDelete}" method="get">
+                            <input type="hidden" name="used_id" th:value="${used.used_id}"/>
+                            <input type="hidden" name="file_saved" th:value="${used.file_saved}"/>
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form> -->
+                       
 
 
 

@@ -20,9 +20,9 @@ public class LoginServiceImpl implements LoginService {
 	
 	@Override
 	public List<UserDTO> allUser() {
-		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		List<UserDTO> list = dao.allUser();
-		log.debug("{}",list);
+//		log.debug("{}",list);
 		return list;
 	}
 

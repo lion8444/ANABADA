@@ -24,10 +24,14 @@ public interface UsedService {
 	public Used usedSellBoardRead(String used_id);
 	
 	//파는 글 삭제
-	public String usedSellBoardDelete(Used used);
+	public int usedSellBoardDelete(Used used);
 	
 	//사진 저장
 	public int insertFile(File file);
+	
+	//파는 글 수정
+	public String usedSellBoardUpdate(Used used);
+	
 	
 	//사는 글 저장
 	public int usedBuyWrite(Used_buy used_buy);
@@ -37,6 +41,18 @@ public interface UsedService {
 	
 	//사는 글 목록 한개 출력
 	public Used_buy usedBuyBoardRead(String num);
+	
+	//사는 글 삭제
+	public int usedBuyBoardDelete(Used_buy used_buy);
+	
+	//사는 글 수정
+	public int usedBuyBoardUpdate(Used_buy used_buy);
+	
+	
+
+	
+	
+	
 	
 	
 	

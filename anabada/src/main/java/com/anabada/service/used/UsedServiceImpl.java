@@ -27,7 +27,7 @@ public class UsedServiceImpl implements UsedService {
 	@Override
 	public String usedSellWrite(Used used) {
 		int res = dao.usedSellWrite(used);
-		log.debug("중고 거래 게시판 아이디 : {}",used.getUsed_id());
+		//log.debug("중고 거래 게시판 아이디 : {}",used.getUsed_id());
 		return used.getUsed_id();
 	}
 	
@@ -56,10 +56,21 @@ public class UsedServiceImpl implements UsedService {
 	
 	//파는 글 하나 삭제
 	@Override
-	public String usedSellBoardDelete(Used used) {
-		String result = dao.usedSellBoardDelete(used);
-		return result;
+	public int usedSellBoardDelete(Used used) {
+		int n = dao.usedSellBoardDelete(used);
+		return n;
 	}
+	
+	//파는 글 수정
+	@Override
+	public String usedSellBoardUpdate(Used used) {
+		int n = dao.usedSellBoardUpdate(used);
+		Used one = dao.usedSellBoardRead(used.getUsed_id());
+		String user_id = one.getUsed_id();
+		return user_id;
+	}
+	
+	
 
 	//검색
 	@Override
@@ -108,10 +119,41 @@ public class UsedServiceImpl implements UsedService {
 	//사는 글 한개 출력
 	@Override
 	public Used_buy usedBuyBoardRead(String num) {
-		log.debug("db : {}",dao.usedBuyBoardRead(num));
+		//log.debug("db : {}",dao.usedBuyBoardRead(num));
 		Used_buy used_buy = dao.usedBuyBoardRead(num);
 		return used_buy ;
 	}
+
+	//사는 글 삭제
+	@Override
+	public int usedBuyBoardDelete(Used_buy used_buy) {
+		int n = dao.usedBuyBoardDelete(used_buy);
+		return n;
+	}
+	
+	//사는 글 수정
+	@Override
+	public int usedBuyBoardUpdate(Used_buy used_buy) {
+		int i = dao.usedBuyBoardUpdate(used_buy);
+		return i;
+	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

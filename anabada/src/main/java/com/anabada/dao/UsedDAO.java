@@ -39,7 +39,11 @@ public interface UsedDAO {
 	
 	/**
 	 * 파는 글 삭제*/
-	public String usedSellBoardDelete(Used used);
+	public int usedSellBoardDelete(Used used);
+	
+	/**
+	 * 중고거래 파는 글 수정*/
+	public int usedSellBoardUpdate(Used used);
 	
 	/**
 	 * 글 갯수*/
@@ -56,7 +60,15 @@ public interface UsedDAO {
 	/**
 	 * 중고거래 사는 글 한개 출력*/
 	public Used_buy usedBuyBoardRead(String num);
-
+	
+	/**
+	 * 중고거래 사는 글 삭제*/
+	public int usedBuyBoardDelete(Used_buy used_buy);
+	
+	/**
+	 * 중고거래 사는 글 수정*/
+	public int usedBuyBoardUpdate(Used_buy used_buy);
+	
 	
 	
 }

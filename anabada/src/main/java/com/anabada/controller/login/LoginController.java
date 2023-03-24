@@ -21,7 +21,7 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String login(Model m) {
-		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		log.debug("로그 확인!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		List<UserDTO> list = service.allUser();
 		
 		m.addAttribute("list", list);
