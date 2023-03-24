@@ -153,6 +153,8 @@
 		</if>
     </select>
     
+
+    
     <!-- 전체 글 개수 -->
 	<select id="total" parameterType="map" resultType="int">
 		select count(*) from used
@@ -175,6 +177,16 @@
 		</where>	
 		</if>
 	</select>
+	
+	 <select id="fileList" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE (board_no, file_id) in (
+          SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
     <!-- 중고거래 사는 글 다 가져오기 -->
     <select id="usedBuyBoard" resultType="Used_buy">
     	SELECT
@@ -193,7 +205,6 @@
 			,category_id
 			,uBuy_title
 			,uBuy_content
-			,uBuy_status
     	FROM
     		used_buy
     	WHERE
@@ -283,4 +294,60 @@
     	SELECT uBuy_title FROM used_buy
     </select>
 	
+       <!--  AND
+                user_email = #{user_email} -->
+	</delete>
+		
+		
+	<!-- 중고거래 사는글 삭제-->
+	<delete id="usedBuyBoardDelete" parameterType="Used_buy">
+		DELETE
+		FROM
+			used_buy
+		WHERE
+			uBuy_id = #{uBuy_id}
+       <!--  AND
+            user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
+	</delete>
+	
+	<!-- 중고거래 사는글 수정 -->
+	<update id="usedBuyBoardUpdate" parameterType="Used_buy">
+		UPDATE
+			used_buy
+		SET
+			 uBuy_title = #{uBuy_title}
+			 <!-- ,category_id =#{category_id} 나중에 넣으면 주석해제해야함 -->
+			 ,uBuy_content = #{uBuy_content}
+		WHERE
+			uBuy_id = #{uBuy_id}
+		<!-- AND
+			user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
+	</update>
+
+
+<!-- 중고거래 파는 글 수정 -->
+<update id="usedSellBoardUpdate" parameterType="Used">
+    UPDATE used
+    SET
+        category_id = #{category_id},
+        used_title = #{used_title},
+        used_date = #{used_date},
+        used_price = #{used_price},
+        used_content = #{used_content},
+        used_quality = #{used_quality},
+        used_status = #{used_status},
+        uloc_id = #{uloc_id},
+        sloc_id = #{sloc_id}
+    WHERE
+        used_id = #{used_id}
+</update>
+
+  
+  
 </mapper>
+
+
+
+
+
+	

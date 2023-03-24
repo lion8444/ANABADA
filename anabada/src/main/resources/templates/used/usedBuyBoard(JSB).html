@@ -172,7 +172,7 @@ https://templatemo.com/tm-559-zay-shop
                 <th>글 제목</th>
                 <th>유저 이메일</th>
                 <th>카테고리</th>
-                <th>상품 상태</th>
+               
             </tr>
             <tr th:each="Used_buy : ${bboardlist}">
                 <td th:text="${Used_buy.uBuy_id}" class="center"></td>
@@ -181,7 +181,7 @@ https://templatemo.com/tm-559-zay-shop
                 </td>
                 <td th:text="${Used_buy.user_email}" class="center"></td>
                 <td th:text="${Used_buy.category_id}" class="center"></td>
-                <td th:text="${Used_buy.uBuy_status}"></td>
+                
             </tr>
         </table>
         
