@@ -182,15 +182,21 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="property-slider">
 
                 <!--item-->
+                
                 <th:block th:each="usedSellList: ${usedSellList}" method="get" enctype="multipart/form-data">
                 <div class="property-item mb-30">
                     <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                    <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
+                 
                         <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
-                        <!-- <img th:src="@{'/img/' + ${fileList.file_origin}}" alt="Image" class="img-fluid"> -->
-                        <!-- <img th:src="${fileList.file_saved}"></img> -->
-                        <!-- <img th:src="@{${fileList.getfileList()}}"> -->
+                       
                     </a>
+                    
+                    <!-- 사진이 출력되는 코드 -->
+                    <!-- <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
+                    <div class="property-item mb-30">
+                    <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                        <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
+                    </a> -->
 
                     <div class="property-content">
                         <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
@@ -247,7 +253,7 @@ https://templatemo.com/tm-559-zay-shop
 
         <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
             <span class="prev" data-controls="prev" aria-controls="property" tabindex="-1">Prev</span>
-            <span class="next" data-controls="next" aria-controls="property" tabindex="-1">Next</span>
+            <span class="next" data-controls="next" aria-controls="property" tabindex="+1">Next</span>
         </div>
 
                     </div>

@@ -146,7 +146,7 @@ https://templatemo.com/tm-559-zay-shop
                 <table>
                     <tr>
                         <th style="width: 100px;">작성자 이메일</th>
-                        <td th:text="${used_buy.user_email}" style="width: 600px;">
+                        <!-- <td th:text="${used_buy.user_email}" style="width: 600px;"> -->
                         </td>
                     </tr>
                     <tr>
@@ -160,18 +160,25 @@ https://templatemo.com/tm-559-zay-shop
                         </td>
                     </tr>
                     <tr>
-                        <th>상품상태</th>
-                            <td th:text="${used_buy.uBuy_status}">
+                        <th>내용</th>
+                            <td th:text="${used_buy.uBuy_content}">
                         </td>
                     </tr>
                   
                 </table>
                 <br>
-               
-                <!-- <div th:if="${#authentication.name}==${board.memberid}">
-                    <a th:href="@{/board/update(num=${board.boardnum})}">수정</a>    
-                    <a th:href="|javascript:deleteBoard(${board.boardnum})|">삭제</a>   
-                </div> -->
+               <!-- <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}"></input> -->
+                <!-- <div th:if="${#authentication.name}==${used_buy.user_email}"> -->
+                <!-- <a th:href="@{/usedBuyBoardDelete(used_id=${board.boardnum})}">수정</a>-->
+                    <!-- <a th:href="@{/usedBuyBoardDelete(${used_buy.uBuy_id})}">삭제</a>    -->
+                <!-- </div> -->
+                <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
+                <a th:href="@{/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}">수정</a>
+                <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
+
+                <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
+                <a th:href="@{/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}">삭제</a>
+
             </form>
         </section>
 

@@ -60,7 +60,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{usedSellBoard}">중고</a>
+                            <a class="nav-link" th:href="@{/usedSellBoard}">중고</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="rentalPage.html">렌탈</a>
@@ -127,95 +127,53 @@ https://templatemo.com/tm-559-zay-shop
 
     <!-- 글 쓰는 폼 -->
     
-    <form th:action="@{usedSellWrite}" method="post" 
-            enctype="multipart/form-data">
+    <form th:action="@{usedBuyBoardUpdate}" method="post">
             <input type="hidden" name="user_email" value="anabada@gmail.com">
-            <input type="hidden" name="uloc_id" value="uloc0001">
-            <input type="hidden" name="sloc_id" value="sloc0001">
-          
-    <table>
-        <tr>
-            <th><h1>중고 거래 파는 글 쓰기</h1></th>
-            <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                <input type="submit" value="임시등록">
-                <input type="submit" value="등록">
-            </td>
-        </tr>
-    </table>
+            <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
+        <table>
+            <tr>
+                <th><h1>중고 거래 사는 글 쓰기</h1></th>
+                <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
+                    <input type="submit" value="임시등록">
+                    <input type="submit" value="등록">
+                </td>
+            </tr>
+        </table>
 
-    <section class="writeForm">
+        <section class="writeForm">
 
-        <div class="categories_option">
-            <select id="category_id" name="category_id" class="select_categories">
-                <option value="cate0001">피규어/완구/취미</option>
-                <option value="2">피규어/완구/취미</option>
-                <option value="3">피규어/완구/취미</option>
-            </select>
-        </div>    
-          
-        <div class="name_merchandise">
-            <input type="text" id="used_title" name="used_title" placeholder="상품명을 입력하세요" class="input_name_meerchandise">
-        </div>
-
-    <table class="table_writingContent">
-        <tr>
-            <th>
-                판매 가격*
-            </th>
-        </tr>
+            <div class="categories_option">
+                <select id="category_id" name="category_id" class="select_categories">
+                    <option value="cate0001">피규어/완구/취미</option>
+                    <option value="2">피규어/완구/취미</option>
+                    <option value="3">피규어/완구/취미</option>
+                </select>
+            </div>    
             
-        <tr>
-            <td>
-                <input type="text" id="used_price" name="used_price" placeholder="가격을 입력해 주세요" class="input_price"> 원
-            </td>
-        </tr>
-
-        <tr>
-            <th>상품 상태</th>
-        </tr>
-
-        <tr>
-            <th>
-                <!-- 일단해보고 안되면 다시해보자 -->
-                <input type="checkbox" id="used_quality" name="used_quality" value="미개봉"> 미개봉
-                <input type="checkbox" id="used_quality" name="used_quality" value="사용감 있음"> 사용감 있음
-                <input type="checkbox" id="used_quality" name="used_quality" value="파손 있음"> 파손 있음
-            </th>
-        </tr>
-        </table>
-    
-        <div class="">
-            * 등록시 주의사항
-        </div>
-
-        <div class="">
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-        </div>
-        <br>
-        <div class="">
-            <p>대표 사진첨부(1장만 가능합니다)</p>
-            <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
-        </div>
-        <br>
-        <div class="">
-            <p>사진첨부(10장까지 가능)</p>
-            <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
-        </div>
-        </table>
-        <br>
+            <div class="name_merchandise">
+                <input type="text" id="uBuy_title" name="uBuy_title" 
+                    placeholder="상품명을 입력하세요" class="input_name_meerchandise">
+            </div>
         
-        <div class="">
-            *글 편집하는 기능 넣는 부분
-        </div>
+            <div class="">
+                * 등록시 주의사항
+            </div>
 
-        <div class="">
-            <textarea name="used_content" id="used_content" style="width:400px">
-            </textarea>
-        </div>
+            <div class="">
+                주의사항주의사항주의사항주의사항주의사항주의사항주의사항
+                주의사항주의사항주의사항주의사항주의사항주의사항주의사항
+            </div>
+
+            <div class="">
+                *글 편집하는 기능 넣는 부분
+            </div>
+
+            <div class="">
+                <textarea name="uBuy_content" id="uBuy_content" style="width:400px"></textarea>
+                <!-- <textarea id="uBuy_content" name="uBuy_content">${used_buy.uBuy_content}</textarea> -->
+            </div>
+        </section>
     </form>
-    </section>
-
 
     
 
