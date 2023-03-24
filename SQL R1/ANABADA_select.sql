@@ -238,3 +238,5 @@ UNION
 SELECT rental_id, rental_title, user_email, rental_date, rental_status FROM `anabada`.`rental` AS rental
 UNION
 SELECT auction_id, auction_title, user_email, auction_date, auction_status FROM  `anabada`.`auction` AS auction;
+
+

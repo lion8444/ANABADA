@@ -1,6 +1,6 @@
 package com.anabada.controller.admin;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,5 +34,12 @@ public class AdminRestController {
 	public UserDTO usermodify(String selectn, String selects, Integer index) {
 		UserDTO newuser = service.usermodify(selectn, selects, index);
 		return newuser;
+	}
+	
+	@PostMapping({"chartdate"})
+	public int[ ][ ] chartdate(int[] monthnum) {
+		int[ ][ ] num = new int[3][6];  
+		num = service.getdata(monthnum);
+		return num;
 	}
 }
