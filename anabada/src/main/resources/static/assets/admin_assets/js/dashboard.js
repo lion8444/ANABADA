@@ -215,13 +215,35 @@
       gradientStrokeRed.addColorStop(1, 'rgba(254, 112, 150, 1)');
       var gradientLegendRed = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
 
+		let nowdate = new Date();
+		let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		let monthview = []
+		let monthnum = new Array();
+		for (let i = 0; i < 6 ; ++i){
+			if (nowdate.getMonth()-i >= 0){
+				monthview.unshift(monthNames[nowdate.getMonth()-i])
+				monthnum.unshift(nowdate.getMonth()-i+1)
+			}
+			else {
+				monthview.unshift(monthNames[nowdate.getMonth()-i+12])
+				monthnum.unshift(nowdate.getMonth()-i+13)
+			}
+		}
+		$.ajax({
+			url: 'chartdate'
+			, type: 'post'
+			, traditional : true
+			, data: {monthnum: monthnum}
+			, dataType: 'json'
+			, success: function(num){
+				
       var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
+            labels: monthview,
             datasets: [
               {
-                label: "CHN",
+                label: "중고거래",
                 borderColor: gradientStrokeViolet,
                 backgroundColor: gradientStrokeViolet,
                 hoverBackgroundColor: gradientStrokeViolet,
@@ -230,10 +252,10 @@
                 fill: false,
                 borderWidth: 1,
                 fill: 'origin',
-                data: [20, 40, 15, 35, 25, 50, 30, 20]
+                data: num[0]
               },
               {
-                label: "USA",
+                label: "렌탈거래",
                 borderColor: gradientStrokeRed,
                 backgroundColor: gradientStrokeRed,
                 hoverBackgroundColor: gradientStrokeRed,
@@ -242,10 +264,10 @@
                 fill: false,
                 borderWidth: 1,
                 fill: 'origin',
-                data: [40, 30, 20, 10, 50, 15, 35, 40]
+                data: num[1]
               },
               {
-                label: "UK",
+                label: "경매거래",
                 borderColor: gradientStrokeBlue,
                 backgroundColor: gradientStrokeBlue,
                 hoverBackgroundColor: gradientStrokeBlue,
@@ -254,7 +276,7 @@
                 fill: false,
                 borderWidth: 1,
                 fill: 'origin',
-                data: [70, 10, 30, 40, 25, 50, 15, 30]
+                data: num[2]
               }
           ]
         },
@@ -313,6 +335,14 @@
             }
           }
       })
+      
+			}
+			, error: function(){
+				alert("실패");
+			}
+			
+		});
+      
       $("#visit-sale-chart-legend").html(myChart.generateLegend());
     }
     if ($("#visit-sale-chart-dark").length) {

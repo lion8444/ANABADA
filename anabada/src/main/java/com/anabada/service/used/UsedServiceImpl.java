@@ -227,6 +227,7 @@ public class UsedServiceImpl implements UsedService {
 //		
 //		return recommendList;
 //	}
+
 	//사는 글 삭제
 	@Override
 	public int usedBuyBoardDelete(Used_buy used_buy) {
@@ -240,32 +241,5 @@ public class UsedServiceImpl implements UsedService {
 		int i = dao.usedBuyBoardUpdate(used_buy);
 		return i;
 	}
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
