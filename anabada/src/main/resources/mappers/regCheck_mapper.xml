@@ -17,4 +17,12 @@
         WHERE
         	user_email = #{user_email}
     </select>
+    <select id="phoneCheck" parameterType="String" resultType="int">
+        SELECT
+            count(user_phone)
+        FROM
+            user
+        WHERE
+        	user_phone = #{user_phone}
+    </select>
 </mapper>

@@ -25,6 +25,8 @@
 -- sloc_id = SLOC
 -- wish_id = WISH
 -- uBuy_id = UBUY
+-- egg_id = EGGI
+-- character_id = CHAR
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
@@ -115,7 +117,7 @@ DROP TABLE IF EXISTS `anabada`.`user_character` ;
 CREATE TABLE IF NOT EXISTS `anabada`.`user_character` (
   `uChar_id` VARCHAR(20) NOT NULL,
   `user_email` VARCHAR(50) NOT NULL,
-  `character_char_id` VARCHAR(20) NOT NULL,
+  `char_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`uChar_id`),
   INDEX `fk_user_character_user_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_user_character_character1_idx` (`character_char_id` ASC) VISIBLE,
@@ -125,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`user_character` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_character_character1`
-    FOREIGN KEY (`character_char_id`)
+    FOREIGN KEY (`char_id`)
     REFERENCES `anabada`.`character` (`char_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

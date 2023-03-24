@@ -18,4 +18,6 @@ public interface UserDAO {
 
 	UserDTO findUser(String username);
 
+	int phoneCheck(String user_phone);
+
 }

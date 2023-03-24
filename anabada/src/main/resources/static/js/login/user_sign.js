@@ -10,8 +10,8 @@ let postcheck = false;
 
 $(document).ready(function () {
     //$("#joinFormSubmit").prop('disabled', true);
-    //alertValue();
-    
+    alertValue();
+
     $("#username").on("keyup", nameRegCheck);
     $("#nickname").on("keyup", nickNameRegCheck);
     $("#email").on("keyup", emailRegCheck);
@@ -24,11 +24,11 @@ $(document).ready(function () {
 
     $("#joinFormSubmit").on("click", joinFormSubmit);
 
-    
+
 
 });
 
-function nameRegCheck() {  
+function nameRegCheck() {
     const regex = /^[a-zA-Z가-힇ぁ-ゔァ-ヴー々〆〤一-龥]{2,15}$/;
     let content = $(this);
     if (!regex.test(content.val())) { // 닉네임 양식 체크
@@ -64,9 +64,9 @@ function nickNameRegCheck() {
         $.ajax({
             url: 'check/nick'      //Controller에서 요청 받을 주소
             , type: 'post'          //POST 방식으로 전달
-            , data: {user_nick: content.val()}
+            , data: { user_nick: content.val() }
             , dataType: 'json'
-            , success: function(availAble) {             //컨트롤러에서 넘어온 availAble값을 받는다 
+            , success: function (availAble) {             //컨트롤러에서 넘어온 availAble값을 받는다 
                 console.log(availAble);
                 if (availAble == '0') {         //availAble가 1이 아니면 사용 가능
                     nncheck = true;
@@ -78,7 +78,7 @@ function nickNameRegCheck() {
                             "font-weight": "bold",
                             "font-size": "10px"
                         });
-                } else {                
+                } else {
                     nncheck = false;
                     content.next(".check_html")
                         .text("중복된 닉네임입니다.")
@@ -89,7 +89,7 @@ function nickNameRegCheck() {
                         });
                 }
             }
-            , error: function() {
+            , error: function () {
                 alert("에러입니다");
             }
         });
@@ -114,9 +114,9 @@ function emailRegCheck() {
         $.ajax({
             url: 'check/email'      //Controller에서 요청 받을 주소
             , type: 'post'          //POST 방식으로 전달
-            , data: {user_email: content.val()}
+            , data: { user_email: content.val() }
             , dataType: 'json'
-            , success: function(availAble) {             //컨트롤러에서 넘어온 availAble값을 받는다 
+            , success: function (availAble) {             //컨트롤러에서 넘어온 availAble값을 받는다 
                 console.log(availAble);
                 if (availAble == '0') {         //availAble가 1이 아니면 사용 가능
                     echeck = true;
@@ -127,7 +127,7 @@ function emailRegCheck() {
                             "font-weight": "bold",
                             "font-size": "10px"
                         });
-                } else {                
+                } else {
                     echeck = false;
                     content.next(".check_html")
                         .text("중복된 이메일입니다.")
@@ -138,7 +138,7 @@ function emailRegCheck() {
                         });
                 }
             }
-            , error: function() {
+            , error: function () {
                 alert("에러입니다");
             }
         });
@@ -199,8 +199,9 @@ function pwdSameCheck() {
     }
 }
 
-function phoneRegCheck() { 
+function phoneRegCheck() {
     const regex = /^[0-9]{11}$/;
+    let content = $(this);
     if (!regex.test($(this).val())) { // 비밀번호 양식 체크
         phonecheck = false;
         $(this).next(".check_html")
@@ -211,26 +212,49 @@ function phoneRegCheck() {
                 "font-size": "10px"
             });
     } else { // 정규표현식과 일치하면 초기화
-        phonecheck = true;
-        $(this).next(".check_html")
-            .text("사용 가능한 전화번호입니다.")
-            .css({
-                "color": "green",
-                "font-weight": "bold",
-                "font-size": "10px"
-            });
+        $.ajax({
+            url: 'check/phone'      //Controller에서 요청 받을 주소
+            , type: 'post'          //POST 방식으로 전달
+            , data: { user_phone: content.val() }
+            , dataType: 'json'
+            , success: function (availAble) {             //컨트롤러에서 넘어온 availAble값을 받는다 
+                console.log(availAble);
+                if (availAble == '0') {         //availAble가 1이 아니면 사용 가능
+                    phonecheck = true;
+                    content.next(".check_html")
+                        .text("사용 가능한 전화번호입니다.")
+                        .css({
+                            "color": "green",
+                            "font-weight": "bold",
+                            "font-size": "10px"
+                        });
+                } else {
+                    phonecheck = false;
+                    content.next(".check_html")
+                        .text("사용할 수 없는 전화번호입니다.")
+                        .css({
+                            "color": "#FA3E3E",
+                            "font-weight": "bold",
+                            "font-size": "10px"
+                        });
+                }
+            }
+            , error: function () {
+                alert("에러입니다");
+            }
+        });
         return;
     }
 }
 
 function postCode() {
     new daum.Postcode({
-        oncomplete: function(data) {
+        oncomplete: function (data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
             // 각 주소의 노출 규칙에 따라 주소를 조합한다.
             // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-            
+
             let addr = ''; // 주소 변수
             let extraAddr = ''; // 참고항목 변수
 
@@ -242,18 +266,18 @@ function postCode() {
             }
             console.log(addr);
             // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-            if(data.userSelectedType === 'R'){
+            if (data.userSelectedType === 'R') {
                 // 법정동명이 있을 경우 추가한다. (법정리는 제외)
                 // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                     extraAddr += data.bname;
                 }
                 // 건물명이 있고, 공동주택일 경우 추가한다.
-                if(data.buildingName !== '' && data.apartment === 'Y'){
+                if (data.buildingName !== '' && data.apartment === 'Y') {
                     extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
                 // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
+                if (extraAddr !== '') {
                     extraAddr = ' (' + extraAddr + ')';
                 }
                 console.log(extraAddr);
@@ -264,7 +288,7 @@ function postCode() {
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             $('#postCode').val(data.zonecode);
             $("#address").val(addr);
-            
+
             // 커서를 상세주소 필드로 이동한다.
             postcheck = true;
             $("#addrDetail").focus();
@@ -282,25 +306,25 @@ function addrUser() {
 }
 
 function joinFormSubmit() {
-    let check = nncheck&&ncheck&&echeck&&pcheck&&re_pcheck&&phonecheck&&postcheck;
+    let check = nncheck && ncheck && echeck && pcheck && re_pcheck && phonecheck && postcheck;
     let policy = $("#policy").is(':checked');
-;
-    if(!check) {
+    ;
+    if (!check) {
         alert("입력란을 정확히 전부 입력해주세요.");
         $("#username").focus();
-    } else if(!policy) {
+    } else if (!policy) {
         alert("회원 정책에 동의해주세요.");
         $("#policy").focus();
     }
     else {
         $.ajax({
             url: 'signup'
-            ,type: 'post'
-            ,data: $('#joinForm').serialize()      // serialize() : form 안에 name 붙은 것들을 모으는 함수
-            ,dataType: 'json'
-            ,success: (result) => {
+            , type: 'post'
+            , data: $('#joinForm').serialize()      // serialize() : form 안에 name 붙은 것들을 모으는 함수
+            , dataType: 'json'
+            , success: (result) => {
                 console.log("result : '" + result + "'");
-                if(result != 1) {
+                if (result != 1) {
                     centerNotify.fire({
                         icon: 'error',
                         title: '회원 가입 실패',
@@ -312,7 +336,7 @@ function joinFormSubmit() {
                     joinNotify();
                 }
             }
-            ,error: () => {
+            , error: () => {
                 console.log("error");
                 centerNotify.fire({
                     icon: 'error',

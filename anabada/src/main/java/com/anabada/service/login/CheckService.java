@@ -9,4 +9,6 @@ public interface CheckService {
 
 	int emailCheck(String user_email);
 
+	int phoneCheck(String user_phone);
+
 }
