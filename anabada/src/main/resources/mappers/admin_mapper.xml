@@ -49,4 +49,23 @@
 	    </if>	    	
 	   		WHERE user_email = #{email}
 	</update>
+	
+	<select id="count" parameterType="map" resultType="int">
+		<if test='string == "used"'>
+			SELECT COUNT(*) FROM 
+			uTrade
+			WHERE EXISTS (SELECT * FROM used_detail WHERE used_detail.uDetail_id = uTrade.uDetail_id AND MONTH(used_detail.uDetail_Date) = #{monthnum})
+		</if>
+		<if test='string == "rental"'>
+			SELECT COUNT(*) FROM 
+			rTrade
+			WHERE EXISTS (SELECT * FROM rental_detail WHERE rental_detail.rDetail_id = rTrade.rDetail_id AND MONTH(rental_detail.rDetail_Date) = #{monthnum})
+			
+		</if>
+		<if test='string == "auction"'>
+			SELECT COUNT(*) FROM 
+			aTrade
+			WHERE EXISTS (SELECT * FROM auction_detail WHERE auction_detail.aDetail_id = aTrade.aDetail_id AND MONTH(auction_detail.aDetail_Date) = #{monthnum})
+		</if>
+	</select>
 </mapper>
