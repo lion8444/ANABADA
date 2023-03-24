@@ -26,11 +26,6 @@ import com.anabada.util.PageNavigator;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.anabada.util.PageNavigator;
-
-
-
-
 
 @Slf4j
 @RequestMapping("/used") 
@@ -157,47 +152,6 @@ public class UsedController {
 	public String usedSellWrite() {
 		return"used/usedSellWrite(JPBW)";
 	}
-	
-	/**
-	 * 중고거래 팝니다 글쓴거 DB에 저장
-	 **/
-	@PostMapping("/usedSellWrite")
-	public String usedSellWrite(
-			 Used used
-			, File file
-			, ArrayList<MultipartFile> upload) {	
-		
-		log.debug("받은 데이터: {}", used);
-		
-		String used_id = service.usedSellWrite(used);
-		
-		if(upload.get(0).isEmpty()) {
-	         log.debug("이미지 X");
-	   
-	         service.usedSellWrite(used);
-	         return "redirect:/";
-	    }
-		
-		for(int i = 0; i < upload.size(); ++i) {
-	         String filename = FileService.saveFile(upload.get(i), uploadPath);
-	         file.setFile_origin(upload.get(i).getOriginalFilename());
-	         file.setFile_saved(filename);
-	         
-	         file.setBoard_no(used_id);
-	         log.debug("{}:", used_id);
-	         file.setBoard_status("중고 거래");
-	         
-	         service.insertFile(file);
-	         
-	      }         
-
-		//로그인한 아이디 읽어서 Used객체에 추가
-		//used.setUser_email(user.getUsername());
-		
-		//db에 저장
-		
-		
-		return "redirect:/";
 		
 		/*
 		 * used00001

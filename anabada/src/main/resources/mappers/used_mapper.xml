@@ -211,14 +211,7 @@
     		uBuy_id = #{uBuy_id}
     </select>
     
-    <select id="fileList" resultType="File">
-    	SELECT
-    		*
-    	FROM
-    		file
-    	WHERE (board_no, file_id) in (
-    		SELECT board_no, min(file_id) FROM file GROUP BY board_no)
-    </select>
+
     
      <!-- 중고거래 파는 글 한개 읽기 -->
     <select id="usedSellBoardRead" parameterType="String" resultType="Used">
@@ -257,8 +250,8 @@
                 used
         WHERE
                 used_id = #{used_id}
-        AND
-                user_email = #{user_email}
+        <!--AND
+                user_email = #{user_email}-->
 	</delete>
 
  <select id="recommendList" resultType="Used" parameterType="map">
@@ -293,11 +286,7 @@
     <select id="gettitle" resultType="String">
     	SELECT uBuy_title FROM used_buy
     </select>
-	
-       <!--  AND
-                user_email = #{user_email} -->
-	</delete>
-		
+    
 		
 	<!-- 중고거래 사는글 삭제-->
 	<delete id="usedBuyBoardDelete" parameterType="Used_buy">
@@ -325,22 +314,22 @@
 	</update>
 
 
-<!-- 중고거래 파는 글 수정 -->
-<update id="usedSellBoardUpdate" parameterType="Used">
-    UPDATE used
-    SET
-        category_id = #{category_id},
-        used_title = #{used_title},
-        used_date = #{used_date},
-        used_price = #{used_price},
-        used_content = #{used_content},
-        used_quality = #{used_quality},
-        used_status = #{used_status},
-        uloc_id = #{uloc_id},
-        sloc_id = #{sloc_id}
-    WHERE
-        used_id = #{used_id}
-</update>
+	<!-- 중고거래 파는 글 수정 -->	
+	<update id="usedSellBoardUpdate" parameterType="Used">
+	    UPDATE used
+	    SET
+	        category_id = #{category_id},
+	        used_title = #{used_title},
+	        used_date = #{used_date},
+	        used_price = #{used_price},
+	        used_content = #{used_content},
+	        used_quality = #{used_quality},
+	        used_status = #{used_status},
+	        uloc_id = #{uloc_id},
+	        sloc_id = #{sloc_id}
+	    WHERE
+	        used_id = #{used_id}
+	</update>
 
   
   
