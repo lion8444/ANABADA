@@ -19,7 +19,7 @@
 		FROM 
 			`character` c, user_character uc
 		WHERE
-			c.char_id = uc.character_char_id
+			c.char_id = uc.char_id
 		    and
 		    uc.user_email = #{user_email}
     </select>
@@ -358,6 +358,7 @@
 		    , DATE_FORMAT(u.used_date, '%Y-%m-%d') used_date
 		    , u.used_title
 		    , u.used_status
+		    , u.used_id
 		FROM
 			wish w
 		    , file f
@@ -388,6 +389,7 @@
 		    , r.rental_date
 		    , r.rental_title
 		    , r.rental_status
+		    , r.rental_id
 		FROM
 			wish w
 		    , file f
@@ -418,6 +420,7 @@
 		    , a.auction_date
 		    , a.auction_title
 		    , a.auction_status
+		    , a.auction_id
 		FROM
 			wish w
 		    , file f

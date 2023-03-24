@@ -478,7 +478,16 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/mydamagochi")
-	public String MyDamagochi() {
+	public String MyDamagochi(
+			@AuthenticationPrincipal UserDetails user
+			, String user_email
+			, Model model) {
+		
+		if(!user_email.equals(user.getUsername())) {
+			log.debug("id가 같지 않음");
+			return "redirect:/";
+		}
+		
 		return "mypage/my_damagochi";
 	}
 	

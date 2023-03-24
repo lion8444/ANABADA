@@ -212,7 +212,7 @@ FROM `anabada`.`user`;
 
 SELECT `user_character`.`uChar_id`,
     `user_character`.`user_email`,
-    `user_character`.`character_char_id`
+    `user_character`.`char_id`
 FROM `anabada`.`user_character`;
 
 SELECT `user_location`.`uloc_id`,
