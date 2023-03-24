@@ -100,6 +100,19 @@ Custom Css
     padding-top: 5px;
  }
 
+ .clicked {
+  color: gold;
+}
+
+ .translist input[type='button'] {
+  padding-left: 45px;
+  border: 0; 
+  outline: 0;
+  background-color: transparent;
+  font-size: 20px;
+  font-weight: bold;
+ }
+
  #mylistbox {
     margin-top: 20px;
     border : 1px solid grey;
@@ -113,10 +126,34 @@ Custom Css
  }
 
  .mypagebox {
-    margin-bottom: 10px;
-    padding: 10px;
+    margin: auto;
+    padding: 100px;
     border: 1px solid #198754;
     width: 100%;
+ }
+
+ .mypageImg {
+  padding-left: 10px;
+  width: 100px;
+ }
+
+ .mypageTitle {
+  text-align: center;
+  width: 300px;
+ }
+
+ .mypageTwo {
+  text-align: center;
+  width: 100px;
+ }
+
+ .mypagebutton {
+  width: 10%;
+  /* padding: auto; */
+ }
+
+ .mypagebutton input[type=button]{
+  margin-bottom: 5px;
  }
 
  /*.subbox {
@@ -214,13 +251,13 @@ Custom Css
 
  .reportlist {
    display: inline-block;
-   width:60%;
+   width:70%;
    border: 1px solid #6c757d;
  }
 
  .reportreply {
    border: 1px solid #6c757d;
-   width:20%;
+   width:10%;
    display: inline-block;
    text-align: center;
  }
@@ -394,4 +431,47 @@ pjh 추가 Custom Css
   text-align: center;
   display: inline-block;
   margin-left: 500px;
+}
+
+.inquirelist {
+  display: inline-block;
+}
+
+.inq_answer {
+  display: none;
+}
+
+#inquirebox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.inquirereply {
+  position: absolute;
+  right: 200px;
+}
+
+.inq_answer {
+  display: none;
+}
+
+/* #inquirebox:hover .inq_answer {
+  display: block;
+} */
+
+#reportlist {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.reportreply {
+  position: absolute;
+  right: 200px;
+}
+
+.report_answer {
+  display: none;
 }

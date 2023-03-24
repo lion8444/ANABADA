@@ -33,4 +33,407 @@
     	WHERE
     		user_email = #{user_email}
     </select>
+    
+    <!--  유저 이메일로 유저의 신고내역 리스트 검색 -->
+    <select id="selectReportList" parameterType="String" resultType="Report">
+    	SELECT
+    		*
+    	FROM
+    		report
+    	WHERE
+    		user_email = #{user_email}
+    </select>
+    
+    <!-- 유저의 중고 거래 내역 모든 리스트 검색 -->
+    <select id="selectUsedListAllById" resultType="UsedAndFile" parameterType="String">
+	    SELECT
+			u.used_id
+			, u.user_email
+		    , ud.user_email
+			, u.category_id
+			, u.used_title
+			, DATE_FORMAT(ud.uDetail_Date, '%Y-%m-%d') uDetail_Date
+			, u.used_price
+			, u.used_content
+			, u.used_quality
+			, ud.uDetail_status
+			, u.uloc_id
+			, u.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, ud.uDetail_Date
+		FROM
+			used u
+			INNER JOIN used_detail ud ON u.used_id = ud.used_id
+			LEFT OUTER JOIN (
+			    SELECT board_no, MIN(file_id) AS file_id
+			    FROM file
+			    GROUP BY board_no
+			) f_min ON u.used_id = f_min.board_no
+			INNER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+		WHERE
+			(u.user_email = #{user_email} OR ud.user_email = #{user_email})
+		
+    </select>
+        
+    <!-- 유저의 중고 거래 - 구매내역 리스트 검색 (중고 + 사진까지) -->
+    <select id="selectUsedBuyListById" resultType="UsedAndFile" parameterType="String">
+    	SELECT
+			u.category_id
+		    , u.used_title
+		    , u.used_price
+		    , u.used_content
+		    , u.used_quality
+		    , u.used_status
+		    , u.uloc_id
+		    , u.sloc_id
+            , f.file_origin
+            , f.file_saved
+            , ud.udetail_status
+            , ud.used_id
+            , ud.user_email
+            , DATE_FORMAT(ud.uDetail_Date, '%Y-%m-%d') uDetail_Date
+    	FROM
+    		used u, used_detail ud, file f
+    	WHERE
+            ud.user_email = #{user_email}
+            AND
+            u.used_id = ud.used_id
+            AND
+            ud.used_id = f.board_no
+            AND
+            u.used_id = f.board_no
+            AND
+    		(board_no, file_id) in (
+          	SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 유저의 중고 거래 - 판매내역 리스트 검색 (중고 + 사진까지) -->
+    <select id="selectUsedSellListById" resultType="UsedAndFile" parameterType="String">
+		SELECT
+    		u.used_id
+    		, u.user_email
+		    , u.category_id
+		    , u.used_title
+		    , DATE_FORMAT(u.used_date, '%Y-%m-%d') used_date
+		    , u.used_price
+		    , u.used_content
+		    , u.used_quality
+		    , u.used_status
+		    , u.uloc_id
+		    , u.sloc_id
+            , f.file_origin
+            , f.file_saved
+            , ud.uDetail_status
+            , DATE_FORMAT(ud.uDetail_Date, '%Y-%m-%d') uDetail_Date
+    	FROM
+    		used u, used_detail ud, file f
+    	WHERE
+    		u.user_email = #{user_email}
+    		AND
+			u.used_id = ud.used_id
+            AND
+            ud.used_id = f.board_no
+            AND
+            u.used_id = f.board_no
+            AND
+            u.user_email != ud.user_email
+            AND
+    		(board_no, file_id) in (
+          	SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 유저의 모든 렌탈 내역 리스트 검색 -->
+    <select id="selectRentalListAllById" parameterType="String" resultType="RentalAndFile">
+    	SELECT
+			r.rental_id
+			, r.user_email
+		    , rd.user_email
+			, r.category_id
+			, r.rental_title
+			, DATE_FORMAT(rd.rDetail_Date, '%Y-%m-%d') rDetail_Date
+			, r.rental_price
+			, r.rental_content
+			, r.rental_quality
+			, rd.rDetail_status
+			, r.uloc_id
+			, r.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, rd.rDetail_Date
+		FROM
+			rental r
+			INNER JOIN rental_detail rd ON r.rental_id = rd.rental_id
+			LEFT OUTER JOIN (
+			    SELECT board_no, MIN(file_id) AS file_id
+			    FROM file
+			    GROUP BY board_no
+			) f_min ON r.rental_id = f_min.board_no
+			INNER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+		WHERE
+			(r.user_email = #{user_email} OR rd.user_email = #{user_email})
+    </select>
+    
+    <!-- 유저의 렌탈 빌린 내역 리스트 검색 -->
+    <select id="selectRentalListBuyById" parameterType="String" resultType="RentalAndFile">
+    	SELECT
+			r.rental_id
+			, r.user_email
+		    , rd.user_email
+			, r.category_id
+			, r.rental_title
+			, DATE_FORMAT(rd.rDetail_Date, '%Y-%m-%d') rDetail_Date
+			, r.rental_price
+			, r.rental_content
+			, r.rental_quality
+			, rd.rDetail_status
+			, r.uloc_id
+			, r.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, rd.rDetail_Date
+		FROM
+			rental r, rental_detail rd, file f
+		WHERE
+			rd.user_email = #{user_email}
+			AND
+			r.rental_id = rd.rental_id
+			AND
+			rd.rental_id = f.board_no
+			AND
+			r.rental_id = f.board_no
+			AND
+			(board_no, file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 유저의 렌탈 빌려준 내역 리스트 검색 -->
+    <select id="selectRentalListSellById" parameterType="String" resultType="RentalAndFile">
+    	SELECT
+			r.rental_id
+			, r.user_email
+		    , rd.user_email
+			, r.category_id
+			, r.rental_title
+			, DATE_FORMAT(rd.rDetail_Date, '%Y-%m-%d') rDetail_Date
+			, r.rental_price
+			, r.rental_content
+			, r.rental_quality
+			, rd.rDetail_status
+			, r.uloc_id
+			, r.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, rd.rDetail_Date
+		FROM
+			rental r, rental_detail rd, file f
+		WHERE
+			r.user_email = #{user_email}
+			AND
+			rd.user_email != #{user_email}
+			AND
+			r.rental_id = rd.rental_id
+			AND
+			rd.rental_id = f.board_no
+			AND
+			r.rental_id = f.board_no
+			AND
+			(board_no, file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 유저의 모든 경매 내역 조회 리스트 (전체)  -->
+    <select id="selectAuctionListAllById" parameterType="String" resultType="AuctionAndFile">
+    	SELECT
+			a.auction_id
+			, a.user_email
+			, ad.user_email
+			, a.category_id
+			, a.auction_title
+			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
+			, a.auction_price
+			, a.auction_content
+			, a.auction_quality
+			, ad.aDetail_status
+			, a.uloc_id
+			, a.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, ad.aDetail_Date
+		FROM
+			auction a
+			INNER JOIN auction_detail ad ON a.auction_id = ad.auction_id
+			LEFT OUTER JOIN (
+				SELECT board_no, MIN(file_id) AS file_id
+				FROM file
+				GROUP BY board_no
+			) f_min ON a.auction_id = f_min.board_no
+			INNER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+		WHERE
+			(a.user_email = #{user_email} OR ad.user_email = #{user_email})
+    </select>
+    
+    <!-- 유저의 경매 내역 조회 리스트 (경매 내역)  -->
+    <select id="selectAuctionListSellById" parameterType="String" resultType="AuctionAndFile">
+    	SELECT
+			a.auction_id
+			, a.user_email
+			, ad.user_email
+			, a.category_id
+			, a.auction_title
+			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
+			, a.auction_price
+			, a.auction_content
+			, a.auction_quality
+			, ad.aDetail_status
+			, a.uloc_id
+			, a.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, ad.aDetail_Date
+		FROM 
+			auction a
+		    , auction_detail ad
+		    , file f
+		WHERE
+			a.user_email = #{user_email}
+			AND
+			ad.user_email != #{user_email}
+			AND
+			a.auction_id = ad.auction_id
+			AND
+			ad.auction_id = f.board_no
+			AND
+			a.auction_id = f.board_no
+			AND
+			(board_no, file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 유저의 경매 내역 조회 리스트 (입찰 내역) -->
+    <select id="selectAuctionListBidById" parameterType="String" resultType="AuctionAndFile">
+    	SELECT
+			a.auction_id
+			, a.user_email
+			, ad.user_email
+			, a.category_id
+			, a.auction_title
+			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
+			, a.auction_price
+			, a.auction_content
+			, a.auction_quality
+			, ad.aDetail_status
+			, a.uloc_id
+			, a.sloc_id
+			, f.file_origin
+			, f.file_saved
+			, ad.aDetail_Date
+		FROM 
+			auction a
+		    , auction_detail ad
+		    , file f
+		WHERE
+			a.user_email != #{user_email}
+			AND
+			ad.user_email = #{user_email}
+			AND
+			a.auction_id = ad.auction_id
+			AND
+			ad.auction_id = f.board_no
+			AND
+			a.auction_id = f.board_no
+			AND
+			(board_no, file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 찜 목록 - 중고 거래 찜 리스트 -->
+    <select id="selectWishListUsedById" parameterType="String" resultType="WishAndFile">
+		SELECT 
+			w.user_email
+		    , w.board_no
+		    , w.board_status
+		    , f.file_origin
+		    , f.file_saved
+		    , DATE_FORMAT(u.used_date, '%Y-%m-%d') used_date
+		    , u.used_title
+		    , u.used_status
+		FROM
+			wish w
+		    , file f
+		    , used u
+		WHERE
+			w.board_no = u.used_id
+		    AND
+		    w.board_no = f.board_no
+		    AND
+		    u.used_id = f.board_no
+		    AND
+			w.board_status = '중고 거래'
+		    AND
+		    w.user_email = #{user_email}
+		    AND
+		    (f.board_no, f.file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 찜 목록 - 렌탈 거래 찜 리스트 -->
+    <select id="selectWishListRentalById" parameterType="String" resultType="WishAndFile">
+    	SELECT 
+			w.user_email
+		    , w.board_no
+		    , w.board_status
+		    , f.file_origin
+		    , f.file_saved
+		    , r.rental_date
+		    , r.rental_title
+		    , r.rental_status
+		FROM
+			wish w
+		    , file f
+		    , rental r
+		WHERE
+			w.board_no = r.rental_id
+		    AND
+		    w.board_no = f.board_no
+		    AND
+		    r.rental_id = f.board_no
+		    AND
+			w.board_status = '렌탈 거래'
+		    AND
+		    w.user_email = #{user_email}
+		    AND
+		    (f.board_no, f.file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!-- 찜 목록 - 경매 거래 찜 리스트 -->
+    <select id="selectWishListAuctionById" parameterType="String" resultType="WishAndFile">
+    	SELECT 
+			w.user_email
+		    , w.board_no
+		    , w.board_status
+		    , f.file_origin
+		    , f.file_saved
+		    , a.auction_date
+		    , a.auction_title
+		    , a.auction_status
+		FROM
+			wish w
+		    , file f
+		    , auction a
+		WHERE
+			w.board_no = a.auction_id
+		    AND
+		    w.board_no = f.board_no
+		    AND
+		    a.auction_id = f.board_no
+		    AND
+			w.board_status = '옥션 거래'
+		    AND
+		    w.user_email = #{user_email}
+		    AND
+		    (f.board_no, f.file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
 </mapper>

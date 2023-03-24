@@ -168,11 +168,26 @@
 				<!-- 후기 작성 폼 -->
 				<div class="d-block agent-box p-5">
 					<div class="reviewbox">
+						<span th:text="${#authentication.name}"></span>
 						<!-- 리뷰하기 폼 -->
-						<form th:action="@{/review}" method="post" onsubmit="return reviewValidation();">
+						<form th:action="@{/csform/review}" method="post" onsubmit="return reviewValidation();">
+							<!-- 일단 value로 직접 테스트 -->
+							<div th:if="${used_detail != null}">
+								<input type="hidden" name="user_email" th:value="${used_detail.user_email}">
+								<input type="hidden" name="used_id" th:value="${used_detail.used_id}"> 								
+							</div>
 
-							<input type="hidden" name="user_email" th:value="${used_Detail.user_email}"> <!-- 일단 value로 직접 테스트 -->
-
+							<div th:if="${rental_detail != null and rental != null}">
+								<div th:if="${rental_detail.user_email} == ${#authentication.name}">
+									<input type="hidden" name="user_email" th:value="${rental_detail.user_email}">
+									<input type="hidden" name="rental_id" th:value="${rental_detail.rental_id}">
+								</div>
+							
+								<div th:if="${rental.user_email} == ${#authentication.name}">
+									<input type="hidden" name="user_email" th:value="${rental.user_email}">
+									<input type="hidden" name="rental_id" th:value="${rental.rental_id}">
+								</div>
+							</div>
 							<h3>거래후기</h3>
 							<!-- <fieldset class="starFieldSet">
 								<span class="text-bold">별점을 선택해주세요</span>

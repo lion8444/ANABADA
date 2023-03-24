@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
@@ -117,7 +118,7 @@ public class CSController {
 			
 			service.insertReport(report);
 			
-			return "redirect:/mypage";
+			return "redirect:/mypage/mypage";
 		}
 								
 		// 첨부파일 있을 때 - 파일 저장 후 신고하기 처리
@@ -136,7 +137,7 @@ public class CSController {
 		
 		log.debug("첨부파일과 신고하기 처리");
 			
-		return "redirect:/mypage";
+		return "redirect:/mypage/mypage";
 	}
 	
 	/**
@@ -187,7 +188,7 @@ public class CSController {
 			
 			service.insertInquiry(inquiry);
 			
-			return "redirect:/";
+			return "redirect:/mypage/mypage";
 		}
 		
 		// board_status가 문의하기가 아니면 처리 X
@@ -213,162 +214,153 @@ public class CSController {
 		
 		log.debug("첨부파일과 문의하기 처리");
 		
-		return "redirect:/mypage";
+		return "redirect:/mypage/mypage";
 	}
 	
-	/**
-	 * 후기작성 폼으로 포워딩_중고 거래의 경우
-	 * @return 후기작성 폼으로 이동
-	 */
-	@GetMapping("/review_used")
-	public String review_used(
+	// ★★리뷰 새로 하기★★ - 리뷰 폼 포워딩
+	@GetMapping("/review")
+	public String review(
 			@AuthenticationPrincipal UserDetails user
 			, String used_id
-			, Model model) {
-		
-		// 리뷰할 글이 없거나 완료 상태가 아닌 글인지 체크 
-		Used_detail usedDetail = service.selectUsedDetailById(used_id);
-		
-		if(usedDetail == null) {
-			log.debug("해당 글 X or 완료 상태 X");
-			
-			return "redirect:/";
-		}
-		
-		// 구매자 이메일과 현재 로그인한 이메일이 같지 않을 경우 처리 X
-		if(!usedDetail.getUser_email().equals(user.getUsername())) {
-			log.debug("구매자 ID가 아님");
-			
-			return "redirect:/";
-		} 	
-		
-		model.addAttribute("used_Detail", usedDetail);
-			
-		return "csForm/reviewForm?used_id=" + usedDetail.getUsed_id();
-	}
-	
-	/**
-	 * 후기작성 폼으로 포워딩_렌탈 거래의 경우
-	 * @return 후기작성 폼으로 이동
-	 */
-	@GetMapping("/review_rental")
-	public String review_rental(
-			@AuthenticationPrincipal UserDetails user
 			, String rental_id
 			, Model model) {
 		
-		// 리뷰할 글이 없거나 완료 상태가 아닌 글인지 체크 
-		Rental_detail rentalDetail = service.selectRentalDetailById(rental_id);
-		Rental rental = service.selectRentalById(rental_id);
+		log.debug("user : {}", user.getUsername());
+		log.debug("usedID : {}", used_id);
+		log.debug("rental_id : {}", rental_id);
 		
-		if(rentalDetail == null || rental == null) {
-			log.debug("해당 글 X or 완료 상태 X");
-			
+		if(used_id == null && rental_id == null) {
+			log.debug("올바른 접근 X");
 			return "redirect:/";
+		}	
+		
+		// used_id를 받아 올 때
+		if(used_id != null) {
+			Used_detail ud = service.selectUsedFinished(used_id);
+			
+			log.debug("UD: {}", ud);
+						
+			if(ud == null) {
+				log.debug("중고 거래 완료 된 글이 아님");
+				return "redirect:/";
+			}
+			
+			if(!ud.getUser_email().equals(user.getUsername())) {
+				log.debug("중고 거래의 구매자가 아님");
+				return "redirect:/";
+			}
+			
+			model.addAttribute("used_detail", ud); 
 		}
 		
-		// 빌린사람 or 빌려준사람 이메일과 현재 로그인한 이메일이 같지 않을 경우 처리 X 
-		if(!rentalDetail.getUser_email().equals(user.getUsername()) || !rental.getUser_email().equals(user.getUsername())) {
-			log.debug("렌탈자 or 렌탈러 ID가 아님");
+		// rental_id를 받아올 때
+		if(rental_id != null) {
+			Rental_detail rd = service.selectRentalFinished(rental_id);
 			
-			return "redirect:/";
+			Rental rt = service.selectRentalById(rental_id);
+			
+			log.debug("rental_detail : {}", rd);
+			log.debug("rental : {}", rt);
+			
+			if(rd == null) {
+				log.debug("렌탈 완료 된 글이 아님");
+				return "redirect:/";
+			}
+			
+			if(!rd.getUser_email().equals(user.getUsername()) && !rt.getUser_email().equals(user.getUsername())) {
+				log.debug("렌탈자 or 렌탈러 ID가 아님");			
+				return "redirect:/";
+			}
+			
+			model.addAttribute("rental_detail", rd);
+			model.addAttribute("rental", rt);
 		}
-		
-		model.addAttribute("rental_Detail", rentalDetail);
-		model.addAttribute("rental", rental);
 			
-		return "csForm/reviewForm?rental_id=" + rentalDetail.getRDetail_id();
+		return "csForm/reviewForm";
 	}
 	
-	/**
-	 * 후기작성 처리 - 렌탈
-	 * @param rental 후기작성 폼에서 올라오는 데이터
-	 * @return 리다이렉트
-	 */
-	@PostMapping("/review_rental")
-	public String review_rental(
+	// ★★리뷰 새로 하기★★ - 리뷰 처리
+	@PostMapping("/review")
+	public String review(
 			@AuthenticationPrincipal UserDetails user
+			, String user_email
+			, String used_id
 			, String rental_id
 			, Review review) {
 		
-		log.debug("후기로 올라온 데이터 :{}", review);
+		log.debug("user : {}", user.getUsername());
+		log.debug("user_email : {}", user_email);
+		log.debug("usedID : {}", used_id);
+		log.debug("rental_id : {}", rental_id);
+		log.debug("리뷰: {}", review);
 		
-		Rental_detail rentalDetail = service.selectRentalDetailById(rental_id);
-		Rental rental = service.selectRentalById(rental_id);
-		
-		// 렌탈 글이 없거나 렌탈 완료 상태가 아닐 시 처리 X
-		if(rentalDetail == null || rental == null) {
-			log.debug("해당 글 X or 완료 상태 X");
-			
-			return "redirect:/";
-		}
-			
-		// 리뷰작성자 id와 로그인 한 id가 다를 시 처리 X or 리뷰대상자 id와 로그인 한 id가 같지 않을 시 처리 X 
-		if(!review.getUser_email().equals(user.getUsername()) || !review.getReview_person().equals(user.getUsername())) {
-			
-			log.debug("후기작성 - ID일치 X");
-			
+		if(!user_email.equals(user.getUsername())) {
+			log.debug("잘못된 로그인");
 			return "redirect:/";
 		}
 		
-		if(!review.getUser_email().equals(rental.getUser_email()))
-		
-		review.setBoard_no(rentalDetail.getRDetail_id());		// 리뷰_게시글 번호에 렌탈 아이디 넣기 	 
-		review.setBoard_status("렌탈 거래");					// 리뷰_게시글 종류에 렌탈거래 넣기
-		
-		// 로그인한 사용자와 렌탈 판매자의 id가 같으면 렌탈 구매자를 리뷰 대상자로 설정
-		if(user.getUsername().equals(rental.getUser_email())) {	
-			review.setReview_person(rentalDetail.getUser_email());;
-		} 
-		
-		// 로그인한 사용자와 렌탈 구매자의 id가 같으면 렌탈 판매자를 리뷰 대상자로 설정 
-		if(user.getUsername().equals(rentalDetail.getUser_email())) {
-			review.setReview_person(rental.getUser_email());
-		}
+		if(used_id != null) {
+			Used_detail ud = service.selectUsedFinished(used_id);
+			Used us = service.selectUsedByID(used_id);
 			
-		service.insertReview(review);
-		
-		return "redirect:/mypage";
-	}
-	
-	/**
-	 * 후기작성 처리 - 중고
-	 * @param review 후기작성 폼에서 올라오는 데이터
-	 * @return 리다이렉트
-	 */
-	@PostMapping("/review_used")
-	public String review_used(
-			@AuthenticationPrincipal UserDetails user
-			, String used_id
-			, Review review) {
-		
-		// 리뷰할 글이 없거나 완료 상태가 아닌 글인지 체크 
-		Used_detail usedDetail = service.selectUsedDetailById(used_id);
-		Used used = service.selectUsedByID(used_id);
-		
-		if(usedDetail == null || used == null) {
-			log.debug("해당 글 X or 완료 상태 X");
+			if(ud == null) {
+				log.debug("잘못된 글");
+				return "redirect:/";
+			}
 			
-			return "redirect:/";
-		}
+			if(us == null) {
+				log.debug("잘못된 글");
+				return "redirect:/";
+			}
 			
-		// 리뷰작성자 id와 로그인 한 id가 다를 시 처리 X or 리뷰대상자 id와 글 작성자 id가 같지 않을 시 처리 X 
-		if(!review.getUser_email().equals(user.getUsername()) || !review.getReview_person().equals(used.getUser_email())) {
+			if(!ud.getUser_email().equals(user.getUsername())) {
+				log.debug("아이디가 맞지 않음");
+				return "redirect:/";
+			}
 			
-			log.debug("후기작성 - ID일치 X");
+			review.setBoard_no(used_id);
+			review.setBoard_status("중고 거래");
+			review.setReview_person(us.getUser_email());
 			
-			return "redirect:/";
+			service.insertReview(review);
 		}
 		
-		review.setBoard_no(usedDetail.getUDetail_id());	// 리뷰_게시글 번호에 거래 아이디 넣기 
-		review.setBoard_status("중고거래");				// 리뷰_게시글 종류에 중고거래 넣기
-		review.setReview_person(used.getUser_email());	// 리뷰 대상자에 글 작성자 이름 넣기
+		if(rental_id != null) {
+			Rental_detail rd = service.selectRentalFinished(rental_id);
+			Rental rt = service.selectRentalById(rental_id);
+			
+			log.debug("Rental_detail : {}", rd);
+			log.debug("Rental : {} ", rt);
+//			log.debug("구매자 {}", rd.getUser_email());
+//			log.debug("판마자 {}", rt.getUser_email());
+			
+			if(rd == null || rt == null) {
+				log.debug("잘못된 글");
+				return "redirect:/";
+			}
+			
+			if(!review.getUser_email().equals(user.getUsername())) {				
+				log.debug("후기작성 - ID일치 X");				
+				return "redirect:/";
+			}
+			
+			// 아이디가 렌탈 구매자인 경우 렌탈 판매자를 리뷰 대상자로
+			if(review.getUser_email().equals(rd.getUser_email())) {
+				review.setReview_person(rt.getUser_email());
+			}
+			
+			// 아이다가 렌탈 판매자인 경우 렌탈 구매자를 리뷰 대상자로
+			if(review.getUser_email().equals(rt.getUser_email())) {
+				review.setReview_person(rd.getUser_email());
+			}
+			
+			review.setBoard_no(rental_id);
+			review.setBoard_status("렌탈 거래");
+			
+			service.insertReview(review);
+		}
 		
-		log.debug("후기로 올라온 데이터 :{}", review);
-		
-		service.insertReview(review);
-		
-		return "redirect:/mypage";
+		return "redirect:/mypage/mypage";
 	}
 	
 }
