@@ -192,20 +192,22 @@ public class UsedServiceImpl implements UsedService {
 	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
 		//검색 대상과 검색어
 		
-        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
-        ArrayList<String> miningList = dao.gettitle();
-        
-        for (String mining : miningList) {
-        KomoranResult analyzeResultList = komoran.analyze(mining);
-        	
-        System.out.println(analyzeResultList.getPlainText());
-
+//        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+//        ArrayList<String> miningList = dao.gettitle();
+//        
+//        for (String mining : miningList) {
+//        KomoranResult analyzeResultList = komoran.analyze(mining);
+//        	List<Object> result = new ArrayList<>();
+//        	result.add(analyzeResultList.getList());
+//        System.out.println(result);
+//        //System.out.println(analyzeResultList.getMorphesByTags("NNP"));
+//
 //        List<Token> tokenList = analyzeResultList.getTokenList();
 //        for (Token token : tokenList) {
 //            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
 //        }        
-        
-        }
+//        
+//        }
         
         
         

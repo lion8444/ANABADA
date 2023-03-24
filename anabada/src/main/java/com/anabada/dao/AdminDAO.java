@@ -6,6 +6,9 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.anabada.domain.Admin_board;
+import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Rental_detail;
+import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
 @Mapper
@@ -20,5 +23,13 @@ public interface AdminDAO {
 	int statusUpdate(HashMap<String, Object> map);
 
 	int usermodify(HashMap<String, Object> map);
+
+	int count(HashMap<String, Object> map);
+
+//	ArrayList<Auction_detail> getauctiondetail();
+//
+//	ArrayList<Rental_detail> getrentaldetail();
+//
+//	ArrayList<Used_detail> getuseddetail();
 
 }
