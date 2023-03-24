@@ -528,7 +528,7 @@ INSERT INTO `anabada`.`rental_detail`
 VALUES
 ('RDET0001',
 'RENT0001',
-'anabada@gmail.com',
+'pyo9139@naver.com',
 'CHAT0001',
 '임꺽정',
 '01034456774',
