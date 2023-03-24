@@ -253,7 +253,7 @@
         <!--AND
                 user_email = #{user_email}-->
 	</delete>
-
+<!-- 
  <select id="recommendList" resultType="Used" parameterType="map">
     	SELECT
     		*
@@ -281,11 +281,11 @@
 				</if>
 			</where>
 		</if>
-    </select>
+    </select> -->
     
-    <select id="gettitle" resultType="String">
+<!--     <select id="gettitle" resultType="String">
     	SELECT uBuy_title FROM used_buy
-    </select>
+    </select> -->
     
 		
 	<!-- 중고거래 사는글 삭제-->
