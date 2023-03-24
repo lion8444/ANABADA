@@ -77,9 +77,9 @@ public interface UsedDAO {
 	 * 중고거래 사는 글 수정*/
 	public int usedBuyBoardUpdate(Used_buy used_buy);
 	
-	ArrayList<Used> recommendList(HashMap<String, String> map, RowBounds rb);
-
-	ArrayList<String> gettitle();
+//	ArrayList<Used> recommendList(HashMap<String, String> map, RowBounds rb);
+//
+//	ArrayList<String> gettitle();
 
 	
 }

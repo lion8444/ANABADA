@@ -62,8 +62,8 @@ public class UsedController {
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		ArrayList <File> fileList = service.fileList();
 		
-		ArrayList <Used> recommendList = service.recommendList(
-				navi.getStartRecord(),countPerPage, type, searchWord);
+//		ArrayList <Used> recommendList = service.recommendList(
+//				navi.getStartRecord(),countPerPage, type, searchWord);
 		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
