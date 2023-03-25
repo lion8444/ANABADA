@@ -26,10 +26,9 @@ public interface AdminDAO {
 
 	int count(HashMap<String, Object> map);
 
-//	ArrayList<Auction_detail> getauctiondetail();
-//
-//	ArrayList<Rental_detail> getrentaldetail();
-//
-//	ArrayList<Used_detail> getuseddetail();
+	int salesamount(int month);
+
+	int joinamount(int month);
+
 
 }

@@ -251,7 +251,7 @@
                     <img th:src="@{/assets/admin_assets/images/dashboard/circle.svg}" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Monthly Sales <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                     </h4>
-                    <h2 class="mb-5">&#8361; 15,000</h2>
+                    <h2 class="mb-5" th:text="${#numbers.formatInteger(sum, 3, 'COMMA') + '원'}"></h2>
                     <h6 class="card-text">Increased by 60%</h6>
                   </div>
                 </div>
@@ -277,7 +277,7 @@
                     <img th:src="@{/assets/admin_assets/images/dashboard/circle.svg}" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Monthly Join Members <i class="mdi mdi-diamond mdi-24px float-right"></i>
                     </h4>
-                    <h2 class="mb-5">2052</h2>
+                    <h2 class="mb-5" th:text = "${join + '명'}"></h2>
                     <h6 class="card-text">Increased by 5%</h6>
                   </div>
                 </div>

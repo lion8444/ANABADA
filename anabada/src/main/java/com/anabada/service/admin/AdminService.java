@@ -22,4 +22,6 @@ public interface AdminService {
 
 	int salesamount();
 
+	int joinamount();
+
 }

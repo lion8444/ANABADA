@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.anabada.domain.Admin_board;
-import com.anabada.domain.Auction_detail;
-import com.anabada.domain.Rental_detail;
-import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.admin.AdminService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RequestMapping({"admin"})
 @Controller
 public class AdminController {
@@ -38,9 +38,12 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin")
-	public String adminPage() {
+	public String adminPage(Model model) {
 		int sum = service.salesamount();
-		
+		int join = service.joinamount();
+
+		model.addAttribute("sum", sum);
+		model.addAttribute("join", join);
 		return "admin/admin_index";
 	}
 }

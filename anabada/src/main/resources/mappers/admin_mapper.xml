@@ -68,4 +68,16 @@
 			WHERE EXISTS (SELECT * FROM auction_detail WHERE auction_detail.aDetail_id = aTrade.aDetail_id AND MONTH(auction_detail.aDetail_Date) = #{monthnum})
 		</if>
 	</select>
+	
+	<select id="salesamount" parameterType="int" resultType="int">
+		SELECT sum(u.uDetail_price) + sum(r.rDetail_price) + sum(a.aDetail_price)
+		FROM used_detail AS u
+		JOIN rental_detail AS r
+		JOIN auction_detail AS a
+		WHERE MONTH(u.uDetail_Date) = #{month} OR MONTH(r.rDetail_Date) = #{month} OR MONTH(a.aDetail_Date) = #{month}
+	</select>
+	
+	<select id="joinamount" parameterType="int" resultType="int">
+		SELECT count(*) FROM user WHERE MONTH(user_date) = #{month}
+	</select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.anabada.service.admin;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,21 +85,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		return newuser;
 	}
-//	@Override
-//	public ArrayList<Auction_detail> getauctiondetail() {
-//		ArrayList<Auction_detail> ad = dao.getauctiondetail();
-//		return ad;
-//	}
-//	@Override
-//	public ArrayList<Rental_detail> getrentaldetail() {
-//		ArrayList<Rental_detail> rd = dao.getrentaldetail();
-//		return rd;
-//	}
-//	@Override
-//	public ArrayList<Used_detail> getuseddetail() {
-//		ArrayList<Used_detail> ud = dao.getuseddetail();
-//		return ud;
-//	}
+
+
 	@Override
 	public int[][] getdata(int[] monthnum) {
 		int[ ][ ] num = new int[3][6];  
@@ -130,8 +118,17 @@ public class AdminServiceImpl implements AdminService {
 	}
 	@Override
 	public int salesamount() {
-		
-		
-		return 0;
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1;
+		int sum = dao.salesamount(month);
+		return sum;
+	}
+	@Override
+	public int joinamount() {
+		Calendar cal = Calendar.getInstance();
+		int month = cal.get(Calendar.MONTH) + 1;
+		int join = dao.joinamount(month);		
+
+		return join;
 	}
 }
