@@ -1,1 +1,7 @@
 /.metadata/
+
+### properties ###
+*.properties
+**/application-oauth.properties
+**/application.properties
+**/email.properties
