@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <meta name="google-signin-client_id" content="939451489102-1tf2oqrhevl19tps8b0elt25jincgbcg.apps.googleusercontent.com">
+    <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/login_fonts/icomoon/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/login_css/owl.carousel.min.css}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/login_css/bootstrap.min.css}">
+    <!-- Style -->
+    <link rel="stylesheet" th:href="@{/assets/login_css/style.css}">
+    
+    <!-- <script th:src="@{/js/google_login.js}"></script> -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    
+
+    <title>로그인</title>
+  </head>
+  <body>
+  
+
+  
+  <div class="content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <!-- <div class="col-md-6 order-md-2">
+          <img src="images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">
+        </div> -->
+        <div class="col-md-6 contents">
+          <div class="row justify-content-center">
+            <div class="col-md-12">
+              <div class="form-block">
+                  <div class="mb-4">
+                  <h1 class="anabada">ANABADA</h1>
+                  <h3>로그인</h3>
+                  <p class="mb-4">이메일과 비밀번호를 입력해 주세요.</p>
+                </div>
+                <form th:action="@{/login}" method="post">
+                  <div class="form-group first">
+                    <label for="username">Email</label>
+                    <input type="text" class="form-control" name="user_email" id="username">
+
+                  </div>
+                  <div class="form-group last mb-4">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" name="user_pwd" id="password">
+                    
+                  </div>
+                  
+                  <div class="d-flex mb-5 align-items-center">
+                    <label class="control control--checkbox mb-0"><span class="caption">아이디 비밀번호 저장</span>
+                      <input type="checkbox" checked="checked" id="idpwdSave">
+                      <div class="control__indicator"></div>
+                    </label>
+                    <span class="ml-auto"><a href="#" class="forgot-pass">아이디(이메일) / 비밀번호 찾기</a></span> 
+                  </div>
+
+                  <input type="submit" value="로그인" class="btn btn-pill text-white btn-block btn-primary">
+
+                  <span class="d-block text-center my-4 text-muted"><a th:href="@{/join}">회원가입</a></span>
+                </form>  
+                  <div class="social-login text-center">
+                    <!-- <a href="#" class="facebook">
+                      <span class="icon-facebook mr-3"></span> 
+                    </a>
+                    <a href="#" class="twitter">
+                      <span class="icon-twitter mr-3"></span> 
+                    </a> -->
+                    <button class="google" onClick={oAuthHandler}>
+                      <span class="icon-google mr-3"></span> 
+                    </button>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+    <script th:src="@{/assets/login_js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/assets/login_js/popper.min.js}"></script>
+    <script th:src="@{/assets/login_js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/login_js/main.js}"></script>
+    <script>
+      function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      }
+    </script>
+  </body>
+</html>

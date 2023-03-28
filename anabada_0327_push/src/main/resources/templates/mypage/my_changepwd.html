@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
+
+        <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+        <!-- Load fonts style after rendering the layout styles -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+        <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/test.css}">
+    
+        <!-- signUpForm에서 가져온 CSS-->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" th:href="@{/assets/signup_fonts/icomoon/style.css}">
+
+        <link rel="stylesheet" th:href="@{/assets/signup_css/owl.carousel.min.css}">
+        <title>비밀번호 변경</title>
+        
+    </head>
+    <body>
+        <form id="updatePwdForm" method="post">
+            <div class="form-group first"> 
+                <label for="">변경할 비밀번호</label>
+                <input type="password" class="form-control" id="password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요.">
+                <span class="check_html"></span>
+            
+            </div>
+            <div class="form-group">
+                <label for="">비밀번호 확인</label>
+                <input type="password" class="form-control" id="re-password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요.">
+                <span class="check_html"></span>
+            </div>
+            <input type="button" value="비밀번호 변경" id="updatePwdBtn" class="btn btn-pill text-white btn-block btn-primary">
+        </form>
+
+        <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script th:src="@{/js/alert.js}"></script>
+        <script th:src="@{/js/login/changePwd.js}"></script>
+    </body>
+</html>
