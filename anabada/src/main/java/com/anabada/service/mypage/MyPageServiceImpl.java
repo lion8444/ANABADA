@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.anabada.dao.MyPageDAO;
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
+import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.RentalAndFile;
@@ -45,9 +46,9 @@ public class MyPageServiceImpl implements MyPageService {
 	 * 유저 이메일로 유저의 다마고치 정보 검색
 	 */
 	@Override
-	public CharacterDTO selectUserDama(String user_email) {
-		CharacterDTO characterDTO = dao.selectUserDama(user_email);
-		return characterDTO;
+	public List<CharacterDTO> selectUserDama(String user_email) {
+		List<CharacterDTO> list = dao.selectUserDama(user_email);
+		return list;
 	}
 
 	/**
@@ -151,6 +152,78 @@ public class MyPageServiceImpl implements MyPageService {
 		List<AuctionAndFile> list = dao.selectAuctionListBidById(user_email);
 		return list;
 	}
+	
+	/**
+	 * 중고 거래 글 정보 및 디테일 정보 검색
+	 */
+	@Override
+	public UsedAndFile selectUsedAndDetailInfo(String used_id) {
+		UsedAndFile u = dao.selectUsedAndDetailInfo(used_id);
+		return u;
+	}
+
+	/**
+	 * 중고 거래 취소 하기
+	 */
+	@Override
+	public int cancleUsedDetail(UsedAndFile usedAndDetailInfo) {
+		int result = dao.cancleUsedDetail(usedAndDetailInfo);
+		return result;
+	}
+
+	/**
+	 * 렌탈 거래 글 및 렌탈 디테일 정보 검색
+	 */
+	@Override
+	public RentalAndFile selectRentalAndDetailInfo(String rental_id) {
+		RentalAndFile rentalAndFile = dao.selectRentalAndDetailInfo(rental_id);
+		return rentalAndFile;
+	}
+
+	/**
+	 * 렌탈 취소 하기
+	 */
+	@Override
+	public int cancleRentalDetail(RentalAndFile rentalAndDetailInfo) {
+		int result = dao.cancleRentalDetail(rentalAndDetailInfo);
+		return result;
+	}
+
+	/**
+	 * 경매 및 경매 디테일 정보 검색
+	 */
+	@Override
+	public AuctionAndFile selectAuctionAndDetailInfo(String auction_id) {
+		AuctionAndFile a = dao.selectAuctionAndDetailInfo(auction_id);
+		return a;
+	}
+
+	/**
+	 * 경매 취소하기
+	 */
+	@Override
+	public int cancleAuctionDetail(AuctionAndFile auctionAndDetailInfo) {
+		int result = dao.cancleAuctionDetail(auctionAndDetailInfo);
+		return result;
+	}
+
+	/**
+	 * 입찰 취소하기
+	 */
+	@Override
+	public int cancleBidDetail(AuctionAndFile auctionAndDetailInfo) {
+		int result = dao.cancleBidDetail(auctionAndDetailInfo);
+		return result;
+	}
+
+	/**
+	 * 렌탈 - 반납 확인 처리
+	 */
+	@Override
+	public int returncheck(RentalAndFile rentalAndDetailInfo) {
+		int result = dao.returncheck(rentalAndDetailInfo);
+		return result;
+	}
 
 	// 찜 목록 - 중고 거래 찜 리스트
 	@Override
@@ -170,6 +243,20 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public List<WishAndFile> selectWishListAuctionById(String user_email) {
 		List<WishAndFile> list =  dao.selectWishListAuctionById(user_email);
+		return list;
+	}
+
+	// 나의 다마고치 정보 검색
+	@Override
+	public Damagochi selectMyDamaInfoById(String user_email) {
+		Damagochi dama = dao.selectMyDamaInfoById(user_email);
+		return dama;
+	}
+
+	// 유저가 보유한 다마고치 리스트
+	@Override
+	public List<Damagochi> selectMyDamaListById(String user_email) {
+		List<Damagochi> list = dao.selectMyDamaListById(user_email);
 		return list;
 	}
 	

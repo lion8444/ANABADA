@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="ko"
+    >
+<meta charset="UTF-8">
+<title>렌탈 연장 하기</title>
+</head>
+<body>
+	<form action="" method="post">
+        <label for="">연장할 날짜 선택</label>
+        <input type="date" name="exDate">
+    </form>
+    <span th:text="${rent.user_email}"></span>
+    <span th:text="${rent.rental_id}"></span>
+    <span th:text="${rent.rDetail_sDate}"></span>
+    <span th:text="${rent.rDetail_eDate}"></span>
+</body>
+</html>

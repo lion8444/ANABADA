@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>거래내역</title>
@@ -206,9 +208,19 @@ https://templatemo.com/tm-559-zay-shop
                                 </div>
                             </td>
                             <td>
-                                <div class="mypagebutton">
-                                    <input class="btn btn-success" type="button" value="거래후기"></input><br>
-                                    <input class="btn btn-success" type="button" value="거래취소"></input><br>
+                                <div class="mypagebutton">       
+                                    <!-- 거래 후기 -->                 
+                                    <input class="btn btn-success" type="button" value="거래후기" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                    <br>
+                                    <!-- 거래 취소 -->
+                                    <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
+                                        <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
+                                        <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
+                                        <input class="btn btn-success" type="submit" value="거래취소"></input>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -238,8 +250,18 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input class="btn btn-success" type="button" value="거래후기"></input><br>
-                                    <input class="btn btn-success" type="button" value="거래취소"></input><br>
+                                    <!-- 거래 후기 -->
+                                    <input class="btn btn-success" type="button" value="거래후기" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                    <br>
+                                    <!-- 거래 취소 -->
+                                    <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
+                                        <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
+                                        <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
+                                        <input class="btn btn-success" type="submit" value="거래취소"></input>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -269,8 +291,18 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input class="btn btn-success" type="button" value="거래후기"></input><br>
-                                    <input class="btn btn-success" type="button" value="거래취소"></input><br>
+                                    <!-- 거래 후기 -->
+                                    <input class="btn btn-success" type="button" value="거래후기" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                    <br>
+                                    <!-- 거래 취소 -->
+                                    <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
+                                        <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
+                                        <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
+                                        <input class="btn btn-success" type="submit" value="거래취소"></input>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

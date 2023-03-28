@@ -2,14 +2,17 @@ package com.anabada.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
+import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
+import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
@@ -74,8 +77,20 @@ public interface CSFormDAO {
 	 */
 	public UserDTO selectUserById(String user_email);
 
+	/**
+	 * 등록된 중고 완료 거래 글 검색 - 중고id로
+	 * @param used_id 중고글 ID
+	 * @return Used_detail 객체
+	 */
 	public Used_detail selectUsedFinished(String used_id);
 
+	/**
+	 * 등록된 렌탈 완료 거래 글 검색 - 중고id로
+	 * @param rental_id 렌탈글 ID
+	 * @return rental_detail 객체
+	 */
 	public Rental_detail selectRentalFinished(String rental_id);
+
+	
 
 }

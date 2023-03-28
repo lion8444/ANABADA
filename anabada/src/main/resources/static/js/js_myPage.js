@@ -260,3 +260,35 @@ $(document).ready(function() {
     }
 
 }); // window.onload 끝
+
+$(document).ready(function() {
+    
+
+});
+
+function usedCancleChk() {
+    if(confirm('정말로 취소하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+
+// function extendRental(rental_id, rDetail_sDate, rDetail_eDate) {
+    
+//     alert(rental_id);
+
+//     window.open('test', 'test', 'top=100,left=500,width=500,height=300');
+
+//     document.form.action
+
+// }
+
+function returnCheck() {
+    if(confirm('정말로 렌탈 반납을 확인 하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+

@@ -1,7 +1,8 @@
 package com.anabada.controller.csForm;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,17 +15,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.anabada.domain.Auction_detail;
+import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
+import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
+import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.csForm.CSFormService;
@@ -362,5 +364,7 @@ public class CSController {
 		
 		return "redirect:/mypage/mypage";
 	}
+		
+
 	
 }

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class U_charDTO {
 	String uChar_id;
 	String user_email;
-	String character_char_id;
+	String char_id;
 }

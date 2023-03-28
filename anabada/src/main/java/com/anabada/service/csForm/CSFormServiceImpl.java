@@ -4,14 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.CSFormDAO;
+import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
+import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
+import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
@@ -112,16 +115,28 @@ public class CSFormServiceImpl implements CSFormService {
 		return userDTO;
 	}
 
+	/**
+	 * 중고 거래 완료 글 검색(조인)
+	 */
 	@Override
 	public Used_detail selectUsedFinished(String used_id) {
 		Used_detail ud = dao.selectUsedFinished(used_id);
 		return ud;
 	}
 
+	/**
+	 * 렌탈 거래 완료 글 검색(조인)
+	 */
 	@Override
 	public Rental_detail selectRentalFinished(String rental_id) {
 		Rental_detail rd = dao.selectRentalFinished(rental_id);
 		return rd;
 	}
+
+	
+
+
+	
+	
 
 }

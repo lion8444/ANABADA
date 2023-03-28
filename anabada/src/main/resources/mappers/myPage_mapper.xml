@@ -19,8 +19,10 @@
 		FROM 
 			`character` c, user_character uc
 		WHERE
-			c.char_id = uc.character_char_id
-		    and
+			c.char_id = uc.char_id
+		    AND
+		    uc.char_selected = 1
+		    AND
 		    uc.user_email = #{user_email}
     </select>
     
@@ -49,13 +51,14 @@
 	    SELECT
 			u.used_id
 			, u.user_email
-		    , ud.user_email
+		    , ud.user_email buyer_email
 			, u.category_id
 			, u.used_title
 			, DATE_FORMAT(ud.uDetail_Date, '%Y-%m-%d') uDetail_Date
 			, u.used_price
 			, u.used_content
 			, u.used_quality
+			, u.used_status
 			, ud.uDetail_status
 			, u.uloc_id
 			, u.sloc_id
@@ -148,19 +151,22 @@
     	SELECT
 			r.rental_id
 			, r.user_email
-		    , rd.user_email
+		    , rd.user_email buyer_email
 			, r.category_id
 			, r.rental_title
 			, DATE_FORMAT(rd.rDetail_Date, '%Y-%m-%d') rDetail_Date
 			, r.rental_price
 			, r.rental_content
 			, r.rental_quality
+			, r.rental_status
 			, rd.rDetail_status
 			, r.uloc_id
 			, r.sloc_id
 			, f.file_origin
 			, f.file_saved
 			, rd.rDetail_Date
+			, DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') rDetail_sDate
+			, DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') rDetail_eDate
 		FROM
 			rental r
 			INNER JOIN rental_detail rd ON r.rental_id = rd.rental_id
@@ -179,19 +185,22 @@
     	SELECT
 			r.rental_id
 			, r.user_email
-		    , rd.user_email
+		    , rd.user_email buyer_email
 			, r.category_id
 			, r.rental_title
 			, DATE_FORMAT(rd.rDetail_Date, '%Y-%m-%d') rDetail_Date
 			, r.rental_price
 			, r.rental_content
 			, r.rental_quality
+			, r.rental_status
 			, rd.rDetail_status
 			, r.uloc_id
 			, r.sloc_id
 			, f.file_origin
 			, f.file_saved
 			, rd.rDetail_Date
+			, DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') rDetail_sDate
+			, DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') rDetail_eDate
 		FROM
 			rental r, rental_detail rd, file f
 		WHERE
@@ -212,19 +221,22 @@
     	SELECT
 			r.rental_id
 			, r.user_email
-		    , rd.user_email
+		    , rd.user_email buyer_email
 			, r.category_id
 			, r.rental_title
 			, DATE_FORMAT(rd.rDetail_Date, '%Y-%m-%d') rDetail_Date
 			, r.rental_price
 			, r.rental_content
 			, r.rental_quality
+			, r.rental_status
 			, rd.rDetail_status
 			, r.uloc_id
 			, r.sloc_id
 			, f.file_origin
 			, f.file_saved
 			, rd.rDetail_Date
+			, DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') rDetail_sDate
+			, DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') rDetail_eDate
 		FROM
 			rental r, rental_detail rd, file f
 		WHERE
@@ -247,7 +259,7 @@
     	SELECT
 			a.auction_id
 			, a.user_email
-			, ad.user_email
+			, ad.user_email buyer_email
 			, a.category_id
 			, a.auction_title
 			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
@@ -278,7 +290,7 @@
     	SELECT
 			a.auction_id
 			, a.user_email
-			, ad.user_email
+			, ad.user_email buyer_email
 			, a.category_id
 			, a.auction_title
 			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
@@ -315,7 +327,7 @@
     	SELECT
 			a.auction_id
 			, a.user_email
-			, ad.user_email
+			, ad.user_email buyer_email
 			, a.category_id
 			, a.auction_title
 			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
@@ -358,6 +370,7 @@
 		    , DATE_FORMAT(u.used_date, '%Y-%m-%d') used_date
 		    , u.used_title
 		    , u.used_status
+		    , u.used_id
 		FROM
 			wish w
 		    , file f
@@ -388,6 +401,7 @@
 		    , r.rental_date
 		    , r.rental_title
 		    , r.rental_status
+		    , r.rental_id
 		FROM
 			wish w
 		    , file f
@@ -418,6 +432,7 @@
 		    , a.auction_date
 		    , a.auction_title
 		    , a.auction_status
+		    , a.auction_id
 		FROM
 			wish w
 		    , file f
@@ -435,5 +450,212 @@
 		    AND
 		    (f.board_no, f.file_id) in (
 			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+     <!-- 중고 거래 글 및 디테일 정보 검색 -->
+    <select id="selectUsedAndDetailInfo" resultType="UsedAndFile" parameterType="String">
+    	SELECT
+    		u.used_id
+			, u.user_email
+			, ud.user_email buyer_email
+			, u.used_title
+			, u.used_date
+			, u.used_price
+			, u.used_status
+			, ud.uDetail_status
+			, ud.uDetail_Date
+		FROM
+			used u
+			, used_detail ud
+		WHERE
+			u.used_id = ud.used_id
+			AND
+			u.used_id = #{used_id}
+    </select>
+    
+    <!-- 렌탈 거래 글 및 디테일 정보 검색 -->
+    <select id="selectRentalAndDetailInfo" resultType="RentalAndFile" parameterType="String"> 	
+    	SELECT
+    		r.rental_id
+			, r.user_email
+			, rd.user_email buyer_email
+			, r.rental_title
+			, r.rental_date
+			, r.rental_price
+			, r.rental_status
+			, rd.rDetail_status
+			, rd.rDetail_Date
+			, DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') rDetail_sDate
+			, DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') rDetail_eDate
+		FROM
+			rental r
+			, rental_detail rd
+		WHERE
+			r.rental_id = rd.rental_id
+			AND
+			r.rental_id = #{rental_id}
+    </select>
+    
+    <!-- 경매 거래 글 및 디테일 정보 검색 -->
+    <select id="selectAuctionAndDetailInfo" resultType="AuctionAndFile" parameterType="String"> 	
+    	SELECT
+    		a.auction_id
+			, a.user_email
+			, ad.user_email buyer_email
+			, a.auction_title
+			, a.auction_date
+			, a.auction_price
+			, a.auction_status
+			, ad.aDetail_status
+			, ad.aDetail_Date
+		FROM
+			auction a
+			, auction_detail ad
+		WHERE
+			a.auction_id = ad.auction_id
+			AND
+			a.auction_id = #{auction_id}
+    </select>
+    
+    <!-- 중고 거래 취소하기 -->
+    <update id="cancleUsedDetail" parameterType="UsedAndFile">
+    	UPDATE 
+			used u
+		    , used_detail ud 
+		SET 
+			u.used_status = '중지'
+			, ud.uDetail_status = '거래 중지' 
+		WHERE 
+			u.used_id= #{used_id} 
+		    and 
+		    ud.used_id = #{used_id}
+    </update>
+    
+    <!-- 렌탈 취소하기  -->
+    <update id="cancleRentalDetail" parameterType="RentalAndFile">
+		UPDATE 
+			rental r
+			, rental_detail rd 
+		SET 
+			r.rental_status = '중지'
+			, rd.rDetail_status = '거래 중지' 
+		WHERE 
+			r.rental_id= #{rental_id}
+			and 
+			rd.rental_id = #{rental_id}
+    </update>
+    
+    <!-- 경매 취소하기 -->
+    <update id="cancleAuctionDetail" parameterType="AuctionAndFile">
+    	UPDATE
+    		auction a
+    		, auction_detail ad
+    	SET
+    		a.auction_status = '중지'
+    		, ad.aDetail_status = '경매 중지'
+    	WHERE
+    		a.auction_id = #{auction_id}
+    		AND
+    		ad.auction_id = #{auction_id}
+    		AND
+    		a.user_email = #{user_email}
+    </update>
+    
+    <!-- 입찰 취소하기 -->
+    <delete id="cancleBidDetail" parameterType="AuctionAndFile">
+    	DELETE FROM
+    		auction_detail
+    	WHERE
+    		auction_id = #{auction_id}
+    		AND
+    		user_email = #{buyer_email}
+    </delete>
+  
+  	<!-- 렌탈 - 반납 확인하기  -->
+  	<update id="returncheck" parameterType="RentalAndFile">
+  		UPDATE
+  			rental r
+  			, rental_detail rd
+  		SET
+  			r.rental_status = '중지'
+  			, rd.rDetail_status = '반납 완료'
+  		WHERE
+  			r.rental_id = #{rental_id}
+  			AND
+  			rd.rental_id = #{rental_id}
+  			AND
+  			r.user_email = #{user_email}
+  	</update>
+    
+    <!-- 나의 다마고치 정보 검색 -->
+    <select id="selectMyDamaInfoById" resultType="Damagochi" parameterType="String">
+    	SELECT 
+			u.user_level
+		    , u.user_nick
+		    , u.user_email
+		    , uc.char_id
+		    , uc.char_grade
+		    , uc.char_one
+		    , uc.char_two
+		    , uc.char_three
+		    , uc.char_level
+		    , uc.char_selected
+		FROM
+			user u
+		    , (SELECT
+				uc.user_email
+				, uc.char_id
+				, uc.char_level
+				, c.char_grade
+				, c.char_one
+				, c.char_two
+				, c.char_three
+				, uc.char_selected
+		    FROM
+				`character` c
+				, user_character uc
+			WHERE
+				c.char_id = uc.char_id) uc
+		WHERE
+			u.user_email = uc.user_email
+		    AND
+		    u.user_email = #{user_email}
+		    AND
+		    uc.char_selected = 1;
+    </select>
+    
+    <!-- 유저가 보유한 다마고치 리스트 -->
+    <select id="selectMyDamaListById" resultType="Damagochi" parameterType="String">
+    	SELECT 
+			u.user_level
+		    , u.user_nick
+		    , u.user_email
+		    , uc.char_id
+		    , uc.char_grade
+		    , uc.char_one
+		    , uc.char_two
+		    , uc.char_three
+		    , uc.char_level
+		    , uc.char_selected
+		FROM
+			user u
+		    , (select
+				uc.user_email
+				,uc.char_id
+		        , uc.char_level
+		        , uc.char_selected
+				, c.char_grade
+				, c.char_one
+				, c.char_two
+				, c.char_three
+		    from
+				`character` c
+				, user_character uc
+			where
+				c.char_id = uc.char_id) uc
+		WHERE
+			u.user_email = uc.user_email
+		    AND
+		    u.user_email = #{user_email}
     </select>
 </mapper>

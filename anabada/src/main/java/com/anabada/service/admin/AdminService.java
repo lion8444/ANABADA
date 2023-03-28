@@ -22,6 +22,7 @@ public interface AdminService {
 
 	UserDTO usermodify(String selectn, String selects, Integer index);
 
+<<<<<<< HEAD
 	int[][] getdata(int[] monthnum);
 
 	int salesamount();
@@ -44,4 +45,6 @@ public interface AdminService {
 			String nkorea, String njapan, String lkorea, String ljapan, String visitor, String join, String sdate,
 			String edate);
 
+=======
+>>>>>>> e60951176d972
 }

@@ -634,9 +634,9 @@ INSERT INTO `anabada`.`utrade`
 `used_id`,
 `uDetail_id`)
 VALUES
-('UTRA0001',
-'USED0001',
-'UDET0001');
+('UTRA0002',
+'USED0003',
+'UDET0003');
 
 
 -- -----------------------------------------------------

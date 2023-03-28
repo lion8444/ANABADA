@@ -23,4 +23,7 @@ public class WishAndFile {
 	String auction_title;
 	String auction_date;
 	String auction_status;
+	String used_id;
+	String rental_id;
+	String auction_id;
 }

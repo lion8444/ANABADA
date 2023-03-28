@@ -212,7 +212,7 @@ FROM `anabada`.`user`;
 
 SELECT `user_character`.`uChar_id`,
     `user_character`.`user_email`,
-    `user_character`.`character_char_id`
+    `user_character`.`char_id`
 FROM `anabada`.`user_character`;
 
 SELECT `user_location`.`uloc_id`,
@@ -233,3 +233,8 @@ FROM `anabada`.`wish`;
 
 SET GLOBAL log_bin_trust_function_creators = 1;
 
+SELECT used_id, used_title, user_email, used_date, used_status FROM `anabada`.`used` AS used
+UNION
+SELECT rental_id, rental_title, user_email, rental_date, rental_status FROM `anabada`.`rental` AS rental
+UNION
+SELECT auction_id, auction_title, user_email, auction_date, auction_status FROM  `anabada`.`auction` AS auction;

@@ -173,5 +173,5 @@
 	    	AND
 	    	r.rental_id = #{rental_id}
     </select>
-    
+   
 </mapper>
