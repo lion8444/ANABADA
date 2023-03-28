@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class UsedAndFile {
 	String used_id;
 	String user_email;
+	String buyer_email;
 	String category_id;
 	String used_title;
 	String used_date;

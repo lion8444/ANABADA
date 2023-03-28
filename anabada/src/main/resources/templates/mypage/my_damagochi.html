@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>나의 다마고치</title>
@@ -167,16 +169,22 @@ https://templatemo.com/tm-559-zay-shop
                     </li>
                 </ul>
             </div>
+
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
                 <div class="row">
                     <span class="col-md-4">
                         <span  id="damaMainImg" class="card mb-4 product-wap rounded-0">
-                            <span class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" th:src="@{/assets/img/39.jpg}">
-                            </span> 
+                            <div th:if="${dama.char_selected} == 1">
+                                <span class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
+                                </span> 
+                            </div>
                             <span class="card-body">
-                                <span>LV.21</span>
+                                <span>Lv.</span><th:block th:text="${dama.user_level}"></th:block>
+                                <span th:text="${dama.user_nick}"></span>님
                             </span>
                         </span>
                     </span>     
@@ -185,18 +193,18 @@ https://templatemo.com/tm-559-zay-shop
                     <table>
                         <tr>
                             <td>
-                                <input type="button" value="나의 알" id="eggbutton">
-                            </td>
-                            <td>
-                                <input type="button" value="나의 다마고치" id="damabutton">
+                                <input type="button" class="btn btn-success" value="나의 다마고치" id="damabutton">
                             </td>
                         </tr>
-                        <tr>
+                        <tr th:each="list : ${damaList}">
                             <td>
-                                <img class="myegglist" th:src="@{/assets/img/39.jpg}" alt="다마고치">
+                                <img class="mydamalist" th:src="@{/img/damagochi_imgs/} + ${list.char_one}" alt="다마고치">
                             </td>
                             <td>
-                                <img class="mydamalist" th:src="@{/assets/img/39.jpg}" alt="다마고치">
+                                <img class="mydamalist" th:if="${list.char_level} > 3" th:src="@{/img/damagochi_imgs/} + ${list.char_two}" alt="다마고치">
+                            </td>
+                            <td>
+                                <img class="mydamalist" th:if="${list.char_level} > 6" th:src="@{/img/damagochi_imgs/} + ${list.char_three}" alt="다마고치">
                             </td>
                         </tr>
                     </table>

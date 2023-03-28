@@ -1,5 +1,7 @@
 package com.anabada.controller.mypage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
+import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.RentalAndFile;
@@ -57,7 +60,7 @@ public class MyPageController {
 		// 현재 로그인한 유저의 개인 정보
 		UserDTO userDTO = service.selectUserById(user_email);
 
-		CharacterDTO characterDTO = service.selectUserDama(user_email);
+		List<CharacterDTO> characterDTO = service.selectUserDama(user_email);
 
 		log.debug("정보 : {}", userDTO);
 		log.debug("다마정보 : {}", characterDTO);
@@ -158,6 +161,17 @@ public class MyPageController {
 		log.debug("user_email : {}", user_email);
 		log.debug("All 이즈엠티 : {}", list.isEmpty());
 		log.debug("All 자체 : {}", list == null);
+		log.debug(list.get(0).getUsed_id());
+		log.debug(list.get(1).getUsed_id());
+		log.debug(list.get(2).getUsed_id());
+		
+		log.debug(list.get(0).getUsed_status());
+		log.debug(list.get(1).getUsed_status());
+		log.debug(list.get(2).getUsed_status());
+		
+		log.debug(list.get(0).getUDetail_status());
+		log.debug(list.get(1).getUDetail_status());
+		log.debug(list.get(2).getUDetail_status());
 		
 		return "mypage/my_transaction";
 	}
@@ -189,6 +203,7 @@ public class MyPageController {
 		model.addAttribute("usedListBuy", list);
 		model.addAttribute("us", us);
 		
+		log.debug("but: {}", list);
 		log.debug("buy 이즈엠티 : {}", list.isEmpty());
 		log.debug("buy 자체 : {}", list == null);
 		
@@ -397,6 +412,213 @@ public class MyPageController {
 	}
 	
 	/**
+	 * 중고 거래 취소하기
+	 * @param user 스프링 시큐리티
+	 * @param usedAndFile 글번호, 유저이메일, 구매자이메일, 글상태 
+	 * @return 일단 메인
+	 */
+	@PostMapping("/cancleUsed")
+	public String cancleUsed(
+			@AuthenticationPrincipal UserDetails user
+			, UsedAndFile usedAndFile) {
+		
+		log.debug("user_email : {}", usedAndFile.getUser_email());
+		log.debug("buyer_email : {}", usedAndFile.getBuyer_email());
+		log.debug("used_id : {}", usedAndFile.getUsed_id());
+		
+		UsedAndFile usedAndDetailInfo = service.selectUsedAndDetailInfo(usedAndFile.getUsed_id()); 
+
+		log.debug("usedAndDetailInfo : {}", usedAndDetailInfo);
+			
+		if(!usedAndFile.getUser_email().equals(user.getUsername()) && !usedAndFile.getBuyer_email().equals(user.getUsername())) {
+			log.debug("해당 중고 거래의 구매자나 판매자가 아님");
+			return "redirect:/";
+		}
+		
+		if(usedAndDetailInfo.getUsed_status().contains("중지") || usedAndDetailInfo.getUDetail_status().contains("중지")) {
+			log.debug("이미 취소된 거래");
+			return "redirect:/";
+		}
+		
+		service.cancleUsedDetail(usedAndDetailInfo);
+			
+		return "redirect:/";
+	}
+	
+	/**
+	 * 렌탈 거래 취소하기
+	 * @param user 스프링 시큐리티
+	 * @param rentalAndFile 글번호, 유저이메일, 빌린사람이메일, 글상태
+	 * @return 일단 메인
+	 */
+	@PostMapping("/cancleRental")
+	public String cancleRental(
+			@AuthenticationPrincipal UserDetails user
+			, RentalAndFile rentalAndFile) {
+		
+		log.debug("시큐리티 로그인 아이디 {}", user.getUsername());
+		log.debug("user_email : {}", rentalAndFile.getUser_email());
+		log.debug("buyer_email : {}", rentalAndFile.getBuyer_email());
+		log.debug("rental_id : {}", rentalAndFile.getRental_id());
+		
+		RentalAndFile rentalAndDetailInfo = service.selectRentalAndDetailInfo(rentalAndFile.getRental_id()); 
+
+		log.debug("rentalAndDetailInfo : {}", rentalAndDetailInfo);
+		log.debug("rentalAndDetailInfo.user_email : {}", rentalAndDetailInfo.getUser_email());
+		log.debug("rentalAndDetailInfo.buyer_email : {}", rentalAndDetailInfo.getBuyer_email());
+		
+			
+		if(!rentalAndDetailInfo.getUser_email().equals(user.getUsername()) && !rentalAndDetailInfo.getBuyer_email().equals(user.getUsername())) {
+			log.debug("해당 렌탈 거래의 구매자나 판매자가 아님");
+			return "redirect:/";
+		}
+		
+		if(rentalAndDetailInfo.getRental_status().contains("중지") || rentalAndDetailInfo.getRDetail_status().contains("중지")) {
+			log.debug("이미 취소된 거래");
+			return "redirect:/";
+		}
+		
+		// 날짜 계산
+		LocalDateTime now = LocalDateTime.now();
+		String rDetail_sDate = rentalAndDetailInfo.getRDetail_sDate();
+		
+		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate + "T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);	
+		
+		log.debug("현재 날짜: {}", now);
+		log.debug("DB 저장 날짜: {}", rDetailDate);
+	
+		// 3일 이상 남았을 때
+		if (!rDetailDate.isBefore(now.plusDays(3))) {
+			service.cancleRentalDetail(rentalAndDetailInfo);
+		} else {
+			log.debug("3일 이상 남지않음");
+			return "redirect:/";
+		}
+			
+		return "redirect:/";
+	}
+	
+	/**
+	 * 경매 취소
+	 * @param user 스프핑 시큐리티
+	 * @param auctionAndFile 글번호, 경매자 아이디
+	 * @return 일단 메인
+	 */
+	@PostMapping("/cancleAuction")
+	public String cancleAuction(
+			@AuthenticationPrincipal UserDetails user
+			, AuctionAndFile auctionAndFile) {
+		
+		log.debug("user_email : {}", auctionAndFile.getUser_email());
+		log.debug("buyer_email : {}", auctionAndFile.getBuyer_email());
+		log.debug("used_id : {}", auctionAndFile.getAuction_id());
+		
+		AuctionAndFile auctionAndDetailInfo = service.selectAuctionAndDetailInfo(auctionAndFile.getAuction_id()); 
+
+		log.debug("usedAndDetailInfo : {}", auctionAndDetailInfo);
+			
+		if(!auctionAndDetailInfo.getUser_email().equals(user.getUsername())) {
+			log.debug("경매자가 아님");
+			return "redirect:/";
+		}
+		
+		if(auctionAndDetailInfo.getAuction_status().contains("중지") || auctionAndDetailInfo.getADetail_status().contains("중지")) {
+			log.debug("이미 취소된 거래");
+			return "redirect:/";
+		}
+		
+		service.cancleAuctionDetail(auctionAndDetailInfo);
+			
+		return "redirect:/";
+		
+	}
+	
+	/**
+	 * 입찰 취소
+	 * @param user	스프링 시큐리티
+	 * @param auctionAndFile 글번호, 입찰자아이디
+	 * @return 일단 메인
+	 */
+	@PostMapping("/cancleBid")
+	public String cancleBid(
+			@AuthenticationPrincipal UserDetails user
+			, AuctionAndFile auctionAndFile) {
+		
+		log.debug("user_email : {}", auctionAndFile.getUser_email());
+		log.debug("buyer_email : {}", auctionAndFile.getBuyer_email());
+		log.debug("auction_id : {}", auctionAndFile.getAuction_id());
+		
+		AuctionAndFile auctionAndDetailInfo = service.selectAuctionAndDetailInfo(auctionAndFile.getAuction_id()); 
+
+		log.debug("auctionAndDetailInfo : {}", auctionAndDetailInfo);
+		log.debug("auctionAndDetailInfo.바이어 : {}", auctionAndDetailInfo.getBuyer_email());
+			
+		if(!auctionAndDetailInfo.getBuyer_email().equals(user.getUsername())) {
+			log.debug("입찰자가 아님");
+			return "redirect:/";
+		}
+		
+		if(auctionAndDetailInfo.getAuction_status().contains("중지") || auctionAndDetailInfo.getADetail_status().contains("중지")) {
+			log.debug("이미 취소된 거래");
+			return "redirect:/";
+		}
+		
+		service.cancleBidDetail(auctionAndDetailInfo);
+			
+		return "redirect:/";		
+	}
+	
+	/**
+	 * 반납 확인 처리
+	 * @param user 스프링 시큐리티 
+	 * @param rentalAndFile 렌탈데이터
+	 * @return 일단 메인
+	 */
+	@PostMapping("/returnCheck")
+	public String returnCheck(
+			@AuthenticationPrincipal UserDetails user
+			, RentalAndFile rentalAndFile) {
+		
+		RentalAndFile rentalAndDetailInfo = service.selectRentalAndDetailInfo(rentalAndFile.getRental_id());
+		
+		log.debug("렌탈디테일 :{}", rentalAndDetailInfo);
+		log.debug("렌탈디테일상태 :{}", rentalAndDetailInfo.getRDetail_status());
+		log.debug("렌탈디테일 아이디 :{}", rentalAndDetailInfo.getUser_email());
+		log.debug("렌탈디테일 구매자 :{}", rentalAndDetailInfo.getBuyer_email());
+		log.debug("렌탈디테일 아이디 :{}", rentalAndDetailInfo.getRental_id());
+		
+		if(!rentalAndDetailInfo.getRDetail_status().equals("거래 중")) {
+			 log.debug("이미 취소 또는 완료된 거래");
+			 return "redirect:/";
+		}
+		
+		if(!rentalAndDetailInfo.getUser_email().equals(user.getUsername())) {
+			log.debug("유저가 경매자가 아님");
+			return "redirect:/";
+		}
+		
+		service.returncheck(rentalAndDetailInfo);
+		
+		return "redirect:/";
+	}
+	
+	@PostMapping("/extendCheck")
+	public String test(
+			RentalAndFile rentalAndFile
+			, Model model) {
+		
+		log.debug("올라온 데이터 : {}", rentalAndFile);
+		
+		RentalAndFile rs = service.selectRentalAndDetailInfo(rentalAndFile.getRental_id());
+		
+		log.debug("rs : {}", rs);
+		
+		model.addAttribute("rent", rs);
+		
+		return "mypage/extendRental";
+	}
+	
+	/**
 	 * 찜 목록 - 중고 거래 찜 리스트
 	 * @param user 스프링 시큐리티 객체
 	 * @param user_email 유저의 이메일
@@ -477,6 +699,13 @@ public class MyPageController {
 		return "mypage/my_wantList";
 	}
 	
+	/**
+	 * 나의 다마고치 페이지 포워딩
+	 * @param user 스프링 스큐리티 객체
+	 * @param user_email 로그인한 유저의 이메일
+	 * @param model 모델
+	 * @return 마이다마고치 페이지
+	 */
 	@GetMapping("/mydamagochi")
 	public String MyDamagochi(
 			@AuthenticationPrincipal UserDetails user
@@ -488,8 +717,22 @@ public class MyPageController {
 			return "redirect:/";
 		}
 		
+		Damagochi dama = service.selectMyDamaInfoById(user_email);
+		List<Damagochi> list = service.selectMyDamaListById(user_email);
+		
+		model.addAttribute("dama", dama);
+		model.addAttribute("damaList", list);
+		
 		return "mypage/my_damagochi";
 	}
+	
+	@GetMapping("/damagochishop")
+	public String damagochiShop() {
+		
+		return "mypage/my_damagochiShop";
+	}
+	
+	
 	
 
 	/**

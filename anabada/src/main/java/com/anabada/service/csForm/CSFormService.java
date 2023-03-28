@@ -1,13 +1,16 @@
 package com.anabada.service.csForm;
 
+import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.Rental;
+import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Report;
 import com.anabada.domain.Review;
 import com.anabada.domain.Used;
+import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
@@ -47,5 +50,7 @@ public interface CSFormService {
 
 	// 렌탈 거래 완료 글 검색(조인)
 	public Rental_detail selectRentalFinished(String rental_id);
+
+	
 
 }

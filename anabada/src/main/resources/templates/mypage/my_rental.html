@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>렌탈내역</title>
@@ -207,12 +209,40 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input type="button" class="btn btn-success" value="렌탈후기"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈취소"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 조기 반납"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 반납 확인"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인"></input>                                
+                                    <!-- 렌탈 후기 -->
+                                    <input type="button" class="btn btn-success" value="렌탈후기" th:onclick="|location.href='@{/csform/review(rental_id=${list.rental_id})}'|"></input>
+                                    <br>
+                                    <!-- 렌탈 취소 -->
+                                    <form th:action="@{/mypage/cancleRental}" method="post">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" th:value="${list.rental_status}">
+                                        <input type="hidden" name="uDetail_status" th:value="${list.rDetail_status}">
+                                        <input type="submit" class="btn btn-success" value="렌탈취소"></input>
+                                    </form>
+                                    <br>
+                                    <!-- 렌탈 연장 하기 -->
+                                    <form action="" method="post">
+                                        <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:if="${list.buyer_email} == ${us.user_email}"></input>
+                                    </form>
+                                    <br>
+                                    <!-- 렌탈 반납 확인-->
+                                    <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
+                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:if="${list.user_email} == ${us.user_email}"></input>
+                                    </form>
+                                    <br>
+                                    <!-- 렌탈 연장 확인-->
+                                    <form th:action="@{/mypage/extendCheck}" method="post">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="rDetail_sDate" th:value="${list.rDetail_sDate}">
+                                        <input type="hidden" name="rDetail_eDate" th:value="${list.rDetail_eDate}">
+                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
+                                        <input type="submit" class="btn btn-success" value="렌탈 연장 확인" th:if="${list.user_email} == ${us.user_email}">
+                                    </form>
+                                    <br>                                
                                 </div>
                             </td>
                         </tr>
@@ -241,12 +271,27 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input type="button" class="btn btn-success" value="렌탈후기"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈취소"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 조기 반납"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 반납 확인"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인"></input>                                
+                                    <!-- 렌탈 후기 -->
+                                    <input type="button" class="btn btn-success" value="렌탈후기" th:onclick="|location.href='@{/csform/review(rental_id=${list.rental_id})}'|"></input>
+                                    <!-- 렌탈 취소 -->
+                                    <form th:action="@{/mypage/cancleRental}" method="post">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" th:value="${list.rental_status}">
+                                        <input type="hidden" name="uDetail_status" th:value="${list.rDetail_status}">
+                                        <input type="submit" class="btn btn-success" value="렌탈취소"></input>
+                                    </form>
+                                    <!-- 렌탈 연장 하기-->
+                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:if="${list.buyer_email} == ${us.user_email}"></input>
+                                    <!-- 렌탈 반납 확인-->
+                                    <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
+                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:if="${list.user_email} == ${us.user_email}"></input>
+                                    </form>
+                                    <!-- 렌탈 연장 확인-->
+                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:if="${list.user_email} == ${us.user_email}"></input>                                
                                 </div>
                             </td>
                         </tr>
@@ -275,12 +320,27 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input type="button" class="btn btn-success" value="렌탈후기"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈취소"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 조기 반납"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 반납 확인"></input>
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인"></input>                                
+                                    <!-- 렌탈 후기 -->
+                                    <input type="button" class="btn btn-success" value="렌탈후기" th:onclick="|location.href='@{/csform/review(rental_id=${list.rental_id})}'|"></input>
+                                    <!-- 렌탈 취소 -->
+                                    <form th:action="@{/mypage/cancleRental}" method="post">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" th:value="${list.rental_status}">
+                                        <input type="hidden" name="uDetail_status" th:value="${list.rDetail_status}">
+                                        <input type="submit" class="btn btn-success" value="렌탈취소"></input>
+                                    </form>
+                                    <!-- 렌탈 연장 하기-->
+                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:if="${list.buyer_email} == ${us.user_email}" th:rentalid="${list.rental_id}" th:sDate="${list.rDetail_sDate}" th:eDate="${list.rDetail_eDate}" onclick="extendRental(this.getAttribute('rentalid'), this.getAttribute('sDate'), this.getAttribute('eDate'))"></input>
+                                    <!-- 렌탈 반납 확인-->
+                                    <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
+                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
+                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
+                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:if="${list.user_email} == ${us.user_email}"></input>
+                                    </form>
+                                    <!-- 렌탈 연장 확인-->
+                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:if="${list.user_email} == ${us.user_email}"></input>                                
                                 </div>
                             </td>
                         </tr>

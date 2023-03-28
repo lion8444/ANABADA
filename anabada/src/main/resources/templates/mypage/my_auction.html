@@ -206,8 +206,18 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input type="button" class="btn btn-success" value="경매 취소"></input>
-                                    <input type="button" class="btn btn-success" value="입찰 취소"></input>                             
+                                    <!-- 경매 취소 -->
+                                    <form th:action="@{/mypage/cancleAuction}" method="post">
+                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
+                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="submit" class="btn btn-success" value="경매 취소" th:if="${list.user_email} == ${us.user_email}">
+                                    </form>
+                                    <!-- 입찰 취소 -->
+                                    <form th:action="@{/mypage/cancleBid}" method="post">
+                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
+                                        <input type="hidden" name="buyer_email" th:value="${us.user_email}">
+                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:if="${list.buyer_email} == ${us.user_email}">                            
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -225,7 +235,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="${@/auction/auctionSellBoardRead(auctionn_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -236,8 +246,13 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypagebutton">
-                                    <input type="button" class="btn btn-success" value="경매 취소"></input>
-                                    <input type="button" class="btn btn-success" value="입찰 취소"></input>                             
+                                    <!-- 경매 취소 -->
+                                    <form th:action="@{/mypage/cancleAuction}" method="post">
+                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
+                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
+                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="submit" class="btn btn-success" value="경매 취소" th:if="${list.user_email} == ${us.user_email}">
+                                    </form>                    
                                 </div>
                             </td>
                         </tr>
@@ -255,7 +270,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="${@/auction/auctionSellBoardRead(auctionn_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -265,9 +280,13 @@ https://templatemo.com/tm-559-zay-shop
                                 </div>
                             </td>
                             <td>
+                                <!-- 입찰 취소 -->
                                 <div class="mypagebutton">
-                                    <input type="button" class="btn btn-success" value="경매 취소"></input>
-                                    <input type="button" class="btn btn-success" value="입찰 취소"></input>                             
+                                    <form th:action="@{/mypage/cancleBid}" method="post">
+                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
+                                        <input type="hidden" name="buyer_email" th:value="${us.user_email}">
+                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:if="${list.buyer_email} == ${us.user_email}">                            
+                                    </form>                            
                                 </div>
                             </td>
                         </tr>
