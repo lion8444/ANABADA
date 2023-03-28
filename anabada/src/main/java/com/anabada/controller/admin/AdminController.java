@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.anabada.domain.Admin_board;
+import com.anabada.domain.Inquiry;
+import com.anabada.domain.Report;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.admin.AdminService;
 
@@ -37,13 +40,35 @@ public class AdminController {
 		return "admin/admin_board.html";
 	}
 	
-	@GetMapping("/admin")
+	@GetMapping("admin")
 	public String adminPage(Model model) {
 		int sum = service.salesamount();
 		int join = service.joinamount();
-
+		
 		model.addAttribute("sum", sum);
 		model.addAttribute("join", join);
-		return "admin/admin_index";
+		return "admin/admin_index.html";
 	}
+	
+	@GetMapping("detail")
+	public String detail(Model model) {
+		
+		return "admin/admin_details.html";
+	}
+	
+	
+	@GetMapping("ask")
+	public String ask(Model model) {
+		ArrayList<Inquiry> inquiry = service.getallinquiry();
+		model.addAttribute("inquiry", inquiry);
+		return "admin/admin_inquiry.html";
+	}
+	
+	@GetMapping("report")
+	public String report(Model model) {
+		ArrayList<Report> report = service.getallreport();
+		model.addAttribute("report", report);
+		return "admin/admin_report.html";
+	}
+	
 }

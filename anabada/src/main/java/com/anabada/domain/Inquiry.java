@@ -15,4 +15,5 @@ public class Inquiry {
 	String inq_content;
 	String inq_answer;
 	String inq_status;
+	String inq_date;
 }

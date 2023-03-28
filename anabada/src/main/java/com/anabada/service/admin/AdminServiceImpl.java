@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.anabada.dao.AdminDAO;
 import com.anabada.domain.Admin_board;
+import com.anabada.domain.DetailData;
+import com.anabada.domain.Inquiry;
+import com.anabada.domain.Report;
 import com.anabada.domain.UserDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -131,4 +134,99 @@ public class AdminServiceImpl implements AdminService {
 
 		return join;
 	}
+	@Override
+	public ArrayList<Inquiry> getinquiry() {
+		ArrayList<Inquiry> inquiry = dao.getinquiry();
+		return inquiry;
+	}
+
+	@Override
+	public int updateanswer(String answer, int find) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("answer", answer);
+		map.put("find", find);
+
+		int i = dao.updateanswer(map);
+		
+		return i;
+	}
+	@Override
+	public ArrayList<Report> getclaim() {
+		ArrayList<Report> claim = dao.getclaim();
+		return claim;
+	}
+	
+	@Override
+	public int updateclaimanswer(String claimanswer, int find) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("claimanswer", claimanswer);
+		map.put("find", find);
+
+		int i = dao.updateclaimanswer(map);
+		
+		return i;
+	}
+	
+	@Override
+	public ArrayList<Inquiry> getallinquiry() {
+		ArrayList<Inquiry> inquiry = dao.getallinquiry();
+		return inquiry;
+	}
+	
+	@Override
+	public ArrayList<Report> getallreport() {
+		ArrayList<Report> Report = dao.getallreport();
+		return Report;
+	}
+	
+	@Override
+	public ArrayList<DetailData> getdetaildata(String used, String rental, String auction, String number, String amount,
+			String nkorea, String njapan, String lkorea, String ljapan, String visitor, String join, String sdate,
+			String edate) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("nkorea", nkorea);
+		map.put("njapan", njapan);
+		map.put("lkorea", lkorea);
+		map.put("ljapan", ljapan);
+		map.put("sdate", sdate);
+		map.put("edate", edate);
+
+		ArrayList<DetailData> alldata = new ArrayList<DetailData>();
+				
+		if(used != null) {
+			alldata.addAll(dao.getuseddata(map));
+		}
+		
+		if(rental != null) {
+			alldata.addAll(dao.getrentaldata(map));
+		}
+		
+		if(auction != null) {
+			alldata.addAll(dao.getauctiondata(map));
+		}
+		
+		if(alldata.size() == 0) {
+		}
+		else {
+		}
+		
+
+		
+//		if(visitor != null) {
+//			vnumber = dao.getvisitor(map);
+//			
+//		}		
+//		
+		if(join != null) {
+			alldata.addAll(dao.getjoin(map));
+			
+		}
+		
+		if(alldata.size() == 0) {
+			return null;
+		}
+		
+		return alldata;
+	}
+
 }

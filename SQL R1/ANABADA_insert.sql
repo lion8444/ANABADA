@@ -151,7 +151,22 @@ VALUES
 '배송 도착 완료라고 뜨는데 택배를 받지 못했습니다. 결제한지가 언젠데 왜 아직도 안오나요?',
 'ㅈㅅ');
 
+INSERT INTO `anabada`.`inquiry`
+(`inq_id`,
+`user_email`,
+`inq_category`,
+`inq_title`,
+`inq_content`,
+`inq_answer`)
+VALUES
+('INQU0002',
+'anabada@gmail.com',
+'결제문의',
+'결제 실패하는데요',
+'결제가 외않되죠??',
+'');
 
+DELETE FROM `anabada`.`inquiry` WHERE `inq_id` = 'INQU0002';
 -- -----------------------------------------------------
 -- Table `anabada`.`report`
 -- -----------------------------------------------------
@@ -175,7 +190,20 @@ VALUES
 '사기 당했습니다. 돈을 보내줬는데 제품을 안보내줍니다.',
 '안전거래를 이용해주세요.');
 
-
+INSERT INTO `anabada`.`report`
+(`report_id`,
+`user_email`,
+`report_reported`,
+`report_category`,
+`report_url`,
+`report_comment`)
+VALUES
+('REPO0002',
+'anabada@gmail.com',
+'ptsd@gmail.com',
+'그냥 신고해봐요',
+'https://www.google.com/',
+'사기 안 당했습니다. 돈을 안 보내줬는데 제품을 안보내줍니다.');
 -- -----------------------------------------------------
 -- Table `anabada`.`file`
 -- -----------------------------------------------------

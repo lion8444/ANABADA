@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.AdminDAO">
+   
+    <select id="getuseddata" parameterType="map" resultType="DetailData">
+		SELECT DATE(uDetail_Date) AS date,
+			   'used' AS id,
+		       sum(uDetail_price) AS sum,
+		       COUNT(*) AS count
+		FROM uTrade, used_detail, user
+		WHERE uTrade.uDetail_id = used_detail.uDetail_id
+			AND DATE(uDetail_Date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
+		    AND DATE(uDetail_Date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
+    		<if test='nkorea != null and njapan == null'>
+			AND user.user_nation = 'korea'
+			</if>
+			<if test='nkorea == null and njapan != null'>
+			AND user.user_nation = 'japan'
+			</if>
+			<if test='lkorea != null and ljapan == null'>
+			AND user.user_addr1 REGEXP '[가-힣]'
+			</if>
+			<if test='lkorea == null and ljapan != null'>
+			AND user.user_addr1 NOT REGEXP '[가-힣]';
+			</if>
+		GROUP BY date;	
+    </select>
+
+    <select id="getrentaldata" parameterType="map" resultType="DetailData">
+		SELECT DATE(rDetail_Date) AS date,
+			   'rental' AS id,
+		       sum(rDetail_price) AS sum,
+		       COUNT(*) AS count
+		FROM rTrade, rental_detail, user
+		WHERE rTrade.rDetail_id = rental_detail.rDetail_id
+			AND DATE(rDetail_Date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
+		    AND DATE(rDetail_Date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
+    		<if test='nkorea != null and njapan == null'>
+			AND user.user_nation = 'korea'
+			</if>
+			<if test='nkorea == null and njapan != null'>
+			AND user.user_nation = 'japan'
+			</if>
+			<if test='lkorea != null and ljapan == null'>
+			AND user.user_addr1 REGEXP '[가-힣]'
+			</if>
+			<if test='lkorea == null and ljapan != null'>
+			AND user.user_addr1 NOT REGEXP '[가-힣]';
+			</if>
+		GROUP BY date;	
+    </select>
+                       
+    <select id="getauctiondata" parameterType="map" resultType="DetailData">
+		SELECT DATE(aDetail_Date) AS date,
+     		   'auction' AS id,
+		       sum(aDetail_price) AS sum,
+		       COUNT(*) AS count
+		FROM aTrade, auction_detail, user
+		WHERE aTrade.aDetail_id = auction_detail.aDetail_id
+			AND DATE(aDetail_Date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
+		    AND DATE(aDetail_Date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
+    		<if test='nkorea != null and njapan == null'>
+			AND user.user_nation = 'korea'
+			</if>
+			<if test='nkorea == null and njapan != null'>
+			AND user.user_nation = 'japan'
+			</if>
+			<if test='lkorea != null and ljapan == null'>
+			AND user.user_addr1 REGEXP '[가-힣]'
+			</if>
+			<if test='lkorea == null and ljapan != null'>
+			AND user.user_addr1 NOT REGEXP '[가-힣]';
+			</if>
+		GROUP BY date;	
+    </select>
+ 
+    <select id="getjoin" parameterType="map" resultType="DetailData">
+		SELECT DATE(user_date) AS date,
+     		   'join' AS id,
+		       COUNT(*) AS count
+		FROM user
+		WHERE
+			DATE(user_date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
+		    AND DATE(user_date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
+    		<if test='nkorea != null and njapan == null'>
+			AND user_nation = 'korea'
+			</if>
+			<if test='nkorea == null and njapan != null'>
+			AND user_nation = 'japan'
+			</if>
+			<if test='lkorea != null and ljapan == null'>
+			AND user_addr1 REGEXP '[가-힣]'
+			</if>
+			<if test='lkorea == null and ljapan != null'>
+			AND user_addr1 NOT REGEXP '[가-힣]';
+			</if>
+		GROUP BY date;	
+    </select>                                               
+</mapper>

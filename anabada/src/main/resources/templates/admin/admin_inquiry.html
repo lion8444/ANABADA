@@ -17,143 +17,65 @@
     <link rel="stylesheet" th:href="@{/assets/admin_assets/css/style.css}">
     <link rel="stylesheet" th:href="@{/assets/admin_assets/css/custom.css}">
     <!-- End layout styles -->
-    <link rel="shortcut icon" th:href="@{/assets/admin_assets/images/favicon.ico}">
-	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
-	
-    
+    <link rel="shortcut icon" th:href="@{/assets/admin_assets/images/favicon.ico}" />
+    <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
     <script>
-	$(document).ready(function(){
-		inquiry();
-		claim();
-	});	
+		$(document).ready(function(){
 	
-	function inquiry(){
-		$.ajax({
-			url: 'inquiry'
-			, type: 'get'
-			, dataType: 'json'
-			, success: function(inquiry){
-				let raw = '';
-				raw += '<table class="table table-hover">';
-				for (let i = 0; i < inquiry.length; ++i){
-					raw += '<tr onclick="showbelow('+i+')"> <th>' + inquiry[i].inq_title + '</th>';
-					raw += '<td><label class="badge badge-danger" style="background-color:#fe7c96;">'+inquiry[i].inq_status+'</label></td>'
-					raw += '</tr>';
-					
-					raw += '<tr class="hidden'+i+'" style="display:none;"> <td>' + inquiry[i].inq_content + '</td> </tr>';
-					if (inquiry[i].inq_answer != null && inquiry[i].inq_answer != ""){
-						raw += '<tr class="hidden'+i+'" style="display:none;"> <td> ' + inquiry[i].inq_answer + '</td> </tr>';
-					}
-					else {
-						raw+= '<tr class="hidden'+i+'" style="display:none;"> <td> <textarea id="answer'+i+'" name="answer" style="width:100%;"></textarea> </td>';
-						raw+= '<td> <button class="badge badge-success" onclick="submitanswer('+i+')" style="background-color:#57c7d4;"> 답변 등록 </button> </td></tr>';
-					}
-				}
-				raw += '</table>';
-
-				$('.inquiry').html(raw);	
-
-			}
-			, error: function(){
-				alert("실패");
-			}
+		});	
+	
+		function modify(index){
+			$('.modify'+index).hide();
+			$('.confirm'+index).show();
+			$('.statusn'+index).hide();
+			$('.selectn'+index).show();
+			$('.statuss'+index).hide();
+			$('.selects'+index).show();
+		}		
+		
+		function confirm(index){
 			
-		});
-	}
-	
-	function showbelow(i){
-        let submenu = $('.hidden'+i);
-        
-        if( submenu.is(":visible") ){
-            submenu.slideUp();
-        }else{
-            submenu.slideDown();
-        }
-        }
-	
-	function submitanswer(i){
-        let answer = $('#answer'+i).val();
-        $.ajax({
-			url: 'submitanswer'
-			, type: 'get'
-			, data: {'answer' : answer, "find" : i}
-			, success: function(){
-				inquiry();
-			}
-			, error: function(){
-				alert("실패");
-			}
-		});
-	}
-	
-	
-	function claim(){
-		$.ajax({
-			url: 'claim'
-			, type: 'get'
-			, dataType: 'json'
-			, success: function(claim){
-				let raw = '';
-				raw += '<table class="table table-hover">';
-				for (let i = 0; i < claim.length; ++i){
-					raw += '<tr onclick="showclaim('+i+')"> <th>[' + claim[i].report_category + '] ' + claim[i].report_category +'</th>';
-					raw += '<td><label class="badge badge-danger" style="background-color:#fe7c96;">'+claim[i].report_status+'</label></td>'
-					raw += '</tr>';
+			$.ajax({
+				url: 'usermodify'
+				, type: 'post'
+				, data: {'selectn': $('.nick'+index).val(), 'selects': $('select[name=user_status'+index+']').val(), 'index':index}
+				, dataType: 'json'
+				, success: function(newuser){
+					if(newuser.user_status == 1){
+						$('.statuss'+index).html('활성');
+					}
+					else if(newuser.user_status == 0){
+						$('.statuss'+index).html('비활성');
+					}			
 					
-					raw += '<tr class="chidden'+i+'" style="display:none;"> <td>' + claim[i].report_comment + '</td> </tr>';
-					if (claim[i].report_answer != null && claim[i].report_answer != ""){
-						raw += '<tr class="chidden'+i+'" style="display:none;"> <td> ' + claim[i].report_answer + '</td> </tr>';
-					}
-					else {
-						raw+= '<tr class="chidden'+i+'" style="display:none;"> <td> <textarea id="claimanswer'+i+'" name="claimanswer" style="width:100%;"></textarea> </td>';
-						raw+= '<td> <button class="badge badge-success" onclick="claimanswer('+i+')" style="background-color:#57c7d4;"> 답변 등록 </button> </td></tr>';
-					}
+					$('.statusn'+index).html(newuser.user_nick);
+					$('.modify'+index).show();
+					$('.confirm'+index).hide();		
+					$('.statusn'+index).show();
+					$('.selectn'+index).hide();
+					$('.statuss'+index).show();
+					$('.selects'+index).hide();
 				}
-				raw += '</table>'
-
-				$('.claim').html(raw);				
-
-			}
-			, error: function(){
-				alert("실패");
-			}
+				, error: function(){
+					alert("실패");
+				}
+				
+			});
+		}
+		
+		function userboard(index){
+			location.href = '/admin/board?user_email=' + $('.email'+index).html();
 			
-		});
-	}
-	
-	function showclaim(i){
-        let submenu = $('.chidden'+i);
-        
-        if( submenu.is(":visible") ){
-            submenu.slideUp();
-        }else{
-            submenu.slideDown();
-        }
-        }
-	
-	function claimanswer(i){
-        let claimanswer = $('#claimanswer'+i).val();
-        $.ajax({
-			url: 'claimanswer'
-			, type: 'get'
-			, data: {'claimanswer' : claimanswer, "find" : i}
-			, success: function(){
-				claim();
-			}
-			, error: function(){
-				alert("실패");
-			}
-		});
-	}        
-	
-    </script>
+		}
+		
+	</script>
   </head>
   <body>
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" th:href="@{/admin/admin}"><img th:src="@{/assets/admin_assets/images/logo.svg}" alt="logo" /></a>
+          <a class="navbar-brand brand-logo"  th:href="@{/admin/admin}"><img th:src="@{/assets/admin_assets/images/logo.svg}" alt="logo" /></a>
           <a class="navbar-brand brand-logo-mini"  th:href="@{/admin/admin}"><img th:src="@{/assets/admin_assets/images/logo-mini.svg}" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -355,148 +277,51 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            <div class="page-header">
-              <h3 class="page-title">
-                <span class="page-title-icon bg-gradient-primary text-white me-2">
-                  <i class="mdi mdi-home"></i>
-                </span> Dashboard
-              </h3>
-              <nav aria-label="breadcrumb">
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                  </li>
-                </ul>
-              </nav>
-            </div>
 
-            <!-- 대시보드(메인) 컨텐츠 시작 -->
 
-            <!-- 주간 판매량 -->
-            <div class="row">
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-danger card-img-holder text-white">
-                  <div class="card-body">
-                    <img th:src="@{/assets/admin_assets/images/dashboard/circle.svg}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Monthly Sales <i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5" th:text="${#numbers.formatInteger(sum, 3, 'COMMA') + '원'}"></h2>
-                    <h6 class="card-text">Increased by 60%</h6>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 주간 방문자수 -->
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-info card-img-holder text-white">
-                  <div class="card-body">
-                    <img th:src="@{/assets/admin_assets/images/dashboard/circle.svg}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Monthly Visitors <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5">6334</h2>
-                    <h6 class="card-text">Decreased by 10%</h6>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 주간 회원 가입자 수-->
-              <div class="col-md-4 stretch-card grid-margin">
-                <div class="card bg-gradient-success card-img-holder text-white">
-                  <div class="card-body">
-                    <img th:src="@{/assets/admin_assets/images/dashboard/circle.svg}" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Monthly Join Members <i class="mdi mdi-diamond mdi-24px float-right"></i>
-                    </h4>
-                    <h2 class="mb-5" th:text = "${join + '명'}"></h2>
-                    <h6 class="card-text">Increased by 5%</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 반기별 월별 거래량 그래프 -->
-            <div class="row">
-              <div class="col-md-5 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="clearfix">
-                      <h4 class="card-title float-left">반기별 월별 거래량</h4>
-                      <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
-                    </div>  
-                    <canvas id="visit-sale-chart" class="mt-4"></canvas>
-                  </div>
-                </div>
-              </div>
 
               <!-- 일자별 요약 테이블 -->
-              <div class="col-md-7 grid-margin stretch-card">
+              <div class="grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">일자별 요약</h4>
+                    <h4 class="card-title">회원 관리</h4>
                     <!-- <canvas id="traffic-chart"></canvas>
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div> -->
-                    <div class="gotodaysdetails">
-                      <a href=""><h4 class="card-title"><u>일자별 요약상세</u></h4></a>
-                    </div>
-                    </p>
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>일자</th>
-                          <th>중고</th>
-                          <th>렌탈</th>
-                          <th>경매</th>
-                          <th>가입</th>
-                          <th>방문자</th>
-                          <th>1일 매출액</th>
-                        </tr>
+                          <th>문의 날짜</th>
+                          <th>문의 번호</th>
+                          <th>이메일</th>
+                          <th>문의 분류</th>
+                          <th>제목</th>
+                          <th>상태</th>                          
+	                    </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>2023-03-13</td>
-                          <td>중고정보</td>
-                          <td class="text-danger"> 렌탈정보 <i class="mdi mdi-arrow-down"></i></td>
-                          <td>경매정보</td>
-                          <td>가입자정보</td>
-                          <td>방문자정보</td>
-                          <td>1일매출액 : </td>
-                        </tr>
+                        <tr th:each="inquiry, i: ${inquiry}">
+                          <td th:text="${inquiry.inq_date}"></td>
+                          <td th:text="${inquiry.inq_id}"></td>
+                          <td th:text="${inquiry.user_email}"></td>
+                          <td th:text="${inquiry.inq_category}"></td>
+                          <td th:text="${inquiry.inq_title}"></td>
+                          <td th:text="${inquiry.inq_status}"></td>
+                        </tr>																	
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
+           
 
-            <!-- 문의 내역 리스트 -->
-            <div class="row">
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title inquiry">문의</h4>
-                    
-
-                  </div>
-                </div>
-              </div>
-
-              <!-- 신고 내역 리스트 -->
-              <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title claim">들어온 신고</h4>            
-                      
-                  </div>
-                </div>
-              </div>
-            </div>                                       
-          </div>
           <!-- 대시보드(메인) 컨텐츠 끝 -->
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div class="container-fluid d-flex justify-content-between">
-              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©ANABADA 2023</span>
-              <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> <a href="#" target="_blank">ANABADA</a></span>
+              <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com 2021</span>
+              <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin template</a> from Bootstrapdash.com</span>
             </div>
           </footer>
           <!-- partial -->

@@ -183,6 +183,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`inquiry` (
   `inq_content` VARCHAR(2000) NOT NULL,
   `inq_answer` VARCHAR(2000) NULL,
   `inq_status` VARCHAR(20) NULL DEFAULT '접수 완료',
+  `inq_date` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`inq_id`),
   INDEX `fk_inquiry_user1_idx` (`user_email` ASC) VISIBLE,
   CONSTRAINT `fk_inquiry_user1`
@@ -207,6 +208,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`report` (
   `report_comment` VARCHAR(45) NOT NULL,
   `report_answer` VARCHAR(45) NULL,
   `report_status` VARCHAR(45) NULL DEFAULT '접수 완료',
+  `report_date` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`report_id`),
   INDEX `fk_report_user1_idx` (`user_email` ASC) VISIBLE,
   CONSTRAINT `fk_report_user1`

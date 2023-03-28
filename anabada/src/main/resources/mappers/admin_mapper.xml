@@ -52,19 +52,19 @@
 	
 	<select id="count" parameterType="map" resultType="int">
 		<if test='string == "used"'>
-			SELECT COUNT(*) FROM 
-			uTrade
+			SELECT COUNT(*) 
+			FROM uTrade
 			WHERE EXISTS (SELECT * FROM used_detail WHERE used_detail.uDetail_id = uTrade.uDetail_id AND MONTH(used_detail.uDetail_Date) = #{monthnum})
 		</if>
 		<if test='string == "rental"'>
-			SELECT COUNT(*) FROM 
-			rTrade
+			SELECT COUNT(*) 
+			FROM rTrade
 			WHERE EXISTS (SELECT * FROM rental_detail WHERE rental_detail.rDetail_id = rTrade.rDetail_id AND MONTH(rental_detail.rDetail_Date) = #{monthnum})
 			
 		</if>
 		<if test='string == "auction"'>
-			SELECT COUNT(*) FROM 
-			aTrade
+			SELECT COUNT(*) 
+			FROM aTrade
 			WHERE EXISTS (SELECT * FROM auction_detail WHERE auction_detail.aDetail_id = aTrade.aDetail_id AND MONTH(auction_detail.aDetail_Date) = #{monthnum})
 		</if>
 	</select>
@@ -80,4 +80,39 @@
 	<select id="joinamount" parameterType="int" resultType="int">
 		SELECT count(*) FROM user WHERE MONTH(user_date) = #{month}
 	</select>
+
+	<select id="getinquiry" resultType="Inquiry">
+		SELECT * FROM inquiry ORDER BY inq_date DESC LIMIT 10
+	</select>
+	
+	<update id="updateanswer" parameterType="map">
+		UPDATE inquiry
+		SET inq_answer = #{answer},
+			inq_status = '답변완료'
+		WHERE inq_id = (SELECT inq_id FROM (SELECT inq_id FROM inquiry AS inquiry ORDER BY inq_date DESC LIMIT 10) AS i_t LIMIT #{find}, 1)
+	</update>
+
+	<select id="getclaim" resultType="Report">
+		SELECT * FROM report ORDER BY report_date DESC LIMIT 10
+	</select>
+	
+	<update id="updateclaimanswer" parameterType="map">
+		UPDATE report
+		SET report_answer = #{claimanswer},
+			report_status = '답변완료'
+		WHERE report_id = (SELECT report_id FROM (SELECT report_id FROM report AS report ORDER BY report_date DESC LIMIT 10) AS r_t LIMIT #{find}, 1)
+	</update>		
+	
+	<select id="getallinquiry" resultType="Inquiry">
+		SELECT inq_id, user_email, inq_category, inq_title, inq_content
+				, inq_answer, inq_status, DATE_FORMAT(inq_date,'%Y-%m-%d') AS inq_date
+		 FROM inquiry 
+	</select>
+	
+	<select id="getallreport" resultType="Report">
+		SELECT report_id, user_email, report_reported, report_category, report_url
+				, report_comment, report_answer, report_status, DATE_FORMAT(report_date,'%Y-%m-%d') AS report_date
+		 FROM report 
+	</select>
+	
 </mapper>

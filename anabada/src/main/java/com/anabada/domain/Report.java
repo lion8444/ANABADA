@@ -16,4 +16,5 @@ public class Report {
 	String report_comment;
 	String report_answer;
 	String report_status;
+	String report_date;
 }

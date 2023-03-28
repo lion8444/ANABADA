@@ -4,26 +4,123 @@ $(function () {
    * Data and config for chartjs
    */
   'use strict';
+  
+  	$(document).ready(function(){
+		$('input[name=sdate]').val(new Date().toISOString().substring(0, 10));
+		$('input[name=edate]').val(new Date().toISOString().substring(0, 10));
+		$('#csubmit').click(getdata);	
+	});
+	
+	function getDatesStartToLast(startDate, lastDate) {
+		var regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+		if(!(regex.test(startDate) && regex.test(lastDate))) return "Not Date Format";
+		var result = [];
+		var curDate = new Date(startDate);
+		while(curDate <= new Date(lastDate)) {
+			result.push(curDate.toISOString().split("T")[0]);
+			curDate.setDate(curDate.getDate() + 1);
+		}
+		return result;
+	}
+  
+  function getdata(){
+		$.ajax({
+			url: 'getdata'
+			, type: 'post'
+			, traditional: true
+			, data: {
+				'used': $('input[name=used]:checked').val()
+				, 'rental': $('input[name=rental]:checked').val()
+				, 'auction': $('input[name=auction]:checked').val()
+				, 'number': $('input[name=number]:checked').val()
+				, 'amount': $('input[name=amount]:checked').val()
+				, 'nkorea': $('input[name=nkorea]:checked').val()
+				, 'njapan': $('input[name=njapan]:checked').val()
+				, 'lkorea': $('input[name=lkorea]:checked').val()
+				, 'ljapan': $('input[name=ljapan]:checked').val()
+				, 'visitor': $('input[name=visitor]:checked').val()
+				, 'join': $('input[name=join]:checked').val()
+				, 'sdate': $('input[name=sdate]').val()
+				, 'edate': $('input[name=edate]').val()}
+			, dataType: 'json'
+			, success: function(alldata){
+				for(let i = 0; i < alldata.length; ++i){
+					alert(alldata[i].date);
+					}
+			}
+			, error: function(){
+				alert("실패");
+			}
+			
+		});
+	}
+	
+
+	
   var data = {
-    labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
+    labels: [1, 2, 3, 4, 5, 6],
     datasets: [{
       label: '# of Votes',
-      data: [10, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
+      data: [1, 19, 3, 5, 2, 3],
       borderColor: [
-        'rgba(255,99,132,1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
+        'rgba(255,99,132,1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    }, {
+      label: '# of Votes',
+      data: [2, 19, 3, 5, 2, 3],
+      borderColor: [
+        'rgba(54, 162, 235, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    },{
+      label: '# of Votes',
+      data: [3, 8, 8, 8, 2, 3],
+      borderColor: [
+        'rgba(255, 206, 86, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    },{
+      label: '# of Votes',
+      data: [4, 4, 4, 5, 2, 3],
+      borderColor: [
+        'rgba(75, 192, 192, 1)'
+
+      ],
+      borderWidth: 1,
+      fill: false
+    },{
+      label: '# of Votes',
+      data: [5, 4, 4, 5, 2, 3],
+      borderColor: [
+        'rgba(153, 102, 255, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    },{
+      label: '# of Votes',
+      data: [6, 4, 4, 5, 2, 3],
+      borderColor: [
         'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    },{
+      label: '# of Votes',
+      data: [7, 4, 4, 5, 2, 3],
+      borderColor: [
+        'rgba(120,99,132,1)'
+      ],
+      borderWidth: 1,
+      fill: false
+    },{
+      label: '# of Votes',
+      data: [8, 4, 4, 5, 2, 3],
+      borderColor: [
+        'rgba(0,99,132,1)'
       ],
       borderWidth: 1,
       fill: false
