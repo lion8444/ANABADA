@@ -146,7 +146,7 @@ https://templatemo.com/tm-559-zay-shop
                 <table>
                     <tr>
                         <th style="width: 100px;">작성자 이메일</th>
-                        <!-- <td th:text="${used_buy.user_email}" style="width: 600px;"> -->
+                        <td th:text="${used_buy.user_email}" style="width: 600px;">
                         </td>
                     </tr>
                     <tr>
@@ -172,13 +172,14 @@ https://templatemo.com/tm-559-zay-shop
                 <!-- <a th:href="@{/usedBuyBoardDelete(used_id=${board.boardnum})}">수정</a>-->
                     <!-- <a th:href="@{/usedBuyBoardDelete(${used_buy.uBuy_id})}">삭제</a>    -->
                 <!-- </div> -->
+                <div th:if="${#authentication.name}==${used_buy.user_email}">
                 <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
-                <a th:href="@{/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}">수정</a>
+                <a th:href="@{/used/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}">수정</a>
                 <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
 
                 <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
-                <a th:href="@{/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}">삭제</a>
-
+                <a th:href="@{/used/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}">삭제</a>
+                </div>   
             </form>
         </section>
 

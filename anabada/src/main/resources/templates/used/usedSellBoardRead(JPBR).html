@@ -161,21 +161,19 @@ https://templatemo.com/tm-559-zay-shop
                     <a href="">신고</a>
 
                     <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
-                    <a th:href="@{/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a>
+                    <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a>
     
                     <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
-                    <a th:href="@{/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a>
+                    <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a>
+                    
+                    <!-- div태그로 로그인 했을 경우 넣으면 css안나오는데 이거 어떻게 하는지 모르겠음 -->
 
                     <!-- 로그인 했을경우 -->
-                    <!-- <div th:if="${#authentication.name}==${used.user_email}">
-                        <a th:href="@{/board/update(num=${board.boardnum})}">수정</a>     
+                    <!-- <div th:if="${#authentication.name}==${used_sell.user_email}">   
                         <a th:href="|javascript:usedSellBoardDelete(${used.used_id})|" >삭제</a>
                      </div> -->
-                     <!-- <a th:href="@{/usedSellBoardDelete?used_id=${used.used_id}&file_saved=${used.file_saved}}">삭제</a> -->
-                     
-                  
-                    <!-- 터지는 이유 아이디랑 사진이 없어서 데이터를 못받아오기 때문에 오류가 터짐 
-                        즉 히든으로 아이디를 넣어주자 사진이랑-->
+                     <!-- <a th:href="@{/used/usedSellBoardDelete?used_id=${used_sell.used_id}&file_saved=${used_sell.file_saved}}">삭제</a> -->
+                    
 
                     
 
@@ -229,7 +227,7 @@ https://templatemo.com/tm-559-zay-shop
                         </div>
                         <div class="text">
                             <h3 class="mb-0">Alicia Huston</h3>
-                            <div class="meta mb-3">Real Estate</div>
+                            <div class="meta mb-3" th:text="${used_sell.user_email}">Real Estate</div>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione laborum quo quos omnis sed magnam id ducimus saepe</p>
                             <ul class="list-unstyled social dark-hover d-flex">
                                 <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>

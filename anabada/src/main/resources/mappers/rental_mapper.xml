@@ -31,8 +31,251 @@
     </select>
     
     <update id="usemoney" parameterType="map">
-    	UPDATE used
+    	UPDATE user
     	SET user_account = #{account}
     	WHERE user_email = #{user_email}
     </update>
+    
+    <select id="recommendList" resultType="Rental" parameterType="map">
+    	SELECT
+    		*
+    	FROM
+    		rental
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='rental_title'">
+					upper(rental_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type =='rental_content'">
+					upper(rental_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				
+				<if test ="type == 'all'">
+					upper(rental_title) like '%' || #{searchWord} || '%'
+					or upper(rental_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+    </select>
+    
+    <select id="gettitle" resultType="String">
+    	SELECT rental_title FROM rental
+    </select>
+    
+    <!-- 렌탈 글 다 가져오기 -->
+    <select id="rentalBoard" resultType="Rental" parameterType="map">
+    	SELECT
+    		*
+    	FROM
+    		rental
+    	<!-- WHERE
+    		rental_id
+    	IN
+    	(SELECT board_no from file ) -->
+    	
+    	<!-- 검색어가 null이 아니면 where조건을 추가한다 -->
+		<!-- 검색대상이 rental_title이면 제목에서 검색한다 -->
+		<!-- 검색대상이 rental_content이면 본문에서 검색한다 -->
+		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
+		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
+		<where>
+		<if test="searchWord != null and type != null" >
+			
+				<if test="type =='rental_title'">
+					upper(rental_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type =='rental_content'">
+					upper(rental_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				
+				<if test ="type == 'all'">
+					upper(rental_title) like '%' || #{searchWord} || '%'
+					or upper(rental_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</if>
+			and rental_status != 'DELETE'
+		</where>
+    </select>
+    
+
+    
+    <!-- 전체 글 개수 -->
+	<select id="total" parameterType="map" resultType="int">
+		select count(*) from rental
+		<if test="type != null and searchWord != null">
+		<where>	
+			<if test="type == 'rental_title'">
+				upper(rental_title) like '%' || upper(#{searchWord}) || '%'
+			</if>
+			<if test="type == 'rental_contents'">
+				upper(rental_contents) like '%' || upper(#{searchWord}) || '%'
+			</if>
+			<if test="type == 'user_email'">
+				user_email = #{searchWord}
+			</if>
+			<if test="type == 'all'">
+				upper(rental_title) like '%' || upper(#{searchWord}) || '%'
+				or upper(rental_contents) like '%' || upper(#{searchWord}) || '%'
+				or user_email = #{searchWord}
+			</if>
+		</where>	
+		</if>
+	</select>
+	
+	 <select id="fileList" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE (board_no, file_id) in (
+          SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!--렌탈 글 저장-->
+    <insert id="rentalWrite" parameterType="Rental">
+    	 INSERT INTO
+    		rental(
+	    		rental_id
+				,user_email
+				,category_id
+				,rental_title
+				,rental_date
+				,rental_price
+				,rental_content
+				,rental_quality
+				,rental_sDate
+				,rental_eDate
+				,rental_status
+				,uloc_id
+				,sloc_id
+    		    )
+    	VALUES(
+	    		func_seq_10('RENT')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{rental_title}
+    			,#{rental_date}
+    			,#{rental_price}
+    			,#{rental_content}
+    			,#{rental_quality}
+    			,#{rental_sDate}
+				,#{rental_eDate}
+				,'NEW'
+    			,#{uloc_id}
+				,#{sloc_id}
+    			)
+    	<selectKey keyProperty="rental_id" keyColumn="rental_id" resultType="String" order="AFTER">
+    		SELECT 
+    			rental_id 
+    		from 
+    			rental
+    		order by
+    			rental_date desc
+    		LIMIT 1
+    	</selectKey>
+    </insert>
+    
+    <insert id="insertFile" parameterType="File">
+    	INSERT INTO
+    		file(
+    			file_id
+    			,board_status
+    			,board_no
+    		<if test="file_origin !=null and file_origin != ''">
+    			,file_origin
+    		</if>
+    		<if test="file_saved !=null and file_saved != ''">
+    			,file_saved
+    		</if>
+    			)
+    		VALUES
+    			(
+    			func_seq_10('FILE')
+    			,#{board_status}
+    			,#{board_no}
+    		<if test="file_origin !=null and file_origin != ''">
+    			,#{file_origin}
+    		</if>
+    		<if test="file_saved !=null and file_saved != ''">
+    			,#{file_saved}
+    		</if>
+    			)
+    </insert>
+    
+     <!-- 중고거래 파는 글 한개 읽기 -->
+    <select id="rentalBoardRead" parameterType="String" resultType="Rental">
+    	SELECT
+    		rental_id
+			, user_email
+			, category_id
+			, rental_title
+			, DATE_FORMAT(rental_date, '%Y-%m-%d')
+			, rental_price
+			, rental_content
+			, rental_quality
+			, rental_status
+			, rental_sDate
+			, rental_eDate
+			, uloc_id
+			, sloc_id
+    	FROM
+    		rental
+    	WHERE
+    		rental_id = #{rental_id}
+    </select>
+    
+    <!-- 렌탈 글 수정 -->	
+	<update id="rentalBoardUpdate" parameterType="Rental">
+	    UPDATE rental
+	    SET
+	        category_id = #{category_id},
+	        rental_title = #{rental_title},
+	        rental_date = #{rental_date},
+	        rental_price = #{rental_price},
+	        rental_content = #{rental_content},
+	        rental_quality = #{rental_quality},
+	        rental_status = #{rental_status},
+	        rental_sDate = #{rental_sDate},
+			rental_eDate = #{rental_eDate},
+	        uloc_id = #{uloc_id},
+	        sloc_id = #{sloc_id}
+	    WHERE
+	        rental_id = #{rental_id}
+	</update>
+
+  	<select id="fileListAll" resultType="File" parameterType="String">
+  		SELECT
+  			*
+  		FROM 
+  			file
+  		WHERE
+  			board_no = #{rental_id}
+  	</select>
+  	
+  	 <!-- 렌탈 글 삭제 -->
+
+	<update id="rentalBoardDelete" parameterType="Rental">
+    	UPDATE rental
+	    SET rental_status = 'DELETE'
+	    WHERE rental_id = #{rental_id}
+    <!--  AND
+            user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
+	</update>
+    
+    
+    
+    
 </mapper>

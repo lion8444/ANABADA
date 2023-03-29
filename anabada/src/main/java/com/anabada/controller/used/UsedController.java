@@ -47,7 +47,7 @@ public class UsedController {
 	int pagePerGroup;
 	
 	/**
-	 * 중고거래 팝니다 게시판으로 이동(다 보여줌)
+	 * 중고거래 팝니다 게시판으로 이동(다 보여줌) ok 0324
 	 **/
 	@GetMapping("/usedSellBoard")      //@GetMapping("/SellBoard") 리퀘스트 매핑 넣고 바꿔주기
 	public String usedSellBoard(
@@ -62,8 +62,8 @@ public class UsedController {
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		ArrayList <File> fileList = service.fileList();
 		
-//		ArrayList <Used> recommendList = service.recommendList(
-//				navi.getStartRecord(),countPerPage, type, searchWord);
+		ArrayList <Used> recommendList = service.recommendList(
+				navi.getStartRecord(),countPerPage, type, searchWord);
 		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
@@ -71,12 +71,13 @@ public class UsedController {
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("fileList", fileList);
 		
-//		log.debug("filelist {}: ", fileList);
+		//log.debug("filelist {}: ", fileList);
 		return "used/usedSellBoard(JPB)";
 	}
 	
 	/**
-	 * 중고거래 팝니다 게시판으로 이동(한개 보여줌)
+	 * 중고거래 팝니다 게시판으로 이동(한개 보여줌) 
+	 *  조회수
 	 **/
 	@GetMapping("usedSellBoardRead")
 	public String usedSellBoardRead(
@@ -93,46 +94,23 @@ public class UsedController {
 	
 	
 	/**
-	 * 중고거래 팝니다 글 삭제
+	 * 중고거래 팝니다 글 삭제 ok 0324
 	 **/
-//	@GetMapping("usedSellBoardDelete")
-//	public String usedSellBoardDelete(
-//			@RequestParam(name="used_id", defaultValue="0") String used_id
-//			, File file
-//			, @AuthenticationPrincipal UserDetails user) {
-//
-//		String email = user.getUsername();
-//
-//		Used used = service.usedSellBoardRead(used_id);
-////		해당번호의 글이 있는지 확인. 없으면 글목록으로
-//		if (used == null) return "redirect:list";
-////		로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-//		if (!used.getUser_email().equals(email)) return "redirect:list";
-//		
-////		첨부된 파일이 있으면 파일삭제
-//		if (file.getFile_saved() != null) {
-//			FileService.deleteFile(uploadPath + "/" + file.getFile_saved());
-//		}
-////		실제 글 DB에서 삭제
-//		service.usedSellBoardDelete(used);
-////		글 목록으로 리다이렉트
-//		return "redirect:usedSellBoard(JPB)";
-//	}
 	
-	@GetMapping("usedSellBoardDelete")
+	@GetMapping("usedSellBoardDelete") 
 	public String usedSellBoardDelete(
-	        @RequestParam(name="used_id", defaultValue="0") String used_id,
-	        @RequestParam(name="file_saved", defaultValue="") String file_saved
-	        //@AuthenticationPrincipal UserDetails user
+	        @RequestParam(name="used_id", defaultValue="0") String used_id
+	        ,@RequestParam(name="file_saved", defaultValue="") String file_saved
+	        ,@AuthenticationPrincipal UserDetails user
 	        ) {
 
-	    //String email = user.getUsername();
+		String id = user.getUsername();
 
 	    Used used = service.usedSellBoardRead(used_id);
 	    // 해당번호의 글이 있는지 확인. 없으면 글목록으로
-	    if (used == null) return "redirect:list";
+	    if (used == null) return "redirect:/";
 	    // 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-	    //if (!used.getUser_email().equals(email)) return "redirect:list";
+	    if (!used.getUser_email().equals(user.getUsername())) return "redirect:/";
 
 	    // 첨부된 파일이 있으면 파일삭제
 	    if (!file_saved.isEmpty()) {
@@ -161,12 +139,20 @@ public class UsedController {
 		 * 
 		 * func_file_name(str)*/
 
-	
+	/**
+	 * 중고거래 팝니다 글쓰기 처리
+	 **/
 	@PostMapping("/usedSellWrite")
 		public String usedSellWrite(
+			@AuthenticationPrincipal UserDetails user,
 			@ModelAttribute Used used,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
+			
+		
+			//로그인한 아이디 읽어서 board객체에 추가
+			used.setUser_email(user.getUsername());
+				
 			String used_id = service.usedSellWrite(used);
 
 			if(upload.isEmpty() || upload.get(0).isEmpty()) {
@@ -206,17 +192,14 @@ public class UsedController {
 	public String usedSellBoardUpdate(
 			Model model
 			,@RequestParam(name="used_id", defaultValue="0") String used_id
-			//,@AuthenticationPrincipal UserDetails user
+			,@AuthenticationPrincipal UserDetails user
 			) {
 		
 		//전달된 아이디의 글정보 읽기
 		Used used = service.usedSellBoardRead(used_id);
 		
-		//로그인한 사용자의 아이디를 읽음
-		//String id = user.getUsername();
-		
 		//본인 글인지 확인, 아니면 글목록으로 이동
-		//if (!used.getUser_email().equals(user.getUsername())) return "redirect:list");
+		if (!used.getUser_email().equals(user.getUsername())) return "redirect:/";
 		
 		//글정보를 모델에 저장
 		model.addAttribute("used",used);
@@ -228,18 +211,31 @@ public class UsedController {
 	//수정폼에서 보낸 내용 처리
 	@PostMapping("usedSellBoardUpdate")
 	public String usedSellBoardUpdate(
-	    @ModelAttribute Used used,
-	    @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
-	    @RequestParam(name = "uploadOne") MultipartFile uploadOne
+	    @ModelAttribute Used used
+	    ,@RequestParam(name = "upload") ArrayList<MultipartFile> upload
+	    ,@RequestParam(name = "uploadOne") MultipartFile uploadOne
+	    ,@AuthenticationPrincipal UserDetails user
 	) {
 	    String used_id = service.usedSellBoardUpdate(used);
+	    
+	  //로그인한 사용자의 아이디를 읽음
+	  	String id = user.getUsername();
 	    
 	    if (used_id == null) {
 	        return "redirect:/";
 	    }
+	    //처음에 해당 글에 file있는지 여부 확인해서 isempty 그래서 있으면 
+//	    걍 싹 다 지우고 다시 저장하는데 순서가 맨 처음에 uploadOne 을 넣고 그다음에
+//	    배열 돌리기
 	    
 	    // 추가된 사진 처리
 	    if (!uploadOne.isEmpty()) {
+			ArrayList<File> files = service.fileListAll(used_id);
+			
+			if(!files.isEmpty()) {
+				//service.deleteFile
+			}
+			
 	        String filename = FileService.saveFile(uploadOne, uploadPath);
 	        File savedFile = new File();
 	        savedFile.setFile_origin(uploadOne.getOriginalFilename());
@@ -265,14 +261,55 @@ public class UsedController {
 	    return "redirect:/";
 	}
 	
-
+	
+//	@PostMapping("usedSellBoardUpdate")
+//	public String usedSellBoardUpdate(
+//			Used used
+//			,File file
+//			, ArrayList<MultipartFile> upload
+//			, MultipartFile uploadOne
+//			, @AuthenticationPrincipal UserDetails user
+//			) {
+//		//로그인한 사용자의 아이디를 읽음
+//	  	String id = user.getUsername();
+//	  	used.setUser_email(user.getUsername());
+//	  	
+//	  	Used oldBoard = null;
+//	  	File oldFile = null;
+//	  	String oldSavedfile = null;
+//		String savedfile = null;
+//		
+//		if (upload != null && !upload.isEmpty()) {
+//			oldBoard = service.usedSellBoardRead(used.getUsed_id());
+//			oldFile = service.fileList();
+//			oldSavedfile = oldBoard == null ? null : oldFile.getFile_saved();
+//			
+//			savedfile = FileService.saveFile(uploadOne, uploadPath);
+//			//savedfile = FileService.saveFiles(upload, savedfile);
+//			file.setFile_origin(uploadOne.getOriginalFilename());
+//			//file.setFile_origin(((MultipartFile) upload).getOriginalFilename());
+//			
+//			file.setFile_saved(savedfile);
+//	
+//			log.debug("새파일:{}, 구파일:{}", savedfile, oldSavedfile);
+//		}
+//		
+//		int result = service.usedSellBoardUpdate(used);
+//		
+//		//글 수정 성공 and 첨부된 파일이 있는 경우 파일도 삭제
+//		if (result == 1 && savedfile != null) {
+//			FileService.deleteFile(uploadPath + "/" + oldSavedfile);
+//		}
+//		return "redirect:/used/usedSellBoardRead?used_id=" + used.getUsed_id();
+//	}
+//	
 
 	
 
 
 	
 	/**
-	 * 중고거래 삽니다 글쓰기 게시판으로 이동
+	 * 중고거래 삽니다 글쓰기 게시판으로 이동 ok 0324
 	 **/
 	@GetMapping("/usedBuyWrite")
 	public String usedBuyWrite() {
@@ -280,17 +317,23 @@ public class UsedController {
 	}
 	
 	/**
-	 * 중고거래 삽니다 글목록 게시판으로 이동
+	 * 중고거래 삽니다 글목록 게시판으로 이동 ok 0324
 	 **/
 	
 	@PostMapping("/usedBuyWrite")
-	public String usedBuyWrite(Used_buy used_buy) {
+	public String usedBuyWrite(
+			@AuthenticationPrincipal UserDetails user
+			,Used_buy used_buy) {
+		
+		//전달된 객체에 로그인한 아이디 추가 저장
+		used_buy.setUser_email(user.getUsername());
+		
 		service.usedBuyWrite(used_buy);
 		return "redirect:/";	
 	}	
 	
 	/**
-	 * 중고거래 삽니다 글 읽기 게시판으로 이동
+	 * 중고거래 삽니다 글 읽기 게시판으로 이동 ok 0324
 	 **/
 	@GetMapping("/usedBuyBoard")
 	public String usedBuyBoard(Model model) {
@@ -301,7 +344,7 @@ public class UsedController {
 	}
 	
 	/**
-	 * 중고거래 삽니다 글 하나 읽기 게시판으로 이동
+	 * 중고거래 삽니다 글 하나 읽기 게시판으로 이동 ok 0324
 	 **/
 	@GetMapping("usedBuyBoardRead")
 	public String usedBuyBoardRead(
@@ -317,19 +360,20 @@ public class UsedController {
 	}
 	
 	/**
-	 * 중고거래 삽니다 글 삭제
+	 * 중고거래 삽니다 삭제 다른쪽으로 넘어가게 설정 OK
 	 **/
 	
-	@GetMapping("usedBuyBoardDelete")
+	@GetMapping("usedBuyBoardDelete")	
 	public String usedBuyBoardDelete(
 	        @RequestParam(name="uBuy_id", defaultValue="0") String uBuy_id
-//	      ,@AuthenticationPrincipal UserDetails user  //나중에 로그인 설정하고 주석 해제   
+	       ,@AuthenticationPrincipal UserDetails user    
 	        ) {
-		log.debug("오냐고  : {}", uBuy_id);
+		
+		String id = user.getUsername();
 	    Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
 	    if (used_buy == null) return "redirect:list";
-	    // 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로 나중에 로그인 설정하고 주석 해제   
-	//  if (!used_buy.getUser_email().equals(user.getUsername())) return "redirect:list");
+	    // 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로   
+	    if (!used_buy.getUser_email().equals(user.getUsername())) return "redirect:/";
 
 	    int result = service.usedBuyBoardDelete(used_buy);
 
@@ -337,41 +381,43 @@ public class UsedController {
 	}
 	
 	/**
-	 * 중고거래 삽니다 글 수정 (여기까진 ok)
+	 * 중고거래 삽니다 글 수정  ok 0324
 	 **/
 	@GetMapping("usedBuyBoardUpdate")
 	public String update(
 			Model model
 			,@RequestParam(name="uBuy_id", defaultValue="0") String uBuy_id
-			//,@AuthenticationPrincipal UserDetails user
+			,@AuthenticationPrincipal UserDetails user
 			) {
 		
 		//전달된 아이디의 글정보 읽기
 		Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
 		log.info(used_buy+"");
 		//로그인한 사용자의 아이디를 읽음
-		//String id = user.getUsername();
+		String id = user.getUsername();
 		
 		//본인 글인지 확인, 아니면 글목록으로 이동
-		//if (!used_buy.getUser_email().equals(user.getUsername())) return "redirect:list");
+		if (!used_buy.getUser_email().equals(user.getUsername())) return "redirect:/";
 		
 		//글정보를 모델에 저장
 		model.addAttribute("used_buy",used_buy);
 		
 		//수정을 html로 포워딩
-		return "used/usedBuyBoardUpdate.html";
+		return "used/usedBuyBoardUpdate";
 	}
 	
-	//수정폼에서 보낸 내용 처리
-		@PostMapping("usedBuyBoardUpdate")
+	/**
+	 * 중고거래 삽니다 글 수정 수정폼에서 보낸 내용 처리 ok 0324
+	 **/
+		@PostMapping("usedBuyBoardUpdate")	
 		public String usedBuyBoardUpdate(
 			Used_buy used_buy
-			//,@AuthenticationPrincipal UserDetails user
+			,@AuthenticationPrincipal UserDetails user
 			,@RequestParam(name="uBuy_id", defaultValue="0") String uBuy_id
 			) {
 			
 			//전달된 객체에 로그인한 아이디 추가 저장
-			//used_buy.setUser_email(user.getUsername());
+			used_buy.setUser_email(user.getUsername());
 
 			Used_buy oldBoard = null;
 				
@@ -380,7 +426,7 @@ public class UsedController {
 			log.info("저장이 되냐?: {}",used_buy);
 		
 			//이전에 읽던 글로 리다이렉트
-			return "redirect:/usedBuyBoardRead?uBuy_id="+used_buy.getUBuy_id();
+			return "redirect:/used/usedBuyBoardRead?uBuy_id="+used_buy.getUBuy_id();
 		}
 	
 

@@ -75,7 +75,9 @@ public interface UsedService {
 	public int usedBuyBoardUpdate(Used_buy used_buy);
 	
 
-//	ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord);
+	ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord);
+
+	ArrayList<File> fileListAll(String used_id);
 
 
 	
