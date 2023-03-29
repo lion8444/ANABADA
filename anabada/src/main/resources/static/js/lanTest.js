@@ -14,20 +14,31 @@ $(document).ready(function() {
         }
     });
     
-    $("#papagoSubmit").on("click", papagoTrans);    // 파파고 api실행
+    // 파파고 api실행
+    $("#papagoSubmit").on("click", papagoTrans);    
 });
 
-function papagoTrans() {    // 파파고 api실행 로직
-    let str = $("#papago");
+// 파파고 api실행 로직
+function papagoTrans() { 
+    let index= 0;   
+    let str = $(".papago");
+
+    str.each(function(){
+        var text = $(this).text();
+        console.log(text);
+      });
 
     $.ajax({
         type: "post",
-        url: "api/translate",
+        url: "/api/translate",
         data: {source: "ko", target: "ja", text: str.text()},
         dataType: "json",
         success: function (data) {
             console.log(data);
-            str.text(data.translatedText);
+
+           str.text(data.translatedText);
         }
     });
 }
+
+

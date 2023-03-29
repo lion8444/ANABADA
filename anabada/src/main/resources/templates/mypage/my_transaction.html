@@ -75,16 +75,16 @@ https://templatemo.com/tm-559-zay-shop
                             <a class="nav-link" href="" th:text="#{used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">렌탈</a>
+                            <a class="nav-link" href="" th:text="#{rental}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">경매</a>
+                            <a class="nav-link" href="" th:text="#{auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">지도</a>
+                            <a class="nav-link" href="" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">프로젝트 소개</a>
+                            <a class="nav-link" href="" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -138,7 +138,7 @@ https://templatemo.com/tm-559-zay-shop
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">마이페이지</h1>
+                <h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
                         <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
@@ -146,10 +146,10 @@ https://templatemo.com/tm-559-zay-shop
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" href="">거래내역</a></li>
-                            <li><a class="text-decoration-none" href="">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" href="">경매내역</a></li>
-                            <li><a class="text-decoration-none" href="">찜 목록</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -162,14 +162,14 @@ https://templatemo.com/tm-559-zay-shop
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" href="">문의하기</a></li>
-                            <li><a class="text-decoration-none" href="">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" href="">나의 신고 내역</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{myInqList}">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{qnaList}">자주 묻는 질문</a></li>
+                            <li><a class="text-decoration-none" href="" th:text="#{myReportList}">나의 신고 내역</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -190,14 +190,20 @@ https://templatemo.com/tm-559-zay-shop
                 
                 <!-- 언어 선택 -->
                 <select id="locales">
-                    <option value=""></option>
-                    <option value="ko">한국어</option>
-                    <option value="en" th:text="#{lang.en}"></option>
+                    <option value="">Language</option>
+                    <option value="ko" th:text="#{lang.ko}"></option>
                     <option value="ja-JP" th:text="#{lang.jp}"></option>
                 </select>
+
+                <!-- 파파고 버튼 -->
+                <input type="button" id="papagoSubmit" value="번역">
+
+                <!-- alert 문구 관련 -->
+                <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
+
                 
                 <!-- 전체 중고 거래 내역-->
-                <div id="mylistbox" th:each="list : ${usedListAll}" th:if="${usedListAll} != null">                   
+                <div id="mylistbox" th:each="list, i: ${usedListAll}" th:if="${usedListAll} != null">                   
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -205,18 +211,21 @@ https://templatemo.com/tm-559-zay-shop
                                     <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
-                            <td >   
+                            <td>
                                 <div class="mypageTitle">
-                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span class="papago" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
                                 <div class="mypageTwo">
                                     <div th:if="${list.uDetail_status == '거래 전'}">
-                                        <p th:text="#{rentalYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                        <p th:text="#{usedYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
                                     </div>
-                                    <div th:unless="${list.uDetail_status == '거래 전'}">
-                                        <p th:text="#{rentalStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    <div th:if="${list.uDetail_status == '거래 중'}">
+                                        <p th:text="#{usedIng}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.uDetail_status == '거래 중지'}">
+                                        <p th:text="#{usedStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
                                     </div>
                                     <p th:text="${list.uDetail_Date}">날짜</p>
                                 </div>
@@ -240,7 +249,6 @@ https://templatemo.com/tm-559-zay-shop
                         </tr>
                     </table>
                 </div>
-                <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
 
                 <!-- 중고 판매 내역 -->
                 <div id="mylistbox" th:each="list : ${usedListSell}" th:if="${usedListSell} != null">
@@ -259,7 +267,15 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <p th:text="${list.uDetail_status}">게시글 상태</p>                                   
+                                    <div th:if="${list.uDetail_status == '거래 전'}">
+                                        <p th:text="#{usedYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.uDetail_status == '거래 중'}">
+                                        <p th:text="#{usedIng}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.uDetail_status == '거래 중지'}">
+                                        <p th:text="#{usedStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
                                     <p th:text="${list.uDetail_Date}">날짜</p>
                                 </div>
                             </td>
@@ -300,7 +316,15 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <p th:text="${list.uDetail_status}">게시글 상태</p>                                   
+                                    <div th:if="${list.uDetail_status == '거래 전'}">
+                                        <p th:text="#{usedYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.uDetail_status == '거래 중'}">
+                                        <p th:text="#{usedIng}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.uDetail_status == '거래 중지'}">
+                                        <p th:text="#{usedStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    </div>
                                     <p th:text="${list.uDetail_Date}">날짜</p>
                                 </div>
                             </td>
@@ -529,7 +553,6 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
     <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/assets/js/templatemo.js}"></script>
