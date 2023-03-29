@@ -11,6 +11,6 @@ public class IndexController {
 
 	@GetMapping({"", "/"})
 	public String index() {
-		return "indextest";
+		return "index";
 	}
 }

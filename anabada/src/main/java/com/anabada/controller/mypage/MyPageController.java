@@ -140,25 +140,25 @@ public class MyPageController {
 	@GetMapping("/mytransactionlistall")
 	public String myTradeList(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
+//			, String user_email
 			, Model model) {
 		
-		log.debug("user_email : {}", user_email);
+//		log.debug("user_email : {}", user_email);
 		log.debug("스프링 user : {}", user.getUsername());
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
+//		if(!user_email.equals(user.getUsername())) {
+//			log.debug("id가 같지 않음");
+//			return "redirect:/";
+//		}
 		
-		List<UsedAndFile> list = service.selectUsedListAllById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<UsedAndFile> list = service.selectUsedListAllById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 			
 		model.addAttribute("usedListAll", list);
 		model.addAttribute("us", us);
 		
 //		log.debug("사진1: {}", list.get(0).getFile_saved());
-		log.debug("user_email : {}", user_email);
+//		log.debug("user_email : {}", user_email);
 		log.debug("All 이즈엠티 : {}", list.isEmpty());
 		log.debug("All 자체 : {}", list == null);
 		log.debug(list.get(0).getUsed_id());

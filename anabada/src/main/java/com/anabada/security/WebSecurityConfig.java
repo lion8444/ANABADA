@@ -28,6 +28,8 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .antMatchers(
         		"/",
+        		"/test",
+        		"/api/**",
         		"/join",
         		"/signup",
         		"/check/**",

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko"  xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+  <script th:src="@{/js/lanTest.js}"></script>
+</head> 
+<body>
+
+  <h1>i18n 테스트</h1>
+
+  <p th:text="#{used}"></p>
+  <select id="locales">
+    <option value=""></option>
+    <option value="ko">한국어</option>
+    <option value="en" th:text="#{lang.en}"></option>
+    <option value="ja-JP" th:text="#{lang.jp}"></option>
+  </select>
+	
+	<a href="test2">이동 테스트</a>
+	
+	<form id="papago" method="post">
+		<p>안녕하세요</p>
+    <p>어서오세요</p>
+    <p>예뻐요</p>
+    <p>상냥하세요</p>
+		<p>회사원입니다.</p>
+    <input type="button" id="papagoSubmit" value="번역">
+	</form>
+</body>
+</html>
