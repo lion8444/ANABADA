@@ -9,6 +9,7 @@
 		       COUNT(*) AS count
 		FROM uTrade, used_detail, user
 		WHERE uTrade.uDetail_id = used_detail.uDetail_id
+			AND used_detail.user_email = user.user_email
 			AND DATE(uDetail_Date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
 		    AND DATE(uDetail_Date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
     		<if test='nkorea != null and njapan == null'>
@@ -33,6 +34,7 @@
 		       COUNT(*) AS count
 		FROM rTrade, rental_detail, user
 		WHERE rTrade.rDetail_id = rental_detail.rDetail_id
+			AND rental_detail.user_email = user.user_email
 			AND DATE(rDetail_Date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
 		    AND DATE(rDetail_Date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
     		<if test='nkorea != null and njapan == null'>
@@ -57,6 +59,7 @@
 		       COUNT(*) AS count
 		FROM aTrade, auction_detail, user
 		WHERE aTrade.aDetail_id = auction_detail.aDetail_id
+			AND auction_detail.user_email = user.user_email
 			AND DATE(aDetail_Date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
 		    AND DATE(aDetail_Date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
     		<if test='nkorea != null and njapan == null'>
@@ -95,5 +98,29 @@
 			AND user_addr1 NOT REGEXP '[가-힣]';
 			</if>
 		GROUP BY date;	
-    </select>                                               
+    </select>       
+    
+     
+<!--     <select id="getvisitor" parameterType="map" resultType="DetailData">
+		SELECT DATE(user_date) AS date,
+     		   'visitor' AS id,
+		       COUNT(*) AS count
+		FROM user
+		WHERE
+			DATE(user_date) &gt;= STR_TO_DATE(#{sdate}, '%Y-%m-%d')
+		    AND DATE(user_date) &lt;= STR_TO_DATE(#{edate}, '%Y-%m-%d')
+    		<if test='nkorea != null and njapan == null'>
+			AND user_nation = 'korea'
+			</if>
+			<if test='nkorea == null and njapan != null'>
+			AND user_nation = 'japan'
+			</if>
+			<if test='lkorea != null and ljapan == null'>
+			AND user_addr1 REGEXP '[가-힣]'
+			</if>
+			<if test='lkorea == null and ljapan != null'>
+			AND user_addr1 NOT REGEXP '[가-힣]';
+			</if>
+		GROUP BY date;	
+    </select>     -->                                        
 </mapper>

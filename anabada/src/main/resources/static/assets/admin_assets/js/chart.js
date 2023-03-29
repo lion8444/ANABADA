@@ -44,9 +44,79 @@ $(function () {
 				, 'edate': $('input[name=edate]').val()}
 			, dataType: 'json'
 			, success: function(alldata){
+				let alldate = [];
+				alldate = getDatesStartToLast($('input[name=sdate]').val(), $('input[name=edate]').val());
+				let idcheck = "";
+				let raw = '';
+				raw += '<table class="table table-hover">';
+				raw += '<tr> <th> 날짜 </th>';
 				for(let i = 0; i < alldata.length; ++i){
-					alert(alldata[i].date);
+						if(alldata[i].id == 'used'){
+							if(!idcheck.includes('used')){
+							idcheck += 'used';
+							raw += '<td> 중고 </td>';
+							}
+						}
+						if(alldata[i].id == 'rental'){
+							if(!idcheck.includes('rental')){
+							idcheck += 'rental';
+							raw += '<td> 렌탈 </td>';
+							}
+						}
+						if(alldata[i].id == 'auction'){
+							if(!idcheck.includes('auction')){
+							idcheck += 'auction';
+							raw += '<td> 경매 </td>';
+							}
+						}
+						if(alldata[i].id == 'visitor'){
+							if(!idcheck.includes('visitor')){
+							idcheck += 'visitor';
+							raw += '<td> 방문자 </td>';
+							}
+						}
+						if(alldata[i].id == 'join'){
+							if(!idcheck.includes('join')){
+							idcheck += 'join';
+							raw += '<td> 가입자 </td>';
+							}
+						}												
+						
 					}
+					
+				raw += '</tr>';
+				for(let i = 0; i < alldate.length; ++i){
+					raw += '<tr> <th>' + alldate[i] + '</th>';
+					for(let j = 0; j < alldata.length; ++j){
+						if(alldata[j].date == alldate[i] & alldata[j].id == 'used'){
+							raw +=  '<td>' + alldata[j].count + '</td>';
+							}
+						}
+					for(let j = 0; j < alldata.length; ++j){
+						if(alldata[j].date == alldate[i] & alldata[j].id == 'rental'){
+							raw +=  '<td>' + alldata[j].count + '</td>';
+							}
+						}
+					for(let j = 0; j < alldata.length; ++j){
+						if(alldata[j].date == alldate[i] & alldata[j].id == 'auction'){
+							raw +=  '<td>' + alldata[j].count + '</td>';
+							}
+						}
+					for(let j = 0; j < alldata.length; ++j){
+						if(alldata[j].date == alldate[i] & alldata[j].id == 'visitor'){
+							raw +=  '<td>' + alldata[j].count + '</td>';
+							}
+						}
+					for(let j = 0; j < alldata.length; ++j){
+						if(alldata[j].date == alldate[i] & alldata[j].id == 'join'){
+							raw +=  '<td>' + alldata[j].count + '</td>';
+							}
+						}
+					raw += '</tr>';
+					}
+					
+					raw += '</table>';
+				$('.detailtable').html(raw);
 			}
 			, error: function(){
 				alert("실패");

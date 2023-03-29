@@ -213,10 +213,9 @@ public class AdminServiceImpl implements AdminService {
 
 		
 //		if(visitor != null) {
-//			vnumber = dao.getvisitor(map);
-//			
+//			alldata.addAll(dao.getvisitor(map));
 //		}		
-//		
+		
 		if(join != null) {
 			alldata.addAll(dao.getjoin(map));
 			

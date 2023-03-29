@@ -54,6 +54,8 @@ public interface AdminDAO {
 
 	ArrayList<DetailData> getjoin(HashMap<String, Object> map);
 
+//	ArrayList<DetailData> getvisitor(HashMap<String, Object> map);
+
 
 	
 

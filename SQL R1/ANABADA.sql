@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`user` (
   `user_trade` INT NULL DEFAULT 0 COMMENT '거래 활동',
   `user_penalty` INT NULL DEFAULT 0,
   `user_account` INT NULL DEFAULT 0,
+  `enable` INT NULL default 1,
   `user_role` VARCHAR(15) NULL DEFAULT 'ROLE_USER',
   `user_status` INT DEFAULT 1,	
   `user_nation` VARCHAR(10) NOT NULL,
@@ -90,6 +91,20 @@ CREATE TABLE IF NOT EXISTS `anabada`.`user` (
   UNIQUE INDEX `user_nick_UNIQUE` (`user_nick` ASC) VISIBLE,
   UNIQUE INDEX `user_phone_UNIQUE` (`user_phone` ASC) VISIBLE)
 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS `anabada`.`user_dummy` ;
+
+CREATE TABLE IF NOT EXISTS `anabada`.`user_dummy` (
+  `user_email` VARCHAR(50) NOT NULL COMMENT '유저 이메일',
+  `user_nick` VARCHAR(100) NOT NULL COMMENT '닉네임',
+  `user_level` INT NULL DEFAULT 0 COMMENT '활동 레벨',
+  `user_trade` INT NULL DEFAULT 0 COMMENT '거래 활동',
+  `nation` VARCHAR(10) NOT NULL,
+  `del_date` DATETIME NULL DEFAULT now(),
+  PRIMARY KEY (`user_email`))
+ENGINE = InnoDB;
+
+select * from user;
 
 
 -- -----------------------------------------------------
