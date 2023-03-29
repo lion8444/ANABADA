@@ -87,10 +87,6 @@ public class AdminRestController {
 		ArrayList<DetailData> alldata = service.getdetaildata(used, rental, auction, number, amount, nkorea, 
 				njapan, lkorea, ljapan, visitor, join, sdate, edate);
 		
-		if(alldata.size() == 0) {
-			return null;
-		}
-		
 		return alldata;
 	}
 	

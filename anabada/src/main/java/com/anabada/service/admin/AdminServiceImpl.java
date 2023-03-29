@@ -209,9 +209,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		else {
 		}
-		
 
-		
 //		if(visitor != null) {
 //			alldata.addAll(dao.getvisitor(map));
 //		}		

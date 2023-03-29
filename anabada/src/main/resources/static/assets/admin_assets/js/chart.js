@@ -42,80 +42,44 @@ $(function () {
 				, 'join': $('input[name=join]:checked').val()
 				, 'sdate': $('input[name=sdate]').val()
 				, 'edate': $('input[name=edate]').val()}
-			, dataType: 'json'
 			, success: function(alldata){
-				let alldate = [];
-				alldate = getDatesStartToLast($('input[name=sdate]').val(), $('input[name=edate]').val());
-				let idcheck = "";
 				let raw = '';
+				if(alldata[0]){
 				raw += '<table class="table table-hover">';
 				raw += '<tr> <th> 날짜 </th>';
-				for(let i = 0; i < alldata.length; ++i){
-						if(alldata[i].id == 'used'){
-							if(!idcheck.includes('used')){
-							idcheck += 'used';
+						if(coption.includes('used')){
 							raw += '<td> 중고 </td>';
 							}
-						}
-						if(alldata[i].id == 'rental'){
-							if(!idcheck.includes('rental')){
-							idcheck += 'rental';
+						if(coption.includes('rental')){
 							raw += '<td> 렌탈 </td>';
 							}
-						}
-						if(alldata[i].id == 'auction'){
-							if(!idcheck.includes('auction')){
-							idcheck += 'auction';
+						if(coption.includes('auction')){
 							raw += '<td> 경매 </td>';
 							}
-						}
-						if(alldata[i].id == 'visitor'){
-							if(!idcheck.includes('visitor')){
-							idcheck += 'visitor';
+						if(coption.includes('visitor')){
 							raw += '<td> 방문자 </td>';
 							}
-						}
-						if(alldata[i].id == 'join'){
-							if(!idcheck.includes('join')){
-							idcheck += 'join';
+						if(coption.includes('join')){
 							raw += '<td> 가입자 </td>';
-							}
-						}												
-						
-					}
-					
+							}			
+
+				if($('input[name=number]:checked').val() != null){
 				raw += '</tr>';
-				for(let i = 0; i < alldate.length; ++i){
-					raw += '<tr> <th>' + alldate[i] + '</th>';
-					for(let j = 0; j < alldata.length; ++j){
-						if(alldata[j].date == alldate[i] & alldata[j].id == 'used'){
+				for(let i = 0; i < alldata.length; ++i){
+					raw += '<tr> <th>' + alldata[i].date + '</th>';
+					for(let j = 0; 	j < alldata.length; ++j){
+						if(alldate[i] == alldata[j].date & coption[0] == alldata[j].id){
 							raw +=  '<td>' + alldata[j].count + '</td>';
-							}
 						}
-					for(let j = 0; j < alldata.length; ++j){
-						if(alldata[j].date == alldate[i] & alldata[j].id == 'rental'){
-							raw +=  '<td>' + alldata[j].count + '</td>';
-							}
-						}
-					for(let j = 0; j < alldata.length; ++j){
-						if(alldata[j].date == alldate[i] & alldata[j].id == 'auction'){
-							raw +=  '<td>' + alldata[j].count + '</td>';
-							}
-						}
-					for(let j = 0; j < alldata.length; ++j){
-						if(alldata[j].date == alldate[i] & alldata[j].id == 'visitor'){
-							raw +=  '<td>' + alldata[j].count + '</td>';
-							}
-						}
-					for(let j = 0; j < alldata.length; ++j){
-						if(alldata[j].date == alldate[i] & alldata[j].id == 'join'){
-							raw +=  '<td>' + alldata[j].count + '</td>';
+						else {
+							raw +=  '<td>0</td>';
 							}
 						}
 					raw += '</tr>';
 					}
-					
+					}					
 					raw += '</table>';
+					}
 				$('.detailtable').html(raw);
 			}
 			, error: function(){
@@ -738,4 +702,4 @@ $(function () {
       options: doughnutPieOptions
     });
   }
-});
+} );
