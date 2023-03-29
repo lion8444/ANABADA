@@ -1,14 +1,23 @@
 package com.anabada.service.auction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.AuctionDAO;
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.File;
+import com.anabada.domain.Rental;
 import com.anabada.domain.UserDTO;
+import com.anabada.util.PageNavigator;
+
+import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
+import kr.co.shineware.nlp.komoran.core.Komoran;
+import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Service
 public class AuctionServiceImpl implements AuctionService {
@@ -89,5 +98,118 @@ public class AuctionServiceImpl implements AuctionService {
 		int i = dao.usemoney(map);
 		return i;
 	}
+	
+	//렌탈 글 저장
+		@Override
+		public String auctionWrite(Auction auction) {
+			int res = dao.auctionWrite(auction);
+			return auction.getAuction_id();
+		}
+			
+		@Override
+		public int insertFile(File file) {
+			int n = dao.insertFile(file);
+			return n;
+		}
+			
+		//파는 글 출력
+		@Override
+		public ArrayList<Auction> auctionBoard(int start, int count, String type, String searchWord) {
+			//검색 대상과 검색어
+			HashMap<String, String> map = new HashMap<>();
+			map.put("type", type);
+			map.put("searchWord", searchWord);
+			//조회 결과 중 위치, 개수 지정
+			RowBounds rb = new RowBounds(start, count);
+			ArrayList<Auction>auctionList = dao.auctionBoard(map, rb);
+			
+			return auctionList;
+			}
+
+			//사진 출력
+			@Override
+			public ArrayList<File> fileList() {
+				ArrayList<File> list = dao.fileList();
+				return list;
+			}
+			
+			//파는 글 하나 출력
+			@Override
+			public Auction auctionBoardRead(String auction_id) {
+				Auction auction = dao.auctionBoardRead(auction_id);
+				return auction;
+			}
+			
+			//파는 글 하나 삭제
+			@Override
+			public int auctionBoardDelete(Auction auction) {
+				int n = dao.auctionBoardDelete(auction);
+				return n;
+			}
+			
+			//파는 글 수정
+			@Override
+			public String auctionBoardUpdate(Auction auction) {
+				int n = dao.auctionBoardUpdate(auction);
+				Auction one = dao.auctionBoardRead(auction.getAuction_id());
+				String auction_id = one.getAuction_id();
+				return auction_id;
+			}
+
+			//검색
+			@Override
+			public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
+					String searchWord) {
+				HashMap<String, String> map = new HashMap<>();
+				map.put("type", type);
+				map.put("searchWord", searchWord);
+				//검색 결과 개수
+				int t = dao.total(map);
+				//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+				PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+				
+				return navi;
+			}
+
+			@Override
+			public ArrayList<Auction> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
+				//검색 대상과 검색어
+				
+		        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+		        ArrayList<String> miningList = dao.gettitle();
+		        
+		        for (String mining : miningList) {
+		        KomoranResult analyzeResultList = komoran.analyze(mining);
+		        	
+		        System.out.println(analyzeResultList.getPlainText());
+
+//		        List<Token> tokenList = analyzeResultList.getTokenList();
+//		        for (Token token : tokenList) {
+//		            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
+//		        }        
+		        
+		        }
+		        
+		        
+		        
+				HashMap<String, String> map = new HashMap<>();
+				map.put("type", type);
+				map.put("searchWord", searchWord);
+				//조회 결과 중 위치, 개수 지정
+				RowBounds rb = new RowBounds(startRecord, countPerPage);
+				ArrayList<Auction> recommendList = dao.recommendList(map, rb);
+				
+				return recommendList;
+			}
+
+			@Override
+			public ArrayList<File> fileListAll(String auction_id) {
+				ArrayList<File> list = dao.fileListAll(auction_id);
+				return list;
+			}
+
+			
+			
+			
 
 }

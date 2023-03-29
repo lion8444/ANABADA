@@ -1,22 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Anabada</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/templatemo.css">
-    
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
-    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+
+    <!--           -->
+    <meta name="author" content="Untree.co">
+	<link rel="shortcut icon" th:href="@{/favicon.png}">
+
+	<meta name="description" content="" />
+	<meta name="keywords" content="bootstrap, bootstrap5" />
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+	<link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+	<link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
+
+	<link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+	<link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+	<link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
 <!--
     
 TemplateMo 559 Zay Shop
@@ -135,75 +154,98 @@ https://templatemo.com/tm-559-zay-shop
             </div>
             <div class="site-mobile-menu-body"></div>
         </div>
-    
         
-        <div class="hero page-inner overlay" style="background-image: url('property_images/hero_bg_3.jpg');">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-9 text-center mt-5">
+                    <a href="">신고</a>
+
+                    <input type="hidden" name="rental_id" th:value="${rental_sell.rental_id}">
+                    <a th:href="@{/rental/rentalBoardUpdate(rental_id=${rental_sell.rental_id})}">수정</a>
     
-            <div class="container">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-lg-9 text-center mt-5">
-                       <a href="" style="position:absolute; right: 30px;">신고</a>
-                        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
-                            <ol class="breadcrumb text-center justify-content-center">
-                                <li class="breadcrumb-item active text-white-50" aria-current="page">사진설명</li>
-                            </ol>
-                        </nav>
-    
-    
-                    </div>
+                    <input type="hidden" name="rental_id" th:value="${rental_sell.rental_id}">
+                    <a th:href="@{/rental/rentalBoardDelete(rental_id=${rental_sell.rental_id})}">삭제</a>
+                    
+                    <!-- div태그로 로그인 했을 경우 넣으면 css안나오는데 이거 어떻게 하는지 모르겠음 -->
+
+                    <!-- 로그인 했을경우 -->
+                    <!-- <div th:if="${#authentication.name}==${used_sell.user_email}">   
+                        <a th:href="|javascript:usedSellBoardDelete(${used.used_id})|" >삭제</a>
+                     </div> -->
+                     <!-- <a th:href="@{/used/usedSellBoardDelete?used_id=${used_sell.used_id}&file_saved=${used_sell.file_saved}}">삭제</a> -->
+                    
+
+                    
+
+                    <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">사진설명</li>
+                        </ol>
+                    </nav>
                 </div>
-    
-    
             </div>
         </div>
-    
-    
+        
+
         <div class="section">
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col-lg-7">
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
+                                <!-- 상품 이미지 넣는 부분 -->
+                                <!-- 사진이 출력되는 코드 -->
+                                <!-- <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
+                                <div class="property-item mb-30">
+                                <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                                    <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
+                                </a> -->
                                 <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
                                 <img src="assets/property_images/img_2.jpg" alt="Image" class="img-fluid">
                                 <img src="assets/property_images/img_3.jpg" alt="Image" class="img-fluid">
                             </div>
                         </div>
                     </div>
+                
                     <div class="col-lg-4">
                         <!-- jp_002_상품상세 -->
-                        <h2 class="heading text-primary">아이폰 14프로 팝니다</h2>
-                        <p class="meta">320,000원</p><br>
-                        <p class="text-black-50">아이폰 14프로 팝니다. 쓴지 1년밖에 안됬고 생활기스 약간있습니다.</p>
-                        <p class="text-black-30">* 사용감있음</p>
-                        <p class="text-black-30">* 사용기간: 1년 내외</p>
+                        <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
+                        <h2 class="heading text-primary" th:text="${rental_sell.rental_title}">제목</h2>
+                        <p class="meta" th:text="${rental_sell.rental_price}">가격</p><br>
+                        <p class="text-black-50" th:text="${rental_sell.rental_content}">내용</p>
+                        <p class="text-black-30" th:text="${rental_sell.rental_quality}">퀄리티</p>
+                        <p class="text-black-30" th:text="${rental_sell.rental_sDate}">대여시작일</p>
+                        <p class="text-black-30" th:text="${rental_sell.rental_eDate}">대여마감일</p>
+                        <input type="date" id="currentDate"> 원하는 대여 시작일 설정 <br>
+                        <input type="date" id="endDate"> 원하는 대여 마감일 설정
                         <p class="text-black-30">* 배송시 배송료 별도</p>
-                        현재날짜<input type="date"> <br>
-                        반납날짜<input type="date"> <br>
-                        <input type="button" value="빌리기">
-                        
-                        <!-- jp_004_판매자 카드 -->
-                        <div class="d-block agent-box p-5">
-                            <div class="img mb-4"> 
-                                <img src="assets/property_images/person_2-min.jpg" alt="Image" class="img-fluid">
-                            </div>
-                            <div class="text">
-                                <h3 class="mb-0">Alicia Huston</h3>
-                                <div class="meta mb-3">Real Estate</div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione laborum quo quos omnis sed magnam id ducimus saepe</p>
-                                <ul class="list-unstyled social dark-hover d-flex">
-                                    <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li>
-    
-                                </ul>
-                            </div>
+
+                        <!-- 대여페이지로 이동 -->
+                        <input type="button" value="바로대여">
+                    
+                    <!-- jp_004_판매자 카드 -->
+                    <div class="d-block agent-box p-5">
+                        <div class="img mb-4"> 
+                            <!-- <img src="assets/images/person_2-min.jpg" alt="Image" class="img-fluid"> -->
+                            다마고치 넣는 곳
+                        </div>
+                        <div class="text">
+                            <h3 class="mb-0">Alicia Huston</h3>
+                            <div class="meta mb-3" th:text="${rental_sell.user_email}">user_email</div>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione laborum quo quos omnis sed magnam id ducimus saepe</p>
+                            <ul class="list-unstyled social dark-hover d-flex">
+                                <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
+                                <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
+                                <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
+                                <li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li>
+                                
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+       
         <!-- 지도넣는 부분 -->
 
         <!-- 추천상품 -->
@@ -211,11 +253,41 @@ https://templatemo.com/tm-559-zay-shop
             <div class="container">
                 <div class="row mb-5 align-items-center">
                     <div class="col-lg-6 text-center mx-auto">
-                        <h2 class="font-weight-bold text-primary heading">진행 중인 중고거래</h2>
+                        <h2 class="font-weight-bold text-primary heading">추천 중인 렌탈</h2>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- 데이터를 9개를 넣으면 이쁘게 3x3으로 뜨는데 하나 넣고 each 돌리면 한줄로 쫙나옴
+             이거 테이블 만들어야 할 수도 있음 이건 나중에 -->
+                                <!--item-->
+                                <!-- <th:block th:each="usedSellList: ${usedSellList}" method="get" enctype="multipart/form-data">
+                                <div class="property-item mb-30">
+                                    <a th:href="@{/usedSellBoardRead}" class="img">
+                                        <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
+                                    </a>
+            
+                                    <div class="property-content">
+                                        <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_email}">판매자 이메일</span>
+                                            <span class="city d-block mb-3" th:text="${usedSellList.used_title}">글 제목</span>
+        
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block d-flex align-items-center me-3">
+                                                    <span class="d-block mb-2 text-black-50" th:text="${usedSellList.category_id}">카테고리</span>
+                                                </span>
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="d-block mb-2 text-black-50" th:text="${usedSellList.used_quality}">상품상태</span>
+                                                </span>
+                                            </div>
+                                            <a th:href="@{/usedSellBoardRead}" class="btn btn-primary py-2 px-3">See details</a>
+                                        </div>
+                                    </div>
+                                </div> 
+                                </th:block> -->
+                                <!-- .item -->
         
                 <div class="section section-properties">
                     <div class="container">
@@ -224,7 +296,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
             
                                     <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
+                                        <img src="assets/images/img_1.jpg" alt="Image" class="img-fluid">
                                     </a>
             
                                     <div class="property-content">
@@ -253,7 +325,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
             
                                     <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_2.jpg" alt="Image" class="img-fluid">
+                                        <img src="assets/images/img_2.jpg" alt="Image" class="img-fluid">
                                     </a>
             
                                     <div class="property-content">
@@ -282,96 +354,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
             
                                     <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_3.jpg" alt="Image" class="img-fluid">
-                                    </a>
-            
-                                    <div class="property-content">
-                                        <div class="price mb-2"><span>$1,291,000</span></div>
-                                        <div>
-                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                            <span class="city d-block mb-3">California, USA</span>
-            
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="icon-bed me-2"></span>
-                                                    <span class="caption">2 beds</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="icon-bath me-2"></span>
-                                                    <span class="caption">2 baths</span>
-                                                </span>
-                                            </div>
-            
-                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div> <!-- .item -->
-                            </div>
-            
-            
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                <div class="property-item mb-30">
-            
-                                    <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_4.jpg" alt="Image" class="img-fluid">
-                                    </a>
-            
-                                    <div class="property-content">
-                                        <div class="price mb-2"><span>$1,291,000</span></div>
-                                        <div>
-                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                            <span class="city d-block mb-3">California, USA</span>
-            
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="icon-bed me-2"></span>
-                                                    <span class="caption">2 beds</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="icon-bath me-2"></span>
-                                                    <span class="caption">2 baths</span>
-                                                </span>
-                                            </div>
-            
-                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div> <!-- .item -->
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                <div class="property-item mb-30">
-            
-                                    <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_5.jpg" alt="Image" class="img-fluid">
-                                    </a>
-            
-                                    <div class="property-content">
-                                        <div class="price mb-2"><span>$1,291,000</span></div>
-                                        <div>
-                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                            <span class="city d-block mb-3">California, USA</span>
-            
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="icon-bed me-2"></span>
-                                                    <span class="caption">2 beds</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="icon-bath me-2"></span>
-                                                    <span class="caption">2 baths</span>
-                                                </span>
-                                            </div>
-            
-                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div> <!-- .item -->
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                <div class="property-item mb-30">
-            
-                                    <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_6.jpg" alt="Image" class="img-fluid">
+                                        <img src="assets/images/img_3.jpg" alt="Image" class="img-fluid">
                                     </a>
             
                                     <div class="property-content">
@@ -402,7 +385,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
             
                                     <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_7.jpg" alt="Image" class="img-fluid">
+                                        <img src="assets/images/img_4.jpg" alt="Image" class="img-fluid">
                                     </a>
             
                                     <div class="property-content">
@@ -431,7 +414,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
             
                                     <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_8.jpg" alt="Image" class="img-fluid">
+                                        <img src="assets/images/img_5.jpg" alt="Image" class="img-fluid">
                                     </a>
             
                                     <div class="property-content">
@@ -460,7 +443,96 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
             
                                     <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
+                                        <img src="assets/images/img_6.jpg" alt="Image" class="img-fluid">
+                                    </a>
+            
+                                    <div class="property-content">
+                                        <div class="price mb-2"><span>$1,291,000</span></div>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                            <span class="city d-block mb-3">California, USA</span>
+            
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block d-flex align-items-center me-3">
+                                                    <span class="icon-bed me-2"></span>
+                                                    <span class="caption">2 beds</span>
+                                                </span>
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="icon-bath me-2"></span>
+                                                    <span class="caption">2 baths</span>
+                                                </span>
+                                            </div>
+            
+                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
+                                        </div>
+                                    </div>
+                                </div> <!-- .item -->
+                            </div>
+            
+            
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                <div class="property-item mb-30">
+            
+                                    <a href="property-single.html" class="img">
+                                        <img src="assets/images/img_7.jpg" alt="Image" class="img-fluid">
+                                    </a>
+            
+                                    <div class="property-content">
+                                        <div class="price mb-2"><span>$1,291,000</span></div>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                            <span class="city d-block mb-3">California, USA</span>
+            
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block d-flex align-items-center me-3">
+                                                    <span class="icon-bed me-2"></span>
+                                                    <span class="caption">2 beds</span>
+                                                </span>
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="icon-bath me-2"></span>
+                                                    <span class="caption">2 baths</span>
+                                                </span>
+                                            </div>
+            
+                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
+                                        </div>
+                                    </div>
+                                </div> <!-- .item -->
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                <div class="property-item mb-30">
+            
+                                    <a href="property-single.html" class="img">
+                                        <img src="assets/images/img_8.jpg" alt="Image" class="img-fluid">
+                                    </a>
+            
+                                    <div class="property-content">
+                                        <div class="price mb-2"><span>$1,291,000</span></div>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
+                                            <span class="city d-block mb-3">California, USA</span>
+            
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block d-flex align-items-center me-3">
+                                                    <span class="icon-bed me-2"></span>
+                                                    <span class="caption">2 beds</span>
+                                                </span>
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="icon-bath me-2"></span>
+                                                    <span class="caption">2 baths</span>
+                                                </span>
+                                            </div>
+            
+                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
+                                        </div>
+                                    </div>
+                                </div> <!-- .item -->
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                                <div class="property-item mb-30">
+            
+                                    <a href="property-single.html" class="img">
+                                        <img src="assets/images/img_1.jpg" alt="Image" class="img-fluid">
                                     </a>
             
                                     <div class="property-content">
@@ -487,7 +559,12 @@ https://templatemo.com/tm-559-zay-shop
                             </div>
                         </div>
 
-
+                        <!-- <form th:action="@{/usedSellBoardDelete}" method="get">
+                            <input type="hidden" name="used_id" th:value="${used.used_id}"/>
+                            <input type="hidden" name="file_saved" th:value="${used.file_saved}"/>
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form> -->
+                       
 
 
 
@@ -588,11 +665,16 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
+    <script th:src="@{/assets/property_js/aos.js}"></script>
+    <script th:src="@{/assets/property_js/navbar.js}"></script>
+    <script th:src="@{/assets/property_js/counter.js}"></script>
+    <script th:src="@{/assets/property_js/templatemo.js}"></script>
+    <script th:src="@{/assets/property_js/custom.js}"></script>
+    <script th:src="@{/pjh.js}"></script>
     <!-- End Script -->
 </body>
 

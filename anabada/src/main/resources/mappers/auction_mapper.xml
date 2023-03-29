@@ -30,4 +30,237 @@
     	SET user_account = #{account}
     	WHERE user_email = #{user_email}
     </update>
+    
+    <select id="recommendList" resultType="Auction" parameterType="map">
+    	SELECT
+    		*
+    	FROM
+    		auction
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='auction_title'">
+					upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type =='auction_content'">
+					upper(auction_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				
+				<if test ="type == 'all'">
+					upper(auction_title) like '%' || #{searchWord} || '%'
+					or upper(auction_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+    </select>
+    
+    <select id="gettitle" resultType="String">
+    	SELECT auction_title FROM auction
+    </select>
+    
+    <!-- 옥션 글 다 가져오기 -->
+    <select id="auctionBoard" resultType="Auction" parameterType="map">
+    	SELECT
+    		*
+    	FROM
+    		auction
+    	<!-- WHERE
+    		auction_id
+    	IN
+    	(SELECT board_no from file ) -->
+    	
+    	<!-- 검색어가 null이 아니면 where조건을 추가한다 -->
+		<!-- 검색대상이 auction_title이면 제목에서 검색한다 -->
+		<!-- 검색대상이 auction_content이면 본문에서 검색한다 -->
+		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
+		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
+		<where>
+		<if test="searchWord != null and type != null" >
+				<if test="type =='auction_title'">
+					upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type =='auction_content'">
+					upper(auction_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+			
+				<if test ="type == 'all'">
+					upper(auction_title) like '%' || #{searchWord} || '%'
+					or upper(auction_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</if>
+			 and auction_status != 'DELETE'
+		</where>
+    </select>
+    
+
+    
+    <!-- 전체 글 개수 -->
+	<select id="total" parameterType="map" resultType="int">
+		select count(*) from auction
+		<if test="type != null and searchWord != null">
+		<where>	
+			<if test="type == 'auction_title'">
+				upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+			</if>
+			<if test="type == 'auction_contents'">
+				upper(auction_contents) like '%' || upper(#{searchWord}) || '%'
+			</if>
+			<if test="type == 'user_email'">
+				user_email = #{searchWord}
+			</if>
+			<if test="type == 'all'">
+				upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+				or upper(auction_contents) like '%' || upper(#{searchWord}) || '%'
+				or user_email = #{searchWord}
+			</if>
+		</where>	
+		</if>
+	</select>
+	
+	 <select id="fileList" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE (board_no, file_id) in (
+          SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+    </select>
+    
+    <!--옥션 글 저장-->
+    <insert id="auctionWrite" parameterType="Auction">
+    	 INSERT INTO
+    		auction(
+	    		auction_id
+				,user_email
+				,category_id
+				,auction_title
+				,auction_date
+				,auction_price
+				,auction_content
+				,auction_quality
+				,auction_finish
+				,auction_status
+				,uloc_id
+				,sloc_id
+    		    )
+    	VALUES(
+	    		func_seq_10('AUCT')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{auction_title}
+    			,#{auction_date}
+    			,#{auction_price}
+    			,#{auction_content}
+    			,#{auction_quality}
+				,#{auction_finish}
+    			,'NEW'
+    			,#{uloc_id}
+				,#{sloc_id}
+    			)
+    	<selectKey keyProperty="auction_id" keyColumn="auction_id" resultType="String" order="AFTER">
+    		SELECT 
+    			auction_id 
+    		from 
+    			auction
+    		order by
+    			auction_date desc
+    		LIMIT 1
+    	</selectKey>
+    </insert>
+    
+    <insert id="insertFile" parameterType="File">
+    	INSERT INTO
+    		file(
+    			file_id
+    			,board_status
+    			,board_no
+    		<if test="file_origin !=null and file_origin != ''">
+    			,file_origin
+    		</if>
+    		<if test="file_saved !=null and file_saved != ''">
+    			,file_saved
+    		</if>
+    			)
+    		VALUES
+    			(
+    			func_seq_10('FILE')
+    			,#{board_status}
+    			,#{board_no}
+    		<if test="file_origin !=null and file_origin != ''">
+    			,#{file_origin}
+    		</if>
+    		<if test="file_saved !=null and file_saved != ''">
+    			,#{file_saved}
+    		</if>
+    			)
+    </insert>
+    
+     <!-- 옥션 글 한개 읽기 -->
+    <select id="auctionBoardRead" parameterType="String" resultType="Auction">
+    	SELECT
+    		auction_id
+			, user_email
+			, category_id
+			, auction_title
+			, DATE_FORMAT(auction_date, '%Y-%m-%d')
+			, auction_price
+			, auction_content
+			, auction_quality
+			, auction_status
+			, auction_finish
+			, uloc_id
+			, sloc_id
+    	FROM
+    		auction
+    	WHERE
+    		auction_id = #{auction_id}
+    </select>
+    
+    <!-- 옥션 글 수정 -->	
+	<update id="auctionBoardUpdate" parameterType="Auction">
+	    UPDATE auction
+	    SET
+	        category_id = #{category_id},
+	        auction_title = #{auction_title},
+	        auction_date = #{auction_date},
+	        auction_price = #{auction_price},
+	        auction_content = #{auction_content},
+	        auction_quality = #{auction_quality},
+	        auction_status = #{auction_status},
+	        auction_finish = #{auction_finish},
+	        uloc_id = #{uloc_id},
+	        sloc_id = #{sloc_id}
+	    WHERE
+	        auction_id = #{auction_id}
+	</update>
+
+  	<select id="fileListAll" resultType="File" parameterType="String">
+  		SELECT
+  			*
+  		FROM 
+  			file
+  		WHERE
+  			board_no = #{auction_id}
+  	</select>
+  	
+  	 <!-- 옥션 글 삭제 -->
+	<update id="auctionBoardDelete" parameterType="Auction">
+    	UPDATE auction
+	    SET auction_status = 'DELETE'
+	    WHERE auction_id = #{auction_id}
+    <!--  AND
+            user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
+	</update>
 </mapper>

@@ -144,6 +144,13 @@ public class UsedServiceImpl implements UsedService {
 		return user_id;
 	}
 	
+//	@Override
+//	public int usedSellBoardUpdate(Used used) {
+//		int result = dao.usedSellBoardUpdate(used);
+//		return result;
+//	}
+	
+	
 	
 
 	//검색
@@ -161,6 +168,9 @@ public class UsedServiceImpl implements UsedService {
 		return navi;
 	}
 	
+	
+
+
 	//사진 출력
 	@Override
 	public ArrayList<File> fileList() {
@@ -199,35 +209,36 @@ public class UsedServiceImpl implements UsedService {
 	}
 
 
-//	@Override
-//	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
-//		//검색 대상과 검색어
-//		
-//        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
-//        ArrayList<String> miningList = dao.gettitle();
-//        
-//        for (String mining : miningList) {
-//        KomoranResult analyzeResultList = komoran.analyze(mining);
-//        	
-//        System.out.println(analyzeResultList.getPlainText());
-//
-////        List<Token> tokenList = analyzeResultList.getTokenList();
-////        for (Token token : tokenList) {
-////            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
-////        }        
-//        
-//        }
-//        
-//		HashMap<String, String> map = new HashMap<>();
-//		map.put("type", type);
-//		map.put("searchWord", searchWord);
-//		//조회 결과 중 위치, 개수 지정
-//		RowBounds rb = new RowBounds(startRecord, countPerPage);
-//		ArrayList<Used> recommendList = dao.recommendList(map, rb);
-//		
-//		return recommendList;
-//	}
+	@Override
+	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
+		//검색 대상과 검색어
+		
+        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+        ArrayList<String> miningList = dao.gettitle();
+        
+        for (String mining : miningList) {
+        KomoranResult analyzeResultList = komoran.analyze(mining);
+        	
+        System.out.println(analyzeResultList.getPlainText());
 
+//        List<Token> tokenList = analyzeResultList.getTokenList();
+//        for (Token token : tokenList) {
+//            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
+//        }        
+        
+        }
+        
+        
+        
+		HashMap<String, String> map = new HashMap<>();
+		map.put("type", type);
+		map.put("searchWord", searchWord);
+		//조회 결과 중 위치, 개수 지정
+		RowBounds rb = new RowBounds(startRecord, countPerPage);
+		ArrayList<Used> recommendList = dao.recommendList(map, rb);
+		
+		return recommendList;
+	}
 	//사는 글 삭제
 	@Override
 	public int usedBuyBoardDelete(Used_buy used_buy) {
@@ -241,5 +252,39 @@ public class UsedServiceImpl implements UsedService {
 		int i = dao.usedBuyBoardUpdate(used_buy);
 		return i;
 	}
+
+
+	@Override
+	public ArrayList<File> fileListAll(String used_id) {
+		ArrayList<File> list = dao.fileListAll(used_id);
+		return list;
+	}
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

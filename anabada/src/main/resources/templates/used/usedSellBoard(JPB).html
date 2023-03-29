@@ -184,7 +184,7 @@ https://templatemo.com/tm-559-zay-shop
                 <!--item-->
                 <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
                 <div class="property-item mb-30">
-                    <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                    <a th:href="@{/used/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
                     <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
                         <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
                         <!-- <img th:src="@{'/img/' + ${fileList.file_origin}}" alt="Image" class="img-fluid"> -->

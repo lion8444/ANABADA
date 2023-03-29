@@ -41,6 +41,7 @@
 				,used_title
 				,used_price
 				,used_content
+				,used_status
 				,used_quality
 				,uloc_id
 				,sloc_id
@@ -52,6 +53,7 @@
     			,#{used_title}
     			,#{used_price}
     			,#{used_content}
+    			,'NEW'
     			,#{used_quality}
     			,#{uloc_id}
 				,#{sloc_id}
@@ -110,7 +112,7 @@
     			,#{category_id}
     			,#{uBuy_title}
     			,#{uBuy_content}
-    			,#{uBuy_status}
+    			,'NEW'
     			)
     </insert>
     <!-- 중고거래 파는 글 다 가져오기 -->
@@ -129,9 +131,9 @@
 		<!-- 검색대상이 used_content이면 본문에서 검색한다 -->
 		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
 		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
-	
+		<where>
 		<if test="searchWord != null and type != null" >
-			<where>
+			
 				<if test="type =='used_title'">
 					upper(used_title) like '%' || upper(#{searchWord}) || '%'
 				</if>
@@ -149,8 +151,9 @@
 					or upper(used_content) like '%' || #{searchWord} || '%'
 					or user_email = #{searchWord}
 				</if>
-			</where>
-		</if>
+			</if>
+			 and used_status != 'DELETE'
+		</where>
     </select>
     
 
@@ -193,8 +196,8 @@
     		*
     	FROM
     		used_buy
-    	ORDER BY
-    		uBuy_id DESC
+    	WHERE uBuy_status != 'DELETE';
+    	
     </select>
     
     <!-- 중고거래 사는 글 한개 읽기 -->
@@ -244,16 +247,58 @@
     
 
     <!-- 중고거래 파는 글 삭제 -->
-    <delete id="usedSellBoardDelete" parameterType="Used">
-        DELETE
-        FROM
-                used
-        WHERE
-                used_id = #{used_id}
-        <!--AND
-                user_email = #{user_email}-->
-	</delete>
-<!-- 
+
+	<update id="usedSellBoardDelete" parameterType="Used">
+    	UPDATE used
+	    SET used_status = 'DELETE'
+	    WHERE used_id = #{used_id}
+    <!--  AND
+            user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
+	</update>
+	
+	<!-- 현재 테이블에서 데이터 삭제 -->
+	<!-- <delete id="deleteUsed" parameterType="int">
+	  DELETE FROM used
+	  WHERE used_id = #{used_id}
+	</delete> -->
+
+	<!-- 다른 테이블로 데이터 이동 -->
+	<!-- <insert id="insertUsedSellBoard" parameterType="Used">
+	  INSERT INTO used_sell_board (
+		  used_id,
+		  user_email,
+		  category_id, 
+		  used_title, 
+		  used_date, 
+		  used_price, 
+		  used_content, 
+		  used_quality, 
+		  used_status, 
+		  uloc_id, 
+		  sloc_id
+		  )
+	  VALUES (
+	  	#{used_id},
+		#{user_email},
+	  	#{category_id}, 
+	  	#{used_title},
+	  	#{used_date}, 
+	  	#{used_price},
+	  	#{used_content}, 
+	  	#{used_quality},
+	  	#{used_status}, 
+	  	#{uloc_id},
+	  	#{sloc_id}
+	  	   )
+	</insert> -->
+
+<!-- 이전에 해당 게시물에 업로드된 파일 리스트 가져오기 -->
+<!-- 	<select id="selectFileListByBoardNo" parameterType="int" resultType="File">
+	  SELECT *
+	  FROM file
+	  WHERE board_no = #{board_no}
+	</select> -->
+
  <select id="recommendList" resultType="Used" parameterType="map">
     	SELECT
     		*
@@ -281,24 +326,23 @@
 				</if>
 			</where>
 		</if>
-    </select> -->
+    </select>
     
-<!--     <select id="gettitle" resultType="String">
+    <select id="gettitle" resultType="String">
     	SELECT uBuy_title FROM used_buy
-    </select> -->
+    </select>
     
 		
 	<!-- 중고거래 사는글 삭제-->
-	<delete id="usedBuyBoardDelete" parameterType="Used_buy">
-		DELETE
-		FROM
-			used_buy
-		WHERE
-			uBuy_id = #{uBuy_id}
-       <!--  AND
-            user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
-	</delete>
 	
+	<update id="usedBuyBoardDelete" parameterType="Used_buy">
+    	UPDATE used_buy
+	    SET uBuy_status = 'DELETE'
+	    WHERE uBuy_id = #{uBuy_id}
+    <!--  AND
+            user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
+	</update>
+
 	<!-- 중고거래 사는글 수정 -->
 	<update id="usedBuyBoardUpdate" parameterType="Used_buy">
 		UPDATE
@@ -331,7 +375,14 @@
 	        used_id = #{used_id}
 	</update>
 
-  
+  	<select id="fileListAll" resultType="File" parameterType="String">
+  		SELECT
+  			*
+  		FROM 
+  			file
+  		WHERE
+  			board_no = #{used_id}
+  	</select>
   
 </mapper>
 

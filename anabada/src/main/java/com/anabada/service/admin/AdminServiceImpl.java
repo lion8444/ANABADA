@@ -2,21 +2,14 @@ package com.anabada.service.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.AdminDAO;
 import com.anabada.domain.Admin_board;
-import com.anabada.domain.Auction_detail;
-import com.anabada.domain.Rental_detail;
-import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
 	@Autowired
@@ -87,49 +80,5 @@ public class AdminServiceImpl implements AdminService {
 		UserDTO newuser = dao.findalluser().get(index);
 		
 		return newuser;
-	}
-//	@Override
-//	public ArrayList<Auction_detail> getauctiondetail() {
-//		ArrayList<Auction_detail> ad = dao.getauctiondetail();
-//		return ad;
-//	}
-//	@Override
-//	public ArrayList<Rental_detail> getrentaldetail() {
-//		ArrayList<Rental_detail> rd = dao.getrentaldetail();
-//		return rd;
-//	}
-//	@Override
-//	public ArrayList<Used_detail> getuseddetail() {
-//		ArrayList<Used_detail> ud = dao.getuseddetail();
-//		return ud;
-//	}
-	@Override
-	public int[][] getdata(int[] monthnum) {
-		int[ ][ ] num = new int[3][6];  
-
-			for (int i = 0; i < 6; ++i) {
-				HashMap<String, Object> map = new HashMap<>();
-				map.put("monthnum", monthnum[i]);
-				map.put("string", "used");
-				num[0][i] = dao.count(map);
-			}
-	
-			for (int i = 0; i < monthnum.length; ++i) {
-				HashMap<String, Object> map = new HashMap<>();
-				map.put("monthnum", monthnum[i]);
-				map.put("string", "rental");
-				num[1][i] = dao.count(map);
-			}
-			
-			for (int i = 0; i < monthnum.length; ++i) {
-				HashMap<String, Object> map = new HashMap<>();
-				map.put("monthnum", monthnum[i]);
-				map.put("string", "auction");
-				num[2][i] = dao.count(map);
-			}
-		
-
-				
-		return num;
 	}
 }

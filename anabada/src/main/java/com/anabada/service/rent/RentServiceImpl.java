@@ -1,16 +1,30 @@
 package com.anabada.service.rent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.anabada.dao.RentalDAO;
+import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
+import com.anabada.domain.Rental;
 import com.anabada.domain.UserDTO;
+import com.anabada.util.PageNavigator;
+
+import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
+import kr.co.shineware.nlp.komoran.core.Komoran;
+import kr.co.shineware.nlp.komoran.model.KomoranResult;
+import kr.co.shineware.nlp.komoran.model.Token;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Transactional
+@Slf4j
 public class RentServiceImpl implements RentService {
 	@Autowired
 	private RentalDAO dao;
@@ -82,4 +96,119 @@ public class RentServiceImpl implements RentService {
 		int i = dao.usemoney(map);
 		return i;
 	}
+	
+	//렌탈 글 저장
+		@Override
+		public String rentalWrite(Rental rental) {
+			int res = dao.rentalWrite(rental);
+			return rental.getRental_id();
+		}
+		
+	@Override
+	public int insertFile(File file) {
+		int n = dao.insertFile(file);
+		return n;
+	}
+		
+	//파는 글 출력
+		@Override
+		public ArrayList<Rental> rentalBoard(int start, int count, String type, String searchWord) {
+			//검색 대상과 검색어
+			HashMap<String, String> map = new HashMap<>();
+			map.put("type", type);
+			map.put("searchWord", searchWord);
+			//조회 결과 중 위치, 개수 지정
+			RowBounds rb = new RowBounds(start, count);
+			ArrayList<Rental>rentalList = dao.rentalBoard(map, rb);
+			
+			return rentalList;
+		}
+
+		//사진 출력
+		@Override
+		public ArrayList<File> fileList() {
+			ArrayList<File> list = dao.fileList();
+			return list;
+		}
+		
+		//파는 글 하나 출력
+		@Override
+		public Rental rentalBoardRead(String rental_id) {
+			Rental rental = dao.rentalBoardRead(rental_id);
+			return rental;
+		}
+		
+		//파는 글 하나 삭제
+		@Override
+		public int rentalBoardDelete(Rental rental) {
+			int n = dao.rentalBoardDelete(rental);
+			return n;
+		}
+		
+		//파는 글 수정
+		@Override
+		public String rentalBoardUpdate(Rental rental) {
+			int n = dao.rentalBoardUpdate(rental);
+			Rental one = dao.rentalBoardRead(rental.getRental_id());
+			String user_id = one.getRental_id();
+			return user_id;
+		}
+
+		//검색
+		@Override
+		public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
+				String searchWord) {
+			HashMap<String, String> map = new HashMap<>();
+			map.put("type", type);
+			map.put("searchWord", searchWord);
+			//검색 결과 개수
+			int t = dao.total(map);
+			//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+			PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+			
+			return navi;
+		}
+
+		@Override
+		public ArrayList<Rental> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
+			//검색 대상과 검색어
+			
+	        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+	        ArrayList<String> miningList = dao.gettitle();
+	        
+	        for (String mining : miningList) {
+	        KomoranResult analyzeResultList = komoran.analyze(mining);
+	        	
+	        System.out.println(analyzeResultList.getPlainText());
+
+//	        List<Token> tokenList = analyzeResultList.getTokenList();
+//	        for (Token token : tokenList) {
+//	            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
+//	        }        
+	        
+	        }
+	        
+	        
+	        
+			HashMap<String, String> map = new HashMap<>();
+			map.put("type", type);
+			map.put("searchWord", searchWord);
+			//조회 결과 중 위치, 개수 지정
+			RowBounds rb = new RowBounds(startRecord, countPerPage);
+			ArrayList<Rental> recommendList = dao.recommendList(map, rb);
+			
+			return recommendList;
+		}
+
+		@Override
+		public ArrayList<File> fileListAll(String rental_id) {
+			ArrayList<File> list = dao.fileListAll(rental_id);
+			return list;
+		}
+
+		
+		
+		
+		
+		
 }
