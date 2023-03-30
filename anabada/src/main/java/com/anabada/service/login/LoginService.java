@@ -1,6 +1,5 @@
 package com.anabada.service.login;
 
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -12,5 +11,11 @@ public interface LoginService {
 	int joinUser(UserDTO user);
 
 	UserDTO findUser(String username);
+
+	boolean findUser(String username, String pwd);
+
+	int withdraw(String username);
+
+	int updateUser(UserDTO user);
 
 }

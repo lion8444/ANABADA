@@ -1,9 +1,6 @@
 package com.anabada.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import com.anabada.domain.UserDTO;
 
@@ -18,6 +15,10 @@ public interface UserDAO {
 
 	UserDTO findUser(String username);
 
-	int phoneCheck(String user_phone);
+    int phoneCheck(String user_phone);
+
+    int withdraw(String username);
+
+    int updateUser(UserDTO user);
 
 }

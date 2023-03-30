@@ -25,8 +25,24 @@
 			, #{user_addr1}
 			, #{user_addr2}		
 			, #{user_nation}
+		);
+
+		insert INTO 
+			user_dummy
+		(
+			user_email
+			,user_nick
+			,nation
 		)
+		VALUES
+		(
+			#{user_email}
+			, #{user_nick}
+			, #{user_nation}
+		);
 	</insert>
+
+	
     <select id="findUser" resultType="UserDTO">
         select
             *
@@ -35,4 +51,45 @@
         where
         	user_email = #{username}
     </select>
+
+    <delete id="withdraw" parameterType="String">
+        delete from
+			user
+		where
+			user_email = #{user_email};
+		update
+			user_dummy
+		set
+			del_date = now();
+    </delete>
+
+
+    <update id="updateUser" parameterType="UserDTO">
+        update
+			user
+		set
+		<if test="user_nick != null">
+			user_nick = #{user_nick}
+		</if>
+		<if test="user_phone != null">
+			,user_phone = #{user_phone}
+		</if>
+		<if test="user_addr != null">
+			,user_addr = #{user_addr}
+		</if>
+		<if test="user_pwd != ''">
+			,user_pwd = #{user_pwd}
+		</if>
+		where
+			user_email = #{user_email};
+		update
+			user_dummy
+		set
+		<if test="user_nick != null">
+			user_nick = #{user_nick}
+		</if>
+		where
+			user_email = #{user_email};
+    </update>
+
 </mapper>

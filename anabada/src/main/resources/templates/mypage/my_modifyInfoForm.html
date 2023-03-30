@@ -32,13 +32,11 @@
     
     <!-- Style -->
     <link rel="stylesheet" th:href="@{/assets/signup_css/style.css}">
-    <link rel="stylesheet"th:href="@{/assets/signup_css/signup_custom.css}">
+    <link rel="stylesheet" th:href="@{/assets/signup_css/signup_custom.css}">
 
-    <!-- 제이 쿼리 -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
-    <script th:src="@{/js/js_myPage.js}"></script>
+
 </head>
 
 <body>
@@ -68,7 +66,7 @@
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}">
                 ANABADA
             </a>
 
@@ -80,19 +78,19 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="">중고</a>
+                            <a class="nav-link" th:href="@{/used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">렌탈</a>
+                            <a class="nav-link" th:href="@{/rent}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">경매</a>
+                            <a class="nav-link" th:href="@{/auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">지도</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -191,56 +189,49 @@
                             <h1 class="anabada">ANABADA</h1>
                             <h3>회원정보수정</h3>
                         </div>
-                        <form th:action="@{/mypage/checkPw}" method="post">
-                            <!-- <input type="hidden" id="user_email" name="user_email" th:value="${user.user_email}"> -->
-
+                        <form action="#" id="updateUserForm" method="post">
                             <div class="form-group first">
-                                <label for="user">현재비밀번호</label>
-                                <input type="password" name="nowPw" class="form-control" id="now_password">
-                                <span class="check_html" id="dd"></span>
-                            </div>
-
-                            <div class="form-group first">
-                                <label for="">변경할 비밀번호</label>
-                                <input type="password" class="form-control" name="user_pwd" id="password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요. ">
+                                <label for="nickname" class="font_size">닉네임</label>
+                                <input type="text" class="form-control font_size" name="user_nick" id="nickname" th:value="${user.user_nick}">
                                 <span class="check_html"></span>
                             </div>
 
-                            <div class="form-group">
-                                <label for="">변경할 비밀번호 확인</label>
-                                <input type="password" class="form-control" id="re-password" placeholder="영어, 숫자, 특수문자 모두 포함되어야 하며, 최소 8글자 이상 입력해주세요. ">
-                                <span class="check_html"></span>
+                            
+                            <div class="form-group first">
+                                <label for="">비밀번호 변경</label>
+                                <input type="button" value="비밀번호 변경" id="change-pwd" class="btn btn-success">
+                                <input type="hidden" name="user_pwd" id="password">
                             </div>
         
                             <div class="form-group">
-                                <label for="phone">phone</label>
-                                <input type="button" value="인증" class="btn btn-success" style="position:absolute; right: 75px;"> 
-                                <!-- <input type="text" class="form-control" name="user_phone" id="user_phone" th:value="${user.user_phone}" placeholder="핸드폰번호 변경시 인증이 필요합니다.">                    -->
-                                <span class="check_html"></span>
+                            <label for="phone">전화번호</label>
+                            <input type="button" value="인증" class="btn btn-success">
+                            <input type="text" class="form-control" id="user_phone" name="user_phone" th:value="${user.user_phone}" placeholder="핸드폰번호 변경시 인증이 필요합니다.">                   
+                            <span class="check_html"></span>
                             </div>
-
+        
                             <div class="form-group">
-                                <label for="" class="font_size">우편번호</label>
-                                <input type="button" value="우편번호검색" id="postCodeBtn" class="btn btn-success" style="position:absolute; right: 75px;"> 
-                                <!-- <input type="text" class="form-control font_size" id="postCode" name="user_post" th:value="${user.user_post}" placeholder="우편번호를 검색해 주세요." readonly> -->
+                            <label for="">우편번호</label>
+                            <input type="button" value="우편번호검색" id="postCodeBtn" class="btn btn-success" > 
+                            <input type="text" class="form-control" id="postCode" th:value="${post}" placeholder="우편번호를 검색해 주세요." readonly>              
+                            </div>
+                            <div class="form-group">
+                                <label for="text" class="font_size">주소</label>
+                                <input type="text" class="form-control font_size" th:value="${addr}" id="address" readonly>
                                 <span class="check_html"></span>
                               </div>
-        
-                            <div class="form-group">
-                                <label for="">주소</label>
-                                <!-- <input type="text" class="form-control" id="address" name="user_add1" th:value="${user.user_addr1}" readonly>                    -->
+            
+                              <div class="form-group">
+                                <label for="text" class="font_size">상세 주소</label>
+                                <input type="text" class="form-control font_size" th:value="${addrdetail}" id="addrDetail">
                                 <span class="check_html"></span>
-                            </div>
-        
-                            <div class="form-group">
-                                <label for="text">상세 주소</label>
-                                <!-- <input type="text" class="form-control" id="addrDetail" name=user_addr2"" th:value="${user.user_addr2}">          -->
-                                <span class="check_html"></span>          
-                            </div>
+                              </div>
+                              <input type="hidden" name="user_addr" id="user_addr">
+
+                            <span class="d-block text-center my-4 text-muted">탈퇴를 원하시면 우측의 회원탈퇴 버튼을 눌러주세요.&nbsp;<input type="button" class="btn btn-success" id="withdraw" value="탈퇴하기"></span>
                             
-                            <span class="d-block text-center my-4 text-muted">탈퇴를 원하시면 우측의 회원탈퇴 버튼을 눌러주세요.&nbsp;<input type="button" class="btn btn-success"  value="탈퇴하기"></span>
-                                                        
-                            <input type="submit" value="수정하기" id="modifyFormSubmit" class="btn btn-pill text-white btn-block btn-primary">
+                            
+                            <input type="button" value="수정하기" id="updateUserBtn" class="btn btn-pill text-white btn-block btn-primary">
                         </form>
                         </div>
                     </div>
@@ -300,16 +291,16 @@
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -319,16 +310,16 @@
                                     <div class="carousel-item">
                                         <div class="row">
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
                                             </div>
                                             <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
+                                                <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -456,6 +447,9 @@
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/assets/js/templatemo.js}"></script>
     <script th:src="@{/assets/js/custom.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/alert.js}"></script>
+    <script th:src="@{/js/login/userUpdate.js}"></script>
     <!-- End Script -->
 </body>
 

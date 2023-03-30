@@ -17,6 +17,7 @@ import com.anabada.service.admin.AdminService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Secured({"ROLE_SUPER","ROLE_ADMIN"})
 @Slf4j
 @RequestMapping({"admin"})
 @Controller
@@ -24,6 +25,11 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 		
+	@GetMapping({"","/"})
+	public String adminPage() {
+		return "admin/admin_index";
+	}
+
 	@GetMapping({"user"})
 	public String user(Model model) {
 		ArrayList<UserDTO> user = service.findalluser();
@@ -70,5 +76,4 @@ public class AdminController {
 		model.addAttribute("report", report);
 		return "admin/admin_report.html";
 	}
-	
 }

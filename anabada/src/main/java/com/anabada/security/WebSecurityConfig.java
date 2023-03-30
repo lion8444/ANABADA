@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 
 /**
@@ -20,6 +21,9 @@ public class WebSecurityConfig {
 	
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
     
     //설정
     @Bean
@@ -28,16 +32,23 @@ public class WebSecurityConfig {
         .authorizeRequests()
         .antMatchers(
         		"/",
+                "/email",
+                "/verifyCode",
+        		"/chat",
         		"/join",
         		"/signup",
         		"/check/**",
         		"/assets/**",
-        		"/jQuery/**",
                 "/img/**",
+                "/jQuery/**",
                 "/css/**",
                 "/js/**").permitAll()
-//        .antMatchers("/admin/**").hasRole("ROLE_ADMIN")		// admin만 허용
+        .antMatchers("/mypage/**").hasRole("USER")
+        .antMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER")		// admin만 허용        
         .anyRequest().authenticated()
+        .and()
+        .csrf().disable().exceptionHandling()
+        .accessDeniedHandler(accessDeniedHandler)
         .and()
         .formLogin()					
         .loginPage("/login")			// 변경 필요
@@ -67,7 +78,7 @@ public class WebSecurityConfig {
         .dataSource(dataSource)
         // 인증 (로그인)
         .usersByUsernameQuery(
-        		"select user_email username, user_pwd password, user_status enable " +
+        		"select user_email username, user_pwd password, enable " +
                 "from user " +
                 "where user_email = ?")
         // 권한

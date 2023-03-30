@@ -24,6 +24,7 @@ public class RestSignUpController {
 	public int nickCheck(String user_nick) {
 		log.debug("닉네임 체크 {}",user_nick);
 		int availAble = cservice.nickNameCheck(user_nick);
+		log.debug("닉네임 중복 : {}", availAble);
 		return availAble;
 	}
 	
@@ -33,10 +34,10 @@ public class RestSignUpController {
 		int availAble = cservice.emailCheck(user_email);
 		return availAble;
 	}
-	
+
 	@PostMapping("check/phone")
 	public int phoneCheck(String user_phone) {
-		log.debug("이메일 체크 {}", user_phone);
+		log.debug("전화번호 체크 {}", user_phone);
 		int availAble = cservice.phoneCheck(user_phone);
 		return availAble;
 	}

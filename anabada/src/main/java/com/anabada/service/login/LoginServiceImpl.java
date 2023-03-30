@@ -33,6 +33,30 @@ public class LoginServiceImpl implements LoginService {
 		return user;
 	}
 
-	
+	@Override
+	public boolean findUser(String user_email, String pwd) {
+		UserDTO user = dao.findUser(user_email);
+		log.debug("비밀번호 비교 : {}", user.getPassword());
+		log.debug("비밀번호 비교 : {}", pwd);
+		log.debug("비밀번호 비교 : {}", encoder.matches(pwd, user.getPassword()));
+		boolean res = encoder.matches(pwd, user.getPassword());
+		return res;	
+	}
 
+	@Override
+	public int withdraw(String username) {
+		int res = dao.withdraw(username);
+		return res;
+	}
+
+	@Override
+	public int updateUser(UserDTO user) {
+		if(user.getUser_pwd() == null || user.getUser_pwd() == "") {
+			user.setUser_pwd("");
+		} else {
+			user.setUser_pwd(encoder.encode(user.getUser_pwd()));
+		}
+		int res = dao.updateUser(user);
+		return res;
+	}
 }

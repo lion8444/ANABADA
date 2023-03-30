@@ -2,6 +2,10 @@ let bottom_endNotify = null;
 let centerNotify = null;
 let confirmNotify = null;
 
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 function alertValue() {
     bottom_endNotify = Swal.mixin({
         toast: true,
@@ -11,19 +15,20 @@ function alertValue() {
         timerProgressBar: true
     });
     
-    centerNotify = Swal.fire({
+    centerNotify = Swal.mixin({
         position: 'center',
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500   
     });
     
     confirmNotify = Swal.mixin({
         customClass: {
             confirmButton: 'btn btn-success',
             cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-    });    
+          },
+          buttonsStyling: false
+    });
+    
 }
 
 
@@ -42,6 +47,21 @@ function loginError() {
     });
 }
 
+function joinError() {
+    bottom_endNotify.fire({
+        icon: "error",
+        title: "회원 가입 실패"
+    });
+}
+
+async function updateError() {
+    centerNotify.fire({
+        icon: "error",
+        title: "회원 수정 실패",
+        text: "메인 페이지로 이동합니다."
+    });
+    await sleep(1500);
+}
 
 function auctionNotify() {
     confirmNotify.fire({
@@ -50,8 +70,7 @@ function auctionNotify() {
         icon: 'info',
         showCancelButton: true,
         confirmButtonText: '네',
-        cancelButtonText: '아니오',
-        reverseButtons: false
+        cancelButtonText: '아니오'
     }).then((result) => {
         if (result.isConfirmed) {
             confirmNotify.fire(
@@ -80,22 +99,54 @@ function joinNotify() {
         icon: 'success',
         showCancelButton: true,
         confirmButtonText: '네',
-        cancelButtonText: '아니오',
-        reverseButtons: false
-    }).then((result) => {
+        cancelButtonText: '아니오'
+    }).then(async (result) => {
         if (result.isConfirmed) {
             centerNotify.fire({
-                icon: 'success',
+                icon: 'info',
+                title: '로그인 페이지로 이동합니다.'
             });
+            await sleep(1500);
             location.href = "/login";
         } else if (
             /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
         ) {
             centerNotify.fire({
-                icon: 'error',
+                icon: 'warning',
                 title: '메인 페이지로 이동합니다.'
             });
+            await sleep(1500);
+            location.href = "/";
+        }
+    });
+}
+
+function updateNotify() {
+    confirmNotify.fire({
+        title: '회원 수정 성공.',
+        text: "MyPage로 이동하시겠습니까?",
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonText: '네',
+        cancelButtonText: '아니오'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            centerNotify.fire({
+                icon: 'info',
+                title: 'MyPage로 이동합니다.'
+            });
+            await sleep(1500);
+            location.href = "/mypage";
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            centerNotify.fire({
+                icon: 'warning',
+                title: '메인 페이지로 이동합니다.'
+            });
+            await sleep(1500);
             location.href = "/";
         }
     });

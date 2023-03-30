@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Anabada</title>
@@ -10,14 +9,17 @@
     <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
-    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{assets/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{assets/css/templatemo.css}">
     
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
 <!--
     
 TemplateMo 559 Zay Shop
@@ -29,7 +31,7 @@ https://templatemo.com/tm-559-zay-shop
 
 <body>
     <!-- Start Top Nav -->
-    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
+    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
         <div class="container text-light">
             <div class="w-100 d-flex justify-content-between">
                 <div>
@@ -40,7 +42,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
             </div>
         </div>
-    </nav>
+    </nav> -->
     <!-- Close Top Nav -->
 
 
@@ -48,8 +50,8 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{index.html}">
-                Anabada
+            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}">
+                ANABADA
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,20 +62,19 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <!-- <a class="nav-link" th:href="@{used/SellBoard}">중고</a> 리퀘스트 매핑 넣고 바꿔-->
-                            <a class="nav-link" th:href="@{/usedSellBoard}">중고</a>
+                            <a class="nav-link" th:href="@{/used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">렌탈</a>
+                            <a class="nav-link" th:href="@{/rent}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">경매</a>
+                            <a class="nav-link" th:href="@{/auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">지도</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -93,7 +94,7 @@ https://templatemo.com/tm-559-zay-shop
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" th:href="@{/MyPage}">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
                     </a>
@@ -126,8 +127,83 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </div>
 
-
-
+    <!-- 채팅 -->
+    <section sec:authorize="isAuthenticated()" th:if="${user != null}">
+        <button class="chatbox-open">
+            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+          </button>
+          <button class="chatbox-close">
+            <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+          </button>
+          
+            <div class="chatbox-container">
+              <div class="chatbox">
+                <div class="top-bar">
+                  <div class="avatar">
+                    <p>V</p>
+                  </div>
+                  <div class="name">Voldemort</div>
+                  <div class="icons">
+                    <i class="fas fa-phone"></i>
+                    <i class="fas fa-video"></i>
+                  </div>
+                  <div class="menu">
+                    <div class="dots"></div>
+                  </div>
+                </div>
+                <div class="middle">
+                  <div class="voldemort">
+                    <div class="incoming">
+                      <div class="bubble">Hey, Father's Day is coming up..</div>
+                      <div class="bubble">What are you getting.. Oh, oops sorry dude.</div>
+                    </div>
+                    <div class="outgoing">
+                      <div class="bubble lower">Nah, it's cool.</div>
+                      <div class="bubble">Well you should get your Dad a cologne. Here smell it. Oh wait! ...</div>
+                    </div>
+                    <div class="typing">
+                      <div class="bubble">
+                        <div class="ellipsis one"></div>
+                        <div class="ellipsis two"></div>
+                        <div class="ellipsis three"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bottom-bar">
+                  <div class="chat">
+                    <input type="text" class="chat-input" placeholder="Type a message..." />
+                    <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="messages"></div>
+              <div class="profile">
+                <div class="avatar">
+                  <p th:text="${user.user_level}"></p>
+                </div>
+                <div class="name2">Harry<p class="email">Harry@potter.com</p>
+                </div>
+              </div>
+              <ul class="people">
+                <li class="person focus">
+                  <span class="title">Voldemort </span>
+                  <span class="time">2:50pm</span><br>
+                  <span class="preview">What are you getting... Oh, oops...</span>
+                </li>
+                <li class="person">
+                  <span class="title">Ron</span>
+                  <span class="time">2:25pm</span><br>
+                  <span class="preview">Meet me at Hogsmeade and bring...</span>
+                </li>
+                <li class="person">
+                  <span class="title">Hermione</span>
+                  <span class="time">2:12pm</span><br>
+                  <span class="preview">Have you and Ron done your hom...</span>
+                </li>
+              </ul>
+            </div>
+      </section>
     <!-- Start Banner Hero -->
     <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
@@ -140,7 +216,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./assets/img/banner_img_01.jpg" alt="">
+                            <img class="img-fluid" th:src="@{/assets/img/banner_img_01.jpg}" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
@@ -162,7 +238,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="container">
                     <div class="row p-5">
                         <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-                            <img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
+                            <img class="img-fluid" th:src="@{/assets/img/banner_img_02.jpg}" alt="">
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
@@ -314,29 +390,18 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
             </div>
         </div>
-
-        <div class="w-100 bg-black py-3">
-            <div class="container">
-                <div class="row pt-2">
-                    <div class="col-12">
-                        <p class="text-left text-light">
-                            Copyright &copy; 2021 Company Name 
-                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </footer>
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/js/templatemo.js}"></script>
+    <script th:src="@{/assets/js/custom.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
     <!-- End Script -->
 </body>
 
