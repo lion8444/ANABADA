@@ -247,16 +247,10 @@ public class MyPageController {
 	@GetMapping("/myrentallistsell")
 	public String myRentalListSell(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<RentalAndFile> list = service.selectRentalListSellById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<RentalAndFile> list = service.selectRentalListSellById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("us", us);
 		model.addAttribute("rentalListSell", list);
@@ -627,6 +621,11 @@ public class MyPageController {
 		return "mypage/my_damagochiShop";
 	}
 	
+	@GetMapping("/faqs")
+	public String faqs() {
+		
+		return "mypage/my_faqs";
+	}
 	
 	
 

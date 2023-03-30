@@ -149,14 +149,11 @@ public class CSController {
 	@GetMapping("/inquiry")
 	public String inquiry(
 			@AuthenticationPrincipal UserDetails user
-			,String user_email
 			, Model model) {
 		
 		log.debug("문의하기 작성 폼 이동");
 		
-		user_email = user.getUsername();
-		
-		UserDTO userdto = service.selectUserById(user_email);
+		UserDTO userdto = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("user", userdto);
 		
@@ -219,7 +216,7 @@ public class CSController {
 		return "redirect:/mypage/mypage";
 	}
 	
-	// ★★리뷰 새로 하기★★ - 리뷰 폼 포워딩
+	// ★★리뷰 하기★★ - 리뷰 폼 포워딩
 	@GetMapping("/review")
 	public String review(
 			@AuthenticationPrincipal UserDetails user
@@ -281,25 +278,20 @@ public class CSController {
 		return "csForm/reviewForm";
 	}
 	
-	// ★★리뷰 새로 하기★★ - 리뷰 처리
+	// ★★리뷰 하기★★ - 리뷰 처리
 	@PostMapping("/review")
 	public String review(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, String used_id
 			, String rental_id
 			, Review review) {
 		
 		log.debug("user : {}", user.getUsername());
-		log.debug("user_email : {}", user_email);
+		log.debug("user_email : {}", user.getUsername());
 		log.debug("usedID : {}", used_id);
 		log.debug("rental_id : {}", rental_id);
 		log.debug("리뷰: {}", review);
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("잘못된 로그인");
-			return "redirect:/";
-		}
+
 		
 		if(used_id != null) {
 			Used_detail ud = service.selectUsedFinished(used_id);

@@ -398,7 +398,7 @@
 		    , w.board_status
 		    , f.file_origin
 		    , f.file_saved
-		    , r.rental_date
+		    , DATE_FORMAT(r.rental_date, '%Y-%m-%d') rental_date
 		    , r.rental_title
 		    , r.rental_status
 		    , r.rental_id
@@ -429,7 +429,7 @@
 		    , w.board_status
 		    , f.file_origin
 		    , f.file_saved
-		    , a.auction_date
+		    , DATE_FORMAT(a.auction_date, '%Y-%m-%d') auction_date
 		    , a.auction_title
 		    , a.auction_status
 		    , a.auction_id

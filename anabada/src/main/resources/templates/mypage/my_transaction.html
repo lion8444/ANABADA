@@ -60,7 +60,7 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}">
                 ANABADA
             </a>
 
@@ -72,19 +72,19 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="" th:text="#{used}">중고</a>
+                            <a class="nav-link" th:href="@{/used/usedSellBoard}" th:text="#{used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" th:text="#{rental}">렌탈</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" th:text="#{auction}">경매</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" th:text="#{map}">지도</a>
+                            <a class="nav-link" href="@{/}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="" th:text="#{introduce}">프로젝트 소개</a>
+                            <a class="nav-link" href="@{/}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -138,7 +138,7 @@ https://templatemo.com/tm-559-zay-shop
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1>
+                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
                         <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
@@ -146,10 +146,10 @@ https://templatemo.com/tm-559-zay-shop
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" href="" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{auctionlist}">경매내역</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{wishlist}">찜 목록</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -157,8 +157,8 @@ https://templatemo.com/tm-559-zay-shop
                             MY 다마고치
                         </p>
                         <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="" th:text="#{mydamagochi}">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{damagochishop}">다마고치 상점</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -166,10 +166,11 @@ https://templatemo.com/tm-559-zay-shop
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" href="" th:text="#{inquiry}">문의하기</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{myInqList}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{qnaList}">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" href="" th:text="#{myReportList}">나의 신고 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
                         </ul>
                     </li>
                 </ul>

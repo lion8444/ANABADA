@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/test.css}">
+
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -67,19 +72,19 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="">중고</a>
+                            <a class="nav-link" th:href="@{/used/usedSellBoard}" th:text="#{used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">렌탈</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">경매</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">지도</a>
+                            <a class="nav-link" href="@{/}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">프로젝트 소개</a>
+                            <a class="nav-link" href="@{/}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -133,46 +138,46 @@ https://templatemo.com/tm-559-zay-shop
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">마이페이지</h1>
+                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
                             MY 거래
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" href="">거래내역</a></li>
-                            <li><a class="text-decoration-none" href="">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" href="">경매내역</a></li>
-                            <li><a class="text-decoration-none" href="">찜 목록</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
                             MY 다마고치
                         </p>
                         <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" href="">다마고치 상점</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/inquiry(user_email=${user.user_email})}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/myinquirelist(user_email=${user.user_email})}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" href="">나의 신고 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
 
             <div class="col-lg-9">
-                <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:onclick="|location.href='@{/checkPw(${user.user_email})}'|">
+                <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:value="#{memberInfoModify}" th:onclick="|location.href='@{/checkPw(${user.user_email})}'|">
                 <br>
                 <div class="row">
                     <span class="col-md-4">
@@ -187,19 +192,19 @@ https://templatemo.com/tm-559-zay-shop
                     </span>
                     <table id="usertest">
                         <tr>
-                            <th>닉네임</th>
+                            <th th:text="#{nickname}">닉네임</th>
                             <td th:text="${user.user_nick}">빡용</td>
                         </tr>
                         <tr>
-                            <th>이메일</th>
+                            <th th:text="#{email}">이메일</th>
                             <td th:text="${user.user_email}">111@gmail.com</td>
                         </tr>
                         <tr>
-                            <th>연락처</th>
+                            <th th:text="#{phone}">연락처</th>
                             <td th:text="${user.user_phone}">010-1111-1111</td>
                         </tr>
                         <tr>
-                            <th>주소</th>
+                            <th th:text="#{address}">주소</th>
                             <td th:text="${user.user_addr1 + user.user_addr2}">(11111) 서울시 강남구 역삼동 279-12</td>
                         </tr>
                     </table>      
@@ -209,11 +214,10 @@ https://templatemo.com/tm-559-zay-shop
                     <span id="anamoney">&#8361;50,000</span>
                     <br>
                     <br>
-                    <input type="button" value="+충전" id="anacharge">
-                    <input type="button" value="&#8361;계좌송금" id="anatransfer">
+                    <input type="button" value="충전" th:value="#{charge}" id="anacharge">
+                    <input type="button" value="&#8361;계좌송금" th:value="#{sendMoney}" id="anatransfer">
                 </div>
                 <div id="singo">
-                    <span th:text="${user.user_email}"></span><br>
                     <span>if) 신고 누적으로 제제내역 있을 시</span>
                     <p>※ 현재 회원님은 신고 누적으로 사이트 제한됩니다.</p>
                     <p>※ 사이트 모든 기능 1주일 이용 정지</p>
