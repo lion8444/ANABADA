@@ -5,4 +5,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'anabada_member_1'
+rootProject.name = 'anabada'
