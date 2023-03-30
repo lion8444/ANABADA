@@ -85,7 +85,7 @@ DELETE FROM `anabada`.`user_character`;
 INSERT INTO `anabada`.`user_character`
 (`uChar_id`,
 `user_email`,
-`character_char_id`)
+`char_id`)
 VALUES
 ('UCHA0001',
 'anabada@gmail.com',
@@ -144,7 +144,7 @@ INSERT INTO `anabada`.`inquiry`
 `inq_content`,
 `inq_answer`)
 VALUES
-('INQU0001',
+('INQU000001',
 'anabada@gmail.com',
 '배송문의',
 '배송 도착이라고 하는데 못받음',
@@ -266,7 +266,7 @@ INSERT INTO `anabada`.`category`
 `category_mid`,
 `category_sub`)
 VALUES
-('CATE0001',
+('CATE000001',
 '전자기기',
 '핸드폰',
 '아이폰');
@@ -285,9 +285,9 @@ INSERT INTO `anabada`.`used_buy`
 `uBuy_title`,
 `uBuy_content`)
 VALUES
-('UBUY0001',
+('UBUY000001',
 'anabada@gmail.com',
-'cate0001',
+'cate000001',
 '아이폰 12pro 삼',
 '아이폰 12pro 3만원에 삼');
 
@@ -303,7 +303,7 @@ INSERT INTO `anabada`.`location`
 `loc_lat`,
 `loc_lon`) 	
 VALUES
-('LOCA0001',
+('LOCA000001',
 '삼성 코엑스',
 '37.5117',
 '127.0592');
@@ -320,8 +320,8 @@ INSERT INTO `anabada`.`user_location`
 `loc_id`,
 `user_email`)
 VALUES
-('ULOC0001',
-'LOCA0001',
+('ULOC000001',
+'LOCA000001',
 'anabada@gmail.com');
 
 
@@ -337,8 +337,8 @@ INSERT INTO `anabada`.`sale_location`
 `loc_id`,
 `user_email`)
 VALUES
-('SLOC0001',
-'LOCA0001',
+('SLOC000001',
+'LOCA000001',
 'anabada@gmail.com');
 
 
@@ -367,8 +367,8 @@ VALUES
 1000000,
 '갤럭시 플립 언박스 제품 팔아요. 완전 새재품입니다.',
 'S',
-'ULOC0001',
-'SLOC0001');
+'ULOC000001',
+'SLOC00001');
 
 
 -- -----------------------------------------------------
@@ -400,8 +400,8 @@ VALUES
 'B',
 '2023-05-01',
 '2023-06-30',
-'ULOC0001',
-'SLOC0001');
+'ULOC000001',
+'SLOC000001');
 
 
 -- -----------------------------------------------------
@@ -430,8 +430,8 @@ VALUES
 '80000',
 '조말론 디퓨저 오픈하지 않은 제품 팝니다. 정가는 14만 4천원 입니다.',
 'S',
-'ULOC0001',
-'SLOC0001');
+'ULOC000001',
+'SLOC000001');
 
 
 -- -----------------------------------------------------
@@ -557,10 +557,10 @@ INSERT INTO `anabada`.`rental_detail`
 `rDetail_sDate`,
 `rDetail_eDate`)
 VALUES
-('RDET0001',
-'RENT0001',
-'pyo9139@naver.com',
-'CHAT0001',
+('RDET000005',
+'RENT000005',
+'anabada@gmail.com',
+'CHAT000001',
 '임꺽정',
 '01034456774',
 '문 열려있어요',

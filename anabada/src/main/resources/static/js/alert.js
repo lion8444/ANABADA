@@ -86,7 +86,6 @@ function joinNotify() {
         if (result.isConfirmed) {
             centerNotify.fire({
                 icon: 'success',
-                title: '로그인 페이지로 이동합니다.'
             });
             location.href = "/login";
         } else if (

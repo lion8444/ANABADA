@@ -22,6 +22,18 @@ $(function () {
 		}
 		return result;
 	}
+	
+function sortDate1(list) {
+	const sorted_list = list.sort(function(a, b) {
+		return new Date(a.date).getTime() - new Date(b.date).getTime();
+	});
+    return sorted_list;
+}
+	
+	
+  let alldate = [];
+  let coption = [];
+  let finddata = [];
   
   function getdata(){
 		$.ajax({
@@ -43,44 +55,65 @@ $(function () {
 				, 'sdate': $('input[name=sdate]').val()
 				, 'edate': $('input[name=edate]').val()}
 			, success: function(alldata){
+				alldata = sortDate1(alldata);
 				let raw = '';
-				if(alldata[0]){
-				raw += '<table class="table table-hover">';
-				raw += '<tr> <th> 날짜 </th>';
-						if(coption.includes('used')){
-							raw += '<td> 중고 </td>';
-							}
-						if(coption.includes('rental')){
-							raw += '<td> 렌탈 </td>';
-							}
-						if(coption.includes('auction')){
-							raw += '<td> 경매 </td>';
-							}
-						if(coption.includes('visitor')){
-							raw += '<td> 방문자 </td>';
-							}
-						if(coption.includes('join')){
-							raw += '<td> 가입자 </td>';
-							}			
-
-				if($('input[name=number]:checked').val() != null){
-				raw += '</tr>';
+				alldate = [];
+				coption = [];
+				finddata = [];
+				$('.option:checked').each(function() {
+					coption.push($(this).val()); 
+				 });
 				for(let i = 0; i < alldata.length; ++i){
-					raw += '<tr> <th>' + alldata[i].date + '</th>';
-					for(let j = 0; 	j < alldata.length; ++j){
-						if(alldate[i] == alldata[j].date & coption[0] == alldata[j].id){
-							raw +=  '<td>' + alldata[j].count + '</td>';
-						}
-						else {
-							raw +=  '<td>0</td>';
+					if(!alldate.includes(alldata[i].date)){
+					alldate.push(alldata[i].date);
+					}
+					}
+				for(let i=0; i < alldate.length; ++i){
+					for (let j=0; j <alldata.length; ++j){
+						if (alldate[i] == alldata[j].date){
+							for (let z=0; z < coption.length; ++z){
+							 	if(alldata[j].id == coption[z]){
+									finddata[i] += String(alldata[j].count);
+									break;
+									}
+								else {
+									finddata[i] += '0';
+								}
 							}
 						}
+					}
+				}
+				
+				alert(finddata[0]);
+				
+				if(alldata[0]){
+					raw += '<table class="table table-hover">';
+					raw += '<tr> <th> 날짜 </th>';
+							if(coption.includes('used')){
+								raw += '<td> 중고 </td>';
+								}
+							if(coption.includes('rental')){
+								raw += '<td> 렌탈 </td>';
+								}
+							if(coption.includes('auction')){
+								raw += '<td> 경매 </td>';
+								}
+							if(coption.includes('visitor')){
+								raw += '<td> 방문자 </td>';
+								}
+							if(coption.includes('join')){
+								raw += '<td> 가입자 </td>';
+								}			
 					raw += '</tr>';
-					}
-					}					
-					raw += '</table>';
-					}
+					for(let i = 0; i < alldate.length; ++i){
+						raw += '<tr>';						
+						raw += '<td>' + alldate[i] + '</td>';
+						raw += '</tr>';
+						}
+				
+				raw += '</table>';
 				$('.detailtable').html(raw);
+			}
 			}
 			, error: function(){
 				alert("실패");

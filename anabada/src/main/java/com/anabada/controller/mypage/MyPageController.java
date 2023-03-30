@@ -290,7 +290,7 @@ public class MyPageController {
 		
 		List<RentalAndFile> list = service.selectRentalListBuyById(user_email);
 		UserDTO us = service.selectUserById(user_email);
-		
+		log.info(list+"");
 		model.addAttribute("us", us);
 		model.addAttribute("rentalListBuy", list);
 		
