@@ -52,16 +52,6 @@ public class MemberController {
 	public String updateUser(@AuthenticationPrincipal UserDetails user, Model m) {
 		UserDTO dto = service.findUser(user.getUsername());
 		m.addAttribute("user", dto);
-		log.debug(dto.getUser_addr());
-		String addr[] = dto.getUser_addr().split(",");
-		String post = addr[0];
-		String address = addr[1];
-		if(addr.length >= 3) {
-			String addrdetail = addr[2];
-			m.addAttribute("addrdetail", addrdetail);
-		}
-		m.addAttribute("post", post);
-		m.addAttribute("addr", address);
 		
 		return "mypage/my_modifyInfoForm";
 	}

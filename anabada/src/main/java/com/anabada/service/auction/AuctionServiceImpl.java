@@ -11,13 +11,8 @@ import com.anabada.dao.AuctionDAO;
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
-import com.anabada.domain.Rental;
 import com.anabada.domain.UserDTO;
 import com.anabada.util.PageNavigator;
-
-import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
-import kr.co.shineware.nlp.komoran.core.Komoran;
-import kr.co.shineware.nlp.komoran.model.KomoranResult;
 
 @Service
 public class AuctionServiceImpl implements AuctionService {
@@ -171,41 +166,47 @@ public class AuctionServiceImpl implements AuctionService {
 				return navi;
 			}
 
-			@Override
-			public ArrayList<Auction> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
-				//검색 대상과 검색어
-				
-		        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
-		        ArrayList<String> miningList = dao.gettitle();
-		        
-		        for (String mining : miningList) {
-		        KomoranResult analyzeResultList = komoran.analyze(mining);
-		        	
-		        System.out.println(analyzeResultList.getPlainText());
-
+//			@Override
+//			public ArrayList<Auction> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
+//				//검색 대상과 검색어
+//				
+//		        Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
+//		        ArrayList<String> miningList = dao.gettitle();
+//		        
+//		        for (String mining : miningList) {
+//		        KomoranResult analyzeResultList = komoran.analyze(mining);
+//		        	
+//		        System.out.println(analyzeResultList.getPlainText());
+//
 //		        List<Token> tokenList = analyzeResultList.getTokenList();
 //		        for (Token token : tokenList) {
 //		            System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(), token.getPos());
 //		        }        
-		        
-		        }
-		        
-		        
-		        
-				HashMap<String, String> map = new HashMap<>();
-				map.put("type", type);
-				map.put("searchWord", searchWord);
-				//조회 결과 중 위치, 개수 지정
-				RowBounds rb = new RowBounds(startRecord, countPerPage);
-				ArrayList<Auction> recommendList = dao.recommendList(map, rb);
-				
-				return recommendList;
-			}
+//		        
+//		        }
+//		        
+//		        
+//		        
+//				HashMap<String, String> map = new HashMap<>();
+//				map.put("type", type);
+//				map.put("searchWord", searchWord);
+//				//조회 결과 중 위치, 개수 지정
+//				RowBounds rb = new RowBounds(startRecord, countPerPage);
+//				ArrayList<Auction> recommendList = dao.recommendList(map, rb);
+//				
+//				return recommendList;
+//			}
 
 			@Override
 			public ArrayList<File> fileListAll(String auction_id) {
 				ArrayList<File> list = dao.fileListAll(auction_id);
 				return list;
+			}
+
+			@Override
+			public ArrayList<Auction> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
+				// TODO Auto-generated method stub
+				return null;
 			}
 
 			
