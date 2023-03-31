@@ -383,7 +383,14 @@
   		WHERE
   			board_no = #{used_id}
   	</select>
-  
+  	
+	 <select id="fileListByid" parameterType="String" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE board_no = #{id}
+    </select>
 </mapper>
 
 

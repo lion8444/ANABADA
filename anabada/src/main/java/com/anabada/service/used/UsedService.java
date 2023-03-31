@@ -17,6 +17,7 @@ import com.anabada.domain.Used_buy;
 import com.anabada.util.PageNavigator;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_detail;
@@ -37,7 +38,7 @@ public interface UsedService {
 
 	
 	//파는 글 저장
-	public String usedSellWrite(Used used);
+	public String usedSellWrite(Used used, MultipartFile uploadOne);
 	
 	//파는 글 목록 출력
 	public ArrayList<Used>usedSellBoard(int start, int count, String type, String searchWord);
@@ -78,6 +79,8 @@ public interface UsedService {
 	ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord);
 
 	ArrayList<File> fileListAll(String used_id);
+
+	ArrayList<File> fileListByid(String used_id);
 
 
 	

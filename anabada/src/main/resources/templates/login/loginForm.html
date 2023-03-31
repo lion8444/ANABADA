@@ -19,6 +19,13 @@
     <!-- <script th:src="@{/js/google_login.js}"></script> -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     
+    <style>
+    	.errorMsg {
+			color: red;
+			font-size: 12px;
+			background-color: #ffffff;
+			}
+    </style>
 
     <title>로그인</title>
   </head>
@@ -52,11 +59,10 @@
                     <input type="password" class="form-control" name="user_pwd" id="password">
                     
                   </div>
-                  
+					<div class="errorMsg" th:if="${param.error}">ID또는 비밀번호가 틀립니다.</div>
                   <div class="d-flex mb-5 align-items-center">
                     <label class="control control--checkbox mb-0"><span class="caption">아이디 비밀번호 저장</span>
                       <input type="checkbox" checked="checked" id="idpwdSave">
-                      <div class="control__indicator"></div>
                     </label>
                     <span class="ml-auto"><a href="#" class="forgot-pass">아이디(이메일) / 비밀번호 찾기</a></span> 
                   </div>

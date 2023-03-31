@@ -85,5 +85,7 @@ public interface UsedDAO {
 
 	ArrayList<File> fileListAll(String used_id);
 
+	ArrayList<File> fileListByid(String id);
+
 	
 }

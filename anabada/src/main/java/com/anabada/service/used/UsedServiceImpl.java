@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.dao.UsedDAO;
 import com.anabada.domain.File;
@@ -94,9 +95,23 @@ public class UsedServiceImpl implements UsedService {
 	
 	//파는 글 저장
 	@Override
-	public String usedSellWrite(Used used) {
-		int res = dao.usedSellWrite(used);
+	public String usedSellWrite(Used used,  MultipartFile uploadOne) {
 		//log.debug("중고 거래 게시판 아이디 : {}",used.getUsed_id());
+		if(used.getUsed_title() == null || used.getUsed_title().length() ==0) {
+			return "0";
+		}
+
+		if(used.getUsed_price() < 0) {
+			return "0";
+		}
+		if(used.getUsed_content() == null || used.getUsed_content().length() <= 50) {
+			return "0";
+		}
+		if(uploadOne.isEmpty()) {
+			return "0";
+		}		
+		
+		int res = dao.usedSellWrite(used);
 		return used.getUsed_id();
 	}
 	
@@ -260,6 +275,13 @@ public class UsedServiceImpl implements UsedService {
 	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public ArrayList<File> fileListByid(String used_id) {
+		ArrayList <File> fileList = dao.fileListByid(used_id);
+		return fileList;
 	}
 	
 	

@@ -86,9 +86,10 @@ public class UsedController {
 			) {
 		
 		Used used_sell = service.usedSellBoardRead(used_id);
-//		log.debug("넘어오는 값: {}",used_sell);
+		ArrayList <File> fileList = service.fileListByid(used_id);
 		model.addAttribute("used_sell", used_sell);
-		
+		model.addAttribute("fileList", fileList);
+
 		return "used/usedSellBoardRead(JPBR)";
 	}
 	
@@ -153,7 +154,11 @@ public class UsedController {
 			//로그인한 아이디 읽어서 board객체에 추가
 			used.setUser_email(user.getUsername());
 				
-			String used_id = service.usedSellWrite(used);
+			String used_id = service.usedSellWrite(used, uploadOne);
+			
+			if (used_id.equals("0")) {
+				return "redirect:/";
+			}
 
 			if(upload.isEmpty() || upload.get(0).isEmpty()) {
 			    log.debug("이미지 X");
