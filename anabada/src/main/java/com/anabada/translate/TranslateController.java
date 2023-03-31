@@ -15,10 +15,10 @@ public class TranslateController {
 
 
     @PostMapping("/api/translate")
-    public TranslateResponseDto.Result naverPapagoTranslate(String source, String target, String text) {
-    	log.debug("@TranslateController naverPapagoTranslate. source : {}, target : {}, text : {}", source, target, text);
-    	log.debug("{}",translateService.naverPapagoTranslate(source, target, text));
-        return translateService.naverPapagoTranslate(source, target, text);
+    public Testdto naverPapagoTranslate(int listid, String source, String target, String text) {
+    	log.debug("@TranslateController naverPapagoTranslate. listid : {}, source : {}, target : {}, text : {}",listid, source, target, text);
+    	log.debug("{}",translateService.naverPapagoTranslate(listid, source, target, text));
+        return translateService.naverPapagoTranslate(listid, source, target, text);
     }
     
 }
