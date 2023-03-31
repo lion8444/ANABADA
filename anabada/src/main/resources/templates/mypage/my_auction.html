@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>경매내역</title>
@@ -21,6 +23,7 @@
     <!-- 제이쿼리 -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -57,7 +60,7 @@ https://templatemo.com/tm-559-zay-shop
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h1 align-self-center" href="index.html">
+            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}">
                 ANABADA
             </a>
 
@@ -69,19 +72,19 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="">중고</a>
+                            <a class="nav-link" th:href="@{/used/usedSellBoard}" th:text="#{used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">렌탈</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">경매</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">지도</a>
+                            <a class="nav-link" href="@{/}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">프로젝트 소개</a>
+                            <a class="nav-link" href="@{/}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -135,38 +138,39 @@ https://templatemo.com/tm-559-zay-shop
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">마이페이지</h1>
+                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
                             MY 거래
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" href="">거래내역</a></li>
-                            <li><a class="text-decoration-none" href="">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" href="">경매내역</a></li>
-                            <li><a class="text-decoration-none" href="">찜 목록</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
                             MY 다마고치
                         </p>
                         <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" href="">다마고치 상점</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" href="">문의하기</a></li>
-                            <li><a class="text-decoration-none" href="">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" href="">나의 신고 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -175,15 +179,19 @@ https://templatemo.com/tm-559-zay-shop
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="전체" th:onclick="|location.href='@{/mypage/myauctionlistall(user_email=${us.user_email})}'|">
+                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myauctionlistall(user_email=${us.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="경매 내역" th:onclick="|location.href='@{/mypage/myauctionlistsell(user_email=${us.user_email})}'|">
+                        <input type="button" value="경매 내역" th:value="#{auctionlist}" th:onclick="|location.href='@{/mypage/myauctionlistsell(user_email=${us.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="입찰 내역" th:onclick="|location.href='@{/mypage/myauctionlistbid(user_email=${us.user_email})}'|">
+                        <input type="button" value="입찰 내역" th:value="#{bidList}" th:onclick="|location.href='@{/mypage/myauctionlistbid(user_email=${us.user_email})}'|">
                     </div>
                 </div>
+
+                <!-- alert 문구 관련 -->
+                <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
+
                 <!-- 전체 경매 거래 내역 -->
                 <div id="mylistbox" th:each="list : ${auctionListAll}" th:if="${auctionListAll} != null">
                     <table class="mypagebox">
@@ -199,9 +207,14 @@ https://templatemo.com/tm-559-zay-shop
                                 </div>
                             </td>
                             <td>
-                                <div class="mypageTwo">
-                                    <p th:text="${list.aDetail_status}">게시글 상태</p>                                   
-                                    <p th:text="${list.aDetail_Date}">날짜</p>
+                                <div class="mypageTwo">                                
+                                    <div th:if="${list.aDetail_status == '경매 중'}">
+                                        <p th:text="#{auctionIng}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.aDetail_status == '경매 중지'}">
+                                        <p th:text="#{auctionStop}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <p th:text="${list.aDetail_Date}">날짜</p>                                                                      
                                 </div>
                             </td>
                             <td>
@@ -210,13 +223,13 @@ https://templatemo.com/tm-559-zay-shop
                                     <form th:action="@{/mypage/cancleAuction}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="user_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" value="경매 취소" th:if="${list.user_email} == ${us.user_email}">
+                                        <input type="submit" class="btn btn-success" th:value="#{auctionCancle}" value="경매 취소" th:if="${list.user_email} == ${us.user_email}">
                                     </form>
                                     <!-- 입찰 취소 -->
                                     <form th:action="@{/mypage/cancleBid}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="buyer_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:if="${list.buyer_email} == ${us.user_email}">                            
+                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:value="#{bidCancle}" th:if="${list.buyer_email} == ${us.user_email}">                            
                                     </form>
                                 </div>
                             </td>
@@ -240,7 +253,12 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <p th:text="${list.aDetail_status}">게시글 상태</p>                                   
+                                    <div th:if="${list.aDetail_status == '경매 중'}">
+                                        <p th:text="#{auctionIng}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
+                                    </div>
+                                    <div th:if="${list.aDetail_status == '경매 중지'}">
+                                        <p th:text="#{auctionStop}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
+                                    </div>                                   
                                     <p th:text="${list.aDetail_Date}">날짜</p>
                                 </div>
                             </td>
@@ -251,7 +269,7 @@ https://templatemo.com/tm-559-zay-shop
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="user_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" value="경매 취소" th:if="${list.user_email} == ${us.user_email}">
+                                        <input type="submit" class="btn btn-success" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${us.user_email}">
                                     </form>                    
                                 </div>
                             </td>
@@ -275,7 +293,13 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <p th:text="${list.aDetail_status}">게시글 상태</p>                                   
+                                    <div class="mypageTwo">
+                                        <div th:if="${list.aDetail_status == '경매 중'}">
+                                            <p th:text="#{auctionIng}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.aDetail_status == '경매 중지'}">
+                                            <p th:text="#{auctionStop}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
+                                        </div>                                   
                                     <p th:text="${list.aDetail_Date}">날짜</p>
                                 </div>
                             </td>
@@ -285,7 +309,7 @@ https://templatemo.com/tm-559-zay-shop
                                     <form th:action="@{/mypage/cancleBid}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="buyer_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:if="${list.buyer_email} == ${us.user_email}">                            
+                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:value="#{bidCancle}" th:if="${list.buyer_email} == ${us.user_email}">                            
                                     </form>                            
                                 </div>
                             </td>

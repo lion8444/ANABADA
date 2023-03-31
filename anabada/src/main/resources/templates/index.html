@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+                >
 
 <head>
     <title>ANABADA</title>
@@ -21,6 +22,11 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_index.css}">
+    
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -83,7 +89,15 @@ https://templatemo.com/tm-559-zay-shop
                         <li class="nav-item">
                             <a class="nav-link" href="#">INTRODUCTION</a>
                         </li>
+		                 <li>                        <!-- 언어 선택 -->
+			                <select id="locales">
+			                    <option value="">Language</option>
+			                    <option value="ko" th:text="#{lang.ko}"></option>
+			                    <option value="ja-JP" th:text="#{lang.jp}"></option>
+			                </select>
+		                </li>
                     </ul>
+               
                 </div>
                 <div class="navbar align-self-center d-flex">
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">

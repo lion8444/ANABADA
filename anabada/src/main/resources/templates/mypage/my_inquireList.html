@@ -20,9 +20,10 @@
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/test.css}">
 
-    <!-- 제이쿼리 -->
-    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
-	<script th:src="@{/js/js_myPage.js}"></script>
+        <!-- 제이쿼리 -->
+        <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+        <script th:src="@{/js/js_myPage.js}"></script>
+        <script th:src="@{/js/lanTest.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -71,19 +72,19 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="">중고</a>
+                            <a class="nav-link" th:href="@{/used/usedSellBoard}" th:text="#{used}">중고</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">렌탈</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">경매</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">지도</a>
+                            <a class="nav-link" href="@{/}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">프로젝트 소개</a>
+                            <a class="nav-link" href="@{/}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -137,39 +138,39 @@ https://templatemo.com/tm-559-zay-shop
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <h1 class="h2 pb-4">마이페이지</h1>
+                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
                             MY 거래
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" href="">거래내역</a></li>
-                            <li><a class="text-decoration-none" href="">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" href="">경매내역</a></li>
-                            <li><a class="text-decoration-none" href="">찜 목록</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
                             MY 다마고치
                         </p>
                         <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" href="">다마고치 상점</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/inquiry(user_email=${user.user_email})}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/myinquirelist(user_email=${user.user_email})}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/myreportlist(user_email=${user.user_email})}">나의 신고 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -177,13 +178,13 @@ https://templatemo.com/tm-559-zay-shop
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
                 <div id="inquiretop">
-                    <div class="inquiretext">나의 문의 내역</div>
+                    <div class="inquiretext" th:text="#{myInqList}">나의 문의 내역</div>
                 </div>
                 <hr width="80%">
                     <div class="row" th:each="inquiry : ${inquiry}">
                         <div id="inquirebox">
-                            <div class="inquirereply" th:if="${inquiry.inq_answer != null}">처리 완료</div>
-                            <div class="inquirereply" th:if="${inquiry.inq_answer == null}">처리 중</div>
+                            <div class="inquirereply" th:if="${inquiry.inq_answer != null}" th:text="#{treatFin}">처리 완료</div>
+                            <div class="inquirereply" th:if="${inquiry.inq_answer == null}" th:text="#{treatYet}">처리 중</div>
                             <div class="inquirelist" th:text="${inquiry.inq_title}">문의 제목</div>                        
                             <!-- <input id="downarrow" type="image" th:if="${inquiry.inq_answer != null}" th:src="@{/assets/img/down-arrow.png}">                         -->
                             

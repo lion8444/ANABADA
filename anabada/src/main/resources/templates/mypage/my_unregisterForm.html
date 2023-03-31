@@ -197,8 +197,8 @@ https://templatemo.com/tm-559-zay-shop
                     <span id="anamoney">&#8361;50,000</span>
                     <br>
                     <br>
-                    <input type="button" value="+충전" id="anacharge">
-                    <input type="button" value="&#8361;계좌송금" id="anatransfer">
+                    <input type="button" value="충전" th:value="#{charge}" id="anacharge">
+                    <input type="button" value="&#8361;계좌송금" th:text="#{sendMoney}" id="anatransfer">
                 </div>
                 <div id="unregisternotice">
                     <span>※ 회원 탈퇴 시 현재 보유하고 계신 ANABADA PAY잔액과 다마고치 포인트는 사라집니다.</span><br>
@@ -218,12 +218,12 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
                 <br>
                 <div class="d-flex mb-5 align-items-center">
-                    <label class="control control--checkbox mb-3 mb-sm-0"><span class="caption">회원탈퇴 <a href="#">약관에 동의 합니다.</a></span>
+                    <label class="control control--checkbox mb-3 mb-sm-0"><span class="caption" th:text="#{memberQuit}">회원탈퇴 <a href="#" th:text="#{agreeQuit}">약관에 동의 합니다.</a></span>
                     <input type="checkbox" checked="checked"/>
                     <div class="control__indicator"></div>
                   </label>
                 </div>
-                <input type="submit" value="탈퇴하기" class="btn btn-pill text-white btn-block btn-primary">
+                <input type="submit" value="탈퇴하기" th:value="#{doMemberQuit}" class="btn btn-pill text-white btn-block btn-primary">
             <div>
         </div>
     </div>

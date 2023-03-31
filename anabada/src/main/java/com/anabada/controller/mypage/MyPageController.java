@@ -48,19 +48,12 @@ public class MyPageController {
 	@GetMapping("/mypage")
 	public String myPage(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 
-		//		if(!user_email.equals(user.getUsername())) {
-		//			return "redirect:/";
-		//		}
-
-		user_email = user.getUsername();
-
 		// 현재 로그인한 유저의 개인 정보
-		UserDTO userDTO = service.selectUserById(user_email);
+		UserDTO userDTO = service.selectUserById(user.getUsername());
 
-		List<CharacterDTO> characterDTO = service.selectUserDama(user_email);
+		List<CharacterDTO> characterDTO = service.selectUserDama(user.getUsername());
 
 		log.debug("정보 : {}", userDTO);
 		log.debug("다마정보 : {}", characterDTO);
@@ -79,23 +72,15 @@ public class MyPageController {
 	@GetMapping("/myinquirelist")
 	public String myInquireList(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 
 		log.debug("나의 문의 내역 페이지 진입");
-
-		// 로그인한 아이디와 user_email이 같이 않으면 메인으로 이동
-//				if(!user_email.equals(user.getUsername())) {
-//					return "redirect:/";
-//				}
-//
-//				log.debug("유저이메일:{}", user_email);
 
 		String email = user.getUsername();
 
 		UserDTO userdto = service.selectUserById(email);
 
-		List<Inquiry> inquiry = service.selectInquiryList(userdto.getUser_email());
+		List<Inquiry> inquiry = service.selectInquiryList(user.getUsername());
 
 		model.addAttribute("user", userdto);
 		model.addAttribute("inquiry", inquiry);
@@ -113,17 +98,9 @@ public class MyPageController {
 	@GetMapping("/myreportlist")
 	public String myReportList(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 
-//				if(!user_email.equals(user.getUsername())) {
-//					log.debug("아이디 일치 X");
-//					return "redirect:/";
-//				}
-
-		user_email = user.getUsername();
-
-		List<Report> list = service.selectReportList(user_email);
+		List<Report> list = service.selectReportList(user.getUsername());
 
 		model.addAttribute("report", list);
 
@@ -140,25 +117,18 @@ public class MyPageController {
 	@GetMapping("/mytransactionlistall")
 	public String myTradeList(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		log.debug("user_email : {}", user_email);
 		log.debug("스프링 user : {}", user.getUsername());
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<UsedAndFile> list = service.selectUsedListAllById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+				
+		List<UsedAndFile> list = service.selectUsedListAllById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 			
 		model.addAttribute("usedListAll", list);
 		model.addAttribute("us", us);
 		
 //		log.debug("사진1: {}", list.get(0).getFile_saved());
-		log.debug("user_email : {}", user_email);
+//		log.debug("user_email : {}", user_email);
 		log.debug("All 이즈엠티 : {}", list.isEmpty());
 		log.debug("All 자체 : {}", list == null);
 		log.debug(list.get(0).getUsed_id());
@@ -179,26 +149,19 @@ public class MyPageController {
 	/**
 	 * 나의 거래 내역 페이지 포워딩(구매 내역)
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 나의 거래 내역 페이지(구매 내역)
 	 */
 	@GetMapping("/mytransactionlistbuy")
 	public String myTradeListBuy(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		log.debug("user_email : {}", user_email);
 		log.debug("스프링 user : {}", user.getUsername());
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
 		
-		List<UsedAndFile> list = service.selectUsedBuyListById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<UsedAndFile> list = service.selectUsedBuyListById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("usedListBuy", list);
 		model.addAttribute("us", us);
@@ -213,26 +176,18 @@ public class MyPageController {
 	/**
 	 * 나의 거래 내역 페이지 포워딩(판매 내역)
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 나의 거래 내역 페이지(판매 내역)
 	 */
 	@GetMapping("/mytransactionlistsell")
 	public String myTradeListSell(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		log.debug("user_email : {}", user_email);
 		log.debug("스프링 user : {}", user.getUsername());
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<UsedAndFile> list = service.selectUsedSellListById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<UsedAndFile> list = service.selectUsedSellListById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 			
 		model.addAttribute("usedListSell", list);
 		model.addAttribute("us", us);
@@ -246,23 +201,16 @@ public class MyPageController {
 	/**
 	 * 나의 모든 렌탈 내역 포워딩 (전체)
 	 * @param user 스프링 시큐리티
-	 * @param user_email 유저 이메일
 	 * @param model 모델
 	 * @return 렌탈내역 페이지
 	 */
 	@GetMapping("/myrentallistall")
 	public String myRentalListAll(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<RentalAndFile> list = service.selectRentalListAllById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<RentalAndFile> list = service.selectRentalListAllById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("us", us);
 		model.addAttribute("rentalListAll", list);
@@ -273,24 +221,17 @@ public class MyPageController {
 	/**
 	 * 나의 모든 렌탈 빌린 내역 포워딩 (빌린 내역)
 	 * @param user 스프링 시큐리티
-	 * @param user_email 유저 이메일
 	 * @param model 모델
 	 * @return 렌탈 내역 페이지 (빌린 내역)
 	 */
 	@GetMapping("/myrentallistbuy")
 	public String myRentalListBuy(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
+		List<RentalAndFile> list = service.selectRentalListBuyById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
-		List<RentalAndFile> list = service.selectRentalListBuyById(user_email);
-		UserDTO us = service.selectUserById(user_email);
-		log.info(list+"");
 		model.addAttribute("us", us);
 		model.addAttribute("rentalListBuy", list);
 		
@@ -300,23 +241,16 @@ public class MyPageController {
 	/**
 	 * 나의 모든 렌탈 빌려준 내역 포워딩 (빌려준 내역)
 	 * @param user 스프링 시큐리티
-	 * @param user_email 유저 이메일
 	 * @param model 모델
 	 * @return 렌탈 내역 페이지 (빌려준 내역)
 	 */
 	@GetMapping("/myrentallistsell")
 	public String myRentalListSell(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<RentalAndFile> list = service.selectRentalListSellById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<RentalAndFile> list = service.selectRentalListSellById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("us", us);
 		model.addAttribute("rentalListSell", list);
@@ -327,23 +261,16 @@ public class MyPageController {
 	/**
 	 * 나의 모든 경매 내역 포워딩 (전체)
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 경매 내역 페이지 (전체)
 	 */
 	@GetMapping("/myauctionlistall")
 	public String myAuctionListAll(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<AuctionAndFile> list = service.selectAuctionListAllById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+	
+		List<AuctionAndFile> list = service.selectAuctionListAllById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("auctionListAll", list);
 		model.addAttribute("us", us);
@@ -356,23 +283,16 @@ public class MyPageController {
 	/**
 	 * 나의 경매 내역 포워딩 (경매 내역)
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 경매 내역 페이지 (경매 내역)
 	 */
 	@GetMapping("/myauctionlistsell")
 	public String myAuctionListSell(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<AuctionAndFile> list = service.selectAuctionListSellById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+		List<AuctionAndFile> list = service.selectAuctionListSellById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("auctionListSell", list);
 		model.addAttribute("us", us);
@@ -385,23 +305,16 @@ public class MyPageController {
 	/**
 	 * 나의 입찰 내역 포워딩 (입찰 내역)
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 경매 내역 페이지 (입찰 내역)
 	 */
 	@GetMapping("/myauctionlistbid")
 	public String myAuctionListBid(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<AuctionAndFile> list = service.selectAuctionListBidById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+			
+		List<AuctionAndFile> list = service.selectAuctionListBidById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("auctionListBid", list);
 		model.addAttribute("us", us);
@@ -628,16 +541,10 @@ public class MyPageController {
 	@GetMapping("/mywantlistused")
 	public String myWantListUsed(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<WishAndFile> list = service.selectWishListUsedById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+				
+		List<WishAndFile> list = service.selectWishListUsedById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListUsed", list);
 		model.addAttribute("us", us);
@@ -648,23 +555,16 @@ public class MyPageController {
 	/**
 	 * 찜 목록 - 렌탈 거래 찜 리스트
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 찜 목록 페이지 (렌탈 거래 찜)
 	 */
 	@GetMapping("/mywantlistrental")
 	public String myWantListRental(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<WishAndFile> list = service.selectWishListRentalById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+			
+		List<WishAndFile> list = service.selectWishListRentalById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListRental", list);
 		model.addAttribute("us", us);
@@ -675,23 +575,16 @@ public class MyPageController {
 	/**
 	 * 찜 목록 - 경매 거래 찜 리스트
 	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
 	 * @param model 모델
 	 * @return 찜 목록 페이지 (경매 거래 찜)
 	 */
 	@GetMapping("/mywantlistauction")
 	public String myWantListAuction(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
-		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
-		
-		List<WishAndFile> list = service.selectWishListAuctionById(user_email);
-		UserDTO us = service.selectUserById(user_email);
+			
+		List<WishAndFile> list = service.selectWishListAuctionById(user.getUsername());
+		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListAuction", list);
 		model.addAttribute("us", us);
@@ -709,16 +602,11 @@ public class MyPageController {
 	@GetMapping("/mydamagochi")
 	public String MyDamagochi(
 			@AuthenticationPrincipal UserDetails user
-			, String user_email
 			, Model model) {
 		
-		if(!user_email.equals(user.getUsername())) {
-			log.debug("id가 같지 않음");
-			return "redirect:/";
-		}
+		Damagochi dama = service.selectMyDamaInfoById(user.getUsername());
 		
-		Damagochi dama = service.selectMyDamaInfoById(user_email);
-		List<Damagochi> list = service.selectMyDamaListById(user_email);
+		List<Damagochi> list = service.selectMyDamaListById(user.getUsername());
 		
 		model.addAttribute("dama", dama);
 		model.addAttribute("damaList", list);
@@ -727,11 +615,17 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/damagochishop")
-	public String damagochiShop() {
+	public String damagochiShop(
+			@AuthenticationPrincipal UserDetails user) {
 		
 		return "mypage/my_damagochiShop";
 	}
 	
+	@GetMapping("/faqs")
+	public String faqs() {
+		
+		return "mypage/my_faqs";
+	}
 	
 	
 

@@ -35,6 +35,8 @@ public class WebSecurityConfig {
                 "/email",
                 "/verifyCode",
         		"/chat",
+        		"/test",
+        		"/api/**",
         		"/join",
         		"/signup",
         		"/check/**",

@@ -267,9 +267,21 @@ $(document).ready(function() {
 });
 
 function usedCancleChk() {
-    if(confirm('정말로 취소하시겠습니까?')) {
-        return true;
+    const regex = /[가-힣ぁ-ゔァ-ヴー々〆〤一-龥]/;
+    let cancle = $("#cancle-text");
+    // console.log(cancle.val());
+    // console.log(regex.test(cancle.val()));
+    if(regex.test(cancle.val())) {
+        if(confirm(cancle.val())) {
+            return true;
+        }
+    } else {
+        // console.log(cancle.attr('alertText'));
+        if(confirm(cancle.attr('alertText'))) {
+            return true;
+        }
     }
+    
 
     return false;
 }
