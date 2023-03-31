@@ -4,190 +4,26 @@ $(function () {
    * Data and config for chartjs
    */
   'use strict';
-  
-  	$(document).ready(function(){
-		$('input[name=sdate]').val(new Date().toISOString().substring(0, 10));
-		$('input[name=edate]').val(new Date().toISOString().substring(0, 10));
-		$('#csubmit').click(getdata);	
-	});
-	
-	function getDatesStartToLast(startDate, lastDate) {
-		var regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
-		if(!(regex.test(startDate) && regex.test(lastDate))) return "Not Date Format";
-		var result = [];
-		var curDate = new Date(startDate);
-		while(curDate <= new Date(lastDate)) {
-			result.push(curDate.toISOString().split("T")[0]);
-			curDate.setDate(curDate.getDate() + 1);
-		}
-		return result;
-	}
-	
-function sortDate1(list) {
-	const sorted_list = list.sort(function(a, b) {
-		return new Date(a.date).getTime() - new Date(b.date).getTime();
-	});
-    return sorted_list;
-}
-	
-	
-  let alldate = [];
-  let coption = [];
-  let finddata = [];
-  
-  function getdata(){
-		$.ajax({
-			url: 'getdata'
-			, type: 'post'
-			, traditional: true
-			, data: {
-				'used': $('input[name=used]:checked').val()
-				, 'rental': $('input[name=rental]:checked').val()
-				, 'auction': $('input[name=auction]:checked').val()
-				, 'number': $('input[name=number]:checked').val()
-				, 'amount': $('input[name=amount]:checked').val()
-				, 'nkorea': $('input[name=nkorea]:checked').val()
-				, 'njapan': $('input[name=njapan]:checked').val()
-				, 'lkorea': $('input[name=lkorea]:checked').val()
-				, 'ljapan': $('input[name=ljapan]:checked').val()
-				, 'visitor': $('input[name=visitor]:checked').val()
-				, 'join': $('input[name=join]:checked').val()
-				, 'sdate': $('input[name=sdate]').val()
-				, 'edate': $('input[name=edate]').val()}
-			, success: function(alldata){
-				alldata = sortDate1(alldata);
-				let raw = '';
-				alldate = [];
-				coption = [];
-				finddata = [];
-				$('.option:checked').each(function() {
-					coption.push($(this).val()); 
-				 });
-				for(let i = 0; i < alldata.length; ++i){
-					if(!alldate.includes(alldata[i].date)){
-					alldate.push(alldata[i].date);
-					}
-					}
-				for(let i=0; i < alldate.length; ++i){
-					for (let j=0; j <alldata.length; ++j){
-						if (alldate[i] == alldata[j].date){
-							for (let z=0; z < coption.length; ++z){
-							 	if(alldata[j].id == coption[z]){
-									finddata[i] += String(alldata[j].count);
-									break;
-									}
-								else {
-									finddata[i] += '0';
-								}
-							}
-						}
-					}
-				}
-				
-				alert(finddata[0]);
-				
-				if(alldata[0]){
-					raw += '<table class="table table-hover">';
-					raw += '<tr> <th> 날짜 </th>';
-							if(coption.includes('used')){
-								raw += '<td> 중고 </td>';
-								}
-							if(coption.includes('rental')){
-								raw += '<td> 렌탈 </td>';
-								}
-							if(coption.includes('auction')){
-								raw += '<td> 경매 </td>';
-								}
-							if(coption.includes('visitor')){
-								raw += '<td> 방문자 </td>';
-								}
-							if(coption.includes('join')){
-								raw += '<td> 가입자 </td>';
-								}			
-					raw += '</tr>';
-					for(let i = 0; i < alldate.length; ++i){
-						raw += '<tr>';						
-						raw += '<td>' + alldate[i] + '</td>';
-						raw += '</tr>';
-						}
-				
-				raw += '</table>';
-				$('.detailtable').html(raw);
-			}
-			}
-			, error: function(){
-				alert("실패");
-			}
-			
-		});
-	}
-	
-
-	
   var data = {
-    labels: [1, 2, 3, 4, 5, 6],
+    labels: ["2013", "2014", "2014", "2015", "2016", "2017"],
     datasets: [{
       label: '# of Votes',
-      data: [1, 19, 3, 5, 2, 3],
-      borderColor: [
-        'rgba(255,99,132,1)'
+      data: [10, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
       ],
-      borderWidth: 1,
-      fill: false
-    }, {
-      label: '# of Votes',
-      data: [2, 19, 3, 5, 2, 3],
       borderColor: [
-        'rgba(54, 162, 235, 1)'
-      ],
-      borderWidth: 1,
-      fill: false
-    },{
-      label: '# of Votes',
-      data: [3, 8, 8, 8, 2, 3],
-      borderColor: [
-        'rgba(255, 206, 86, 1)'
-      ],
-      borderWidth: 1,
-      fill: false
-    },{
-      label: '# of Votes',
-      data: [4, 4, 4, 5, 2, 3],
-      borderColor: [
-        'rgba(75, 192, 192, 1)'
-
-      ],
-      borderWidth: 1,
-      fill: false
-    },{
-      label: '# of Votes',
-      data: [5, 4, 4, 5, 2, 3],
-      borderColor: [
-        'rgba(153, 102, 255, 1)'
-      ],
-      borderWidth: 1,
-      fill: false
-    },{
-      label: '# of Votes',
-      data: [6, 4, 4, 5, 2, 3],
-      borderColor: [
+        'rgba(255,99,132,1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
         'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1,
-      fill: false
-    },{
-      label: '# of Votes',
-      data: [7, 4, 4, 5, 2, 3],
-      borderColor: [
-        'rgba(120,99,132,1)'
-      ],
-      borderWidth: 1,
-      fill: false
-    },{
-      label: '# of Votes',
-      data: [8, 4, 4, 5, 2, 3],
-      borderColor: [
-        'rgba(0,99,132,1)'
       ],
       borderWidth: 1,
       fill: false
@@ -735,4 +571,4 @@ function sortDate1(list) {
       options: doughnutPieOptions
     });
   }
-} );
+});
