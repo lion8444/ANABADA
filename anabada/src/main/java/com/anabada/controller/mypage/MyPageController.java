@@ -127,22 +127,6 @@ public class MyPageController {
 		model.addAttribute("usedListAll", list);
 		model.addAttribute("us", us);
 		
-//		log.debug("사진1: {}", list.get(0).getFile_saved());
-//		log.debug("user_email : {}", user_email);
-		log.debug("All 이즈엠티 : {}", list.isEmpty());
-		log.debug("All 자체 : {}", list == null);
-		log.debug(list.get(0).getUsed_id());
-		log.debug(list.get(1).getUsed_id());
-		log.debug(list.get(2).getUsed_id());
-		
-		log.debug(list.get(0).getUsed_status());
-		log.debug(list.get(1).getUsed_status());
-		log.debug(list.get(2).getUsed_status());
-		
-		log.debug(list.get(0).getUDetail_status());
-		log.debug(list.get(1).getUDetail_status());
-		log.debug(list.get(2).getUDetail_status());
-		
 		return "mypage/my_transaction";
 	}
 	
