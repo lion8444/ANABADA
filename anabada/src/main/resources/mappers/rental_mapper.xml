@@ -152,7 +152,6 @@
 				,user_email
 				,category_id
 				,rental_title
-				,rental_date
 				,rental_price
 				,rental_content
 				,rental_quality
@@ -167,7 +166,6 @@
     			,#{user_email}
     			,#{category_id}
     			,#{rental_title}
-    			,#{rental_date}
     			,#{rental_price}
     			,#{rental_content}
     			,#{rental_quality}
@@ -275,7 +273,13 @@
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
 	</update>
     
-    
+    <select id="fileListByid" parameterType="String" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE board_no = #{id}
+    </select>
     
     
 </mapper>

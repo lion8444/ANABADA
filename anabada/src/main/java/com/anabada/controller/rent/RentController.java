@@ -112,8 +112,9 @@ public class RentController {
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("fileList", fileList);
+	
 		
-		//log.debug("filelist {}: ", fileList);
+		log.debug("filelist {}: ", fileList);
 		return "rental/rentalBoard(RB)";
 	}
 	
@@ -209,7 +210,7 @@ public class RentController {
 			    savedFile.setFile_origin(file.getOriginalFilename());
 			    savedFile.setFile_saved(filename);
 			    savedFile.setBoard_no(rental_id);
-			    savedFile.setBoard_status("중고 거래");
+			    savedFile.setBoard_status("렌탈 거래");
 			    service.insertFile(savedFile);
 			}
 			

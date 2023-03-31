@@ -158,7 +158,7 @@ https://templatemo.com/tm-559-zay-shop
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-9 text-center mt-5">
-                    <a href="">신고</a>
+                    <a th:href="@{|/csform/report?used_id={rental_sell.rental_id}|}">신고</a>
 
                     <input type="hidden" name="rental_id" th:value="${rental_sell.rental_id}">
                     <a th:href="@{/rental/rentalBoardUpdate(rental_id=${rental_sell.rental_id})}">수정</a>

@@ -62,6 +62,12 @@ public class UsedController {
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		ArrayList <File> fileList = service.fileList();
 		
+		for(int i=0 ; i < fileList.size(); ++i) {
+		if(!fileList.get(i).getBoard_status().equals("중고 거래")) {
+			fileList.remove(i);
+			}
+		}
+		
 		ArrayList <Used> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		
@@ -71,7 +77,7 @@ public class UsedController {
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("fileList", fileList);
 		
-		//log.debug("filelist {}: ", fileList);
+		log.debug("filelist {}: ", fileList);
 		return "used/usedSellBoard(JPB)";
 	}
 	
@@ -89,7 +95,7 @@ public class UsedController {
 		ArrayList <File> fileList = service.fileListByid(used_id);
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
-
+		log.info(fileList+"");
 		return "used/usedSellBoardRead(JPBR)";
 	}
 	

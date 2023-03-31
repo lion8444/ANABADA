@@ -59,7 +59,6 @@ public class CSController {
 	public String report(
 			String used_id
 			, String rental_id
-			, String auction_id
 			, HttpServletRequest hsr
 			 , Model model) {
 		
@@ -69,27 +68,27 @@ public class CSController {
 		String aa = hsr.getRequestURL().toString().replace(hsr.getRequestURI(),"");
 		
 		String url = "";
-				
+			
 		if(used_id != null) {
-					
 			url = aa + "/usedSellBoardRead?used_id=" +  used_id;
 			
+			Used us = service.selectUsedByID(used_id);
+			
 			model.addAttribute("url", url);
+			model.addAttribute("us", us);
 		}
+		
 		
 		if(rental_id != null) {
-			
 			url = aa + "/rentalSellBoardRead?used_id=" +  rental_id;
 			
+			Rental rt = service.selectRentalById(rental_id);
+
 			model.addAttribute("url", url);
+			model.addAttribute("rt", rt);
+
 		}
 		
-		if(auction_id != null) {
-			
-			url = aa + "/auctionSellBoardRead?used_id=" +  auction_id;
-			
-			model.addAttribute("url", url);
-		}
 					
 		return "csForm/reportForm";
 	}
