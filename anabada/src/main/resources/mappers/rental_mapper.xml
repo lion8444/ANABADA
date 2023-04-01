@@ -278,8 +278,6 @@
           *
        FROM
           file
-       WHERE board_no = #{id}
+       WHERE board_no = #{rental_id}
     </select>
-    
-    
 </mapper>

@@ -51,4 +51,6 @@ public interface AuctionService {
 	
 	//옥션 글 수정
 	public String auctionBoardUpdate(Auction auction);
+
+	ArrayList<File> fileListByid(String auction_id);
 }

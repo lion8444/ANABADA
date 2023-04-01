@@ -18,14 +18,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/custom.css}">
-<!--
-    
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
 	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/hsw/usedSellWrite(JPBW).js}"></script>
 
     <style>
       .hidden {
@@ -33,48 +27,6 @@ https://templatemo.com/tm-559-zay-shop
       color: red;
       }
     </style>
-    
-	<script>
-		$(document).ready(function(){
-			$('#write').submit(submitcheck);
-	
-		});	
-	
-		
-		function submitcheck(){
-			if($('#used_title').val().trim() == ""){
-				$('#used_title ~ div').css("display" ,"block");
-				return false;
-			}else{
-				$('#used_title ~ div').css("display" ,"none");
-			}
-			
-			if($('#used_price').val() == "" || $('#used_price').val() <= 0){
-				$('tr.hidden').css("display" ,"block");
-				return false;
-			}else{
-				$('tr.hidden').css("display" ,"none");
-			}
-
-			if(!$('#uploadOne').val()){
-				$('#uploadOne ~ div').css("display" ,"block");
-				return false;
-			}else{
-				$('#uploadOne ~ div').css("display" ,"none");
-			}	
-			
-			if($('#used_content').val().trim().length <= 50){
-				$('#used_content ~ div').css("display" ,"block");
-				return false;
-			}else{
-				$('#used_content ~ div').css("display" ,"none");
-			}
-			
-		}
-	
-	</script>
-
-
 </head>
 
 <body>
@@ -228,9 +180,9 @@ https://templatemo.com/tm-559-zay-shop
         <tr>
             <th>
                 <!-- 일단해보고 안되면 다시해보자 -->
-                <input type="radio" id="used_quality" name="used_quality" value="미개봉"> 미개봉
-                <input type="radio" id="used_quality" name="used_quality" value="사용감 있음" checked> 사용감 있음
-                <input type="radio" id="used_quality" name="used_quality" value="파손 있음"> 파손 있음
+                <input type="radio" name="used_quality" value="미개봉"> 미개봉
+                <input type="radio" name="used_quality" value="사용감 있음" checked> 사용감 있음
+                <input type="radio" name="used_quality" value="파손 있음"> 파손 있음
             </th>
         </tr>
         </table>

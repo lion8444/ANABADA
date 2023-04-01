@@ -56,13 +56,13 @@ public interface AuctionDAO {
 	 * 중고거래 파는 글 수정*/
 	public int auctionBoardUpdate(Auction auction);
 	
-	
-	
 	ArrayList<Auction> recommendList(HashMap<String, String> map, RowBounds rb);
 
 	ArrayList<String> gettitle();
 
 	ArrayList<File> fileListAll(String auction_id);
+
+	ArrayList<File> fileListByid(String auction_id);
 	
 
 }

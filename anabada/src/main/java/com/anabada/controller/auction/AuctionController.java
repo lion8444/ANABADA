@@ -97,16 +97,18 @@ public class AuctionController {
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		ArrayList <File> fileList = service.fileList();
 		
-		ArrayList <Auction> recommendList = service.recommendList(
-				navi.getStartRecord(),countPerPage, type, searchWord);
+		for(int i=0 ; i < fileList.size(); ++i) {
+			if(!fileList.get(i).getBoard_status().equals("옥션 거래")) {
+				fileList.remove(i);
+				--i;
+				}
+		}
 		
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("fileList", fileList);
-		
-		//log.debug("filelist {}: ", fileList);
 		return "auction/auctionBoard(GB)";
 	}
 	
@@ -119,10 +121,11 @@ public class AuctionController {
 			@RequestParam(name="rental_id",defaultValue="0") String auction_id
 			,Model model
 			) {
-		
+		ArrayList <File> fileList = service.fileListByid(auction_id);
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		model.addAttribute("auction_sell", auction_sell);
-		
+		model.addAttribute("fileList", fileList);
+
 		return "auction/auctionBoardRead(GBR)";
 	}
 	

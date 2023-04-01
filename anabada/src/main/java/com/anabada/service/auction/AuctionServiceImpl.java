@@ -209,6 +209,12 @@ public class AuctionServiceImpl implements AuctionService {
 				return null;
 			}
 
+			@Override
+			public ArrayList<File> fileListByid(String auction_id) {
+				ArrayList <File> fileList = dao.fileListByid(auction_id);
+				return fileList;
+			}
+
 			
 			
 			

@@ -70,16 +70,6 @@
     		*
     	FROM
     		auction
-    	<!-- WHERE
-    		auction_id
-    	IN
-    	(SELECT board_no from file ) -->
-    	
-    	<!-- 검색어가 null이 아니면 where조건을 추가한다 -->
-		<!-- 검색대상이 auction_title이면 제목에서 검색한다 -->
-		<!-- 검색대상이 auction_content이면 본문에서 검색한다 -->
-		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
-		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
 		<where>
 		<if test="searchWord != null and type != null" >
 				<if test="type =='auction_title'">
@@ -146,7 +136,6 @@
 				,user_email
 				,category_id
 				,auction_title
-				,auction_date
 				,auction_price
 				,auction_content
 				,auction_quality
@@ -160,7 +149,6 @@
     			,#{user_email}
     			,#{category_id}
     			,#{auction_title}
-    			,#{auction_date}
     			,#{auction_price}
     			,#{auction_content}
     			,#{auction_quality}
@@ -263,4 +251,12 @@
     <!--  AND
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
 	</update>
+	
+	<select id="fileListByid" parameterType="String" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE board_no = #{auction_id}
+    </select>
 </mapper>

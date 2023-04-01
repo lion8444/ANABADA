@@ -63,11 +63,13 @@ public class UsedController {
 		ArrayList <File> fileList = service.fileList();
 		
 		for(int i=0 ; i < fileList.size(); ++i) {
-		if(!fileList.get(i).getBoard_status().equals("중고 거래")) {
-			fileList.remove(i);
-			}
+			if(!fileList.get(i).getBoard_status().equals("중고 거래")) {
+				fileList.remove(i);
+				--i;
+				}
 		}
-		
+		log.debug("filelist {}: ", fileList);
+
 		ArrayList <Used> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		
@@ -77,7 +79,6 @@ public class UsedController {
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("fileList", fileList);
 		
-		log.debug("filelist {}: ", fileList);
 		return "used/usedSellBoard(JPB)";
 	}
 	

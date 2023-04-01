@@ -193,16 +193,9 @@ https://templatemo.com/tm-559-zay-shop
                     <div class="col-lg-7">
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
-                                <!-- 상품 이미지 넣는 부분 -->
-                                <!-- 사진이 출력되는 코드 -->
-                                <!-- <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
-                                <div class="property-item mb-30">
-                                <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                                    <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
-                                </a> -->
-                                <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
-                                <img src="assets/property_images/img_2.jpg" alt="Image" class="img-fluid">
-                                <img src="assets/property_images/img_3.jpg" alt="Image" class="img-fluid">
+                            	<th:block  th:each="fileList, i: ${fileList}">
+                                	<img th:src="|@{/img/}${fileList.file_saved}|" alt="Image" class="img-fluid">
+                                </th:block>
                             </div>
                         </div>
                     </div>

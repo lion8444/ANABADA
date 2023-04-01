@@ -64,4 +64,6 @@ public interface RentalDAO {
 	ArrayList<String> gettitle();
 
 	ArrayList<File> fileListAll(String rental_id);
+
+	ArrayList<File> fileListByid(String rental_id);
 }

@@ -104,6 +104,13 @@ public class RentController {
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		ArrayList <File> fileList = service.fileList();
 		
+		for(int i=0 ; i < fileList.size(); ++i) {
+			if(!fileList.get(i).getBoard_status().equals("렌탈 거래")) {
+				fileList.remove(i);
+				--i;
+				}
+		}
+		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		
@@ -127,8 +134,9 @@ public class RentController {
 			@RequestParam(name="rental_id",defaultValue="0") String rental_id
 			,Model model
 			) {
-		
 		Rental rental_sell = service.rentalBoardRead(rental_id);
+		ArrayList <File> fileList = service.fileListByid(rental_id);
+		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
 		
 		return "rental/rentalBoardRead(RBR)";

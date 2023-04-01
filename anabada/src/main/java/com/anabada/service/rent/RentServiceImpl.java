@@ -207,6 +207,12 @@ public class RentServiceImpl implements RentService {
 			return null;
 		}
 
+		@Override
+		public ArrayList<File> fileListByid(String rental_id) {
+			ArrayList <File> fileList = dao.fileListByid(rental_id);
+			return fileList;
+		}
+
 		
 		
 		

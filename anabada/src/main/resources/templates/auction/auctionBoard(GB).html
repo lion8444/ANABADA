@@ -182,20 +182,8 @@ https://templatemo.com/tm-559-zay-shop
                 <th:block th:each="auctionList, i: ${auctionList}" method="get" enctype="multipart/form-data">
                 <div class="property-item mb-30">
                     <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}" class="img">
-                    <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
                         <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
-                        <!-- <img th:src="@{'/img/' + ${fileList.file_origin}}" alt="Image" class="img-fluid"> -->
-                        <!-- <img th:src="${fileList.file_saved}"></img> -->
-                        <!-- <img th:src="@{${fileList.getfileList()}}"> -->
                     </a>
-                    
-                    <!-- 사진이 출력되는 코드 -->
-                    <!-- <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
-                    <div class="property-item mb-30">
-                    <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                        <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
-                    </a> -->
-
                     <div class="property-content">
                         <div class="price mb-2"><span th:text="${auctionList.auction_price}">가격</span></div>
                         <div>
@@ -210,45 +198,11 @@ https://templatemo.com/tm-559-zay-shop
                                     <span class="d-block mb-2 text-black-50" th:text="${auctionList.auction_quality}">상품상태</span>
                                 </span>
                             </div>
-                            <a th:href="@{/auctionBoardRead(auction_id=${auctionList.auction_id})}" class="btn btn-primary py-2 px-3">See details</a>
+                            <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}" class="btn btn-primary py-2 px-3">See details</a>
                         </div>
                     </div>
-                </div> 
+                </div>
                 </th:block><!-- .item -->
-            
-                <!-- <div class="property-item">
-
-                    <a href="property-single.html" class="img">
-                        <img src="assets/property_images/img_2.jpg" alt="Image" class="img-fluid">
-                    </a>
-
-                    <div class="property-content">
-                        <div class="price mb-2"><span>$1,291,000</span></div>
-                        <div>
-                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                            <span class="city d-block mb-3">California, USA</span>
-
-                            <div class="specs d-flex mb-4">
-                                <span class="d-block d-flex align-items-center me-3">
-                                    <span class="icon-bed me-2"></span>
-                                    <span class="caption">2 beds</span>
-                                </span>
-                                <span class="d-block d-flex align-items-center">
-                                    <span class="icon-bath me-2"></span>
-                                    <span class="caption">2 baths</span>
-                                </span>
-                            </div>
-
-                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
-                        </div>
-                    </div>
-                </div>  -->
-                <!-- .item -->
-  
-            
-    <div>
-
-                    </div>
                 </div>
         <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
             <span class="prev" data-controls="prev" aria-controls="property" tabindex="-1">Prev</span>
@@ -276,37 +230,6 @@ https://templatemo.com/tm-559-zay-shop
                     <div class="container">
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-
-                            <!-- 데이터를 9개를 넣으면 이쁘게 3x3으로 뜨는데 하나 넣고 each 돌리면 한줄로 쫙나옴
-                            이거 테이블 만들어야 할 수도 있음 이건 나중에 -->
-                                <!--item-->
-                                <!-- <th:block th:each="usedSellList: ${usedSellList}" method="get" enctype="multipart/form-data">
-                                <div class="property-item mb-30">
-                                    <a th:href="@{/usedSellBoardRead}" class="img">
-                                        <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
-                                    </a>
-            
-                                    <div class="property-content">
-                                        <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
-                                        <div>
-                                            <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_email}">판매자 이메일</span>
-                                            <span class="city d-block mb-3" th:text="${usedSellList.used_title}">글 제목</span>
-        
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="d-block mb-2 text-black-50" th:text="${usedSellList.category_id}">카테고리</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="d-block mb-2 text-black-50" th:text="${usedSellList.used_quality}">상품상태</span>
-                                                </span>
-                                            </div>
-                                            <a th:href="@{/usedSellBoardRead}" class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div> 
-                                </th:block> -->
-                                <!-- .item -->
-
                                 <div class="property-item mb-30">
 
                                     <a href="property-single.html" class="img">

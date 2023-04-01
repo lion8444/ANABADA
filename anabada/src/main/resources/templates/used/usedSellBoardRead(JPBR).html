@@ -192,8 +192,10 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="row justify-content-between">
                     <div class="col-lg-7">
                         <div class="img-property-slide-wrap">
-                            <div class="img-property-slide" th:each="fileList, i: ${fileList}">
-                                <img th:src="|@{/img/}${fileList.file_saved}|" alt="Image" class="img-fluid">
+                            <div class="img-property-slide">
+                            	<th:block  th:each="fileList, i: ${fileList}">
+                                	<img th:src="|@{/img/}${fileList.file_saved}|" alt="Image" class="img-fluid">
+                                </th:block>
                             </div>
                         </div>
                     </div>

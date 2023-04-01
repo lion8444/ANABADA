@@ -182,20 +182,8 @@ https://templatemo.com/tm-559-zay-shop
                 <th:block th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
                 <div class="property-item mb-30">
                     <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
-                    <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
                         <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
-                        <!-- <img th:src="@{'/img/' + ${fileList.file_origin}}" alt="Image" class="img-fluid"> -->
-                        <!-- <img th:src="${fileList.file_saved}"></img> -->
-                        <!-- <img th:src="@{${fileList.getfileList()}}"> -->
                     </a>
-                    
-                    <!-- 사진이 출력되는 코드 -->
-                    <!-- <th:block th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
-                    <div class="property-item mb-30">
-                    <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                        <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
-                    </a> -->
-
                     <div class="property-content">
                         <div class="price mb-2"><span th:text="${rentalList.rental_price}">가격</span></div>
                         <div>
@@ -210,7 +198,7 @@ https://templatemo.com/tm-559-zay-shop
                                     <span class="d-block mb-2 text-black-50" th:text="${rentalList.rental_quality}">상품상태</span>
                                 </span>
                             </div>
-                            <a th:href="@{/rentalBoardRead(rental_id=${rentalList.rental_id})}" class="btn btn-primary py-2 px-3">See details</a>
+                            <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}" class="btn btn-primary py-2 px-3">See details</a>
                         </div>
                     </div>
                 </div> 

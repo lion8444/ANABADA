@@ -18,13 +18,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/custom.css}">
-<!--
+	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/hsw/auctionWrite(GBW).js}"></script>
     
-TemplateMo 559 Zay Shop
+    <style>
+      .hidden {
+      display:none;
+      color: red;
+      }
+    </style>
 
-https://templatemo.com/tm-559-zay-shop
 
--->
 </head>
 
 <body>
@@ -127,17 +131,17 @@ https://templatemo.com/tm-559-zay-shop
 
     <!-- 글 쓰는 폼 -->
     
-    <form th:action="@{auctionWrite}" method="post" 
+    <form th:action="@{auctionWrite}" method="post" id="write" 
             enctype="multipart/form-data">
             
-            <input type="hidden" name="uloc_id" value="uloc0001">
-            <input type="hidden" name="sloc_id" value="sloc0001">
+            <input type="hidden" name="uloc_id" value="uloc000001">
+            <input type="hidden" name="sloc_id" value="sloc000001">
           
     <table>
         <tr>
             <th><h1>경매 글 쓰기</h1></th>
             <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                <input type="submit" value="임시등록">
+                <input type="button" value="임시등록">
                 <input type="submit" value="등록">
             </td>
         </tr>
@@ -147,7 +151,7 @@ https://templatemo.com/tm-559-zay-shop
 
         <div class="categories_option">
             <select id="category_id" name="category_id" class="select_categories">
-                <option value="CATE0001">피규어/완구/취미</option>
+                <option value="CATE000001">피규어/완구/취미</option>
                 <option value="2">피규어/완구/취미</option>
                 <option value="3">피규어/완구/취미</option>
             </select>
@@ -155,6 +159,9 @@ https://templatemo.com/tm-559-zay-shop
           
         <div class="name_merchandise">
             <input type="text" id="auction_title" name="auction_title" placeholder="상품명을 입력하세요" class="input_name_meerchandise">
+      		<div class="hidden">
+ 				상품명을 입력해 주세요.
+			</div>        
         </div>
 
     <table class="table_writingContent">
@@ -169,17 +176,18 @@ https://templatemo.com/tm-559-zay-shop
                 <input type="text" id="auction_price" name="auction_price" placeholder="가격을 입력해 주세요" class="input_price"> 원
             </td>
         </tr>
-
+		<tr class="hidden">
+ 			<td>가격을 입력해 주세요.</td>
+		</tr>
         <tr>
             <th>상품 상태</th>
         </tr>
 
         <tr>
             <th>
-                <!-- 일단해보고 안되면 다시해보자 -->
-                <input type="checkbox" id="auction_quality" name="auction_quality" value="미개봉" onclick="auction_quality(this);"> 미개봉
-                <input type="checkbox" id="auction_quality" name="auction_quality" value="사용감 있음" onclick="auction_quality(this);"> 사용감 있음
-                <input type="checkbox" id="auction_quality" name="auction_quality" value="파손 있음" onclick="auction_quality(this);"> 파손 있음
+                <input type="radio" name="auction_quality" value="미개봉"> 미개봉
+                <input type="radio" name="auction_quality" value="사용감 있음" checked> 사용감 있음
+                <input type="radio" name="auction_quality" value="파손 있음"> 파손 있음
             </th>
         </tr>
 
@@ -188,6 +196,9 @@ https://templatemo.com/tm-559-zay-shop
                 <input type="date" id="auction_finish" name="auction_finish">경매기간 설정
             </th>
         </tr>
+		<tr class="hidden">
+ 			<td>경매 마감 일자를 정확하게 입력해 주세요.</td>
+		</tr>	        
         </table>
     
         <div class="">
@@ -202,6 +213,9 @@ https://templatemo.com/tm-559-zay-shop
         <div class="">
             <p>대표 사진첨부(1장만 가능합니다)</p>
             <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
+           	<div class="hidden">
+ 				사진을 업로드해 주세요.
+			</div>
         </div>
         <br>
         <div class="">
@@ -217,6 +231,9 @@ https://templatemo.com/tm-559-zay-shop
 
         <div class="">
             <textarea name="auction_content" id="auction_content" style="width:400px"></textarea>
+        <div class="hidden">
+ 				상세설명을 50자 이상 입력해 주세요.
+		</div>
         </div>
     </form>
     </section>
