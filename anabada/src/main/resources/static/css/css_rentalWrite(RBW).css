@@ -1,0 +1,19 @@
+#dropdownMenu {
+    padding: 10px;
+  }
+
+  body {
+
+    padding-top: 70px;
+  
+    padding-bottom: 30px;
+  
+  }
+
+  article {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0;
+  }
+
+  
