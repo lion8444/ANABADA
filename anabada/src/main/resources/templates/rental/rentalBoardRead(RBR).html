@@ -214,7 +214,7 @@ https://templatemo.com/tm-559-zay-shop
                         <p class="text-black-30">* 배송시 배송료 별도</p>
 
                         <!-- 대여페이지로 이동 -->
-                        <input type="button" value="바로대여">
+                        <input type="button" value="바로대여" th:onclick = "|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id})}'|">
                     
                     <!-- jp_004_판매자 카드 -->
                     <div class="d-block agent-box p-5">

@@ -72,13 +72,12 @@ https://templatemo.com/tm-559-zay-shop
 			url: 'nowprice'
 			, type: 'get'
 			, data: {'auction_id': $('.auction_id').val()}
-			, dataType: 'json'
-			, success: function(auction_detail){
-				$('.nowprice').val(comma(auction_detail.adetail_price)+ "원");
-				$('.renowprice').val(auction_detail.adetail_price);
+			, success: function(price){
+				$('.nowprice').val(comma(price)+ "원");
+				$('.renowprice').val(price);
 			}
 			, error: function(){
-				alert("실패");
+				alert("입찰금액?");
 			}
 		});
 	}

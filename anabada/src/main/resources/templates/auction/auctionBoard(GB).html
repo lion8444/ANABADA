@@ -51,38 +51,6 @@ https://templatemo.com/tm-559-zay-shop
 </head>
 
 <body>
-    <!-- Start Top Nav -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@company.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-    <!-- Close Top Nav -->
-
-
-    <!-- Header -->
-        <!-- Start Top Nav -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-    <!-- Close Top Nav -->
-
 
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
@@ -198,10 +166,6 @@ https://templatemo.com/tm-559-zay-shop
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                                     Any Status </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <!-- <li><a class="dropdown-item" href="#">제목</a></li>
-                                        <li><a class="dropdown-item" href="#">본문</a></li>
-                                        <li><a class="dropdown-item" href="#">작성자</a></li>
-                                        <li><a class="dropdown-item" href="#">전체</a></li> -->
                                         <li><a class="dropdown-item" value="auction_title" th:selected="${type} == 'auction_title'">제목</a></li>
                                         <li><a class="dropdown-item" href="#" value="auction_content" th:selected="${type} == 'auction_content'">본문</a></li>
                                         <li><a class="dropdown-item" href="#" value="user_email" th:selected="${type} == 'user_email'">작성자</a></li>
@@ -250,35 +214,6 @@ https://templatemo.com/tm-559-zay-shop
             </div>
         </div>
         <br>
-        
-        <!-- <div class="container">
-            <div class="usedhref">
-                <a th:href="@{usedSellWrite}"><button class="btn btn-secondary btn-block" value="판매글 작성">판매글 작성</button></a>
-            </div>
-        </div> -->
-
-        <!-- 검색 폼 -->
-        <!-- <form th:action="@{usedSellList}" method="get" id="pagingForm">
-            <input type="hidden" name="page" id="page"/>
-            <select id="type" name="type">  -->
-                <!--서버에 type이란 이름으로 title값이 전달됨-->
-                <!-- <option value="used_title" th:selected="${type} == 'used_title'">    제목  </option>
-                <option value="used_content" th:selected="${type} == 'used_content'"> 본문  </option>
-                <option value="user_email" th:selected="${type} == 'user_email'"> 작성자</option>
-                <option value="all" th:selected="${type} == 'all'">      전체  </option>
-            </select>
-            <input type="text" name="searchWord" th:value="${searchWord}">
-            <input type="button" value="검색" onclick="pagingformSubmit(1)">
-        </form> -->
-
-
-        <!-- <a th:href="@{usedSellWrite}">중고 파는 글쓰기</a>
-        <br>
-        <a th:href="@{usedBuyWrite}">중고 사는 글쓰기</a>
-        <br>
-        <a th:href="@{usedBuyBoard}">중고 사는 글 목록</a>
-        <br> -->
-    </div>
     <br>
 
     <div class="section">
@@ -329,7 +264,10 @@ https://templatemo.com/tm-559-zay-shop
             </div>    
         </div>
     </div>
-    
+    </div>
+    </div>
+    </div>
+    </div>
    
 
 
@@ -376,6 +314,7 @@ https://templatemo.com/tm-559-zay-shop
                                 </div>
                             </div> 
                         </div>
+                        </div>
                 <div class="row">
                     <ul class="pagination pagination-lg justify-content-center">
                         <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
@@ -387,10 +326,6 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
                         	</div>
                             </div>
-                        </div> 
-                    </div>
-                </div>
-            </div>
     
 
     <!-- End Content -->

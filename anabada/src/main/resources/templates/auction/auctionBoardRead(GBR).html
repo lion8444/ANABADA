@@ -208,7 +208,7 @@ https://templatemo.com/tm-559-zay-shop
                         <p class="text-black-30">* 배송시 배송료 별도</p>
 
                         <!-- 구매페이지로 이동 -->
-                        <input type="button" value="입찰하기">
+                        <input type="button" value="입찰하기" th:onclick = "|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
                     
                     <!-- jp_004_판매자 카드 -->
                     <div class="d-block agent-box p-5">
