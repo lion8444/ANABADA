@@ -132,10 +132,10 @@ https://templatemo.com/tm-559-zay-shop
             <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
         <table>
             <tr>
-                <th><h1>중고 거래 사는 글 쓰기</h1></th>
+                <th><h1 th:text="#{GoUsedBuyWrite}">중고 거래 사는 글 쓰기</h1></th>
                 <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                    <input type="submit" value="임시등록">
-                    <input type="submit" value="등록">
+                    <input type="submit" value="임시등록" th:text="#{tempRegister}">
+                    <input type="submit" value="등록" h:text="#{register}">
                 </td>
             </tr>
         </table>
@@ -152,10 +152,10 @@ https://templatemo.com/tm-559-zay-shop
             
             <div class="name_merchandise">
                 <input type="text" id="uBuy_title" name="uBuy_title" 
-                    placeholder="상품명을 입력하세요" class="input_name_meerchandise">
+                th:placeholder="#{putPdName}" class="input_name_meerchandise">
             </div>
         
-            <div class="">
+            <div class="" th:text="#{registerNotice}">
                 * 등록시 주의사항
             </div>
 

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
 
-    <!-- 제이쿼리 -->
+    <!-- 제이쿼리 (pyw) -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
@@ -197,7 +197,7 @@ https://templatemo.com/tm-559-zay-shop
                 </select>
 
                 <!-- 파파고 버튼 -->
-                <input type="button" id="papagoSubmit" value="번역">
+                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
 
                 <!-- alert 문구 관련 -->
                 <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
@@ -252,7 +252,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <!-- 중고 판매 내역 -->
-                <div id="mylistbox" th:each="list : ${usedListSell}" th:if="${usedListSell} != null">
+                <div id="mylistbox" th:each="list, i : ${usedListSell}" th:if="${usedListSell} != null">
                     <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
                     <table class="mypagebox">
                         <tr>
@@ -263,7 +263,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -301,7 +301,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <!-- 중고 구매 내역 -->
-                <div id="mylistbox" th:each="list : ${usedListBuy}" th:if="${usedListBuy} != null">
+                <div id="mylistbox" th:each="list, i : ${usedListBuy}" th:if="${usedListBuy} != null">
                     <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
                     <table class="mypagebox">
                         <tr>
@@ -312,7 +312,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>

@@ -41,6 +41,11 @@
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_rentalBoard(RB).css}">
 
+
+    <!-- 제이쿼리 (pyw)-->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -300,14 +305,17 @@ https://templatemo.com/tm-559-zay-shop
                 <!--item-->
                 <div th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
                     <div class="property-item mb-30">
-                        <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
-                            <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
-                        </a>
+                    <a th:href="@{/usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                        <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
+                    </a>
+                    <!-- 파파고 버튼 -->
+                    <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-left: 1000px;"> 
+
                     <div class="property-content">
                         <div class="price mb-2"><span th:text="${rentalList.rental_price}">가격</span></div>
                         <div>
                             <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_email}">판매자 이메일</span>
-                            <span class="city d-block mb-3" th:text="${rentalList.rental_title}">글 제목</span>
+                            <span class="city d-block mb-3"><span th:text="${rentalList.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글 제목</span></span>
 
                             <div class="specs d-flex mb-4">
                                 <span class="d-block d-flex align-items-center me-3">
@@ -560,6 +568,8 @@ https://templatemo.com/tm-559-zay-shop
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_rentalBoard(RB).js}"></script>
+    <script th:src="@{/pjh.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
     <!-- End Script -->
 </body>
 

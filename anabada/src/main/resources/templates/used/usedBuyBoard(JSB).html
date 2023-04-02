@@ -21,6 +21,11 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/css_pjh.css}">
 
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
     <!-- 페이지 이동 스크립트  -->
     <!-- <script>
         function pagingFormSubmit(currentPage) {
@@ -153,7 +158,9 @@ https://templatemo.com/tm-559-zay-shop
     </form> -->
 
     <header>
-        <h1>[ 중고 거래 구입 게시판 ]</h1>
+        <h1 th:text="#{usedBuyBoard}">[ 중고 거래 구입 게시판 ]</h1>
+        <!-- 파파고 버튼 -->
+        <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
     </header>
     <section>
         <!-- 글목록 출력 영역 -->
@@ -168,16 +175,16 @@ https://templatemo.com/tm-559-zay-shop
                 </td>
             </tr>
             <tr>
-                <th>글 번호</th>
-                <th>글 제목</th>
-                <th>유저 이메일</th>
-                <th>카테고리</th>
+                <th th:text="#{boardNum}">글 번호</th>
+                <th th:text="#{title}">글 제목</th>
+                <th th:text="#{email}">유저 이메일</th>
+                <th th:text="#{category}">카테고리</th>
                
             </tr>
-            <tr th:each="Used_buy : ${bboardlist}">
+            <tr th:each="Used_buy, i : ${bboardlist}">
                 <td th:text="${Used_buy.uBuy_id}" class="center"></td>
                 <td>
-                    <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a>
+                    <a th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"><span th:id="|papago${i.index}|" th:text="${Used_buy.uBuy_title}" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                 </td>
                 <td th:text="${Used_buy.user_email}" class="center"></td>
                 <td th:text="${Used_buy.category_id}" class="center"></td>

@@ -21,4 +21,11 @@ public class TranslateController {
         return translateService.naverPapagoTranslate(listid, source, target, text);
     }
     
+    @PostMapping("/api/translateAll")
+    public TranslateResponseDto.Result naverPapagoTranslate(String source, String target, String text) {
+    	log.debug("@TranslateController naverPapagoTranslate. : source : {}, target : {}, text : {}", source, target, text);
+    	log.debug("{}",translateService.naverPapagoTranslate(source, target, text));
+        return translateService.naverPapagoTranslate(source, target, text);
+    }
+    
 }

@@ -19,6 +19,11 @@
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
     <!-- 페이지 이동 스크립트  -->
     <!-- <script>
         function pagingFormSubmit(currentPage) {
@@ -138,31 +143,29 @@ https://templatemo.com/tm-559-zay-shop
     <!-- 넣을부분 -->
 
     <header>
-        <h1>[ 게시글 읽기]</h1>
-        </header>
+        <h1>[ 게시글 읽기 ]</h1>
+        <!-- 파파고 버튼 -->
+        <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
+    </header>
         <section>
             <form th:action="@{usedBuyBoardRead}" method="get" 
             enctype="multipart/form-data">
                 <table>
                     <tr>
-                        <th style="width: 100px;">작성자 이메일</th>
-                        <td th:text="${used_buy.user_email}" style="width: 600px;">
-                        </td>
+                        <th style="width: 100px;" th:text="#{email}">작성자 이메일</th>
+                        <td th:text="${used_buy.user_email}" style="width: 600px;"></td>
                     </tr>
                     <tr>
-                        <th>제목</th>
-                            <td th:text="${used_buy.uBuy_title}">
-                        </td>
+                        <th th:text="#{title}">제목</th>
+                        <td th:text="${used_buy.uBuy_title}" id="papago0" class="papago" papagoCount="0"><span></span></td>
                     </tr>
                     <tr>
-                        <th>카테고리</th>
-                            <td th:text="${used_buy.category_id}">
-                        </td>
+                        <th th:text="#{category}">카테고리</th>
+                        <td th:text="${used_buy.category_id}"></td>
                     </tr>
                     <tr>
-                        <th>내용</th>
-                            <td th:text="${used_buy.uBuy_content}">
-                        </td>
+                        <th th:text="#{content}">내용</th>
+                        <td th:text="${used_buy.uBuy_content}" id="papago1" class="papago" papagoCount="1"></td>
                     </tr>
                   
                 </table>
@@ -174,11 +177,11 @@ https://templatemo.com/tm-559-zay-shop
                 <!-- </div> -->
                 <div th:if="${#authentication.name}==${used_buy.user_email}">
                 <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
-                <a th:href="@{/used/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}">수정</a>
+                <a th:href="@{/used/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}" th:text="#{modify}">수정</a>
                 <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
 
                 <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
-                <a th:href="@{/used/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}">삭제</a>
+                <a th:href="@{/used/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}" th:text="#{delete}">삭제</a>
                 </div>   
             </form>
         </section>

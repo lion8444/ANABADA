@@ -45,6 +45,9 @@ TemplateMo 559 Zay Shop
 https://templatemo.com/tm-559-zay-shop
 
 -->
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 
 	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -317,7 +320,7 @@ https://templatemo.com/tm-559-zay-shop
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-lg-9 text-center mt-5">
-                       <a href="" style="position:absolute; right: 30px;">신고</a>
+                       <a href="" style="position:absolute; right: 30px;" th:text="#{report}">신고</a>
                         <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
                             <ol class="breadcrumb text-center justify-content-center">
                                 <li class="breadcrumb-item active text-white-50" aria-current="page">사진설명</li>
@@ -384,14 +387,14 @@ https://templatemo.com/tm-559-zay-shop
         
             <div class="info form-group">
             
-            	<h3 class="my-4">거래 정보</h3>
+            	<h3 class="my-4" th:text="#{transactionInfo}">거래 정보</h3>
             	<input type="text" name="used_id" th:value="${used.used_id}" hidden>
             	<div class="form-group">
-            		<p>상품명</p>
+            		<p th:text="#{pdName}">상품명</p>
             	    <input type="text" class="form-control" th:value="${used.used_title}"  readonly>
             	</div>
 				<div class="form-group">
-	            	<p>금액</p>
+	            	<p th:text="#{price}">금액</p>
 	            	<input type="text" class="showused_price form-control" th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}"  readonly>
 	            	<input type="text" class="used_price" name="uDetail_price" th:value="${used.used_price}"  hidden>
           	</div>
@@ -399,72 +402,72 @@ https://templatemo.com/tm-559-zay-shop
             </div>
             <br>
             <div class="form-group">
-                <h3 class="my-4">배송지 정보</h3>
+                <h3 class="my-4" th:text="#{shippingInfo}">배송지 정보</h3>
 				<div class="form-group">
                 
-	            	<p>배송지 선택</p>
+	            	<p th:text="#{shippingAddrSelect}">배송지 선택</p>
 	            	
-                	<input type="radio" class="newaddr form-check-label" name="addr" value="new" checked>신규배송지
-	                <input type="radio" class="myaddr form-check-label" name="addr" value="default">내 주소
+                	<input type="radio" class="newaddr form-check-label" name="addr" value="new" th:text="#{newShippingAddr}" checked>
+	                <input type="radio" class="myaddr form-check-label" name="addr" value="default" th:text="#{myAddr}">
 				</div>
 				<div class="form-group">
 				
-	                <p>수령인</p>
-	                <input type="text" class="name form-control" name="uDetail_person" placeholder="20자 이내로 입력하세요."><br>
-	            		<div class="hidden">
+	                <p th:text="#{reception}">수령인</p>
+	                <input type="text" class="name form-control" name="uDetail_person" th:placeholder="#{put20}"><br>
+	            		<div class="hidden" th:text="#{putReception}">
               				수령인을 입력해 주세요.
             			</div>
             	</div>
             	
 				<div class="form-group">
-	                <p>연락처</p>
-	                <input type="text" class="phone form-control" name="uDetail_phone" placeholder="-없이 입력해주세요."><br>
-	            		<div class="hidden">
+	                <p th:text="#{phone}">연락처</p>
+	                <input type="text" class="phone form-control" name="uDetail_phone" th:placeholder="#{putNo-}"><br>
+	            		<div class="hidden" th:text="#{putCorrectPhoneNum}">
               				정확한 핸드폰 번호를 입력해주세요.
             			</div>
 					</div>  
 				<div class="form-group">
 					        			
-	                <p>배송지 주소</p>
-	                <input type="text" id="sample6_postcode" name="uDetail_post" class="post form-control" placeholder="우편번호"> <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+	                <p th:text="#{shippingAddrInfo}">배송지 주소</p>
+	                <input type="text" id="sample6_postcode" name="uDetail_post" class="post form-control" th:placeholder="#{postCode}"> <input type="button" onclick="sample6_execDaumPostcode()" th:value="#{searchPostCode}" value="우편번호 찾기"><br>
 	            	<input id="sample6_address" class="addr1 form-control" name="uDetail_addr1" type="text" readonly><br>
 	            	<input id="sample6_detailAddress" class="addr2 form-control" name="uDetail_addr2" type="text"><br>
-	            		<div class="hidden">
+	            		<div class="hidden" th:text="#{putAddr}">
               				주소를 입력해 주세요.
             			</div>
             			</div>
 				<div class="form-group">
             			
-	            	<p>배송메모</p>
-	            	<textarea name="uDetail_memo" class="form-control" placeholder="요청사항을 직접 입력합니다"></textarea>
+	            	<p th:text="#{shippingMemo}">배송메모</p>
+	            	<textarea name="uDetail_memo" class="form-control" th:placeholder="#{putShippingRequest}"></textarea>
 	            	</div>	
             </div>
             <br>
             
             <div>
-                <h3 class="my-4">아나바다 포인트 </h3>
+                <h3 class="my-4" th:text="#{anaPoint}">아나바다 포인트 </h3>
                 <div class="form-group">
-	                <p>보유</p> 
-	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly> <input type="button" class="charge" value="충전">
+	                <p th:text="#{have}">보유</p> 
+	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly> <input type="button" class="charge" th:value="#{charge}" value="충전">
 	                <input type="text" class="much" th:value="${(user.user_account)}" hidden>
 	            </div>
 	            <div class="form-group">
-	                <p>사용</p> 
+	                <p th:text="#{use}">사용</p> 
 	                <input type="text" class="showmoney form-control" th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}">
 	                <input type="text" class="money" name="user_account" th:value="${used.used_price}" hidden> <br>
-                	<div class="hidden">
+                	<div class="hidden" th:text="#{pointLack}">
 						보유 포인트가 부족합니다.
             		</div>
             	</div>
             	<div class="form-group">
                 	<input type="checkbox" class="agree">
-                	<span>주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
-		 	            <div class="hidden">
+                	<span th:text="#{agree}">주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
+		 	            <div class="hidden" th:text="#{aggreChk}">
 		              		동의란에 체크해 주세요.
 		            	</div>               	
 		         </div>
             </div>
-            <div><input type="submit" value="결제하기"></div>        <br>
+            <div><input type="submit" th:value="#{pay}" value="결제하기"></div><br>
             
 			</form>
 
