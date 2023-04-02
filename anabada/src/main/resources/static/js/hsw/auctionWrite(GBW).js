@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	$('#write').submit(submitcheck);
-
+	$('.tempadd').click(tempadd);
 });	
 
 function submitcheck(){
@@ -50,3 +50,27 @@ function getToday(){
     return year + "-" + month + "-" + day;
 }
 
+function tempadd(){
+		let formdata = $("form#write").serialize();
+		if($('#auction_price').val() != ""){
+		if(isNaN($('#auction_price').val()) || $('#auction_price').val() <= 0){
+			$('tr.hidden:first').css("display" ,"block");
+			return false;
+		}else{
+			$('tr.hidden:first').css("display" ,"none");
+		}
+		}
+		
+			$.ajax({
+			url: 'tempadd'
+			, type: 'post'
+			, data : formdata
+			, success: function(){
+				alert("임시 저장 되었습니다.")
+			}
+			, error: function(){
+				alert("실패");
+			}
+			
+		});
+}

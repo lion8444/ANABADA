@@ -13,7 +13,7 @@ public class Used {
 	String category_id;
 	String used_title;
 	String used_date;
-	int used_price;
+	Integer used_price;
 	String used_content;
 	String used_quality;
 	String used_status;

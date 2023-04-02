@@ -81,7 +81,7 @@ public class RentController {
 		int i = service.usemoney(user_email, user_account);		
 		
 		if(j == 0 || i ==0) {
-			return "redirect:/rent/purchase?rental_id=" + rental_id;
+			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 		
 		
@@ -300,6 +300,44 @@ public class RentController {
 	    return "redirect:/";
 	}
 	
+	@GetMapping({"extension"})
+	public String extension(@AuthenticationPrincipal UserDetails user
+			,String rental_id, Model model) {
+		Rental rental = service.findOneRental(rental_id);
+		String user_email = user.getUsername();
+		UserDTO userone = service.findUser(user_email);
+		
+		model.addAttribute("rental", rental);
+		model.addAttribute("user", userone);
+
+		return "rental/rentalExtension.html";
+	}
 	
-	
+	@PostMapping({"extension"})
+	public String purchase(
+			@AuthenticationPrincipal UserDetails user
+			,String rental_id
+			,String rDetail_sDate
+			,String rDetail_eDate
+			,int rDetail_price	
+			,int user_account
+			,String rDetail_id
+			) {
+		
+		String user_email = user.getUsername();
+		
+		
+		
+		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
+		int j = service.purchase(rd);		
+		
+		int i = service.usemoney(user_email, user_account);		
+		
+		if(j == 0 || i ==0) {
+			return "redirect:/rental/purchase?rental_id=" + rental_id;
+		}
+		
+		
+		return "rental/rentalThanks.html";
+	}	
 }	

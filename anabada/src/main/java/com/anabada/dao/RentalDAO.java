@@ -66,4 +66,6 @@ public interface RentalDAO {
 	ArrayList<File> fileListAll(String rental_id);
 
 	ArrayList<File> fileListByid(String rental_id);
+
+	int addtemp(Rental formdata);
 }

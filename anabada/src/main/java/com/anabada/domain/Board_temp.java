@@ -13,7 +13,7 @@ public class Board_temp {
 	String category_id;
 	String bTemp_title;
 	String bTemp_date;
-	int bTemp_price;
+	Integer bTemp_price;
 	String bTemp_content;
 	String bTemp_quality;
 	String bTemp_sDate;

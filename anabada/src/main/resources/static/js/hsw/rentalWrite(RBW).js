@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	$('#write').submit(submitcheck);
+	$('.tempadd').click(tempadd);
 });	
 
 function submitcheck(){
@@ -43,6 +44,7 @@ function submitcheck(){
 		$('#rental_content ~ div').css("display" ,"none");
 	}
 }
+
 function getToday(){
     var date = new Date();
     var year = date.getFullYear();
@@ -52,3 +54,26 @@ function getToday(){
     return year + "-" + month + "-" + day;
 }
 
+function tempadd(){
+		let formdata = $("form#write").serialize();
+		if($('#rental_price').val() != ""){
+		if(isNaN($('#rental_price').val()) || $('#rental_price').val() <= 0){
+			$('tr.hidden:first').css("display" ,"block");
+			return false;
+		}else{
+			$('tr.hidden:first').css("display" ,"none");
+		}
+		}	
+			$.ajax({
+			url: 'tempadd'
+			, type: 'post'
+			, data : formdata
+			, success: function(){
+				alert("임시 저장 되었습니다.")
+			}
+			, error: function(){
+				alert("실패");
+			}
+			
+		});
+}

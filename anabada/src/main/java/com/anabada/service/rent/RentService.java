@@ -50,5 +50,7 @@ public interface RentService {
 	public String rentalBoardUpdate(Rental rental);
 
 	ArrayList<File> fileListByid(String rental_id);
+
+	int addtemp(Rental formdata);
 	
 }

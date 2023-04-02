@@ -259,4 +259,35 @@
           file
        WHERE board_no = #{auction_id}
     </select>
+    
+    <insert id="addtemp" parameterType="Auction">
+    	INSERT INTO board_temp (
+	    		bTemp_id
+				,user_email
+				,category_id
+				,bTemp_title
+				,bTemp_price
+				,bTemp_content
+				,bTemp_quality
+   			<if test="auction_finish != ''">   
+				,bTemp_finish
+			</if>
+				,uloc_id
+				,sloc_id
+    		    )
+    	VALUES(
+	    		func_seq_10('ATEM')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{auction_title}
+    			,#{auction_price}
+    			,#{auction_content}    			
+    			,#{auction_quality} 
+   			<if test="auction_finish != ''">   
+    			,#{auction_finish}    			
+			</if>
+    			,#{uloc_id}    			
+    			,#{sloc_id}    			
+    			)    	
+    </insert>
 </mapper>

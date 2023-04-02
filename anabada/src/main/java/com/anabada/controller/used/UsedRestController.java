@@ -5,9 +5,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.used.UsedService;
 
@@ -29,5 +31,12 @@ public class UsedRestController {
 	UserDTO userone = service.findUser(user_email);
 
 	return userone;
+	}
+	
+	@PostMapping({"tempadd"})
+	public void tempadd(@AuthenticationPrincipal UserDetails user
+				,Used formdata) {
+		formdata.setUser_email(user.getUsername());
+		int i = service.addtemp(formdata);
 	}
 }

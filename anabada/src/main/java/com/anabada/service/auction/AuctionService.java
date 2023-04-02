@@ -53,4 +53,6 @@ public interface AuctionService {
 	public String auctionBoardUpdate(Auction auction);
 
 	ArrayList<File> fileListByid(String auction_id);
+
+	int addtemp(Auction formdata);
 }

@@ -237,7 +237,7 @@ https://templatemo.com/tm-559-zay-shop
                                     <br>
                                     <!-- 렌탈 연장 하기 -->
                                     <form action="" method="post">
-                                        <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:if="${list.buyer_email} == ${us.user_email}"></input>
+                                        <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:onclick="|location.href='@{/rental/extension(rental_id=${list.rental_id})}'|"></input>
                                     </form>
                                     <br>
                                     <!-- 렌탈 반납 확인-->

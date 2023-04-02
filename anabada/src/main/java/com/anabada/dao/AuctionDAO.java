@@ -63,6 +63,8 @@ public interface AuctionDAO {
 	ArrayList<File> fileListAll(String auction_id);
 
 	ArrayList<File> fileListByid(String auction_id);
+
+	int addtemp(Auction formdata);
 	
 
 }

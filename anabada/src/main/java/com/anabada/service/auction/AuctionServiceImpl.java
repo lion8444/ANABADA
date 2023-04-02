@@ -215,6 +215,12 @@ public class AuctionServiceImpl implements AuctionService {
 				return fileList;
 			}
 
+			@Override
+			public int addtemp(Auction formdata) {
+				int i = dao.addtemp(formdata);
+				return i;
+			}
+
 			
 			
 			
