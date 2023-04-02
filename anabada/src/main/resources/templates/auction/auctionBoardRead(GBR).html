@@ -160,10 +160,8 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="col-lg-9 text-center mt-5">
                     <a href="">신고</a>
 
-                    <input type="hidden" name="auction_id" th:value="${auction_sell.rental_id}">
-                    <a th:href="@{/auction/auctionBoardUpdate(auction_id=${auction_sell.auction_id})}">수정</a>
-    
                     <input type="hidden" name="auction_id" th:value="${auction_sell.auction_id}">
+                    <a th:href="@{/auction/auctionBoardUpdate(auction_id=${auction_sell.auction_id})}">수정</a>
                     <a th:href="@{/auction/auctionBoardDelete(auction_id=${auction_sell.auction_id})}">삭제</a>
                     
                     <!-- div태그로 로그인 했을 경우 넣으면 css안나오는데 이거 어떻게 하는지 모르겠음 -->

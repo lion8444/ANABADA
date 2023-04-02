@@ -118,13 +118,15 @@ public class AuctionController {
 	 **/
 	@GetMapping("auctionBoardRead")
 	public String auctionBoardRead(
-			@RequestParam(name="rental_id",defaultValue="0") String auction_id
+			@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
 			) {
 		ArrayList <File> fileList = service.fileListByid(auction_id);
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
+		log.info(auction_sell+"");
+		log.info(fileList+"");
 
 		return "auction/auctionBoardRead(GBR)";
 	}
