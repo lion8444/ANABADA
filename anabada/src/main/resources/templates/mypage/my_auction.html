@@ -189,11 +189,14 @@ https://templatemo.com/tm-559-zay-shop
                     </div>
                 </div>
 
+                <!-- 파파고 버튼 -->
+                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
+
                 <!-- alert 문구 관련 -->
                 <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
 
                 <!-- 전체 경매 거래 내역 -->
-                <div id="mylistbox" th:each="list : ${auctionListAll}" th:if="${auctionListAll} != null">
+                <div id="mylistbox" th:each="list, i : ${auctionListAll}" th:if="${auctionListAll} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -203,7 +206,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="${@/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -238,7 +241,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <!-- 경매 내역 리스트 -->
-                <div id="mylistbox" th:each="list : ${auctionListSell}" th:if="${auctionListSell} != null">
+                <div id="mylistbox" th:each="list, i : ${auctionListSell}" th:if="${auctionListSell} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -248,7 +251,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -278,7 +281,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <!-- 입찰 내역 리스트 -->
-                <div id="mylistbox" th:each="list : ${auctionListBid}" th:if="${auctionListBid} != null">
+                <div id="mylistbox" th:each="list, i : ${auctionListBid}" th:if="${auctionListBid} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -288,7 +291,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionSellBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>

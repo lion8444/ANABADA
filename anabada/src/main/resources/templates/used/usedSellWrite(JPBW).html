@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/custom.css}">
+
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 <!--
     
 TemplateMo 559 Zay Shop
@@ -185,10 +190,10 @@ https://templatemo.com/tm-559-zay-shop
           
     <table>
         <tr>
-            <th><h1>중고 거래 파는 글 쓰기</h1></th>
+            <th><h1 th:text="#{GoUsedSellWrite}">중고 거래 파는 글 쓰기</h1></th>
             <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                <input type="button" value="임시등록">
-                <input type="submit" value="등록">
+                <input type="button" value="임시등록" th:value="#{tempRegister}">
+                <input type="submit" value="등록" th:value="#{register}">
             </td>
         </tr>
     </table>
@@ -202,40 +207,40 @@ https://templatemo.com/tm-559-zay-shop
         </div>    
           
         <div class="name_merchandise">
-            <input type="text" id="used_title" name="used_title" placeholder="상품명을 입력하세요" class="input_name_meerchandise">
-      	<div class="hidden">
+            <input type="text" id="used_title" name="used_title" th:placeholder="#{putPdName}" class="input_name_meerchandise">
+      	<div class="hidden" th:text="#{putPdName}">
  				상품명을 입력해 주세요.
 		</div>
         </div>
     <table class="table_writingContent">
         <tr>
-            <th>
+            <th th:text="#{sellPrice}">
                 판매 가격*
             </th>
         </tr>
         <tr>
             <td>
-                <input type="text" id="used_price" name="used_price" placeholder="가격을 입력해 주세요" class="input_price"> 원
+                <input type="text" id="used_price" name="used_price"th:placeholder="#{putPrice}" class="input_price"> 원
             </td>
         </tr>
 		<tr class="hidden">
- 			<td>가격을 입력해 주세요.</td>
+ 			<td th:text="#{putPrice}">가격을 입력해 주세요.</td>
 		</tr>
         <tr>
-            <th>상품 상태</th>
+            <th th:text="#{pdStatus}">상품 상태</th>
         </tr>
 
         <tr>
             <th>
                 <!-- 일단해보고 안되면 다시해보자 -->
-                <input type="radio" id="used_quality" name="used_quality" value="미개봉"> 미개봉
-                <input type="radio" id="used_quality" name="used_quality" value="사용감 있음" checked> 사용감 있음
-                <input type="radio" id="used_quality" name="used_quality" value="파손 있음"> 파손 있음
+                <input type="radio" id="used_quality" name="used_quality" value="미개봉" th:value="#{notOpened}">
+                <input type="radio" id="used_quality" name="used_quality" value="사용감 있음" checked th:text="#{littleUsed}"> 
+                <input type="radio" id="used_quality" name="used_quality" value="파손 있음" th:text="#{littleBreak}"> 
             </th>
         </tr>
         </table>
     
-        <div class="">
+        <div class="" th:text="#{registerNotice}">
             * 등록시 주의사항
         </div>
 
@@ -245,15 +250,15 @@ https://templatemo.com/tm-559-zay-shop
         </div>
         <br>
         <div class="">
-            <p>대표 사진첨부(1장만 가능합니다)</p>
+            <p th:text="#{reprePhoto}">대표 사진첨부(1장만 가능합니다)</p>
             <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
-           	<div class="hidden">
+           	<div class="hidden" th:text="#{plsUpPhoto}">
  				사진을 업로드해 주세요.
 			</div>
         </div>
         <br>
         <div class="">
-            <p>사진첨부(10장까지 가능)</p>
+            <p th:text="#{can10Photo}">사진첨부(10장까지 가능)</p>
             <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
         </div>
         <br>
@@ -264,7 +269,7 @@ https://templatemo.com/tm-559-zay-shop
 
         <div class="">
             <textarea name="used_content" id="used_content" style="width:400px"></textarea>
-        <div class="hidden">
+        <div class="hidden" th:text="#{plsPutDetail50}">
  				상세설명을 50자 이상 입력해 주세요.
 		</div>
         </div>

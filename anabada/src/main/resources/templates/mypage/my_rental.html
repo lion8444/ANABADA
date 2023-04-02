@@ -189,8 +189,11 @@ https://templatemo.com/tm-559-zay-shop
                     </div>
                 </div>
 
+                <!-- 파파고 버튼 -->
+                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
+
                 <!-- 전체 렌탈 거래 내역 -->
-                <div id="mylistbox" th:each="list : ${rentalListAll}" th:if="${rentalListAll} != null">
+                <div id="mylistbox" th:each="list, i : ${rentalListAll}" th:if="${rentalListAll} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -200,7 +203,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalSellBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalSellBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -263,7 +266,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <!-- 렌탈 빌린 내역 -->
-                <div id="mylistbox" th:each="list : ${rentalListBuy}" th:if="${rentalListBuy} != null">
+                <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -273,7 +276,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalSellBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalSellBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -323,7 +326,7 @@ https://templatemo.com/tm-559-zay-shop
                 </div>
 
                 <!-- 렌탈 빌려준 내역 -->
-                <div id="mylistbox" th:each="list : ${rentalListSell}" th:if="${rentalListSell} != null">
+                <div id="mylistbox" th:each="list, i : ${rentalListSell}" th:if="${rentalListSell} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -333,7 +336,7 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalSellBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalSellBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
