@@ -11,10 +11,10 @@ function submitcheck(){
 		$('#used_title ~ div').css("display" ,"none");
 	}
 	if($('#used_price').val() == "" || isNaN($('#used_price').val()) || $('#used_price').val() <= 0){
-		$('tr.hidden').css("display" ,"block");
+		$('#used_price ~ div').css("display" ,"block");
 		return false;
 	}else{
-		$('tr.hidden').css("display" ,"none");
+		$('#used_price ~ div').css("display" ,"none");
 	}
 	if(!$('#uploadOne').val()){
 		$('#uploadOne ~ div').css("display" ,"block");
@@ -34,14 +34,13 @@ function submitcheck(){
 function tempadd(){
 		let formdata = $("form#write").serialize();
 		if($('#used_price').val() != ""){
-		if(isNaN($('#used_price').val()) || $('#used_price').val() <= 0){
-			$('tr.hidden').css("display" ,"block");
-			return false;
-		}else{
-			$('tr.hidden').css("display" ,"none");
+			if(isNaN($('#used_price').val()) || $('#used_price').val() <= 0){
+				$('#used_price ~ div').css("display" ,"block");
+				return false;
+			} else{
+				$('#used_price ~ div').css("display" ,"none");
+			}
 		}
-		}
-		
 			$.ajax({
 			url: 'tempadd'
 			, type: 'post'

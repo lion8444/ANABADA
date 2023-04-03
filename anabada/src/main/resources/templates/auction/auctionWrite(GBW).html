@@ -275,6 +275,9 @@
                 <div class="mb-3">
                     <label for="auction_title">제목</label>
                     <input type="text" class="form-control" id="auction_title" name="auction_title" placeholder="제목을 입력해 주세요">
+                            <div class="hidden">
+ 								상품명을 입력해 주세요.
+							</div>
                 </div>
       
                 <div class="mb-3">
@@ -296,16 +299,18 @@
                 <div class="mb-3">
                     <label for="auction_price">판매가격</label>
                     <input type="text" class="form-control" id="auction_price" name="auction_price" placeholder="가격을 입력해 주세요">
+                        <div class="hidden">
+ 								가격을 입력해 주세요.
+						</div>
                 </div>
 
                 <div class="mb-3">
                     <label for="auction_finish">경매기간 설정:</label>
                     <input type="date" id="auction_finish" name="auction_finish">
-                </div>
-                
                 <div class="hidden">
                     <p>경매 마감 일자를 정확하게 입력해 주세요.</p>
-                </div>	    
+                </div>	                      
+                </div>
 
                 <div class="mb-3">
                     <label for="caution">*등록시 주의사항<br> 
@@ -341,7 +346,7 @@
                 </div>
                 
                 <div>
-                    <button  class="btn btn-sm btn-primary" onclick="saveDraft()">임시저장</button>
+                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
                     <input type="submit"  class="btn btn-sm btn-primary" value="저장">
                 </div>
             </form>
@@ -460,8 +465,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_auctionWrite(GBW).js}"></script>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- End Script -->
+<!--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ -->    <!-- End Script -->
    
 </body>
 

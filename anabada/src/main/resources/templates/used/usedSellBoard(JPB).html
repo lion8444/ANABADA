@@ -57,39 +57,6 @@ https://templatemo.com/tm-559-zay-shop
 </head>
 
 <body>
-    <!-- Start Top Nav -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@company.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-    <!-- Close Top Nav -->
-
-
-    <!-- Header -->
-        <!-- Start Top Nav -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-    <!-- Close Top Nav -->
-
-
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -285,8 +252,8 @@ https://templatemo.com/tm-559-zay-shop
         <a th:href="@{usedBuyWrite}">중고 사는 글쓰기</a>
         <br>
         <a th:href="@{usedBuyBoard}">중고 사는 글 목록</a>
-        <br> -->
-    </div>
+        <br> 
+    </div>-->
     <br>
     
     <div class="section">
@@ -306,7 +273,7 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="property-slider">
 
                     <!--item-->
-                    <div th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
+                    <th:block  th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
                         <div class="property-item mb-30">
                             <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
                                 <img th:src="|@{/img/}${fileList.get(i.index).file_saved}|" alt="Image" class="img-fluid">
@@ -330,7 +297,7 @@ https://templatemo.com/tm-559-zay-shop
                                 </div>
                             </div>
                         </div> 
-                    </div><!-- .item -->
+                    </th:block><!-- .item -->
 
                 </div><!--.slider-->
                 
@@ -401,63 +368,6 @@ https://templatemo.com/tm-559-zay-shop
                         </span>
                     </ul>
                 </div>
-                        <!-- .item -->
-                            
-                            <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                <div class="property-item mb-30">
-            
-                                    <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
-                                    </a>
-            
-                                    <div class="property-content">
-                                        <div class="price mb-2"><span>$1,291,000</span></div>
-                                        <div>
-                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                            <span class="city d-block mb-3">California, USA</span>
-            
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="icon-bed me-2"></span>
-                                                    <span class="caption">2 beds</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="icon-bath me-2"></span>
-                                                    <span class="caption">2 baths</span>
-                                                </span>
-                                            </div>
-            
-                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div> .item
-                            </div> -->
-                        	</div>
-                            </div>
-                        </div> 
-                    </div>
-                </div>
-                    
-                <!-- 페이지 이동링크 -->
-                <!-- <a th:href="|javascript:pagingFormSubmit(${navi.currentPage - navi.pagePerGroup})|">◁◁</a>
-                <a th:href="|javascript:pagingFormSubmit(${navi.currentPage - 1})|">◀</a> 
-
-                <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}"> 
-                    <th:block th:if="${counter == navi.currentPage}"><b></th:block>
-                        <a th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>&nbsp;
-                    <th:block th:if="${counter == navi.currentPage}"></b></th:block>
-                </span>
-                
-                <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + 1})|">▶</a> 
-                <a th:href="|javascript:pagingFormSubmit(${navi.currentPage + navi.pagePerGroup})|">▷▷</a>
-                <br><br> -->
-            </div>
-    
-
-    <!-- End Content -->
-
-   
-
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
@@ -558,7 +468,7 @@ https://templatemo.com/tm-559-zay-shop
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
     <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script> 
-    <!-- <script th:src="@{/assets/property_js/tiny-slider.js}"></script> -->
+    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
     <script th:src="@{/assets/property_js/aos.js}"></script>
     <script th:src="@{/assets/property_js/navbar.js}"></script>
     <script th:src="@{/assets/property_js/counter.js}"></script>  

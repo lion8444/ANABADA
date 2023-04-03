@@ -12,23 +12,23 @@ function submitcheck(){
 	}
 	
 	if($('#rental_price').val() == "" || isNaN($('#rental_price').val()) || $('#rental_price').val() <= 0){
-		$('tr.hidden:first').css("display" ,"block");
+		$('#rental_price ~ div').css("display" ,"block");
 		return false;
 	}else{
-		$('tr.hidden:first').css("display" ,"none");
+		$('#rental_price ~ div').css("display" ,"none");
 	}
 	
 	if(!$('#rental_sDate').val() || !$('#rental_eDate').val()){
-		$('tr.hidden:last').css("display" ,"block");
+		$('#rental_eDate ~ div').css("display" ,"block");
 		return false;
 	} else if($('#rental_sDate').val() < getToday()){
-		$('tr.hidden:last').css("display" ,"block");
+		$('#rental_eDate ~ div').css("display" ,"block");
 		return false;
 	} else if($('#rental_sDate').val() >= $('#rental_eDate').val()){
-		$('tr.hidden:last').css("display" ,"block");
+		$('#rental_eDate ~ div').css("display" ,"block");
 		return false;
 	} else{
-		$('tr.hidden:last').css("display" ,"none");
+		$('#rental_eDate ~ div').css("display" ,"none");
 	}			
 	if(!$('#uploadOne').val()){
 		$('#uploadOne ~ div').css("display" ,"block");
@@ -58,10 +58,10 @@ function tempadd(){
 		let formdata = $("form#write").serialize();
 		if($('#rental_price').val() != ""){
 		if(isNaN($('#rental_price').val()) || $('#rental_price').val() <= 0){
-			$('tr.hidden:first').css("display" ,"block");
+			$('#rental_price ~ div').css("display" ,"block");
 			return false;
 		}else{
-			$('tr.hidden:first').css("display" ,"none");
+			$('#rental_price ~ div').css("display" ,"none");
 		}
 		}	
 			$.ajax({

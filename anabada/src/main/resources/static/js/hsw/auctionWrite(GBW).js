@@ -12,20 +12,22 @@ function submitcheck(){
 	}
 	
 	if($('#auction_price').val() == "" || isNaN($('#auction_price').val()) || $('#auction_price').val() <= 0){
-		$('tr.hidden:first').css("display" ,"block");
+		$('#auction_price ~ div').css("display" ,"block");
 		return false;
 	}else{
-		$('tr.hidden:first').css("display" ,"none");
+		$('#auction_price ~ div').css("display" ,"none");
 	}
-	if(!$('#auction_finish').val() || !$('#auction_finish').val()){
-		$('tr.hidden:last').css("display" ,"block");
+	
+	if(!$('#auction_finish').val()){
+		$('#auction_finish ~ div').css("display" ,"block");
 		return false;
 	} else if($('#auction_finish').val() < getToday()){
-		$('tr.hidden:last').css("display" ,"block");
+		$('#auction_finish ~ div').css("display" ,"block");
 		return false;
 	} else{
-		$('tr.hidden:last').css("display" ,"none");
+		$('#auction_finish ~ div').css("display" ,"none");
 	}
+	
 	if(!$('#uploadOne').val()){
 		$('#uploadOne ~ div').css("display" ,"block");
 		return false;
@@ -54,10 +56,10 @@ function tempadd(){
 		let formdata = $("form#write").serialize();
 		if($('#auction_price').val() != ""){
 		if(isNaN($('#auction_price').val()) || $('#auction_price').val() <= 0){
-			$('tr.hidden:first').css("display" ,"block");
+			$('#auction_price ~ div').css("display" ,"block");
 			return false;
 		}else{
-			$('tr.hidden:first').css("display" ,"none");
+			$('#auction_price ~ div').css("display" ,"none");
 		}
 		}
 		
