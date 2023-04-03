@@ -1,15 +1,15 @@
 $(document).ready(function () {
-    alert("pathname : " + $(location).attr('pathname'));
+    // alert("pathname : " + $(location).attr('pathname'));
     // alert("url : " + $(location).attr('url'));
     // alert("search : " + $(location).attr('search'));
-    alert("search : " + $(location).attr('search'));
+    // alert("search : " + $(location).attr('search'));
 
-    alert("search : " + $(location).attr('search'));
+    // alert("search : " + $(location).attr('search'));
 
     let langType = $(location).attr('search');
 
     if(langType == '?lang=ja-JP') {
-        alert('sdfsadg');
+        // alert('sdfsadg');
         console.log(langType);
         papagoTrans2();
         papagoBoardDetail();
@@ -40,8 +40,8 @@ function springLauguageTest() {
             // alert("search : + " + $(location).attr('search'));
             let url = $(location).attr('pathname');
             let search = $(location).attr('search');
-            alert('url : ' + url);
-            alert('search : ' + search);
+            // alert('url : ' + url);
+            // alert('search : ' + search);
             window.location.replace(url + '?lang=' + selectedOption);
         }
 }
