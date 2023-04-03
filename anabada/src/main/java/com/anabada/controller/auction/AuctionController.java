@@ -120,6 +120,7 @@ public class AuctionController {
 			,Model model
 			) {
 		
+		log.debug("auction_id : {}", auction_id);
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		model.addAttribute("auction_sell", auction_sell);
 		
