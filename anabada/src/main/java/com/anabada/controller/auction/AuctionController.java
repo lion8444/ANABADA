@@ -19,6 +19,7 @@ import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
+import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.auction.AuctionService;
 import com.anabada.util.FileService;
@@ -120,9 +121,26 @@ public class AuctionController {
 	public String auctionBoardRead(
 			@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
+			,@RequestParam(name="page", defaultValue="1") int page
 			) {
-		ArrayList <File> fileList = service.fileListByid(auction_id);
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+		ArrayList <Auction> auctionList = service.auctionBoard(
+				navi.getStartRecord(),countPerPage, null, null);
+		ArrayList <File> fileList2 = service.fileList();
+		
+		for(int i=0 ; i < fileList2.size(); ++i) {
+			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
+				fileList2.remove(i);
+				--i;
+				}
+		}
+		model.addAttribute("auctionList",auctionList);
+		model.addAttribute("fileList2", fileList2);
+		
 		Auction auction_sell = service.auctionBoardRead(auction_id);
+		ArrayList <File> fileList = service.fileListByid(auction_id);
+		
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
 		log.info(auction_sell+"");
