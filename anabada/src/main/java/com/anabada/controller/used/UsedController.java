@@ -86,30 +86,13 @@ public class UsedController {
 	public String usedSellBoardRead(
 			@RequestParam(name="used_id",defaultValue="0") String used_id
 			,Model model
-			,@RequestParam(name="page", defaultValue="1") int page
 			) {
-		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
-		ArrayList <Used> usedSellList = service.usedSellBoard(
-				navi.getStartRecord(),countPerPage, null, null);
-		ArrayList <File> fileList2 = service.fileList();
 		
-		for(int i=0 ; i < fileList2.size(); ++i) {
-			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
-				fileList2.remove(i);
-				--i;
-				}
-		}
-		log.debug("filelist {}: ", fileList2);
-		model.addAttribute("usedSellList",usedSellList);
-		model.addAttribute("fileList2", fileList2);
-
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList <File> fileList = service.fileListByid(used_id);
 		
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
-		log.info(fileList+"");
 		return "used/usedSellBoardRead(JPBR)";
 	}
 	
@@ -518,6 +501,39 @@ public class UsedController {
 			
 			in.close();
 			out.close();
+		} catch (Exception e) {
+			return "redirect:/";
+		
+}
+	return "redirect:/";
+	}
+
+	
+	@GetMapping({"/imgshowone"})
+	public String download(HttpServletResponse response, String used_id) {
+
+		Used used_sell = service.usedSellBoardRead(used_id);
+		ArrayList <File> fileList = service.fileListByid(used_id);
+		ArrayList <String> file = new ArrayList<>();
+		
+		for(int i=0 ; i < fileList.size(); ++i) {
+		file.add(uploadPath + "/" + fileList.get(i).getFile_saved());
+		}
+		
+		FileInputStream in = null;		
+		ServletOutputStream out = null;
+
+	try {	
+		for(int i=0 ; i < fileList.size(); ++i) {
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(i).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file.get(i));
+			out = response.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+			
+			in.close();
+			out.close();
+		}
 		} catch (Exception e) {
 			return "redirect:/";
 		

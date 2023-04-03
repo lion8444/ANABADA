@@ -213,7 +213,7 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
                                 <th:block th:each="fileList, i: ${fileList}">
-                                    <img th:src="|@{/img/}${fileList.file_saved}|" alt="Image" class="img-fluid">
+                                	<img th:src="@{/used/imgshowone(used_id=${used_sell.used_id})}" alt="Image" class="img-fluid">
                                 </th:block>
                             </div>
                         </div>

@@ -274,66 +274,54 @@ https://templatemo.com/tm-559-zay-shop
     </div>-->
     <br>
     
-    <div class="section">
-        <div class="container">
-            <div class="row mb-5 align-items-center">
-                <div class="col-lg-6 text-center mx-auto">
+	<div class="section">
+		<div class="container">
+			<div class="row mb-5 align-items-center">
+				<div class="col-lg-6 text-center mx-auto">
                     <h2 class="font-weight-bold text-primary heading" th:text="#{recommendUsed}">추천 중고거래</h2>
                 </div>
-
             </div>
-
             <div class="row">
-
                 <div class="col-12">
                     <div class="property-slider-wrap">
-
                         <div class="property-slider">
-
                     <!--item-->
-                    <th:block  th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
-                        <div class="property-item mb-30">
-                            <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                                <img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
-                            </a>
-                        
-                            <div class="property-content">
-                                <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
-                                <div>
-                                    <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_email}">판매자 이메일</span>
-                                    <span class="city d-block mb-3"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${usedSellList.used_title}">글 제목</span></span>
-
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${usedSellList.category_id}">카테고리</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${usedSellList.used_quality}">상품상태</span>
-                                                </span>
-                                            </div>
-                                            <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
-                                                class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </th:block><!-- .item -->
-
-                        </div><!--.slider-->
-
-                        <div>
+                    		<th:block  th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
+                        		<div class="property-item mb-30">
+                            		<a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                                		<img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+                            		</a>
+                            		<div class="property-content">
+                                		<div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
+                                    	<span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_email}">판매자 이메일</span>
+                                    	<span class="city d-block mb-3"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${usedSellList.used_title}">글 제목</span></span>
+                                        <div class="specs d-flex mb-4">
+                                        	<span class="d-block d-flex align-items-center me-3">
+                                            	<span class="d-block mb-2 text-black-50"
+                                                	  th:text="${usedSellList.category_id}">카테고리</span>
+                                            </span>
+                                            <span class="d-block d-flex align-items-center">
+                                            	<span class="d-block mb-2 text-black-50"
+                                                      th:text="${usedSellList.used_quality}">상품상태</span>
+                                            </span>
+                                         </div>
+                                         <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
+                                             class="btn btn-primary py-2 px-3">See details</a>
+                              		</div>
+                     			</div>
+                     		</th:block><!-- .item -->
+                        </div>
                             <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
                                 <span class="prev" data-controls="prev" aria-controls="property"
                                     tabindex="-1">Prev</span>
                                 <span class="next" data-controls="next" aria-controls="property"
                                     tabindex="+1">Next</span>
                             </div>
-                        </div>
-                    </div>
-                </div>
+					</div> 
+				</div>
+			</div><!--.slider-->
+		</div>
+	</div>
 
 
 
@@ -352,51 +340,52 @@ https://templatemo.com/tm-559-zay-shop
             </div>
         </div>
 
-            <div class="section section-properties">
-                <div class="container">
-                    <div class="row">
-                        <!--item-->
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
-                            <div class="property-item mb-30">
-                                <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                                <img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
-                                </a>
-                            
-                                <div class="property-content">
-                                    <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
-                                    <div>
-                                        <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_email}">판매자 이메일</span>
-                                        <span class="city d-block mb-3"><span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" th:text="${usedSellList.used_title}">글 제목</span></span>
-
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${usedSellList.category_id}">카테고리</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${usedSellList.used_quality}">상품상태</span>
-                                                </span>
-                                            </div>
-                                            <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
-                                                class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                <div class="row">
-                    <ul class="pagination pagination-lg justify-content-center">
+	<div class="section section-properties">
+		<div class="container">
+			<div class="row">
+				<!--item-->
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
+					<div class="property-item mb-30">
+						<a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+							<img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+						</a>
+						<div class="property-content">
+							<div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
+ 							<div>
+ 								<span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_email}">판매자 이메일</span>
+ 								<span class="city d-block mb-3">
+ 									<span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" th:text="${usedSellList.used_title}">글 제목</span></span>
+								<div class="specs d-flex mb-4">
+									<span class="d-block d-flex align-items-center me-3">
+										<span class="d-block mb-2 text-black-50"
+                                              th:text="${usedSellList.category_id}">카테고리</span>
+									</span>
+									<span class="d-block d-flex align-items-center">
+										<span class="d-block mb-2 text-black-50"
+												th:text="${usedSellList.used_quality}">상품상태</span>
+									</span>
+								</div>
+								<a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
+									class="btn btn-primary py-2 px-3">See details</a>
+							</div>
+						</div>
+					</div>
+				</div> 
+			</div>
+		</div>
+	</div>	
+	<div class="row">
+		<ul class="pagination pagination-lg justify-content-center">
                         <!-- <li class="page-item disabled">
                             <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1"></a>
                         </li> -->
-                        <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
-                            <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
-                                <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
-                            </li>
-                        </span>
-                    </ul>
-                </div>
+			<span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+				<li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+				<a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+				</li>
+			</span>
+		</ul>
+	</div>
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
