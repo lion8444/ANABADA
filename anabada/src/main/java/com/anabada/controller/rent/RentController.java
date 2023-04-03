@@ -1,6 +1,11 @@
 package com.anabada.controller.rent;
 
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,14 +108,6 @@ public class RentController {
 		
 		ArrayList <Rental> rentalList = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord);
-		ArrayList <File> fileList = service.fileList();
-		
-		for(int i=0 ; i < fileList.size(); ++i) {
-			if(!fileList.get(i).getBoard_status().equals("렌탈 거래")) {
-				fileList.remove(i);
-				--i;
-				}
-		}
 		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
@@ -118,10 +116,8 @@ public class RentController {
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
-		model.addAttribute("fileList", fileList);
 	
 		
-		log.debug("filelist {}: ", fileList);
 		return "rental/rentalBoard(RB)";
 	}
 	
@@ -328,16 +324,48 @@ public class RentController {
 		
 		
 		
-		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
-		int j = service.purchase(rd);		
+//		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
+//		int j = service.purchase(rd);		
 		
 		int i = service.usemoney(user_email, user_account);		
 		
-		if(j == 0 || i ==0) {
-			return "redirect:/rental/purchase?rental_id=" + rental_id;
-		}
+//		if(j == 0 || i ==0) {
+//			return "redirect:/rental/purchase?rental_id=" + rental_id;
+//		}
 		
 		
 		return "rental/rentalThanks.html";
-	}	
+	}
+	
+	@GetMapping({"/imgshow"})
+	public String download(HttpServletResponse response, int index) {
+		ArrayList <File> fileList = service.fileList();
+
+		for(int i=0 ; i < fileList.size(); ++i) {
+			if(!fileList.get(i).getBoard_status().equals("렌탈 거래")) {
+				fileList.remove(i);
+				--i;
+				}
+		}
+		
+		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
+		
+		FileInputStream in = null;		
+		ServletOutputStream out = null;
+
+	try {	
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(index).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file);
+			out = response.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+			
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			return "redirect:/";
+		
+}
+	return "redirect:/";
+	}
 }	
