@@ -14,7 +14,7 @@ public class Auction {
 	String auction_title;
 	String auction_date;
 	String auction_finish;
-	int auction_price;
+	Integer auction_price;
 	String auction_content;
 	String auction_quality;
 	String auction_status;

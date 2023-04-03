@@ -1,6 +1,7 @@
 package com.anabada.service.rent;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
@@ -207,9 +208,19 @@ public class RentServiceImpl implements RentService {
 			return null;
 		}
 
-		
-		
-		
-		
-		
+		@Override
+		public ArrayList<File> fileListByid(String rental_id) {
+			ArrayList <File> fileList = dao.fileListByid(rental_id);
+			return fileList;
+		}
+
+		@Override
+		public int addtemp(Rental formdata) {
+			int i = dao.addtemp(formdata);
+			return i;
+		}
+
+		public void rentalStart() {
+			
+		}
 }

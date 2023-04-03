@@ -87,5 +87,7 @@ public interface UsedDAO {
 
 	ArrayList<File> fileListByid(String id);
 
+	int addtemp(Used formdata);
+
 	
 }

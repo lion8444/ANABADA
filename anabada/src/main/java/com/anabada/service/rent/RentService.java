@@ -48,5 +48,9 @@ public interface RentService {
 	
 	//파는 글 수정
 	public String rentalBoardUpdate(Rental rental);
+
+	ArrayList<File> fileListByid(String rental_id);
+
+	int addtemp(Rental formdata);
 	
 }

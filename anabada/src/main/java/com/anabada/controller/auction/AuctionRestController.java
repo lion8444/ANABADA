@@ -5,9 +5,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.auction.AuctionService;
@@ -33,8 +35,22 @@ public class AuctionRestController {
 	}
 	
 	@GetMapping({"nowprice"})
-	public Auction_detail nowprice(String auction_id) {
+	public int nowprice(String auction_id) {
 		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
-	return auction_detail;
+		int price = 0;
+		if(auction_detail == null) {
+			Auction auction = service.findOneAuction(auction_id);
+			price = auction.getAuction_price();
+			return price;
+		}
+		price = auction_detail.getADetail_price();
+	return price;
+	}
+	
+	@PostMapping({"tempadd"})
+	public void tempadd(@AuthenticationPrincipal UserDetails user
+				,Auction formdata) {
+		formdata.setUser_email(user.getUsername());
+		int i = service.addtemp(formdata);
 	}
 }

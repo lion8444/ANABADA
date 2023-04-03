@@ -283,6 +283,13 @@ public class UsedServiceImpl implements UsedService {
 		ArrayList <File> fileList = dao.fileListByid(used_id);
 		return fileList;
 	}
+
+
+	@Override
+	public int addtemp(Used formdata) {
+		int i = dao.addtemp(formdata);
+		return i;
+	}
 	
 	
 	

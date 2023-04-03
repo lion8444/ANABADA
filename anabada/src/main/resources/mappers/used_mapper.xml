@@ -391,6 +391,31 @@
           file
        WHERE board_no = #{id}
     </select>
+    
+    <insert id="addtemp" parameterType="Used">
+    	INSERT INTO board_temp (
+	    		bTemp_id
+				,user_email
+				,category_id
+				,bTemp_title
+				,bTemp_price
+				,bTemp_content
+				,bTemp_quality
+				,uloc_id
+				,sloc_id
+    		    )
+    	VALUES(
+	    		func_seq_10('UTEM')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{used_title}
+    			,#{used_price}
+    			,#{used_content}    			
+    			,#{used_quality}    			
+    			,#{uloc_id}    			
+    			,#{sloc_id}    			
+    			)    	
+    </insert>
 </mapper>
 
 

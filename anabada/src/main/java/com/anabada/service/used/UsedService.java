@@ -82,6 +82,8 @@ public interface UsedService {
 
 	ArrayList<File> fileListByid(String used_id);
 
+	int addtemp(Used formdata);
+
 
 	
 }

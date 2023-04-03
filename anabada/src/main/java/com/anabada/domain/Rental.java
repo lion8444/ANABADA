@@ -13,7 +13,7 @@ public class Rental {
 	String category_id;
 	String rental_title;
 	String rental_date;
-	int rental_price;
+	Integer rental_price;
 	String rental_content;
 	String rental_quality;
 	String rental_sDate;

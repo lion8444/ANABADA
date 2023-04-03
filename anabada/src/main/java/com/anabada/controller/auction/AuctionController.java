@@ -1,6 +1,11 @@
 package com.anabada.controller.auction;
 
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +25,7 @@ import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
+import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.auction.AuctionService;
 import com.anabada.util.FileService;
@@ -95,18 +102,11 @@ public class AuctionController {
 		
 		ArrayList <Auction> auctionList = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord);
-		ArrayList <File> fileList = service.fileList();
-		
-		ArrayList <Auction> recommendList = service.recommendList(
-				navi.getStartRecord(),countPerPage, type, searchWord);
 		
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
-		model.addAttribute("fileList", fileList);
-		
-		//log.debug("filelist {}: ", fileList);
 		return "auction/auctionBoard(GB)";
 	}
 	
@@ -116,14 +116,34 @@ public class AuctionController {
 	 **/
 	@GetMapping("auctionBoardRead")
 	public String auctionBoardRead(
-			@RequestParam(name="rental_id",defaultValue="0") String auction_id
+			@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
+			,@RequestParam(name="page", defaultValue="1") int page
 			) {
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+		ArrayList <Auction> auctionList = service.auctionBoard(
+				navi.getStartRecord(),countPerPage, null, null);
+		ArrayList <File> fileList2 = service.fileList();
+		
+		for(int i=0 ; i < fileList2.size(); ++i) {
+			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
+				fileList2.remove(i);
+				--i;
+				}
+		}
+		model.addAttribute("auctionList",auctionList);
+		model.addAttribute("fileList2", fileList2);
 		
 		log.debug("auction_id : {}", auction_id);
 		Auction auction_sell = service.auctionBoardRead(auction_id);
-		model.addAttribute("auction_sell", auction_sell);
+		ArrayList <File> fileList = service.fileListByid(auction_id);
 		
+		model.addAttribute("auction_sell", auction_sell);
+		model.addAttribute("fileList", fileList);
+		log.info(auction_sell+"");
+		log.info(fileList+"");
+
 		return "auction/auctionBoardRead(GBR)";
 	}
 	
@@ -285,5 +305,35 @@ public class AuctionController {
 	    return "redirect:/";
 	}
 	
-	
+	@GetMapping({"/imgshow"})
+	public String download(HttpServletResponse response, int index) {
+		ArrayList <File> fileList = service.fileList();
+
+		for(int i=0 ; i < fileList.size(); ++i) {
+			if(!fileList.get(i).getBoard_status().equals("옥션 거래")) {
+				fileList.remove(i);
+				--i;
+				}
+		}
+		
+		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
+		
+		FileInputStream in = null;		
+		ServletOutputStream out = null;
+
+	try {	
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(index).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file);
+			out = response.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+			
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			return "redirect:/";
+		
+}
+	return "redirect:/";
+	}	
 }

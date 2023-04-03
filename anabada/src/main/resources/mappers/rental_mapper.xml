@@ -278,8 +278,43 @@
           *
        FROM
           file
-       WHERE board_no = #{id}
+       WHERE board_no = #{rental_id}
     </select>
     
-    
+    <insert id="addtemp" parameterType="Rental">
+    	INSERT INTO board_temp (
+	    		bTemp_id
+				,user_email
+				,category_id
+				,bTemp_title
+				,bTemp_price
+				,bTemp_content
+				,bTemp_quality
+			<if test="rental_sDate != ''">	
+				,bTemp_sDate
+			</if>	
+			<if test="rental_eDate != ''">
+				,bTemp_eDate
+			</if>	
+				,uloc_id
+				,sloc_id
+    		    )
+    	VALUES(
+	    		func_seq_10('RTEM')
+    			,#{user_email}
+    			,#{category_id}
+    			,#{rental_title}
+    			,#{rental_price}
+    			,#{rental_content}
+    			,#{rental_quality}
+    		<if test="rental_sDate != ''">	
+    			,#{rental_sDate}
+    		</if>
+    		<if test="rental_eDate != ''">
+    			,#{rental_eDate}
+    		</if>	
+    			,#{uloc_id}
+    			,#{sloc_id}
+    			)    	
+    </insert>
 </mapper>
