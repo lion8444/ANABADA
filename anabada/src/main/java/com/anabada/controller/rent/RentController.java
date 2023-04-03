@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
+import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.rent.RentService;
 import com.anabada.util.FileService;
@@ -122,14 +123,34 @@ public class RentController {
 	}
 	
 	/**
-	 * 렌탈 상세 게시판으로 이동
+	 * 렌탈 상세 게시판으로 이동(한개 보여줌)
 	 * 조회수
 	 **/
 	@GetMapping("rentalBoardRead")
 	public String rentalBoardRead(
 			@RequestParam(name="rental_id",defaultValue="0") String rental_id
 			,Model model
+			,@RequestParam(name="page", defaultValue="1") int page
 			) {
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+		
+		ArrayList <Rental> rentalList = service.rentalBoard(
+				navi.getStartRecord(),countPerPage, null, null);
+		ArrayList <File> fileList2 = service.fileList();
+		
+		
+		
+		for(int i=0 ; i < fileList2.size(); ++i) {
+			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
+				fileList2.remove(i);
+				--i;
+				}
+		}
+		log.debug("filelist {}: ", fileList2);
+		model.addAttribute("rentalList",rentalList);
+		model.addAttribute("fileList2", fileList2);
+		
 		Rental rental_sell = service.rentalBoardRead(rental_id);
 		ArrayList <File> fileList = service.fileListByid(rental_id);
 		model.addAttribute("fileList", fileList);

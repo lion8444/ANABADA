@@ -86,10 +86,27 @@ public class UsedController {
 	public String usedSellBoardRead(
 			@RequestParam(name="used_id",defaultValue="0") String used_id
 			,Model model
+			,@RequestParam(name="page", defaultValue="1") int page
 			) {
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+		ArrayList <Used> usedSellList = service.usedSellBoard(
+				navi.getStartRecord(),countPerPage, null, null);
+		ArrayList <File> fileList2 = service.fileList();
 		
+		for(int i=0 ; i < fileList2.size(); ++i) {
+			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
+				fileList2.remove(i);
+				--i;
+				}
+		}
+		log.debug("filelist {}: ", fileList2);
+		model.addAttribute("usedSellList",usedSellList);
+		model.addAttribute("fileList2", fileList2);
+
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList <File> fileList = service.fileListByid(used_id);
+		
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
 		log.info(fileList+"");
