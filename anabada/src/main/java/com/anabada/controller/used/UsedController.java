@@ -448,9 +448,7 @@ public class UsedController {
 			}
 		}
 		
-		
 		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
-
 		
 		FileInputStream in = null;		
 		ServletOutputStream out = null;

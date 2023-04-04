@@ -294,7 +294,7 @@ public class AuctionController {
 	}
 	
 	@GetMapping({"/imgshow"})
-	public String download(HttpServletResponse response, int index) {
+	public String download(HttpServletResponse response, String auction_id) {
 		ArrayList <File> fileList = service.fileList();
 
 		for(int i=0 ; i < fileList.size(); ++i) {
@@ -302,6 +302,14 @@ public class AuctionController {
 				fileList.remove(i);
 				--i;
 				}
+		}
+		
+		int index = 0;
+		
+		for (int i = 0; i < fileList.size(); ++i) {
+			if (auction_id.equals(fileList.get(i).getBoard_no())){
+				index = i;
+			}
 		}
 		
 		String file = uploadPath + "/" + fileList.get(index).getFile_saved();

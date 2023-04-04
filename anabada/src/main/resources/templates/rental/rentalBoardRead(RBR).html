@@ -311,7 +311,7 @@ https://templatemo.com/tm-559-zay-shop
                                     enctype="multipart/form-data">
                                     <div class="property-item mb-30">
                                         <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
-                                			<img th:src="@{/rental/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+                    						<img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}" alt="Image" class="img-fluid">
                                         </a>
 
                                         <div class="property-content">

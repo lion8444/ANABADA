@@ -255,7 +255,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <div class="property-item mb-30">
                                     <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}"
                                         class="img">
-                                		<img th:src="@{/auction/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+                                		<img th:src="@{/auction/imgshow(auction_id=${auctionList.auction_id})}" alt="Image" class="img-fluid">
                                     </a>
                                     <div class="property-content">
                                         <div class="price mb-2"><span th:text="${auctionList.auction_price}">가격</span>
@@ -325,7 +325,7 @@ https://templatemo.com/tm-559-zay-shop
                     enctype="multipart/form-data">
                     <div class="property-item mb-30">
                         <a th:href="@{auctionBoardRead(auction_id=${auctionList.auction_id})}" class="img">
-                            <img th:src="@{/auction/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+                        	<img th:src="@{/auction/imgshow(auction_id=${auctionList.auction_id})}" alt="Image" class="img-fluid">
                         </a>
 
                         <div class="property-content">
