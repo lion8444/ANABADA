@@ -44,10 +44,10 @@
 
 
     <!-- 제이쿼리 (pyw)-->
-    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+
     <script th:src="@{/js/js_myPage.js}"></script>
-    <script th:src="@{/js/lanTest.js}"></script>
-<!--
+    <!-- <script th:src="@{/js/lanTest.js}"></script> -->
+    <!--
     
 TemplateMo 559 Zay Shop
 
@@ -276,12 +276,11 @@ https://templatemo.com/tm-559-zay-shop
         <div class="container">
             <div class="row mb-5 align-items-center">
                 <div class="col-lg-6 text-center mx-auto">
-                    <h2 class="font-weight-bold text-primary heading">추천 대여</h2>
+                    <h2 class="font-weight-bold text-primary heading" th:text="#{recommendRental}">추천 렌탈</h2>
                                         <!-- 파파고 버튼 -->
                     <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-left: 1000px;"> 
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-12">
                     <div class="property-slider-wrap">
@@ -493,10 +492,12 @@ https://templatemo.com/tm-559-zay-shop
                             <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
+                            <a class="text-light text-decoration-none" target="_blank"
+                                href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
+                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i
+                                    class="fab fa-twitter fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
                             <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
@@ -534,6 +535,8 @@ https://templatemo.com/tm-559-zay-shop
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
     <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
     <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
     <script th:src="@{/assets/property_js/aos.js}"></script>
     <script th:src="@{/assets/property_js/navbar.js}"></script>
@@ -544,7 +547,7 @@ https://templatemo.com/tm-559-zay-shop
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_rentalBoard(RB).js}"></script>
     <script th:src="@{/pjh.js}"></script>
-    <script th:src="@{/js/lanTest.js}"></script>
+
     <!-- End Script -->
 </body>
 

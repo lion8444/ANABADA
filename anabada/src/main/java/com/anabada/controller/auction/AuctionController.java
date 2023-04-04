@@ -135,6 +135,7 @@ public class AuctionController {
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("fileList2", fileList2);
 		
+		log.debug("auction_id : {}", auction_id);
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList <File> fileList = service.fileListByid(auction_id);
 		

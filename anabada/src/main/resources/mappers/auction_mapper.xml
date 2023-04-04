@@ -152,7 +152,7 @@
     			,#{auction_price}
     			,#{auction_content}
     			,#{auction_quality}
-				,#{auction_finish}
+				,DATE_ADD(#{auction_finish}, INTERVAL 1 DAY) 
     			,'NEW'
     			,#{uloc_id}
 				,#{sloc_id}

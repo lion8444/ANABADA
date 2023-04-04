@@ -1167,25 +1167,35 @@ function hasOption (item) {
       });
     });
 
-    // ## clone slides
-    // carousel: n + slides + n
-    // gallery:      slides + n
+  //   // ## clone slides
+  //   // carousel: n + slides + n
+  //   // gallery:      slides + n
     if (cloneCount) {
       var fragmentBefore = doc.createDocumentFragment(),
       fragmentAfter = doc.createDocumentFragment();
 
       for (var j = cloneCount; j--;) {
+        let papagoActive =  $(".tns-slide-cloned .papago");
+
         var num = j%slideCount,
         cloneFirst = slideItems[num].cloneNode(true);
         addClass(cloneFirst, slideClonedClass);
         removeAttrs(cloneFirst, 'id');
         fragmentAfter.insertBefore(cloneFirst, fragmentAfter.firstChild);
 
+        papagoActive.each(function(i, e) {
+          console.log("e : " + e + " i : " + i);
+          e.removeAttr("id");
+        });
         if (carousel) {
           var cloneLast = slideItems[slideCount - 1 - num].cloneNode(true);
           addClass(cloneLast, slideClonedClass);
           removeAttrs(cloneLast, 'id');
           fragmentBefore.appendChild(cloneLast);
+
+          papagoActive.each(function(i, e) {
+            e.removeAttr("id");
+          });
         }
       }
 
@@ -2371,11 +2381,20 @@ function getImageArray (start, end, imgSelector) {
     end = range[1];
 
     forEach(slideItems, function(item, i) {
+      let papagoActive =  $("tns-slide-active .papago");
       // show slides
       if (i >= start && i <= end) {
+        // console.log(slideItems);
+        console.log(item);
         if (hasAttr(item, 'aria-hidden')) {
           removeAttrs(item, ['aria-hidden', 'tabindex']);
+          removeClass(item, slideClonedClass);
           addClass(item, slideActiveClass);
+
+          papagoActive.each(function(i, e) {
+            e.attr("id", 'papago' + e.attr("papagoCount"));
+          });
+          
         }
       // hide slides
     } else {
@@ -2385,6 +2404,12 @@ function getImageArray (start, end, imgSelector) {
           'tabindex': '-1'
         });
         removeClass(item, slideActiveClass);
+        addClass(item, slideClonedClass);
+
+        papagoActive.each(function(i, e) {
+          e.removeAttr("id");
+        });
+        // $(".papago").removeAttr("id");
       }
     }
   });
@@ -3207,3 +3232,5 @@ function getImageArray (start, end, imgSelector) {
 return tns;
 })();
 
+// }
+// });
