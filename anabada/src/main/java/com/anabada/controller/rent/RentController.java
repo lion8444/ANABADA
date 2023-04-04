@@ -91,7 +91,6 @@ public class RentController {
 			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 		
-		
 		return "rental/rentalThanks.html";
 	}
 	
@@ -117,7 +116,6 @@ public class RentController {
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
-	
 		
 		return "rental/rentalBoard(RB)";
 	}
@@ -343,8 +341,6 @@ public class RentController {
 		
 		String user_email = user.getUsername();
 		
-		
-		
 //		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
 //		int j = service.purchase(rd);		
 		
@@ -353,7 +349,6 @@ public class RentController {
 //		if(j == 0 || i ==0) {
 //			return "redirect:/rental/purchase?rental_id=" + rental_id;
 //		}
-		
 		
 		return "rental/rentalThanks.html";
 	}
@@ -385,8 +380,7 @@ public class RentController {
 			out.close();
 		} catch (Exception e) {
 			return "redirect:/";
-		
-}
+		}
 	return "redirect:/";
 	}
 }	

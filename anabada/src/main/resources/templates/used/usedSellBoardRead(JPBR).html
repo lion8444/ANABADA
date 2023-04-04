@@ -213,8 +213,8 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
                                 <th:block th:each="fileList, i: ${fileList}">
-                                	<img th:src="@{/used/imgshowone(used_id=${used_sell.used_id})}" alt="Image" class="img-fluid">
-                                </th:block>
+                                	<img th:src="@{/used/imgshowone(used_id=${used_sell.used_id}, index=${i.index})}" alt="Image" class="img-fluid">
+                                </th:block>  
                             </div>
                         </div>
                     </div>
@@ -305,8 +305,7 @@ https://templatemo.com/tm-559-zay-shop
                                     enctype="multipart/form-data">
                                     <div class="property-item mb-30">
                                         <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                                            <img th:src="|@{/img/}${fileList2.get(i.index).file_saved}|" alt="Image"
-                                                class="img-fluid">
+                                			<img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
                                         </a>
 
                                         <div class="property-content">
