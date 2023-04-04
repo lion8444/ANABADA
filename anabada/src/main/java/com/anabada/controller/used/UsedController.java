@@ -86,13 +86,21 @@ public class UsedController {
 	public String usedSellBoardRead(
 			@RequestParam(name="used_id",defaultValue="0") String used_id
 			,Model model
+			,@RequestParam(name="page", defaultValue="1") int page
 			) {
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+		ArrayList <Used> usedSellList = service.usedSellBoard(
+				navi.getStartRecord(),countPerPage, null, null);
 		
+		model.addAttribute("usedSellList",usedSellList);
+
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList <File> fileList = service.fileListByid(used_id);
 		
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
+		log.info(fileList+"");
 		return "used/usedSellBoardRead(JPBR)";
 	}
 	
