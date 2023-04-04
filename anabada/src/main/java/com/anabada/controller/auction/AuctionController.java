@@ -124,26 +124,13 @@ public class AuctionController {
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
 		ArrayList <Auction> auctionList = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, null, null);
-		ArrayList <File> fileList2 = service.fileList();
-		
-		for(int i=0 ; i < fileList2.size(); ++i) {
-			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
-				fileList2.remove(i);
-				--i;
-				}
-		}
 		model.addAttribute("auctionList",auctionList);
-		model.addAttribute("fileList2", fileList2);
 		
-		log.debug("auction_id : {}", auction_id);
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList <File> fileList = service.fileListByid(auction_id);
 		
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
-		log.info(auction_sell+"");
-		log.info(fileList+"");
-
 		return "auction/auctionBoardRead(GBR)";
 	}
 	

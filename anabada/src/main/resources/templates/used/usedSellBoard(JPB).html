@@ -289,7 +289,7 @@ https://templatemo.com/tm-559-zay-shop
                     		<th:block  th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
                         		<div class="property-item mb-30">
                             		<a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                                		<img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+                                		<img th:src="@{/used/imgshow(used_id=${usedSellList.used_id})}" alt="Image" class="img-fluid">
                             		</a>
                             		<div class="property-content">
                                 		<div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>
@@ -347,7 +347,7 @@ https://templatemo.com/tm-559-zay-shop
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" th:each="usedSellList, i: ${usedSellList}" method="post" enctype="multipart/form-data">
 					<div class="property-item mb-30">
 						<a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-							<img th:src="@{/used/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
+                        	<img th:src="@{/used/imgshow(used_id=${usedSellList.used_id})}" alt="Image" class="img-fluid">
 						</a>
 						<div class="property-content">
 							<div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span></div>

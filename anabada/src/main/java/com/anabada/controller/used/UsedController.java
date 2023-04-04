@@ -430,7 +430,7 @@ public class UsedController {
 	}
 	
 	@GetMapping({"/imgshow"})
-	public String download(HttpServletResponse response, int index) {
+	public String download(HttpServletResponse response, String used_id) {
 		ArrayList <File> fileList = service.fileList();
 
 		for(int i=0 ; i < fileList.size(); ++i) {
@@ -439,6 +439,15 @@ public class UsedController {
 				--i;
 				}
 		}
+		
+		int index = 0;
+		
+		for (int i = 0; i < fileList.size(); ++i) {
+			if (used_id.equals(fileList.get(i).getBoard_no())){
+				index = i;
+			}
+		}
+		
 		
 		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
 

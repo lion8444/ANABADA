@@ -251,8 +251,7 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="property-slider">
 
                             <!--item-->
-                            <div th:each="auctionList, i: ${auctionList}" method="get"
-                                enctype="multipart/form-data">
+                            <div th:each="auctionList, i: ${auctionList}">
                                 <div class="property-item mb-30">
                                     <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}"
                                         class="img">
