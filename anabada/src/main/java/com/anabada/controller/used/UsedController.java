@@ -26,6 +26,7 @@ import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
+import com.anabada.service.login.LoginService;
 import com.anabada.service.used.UsedService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
@@ -39,6 +40,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UsedController {
 	@Autowired
 	UsedService service;
+	
+	@Autowired
+	LoginService lService;
 	
 	//설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -75,6 +79,11 @@ public class UsedController {
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
 		
+//		for(int i = 0; i <= usedSellList.size(); ++i) {
+//			UserDTO user = lService.findUser(usedSellList.get(i).getUser_email());
+//		}
+//		
+		
 		return "used/usedSellBoard(JPB)";
 	}
 	
@@ -94,12 +103,22 @@ public class UsedController {
 				navi.getStartRecord(),countPerPage, null, null);
 		
 		model.addAttribute("usedSellList",usedSellList);
-
+		
+		// used_sell 정보 가져오기
 		Used used_sell = service.usedSellBoardRead(used_id);
+		
+		// 파일 정보 가져오기
 		ArrayList <File> fileList = service.fileListByid(used_id);
+		
+		// user 정보 가져오기 4월 4일 추가
+	    UserDTO user = lService.findUser(used_sell.getUser_email()); 
+	    String user_nick = user.getUser_nick();
+	    int user_penalty = user.getUser_penalty();
+	    String user_nation = user.getUser_nation();
 		
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("user", user);
 		log.info(fileList+"");
 		return "used/usedSellBoardRead(JPBR)";
 	}

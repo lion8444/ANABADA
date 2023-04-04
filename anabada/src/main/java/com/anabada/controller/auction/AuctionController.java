@@ -54,16 +54,19 @@ public class AuctionController {
 	int pagePerGroup;
 	
 	@GetMapping({"purchase"})
-	public String purchase(String auction_id, Model model) {
+	public String purchase(String auction_id
+			,@AuthenticationPrincipal UserDetails userDetails
+			,Model model) {
 		Auction auction = service.findOneAuction(auction_id);
 		Auction_detail auction_detail= service.findOneAuctiondetail(auction_id);
-		String user_email = "anabada@gmail.com";
-		UserDTO user = service.findUser(user_email);
+
+		UserDTO user = service.findUser(userDetails.getUsername());
 		//Auction_bid auction_bid= service.findOneAuctionbid();
 		
 		model.addAttribute("auction", auction);
 		model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("user", user);
+		log.debug("user : {}, user_account : {}",user,user.getUser_account());
 
 		return "auction/auctionPurchase(GBP).html";
 	}

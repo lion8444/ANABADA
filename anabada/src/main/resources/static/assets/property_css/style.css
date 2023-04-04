@@ -488,7 +488,9 @@ progress {
 
 .img-fluid {
   max-width: 100%;
-  height: auto; }
+  height: 450px; 
+  object-fit: contain;
+  object-position: center;}
 
 .img-thumbnail {
   padding: 0.25rem;

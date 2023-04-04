@@ -42,12 +42,13 @@
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_rentalBoard(RB).css}">
 
-
     <!-- 제이쿼리 (pyw)-->
-
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
-    <!-- <script th:src="@{/js/lanTest.js}"></script> -->
-    <!--
+    <script th:src="@{/js/lanTest.js}"></script>
+
+
+<!--
     
 TemplateMo 559 Zay Shop
 
@@ -57,7 +58,6 @@ https://templatemo.com/tm-559-zay-shop
 </head>
 
 <body>
-
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -136,9 +136,10 @@ https://templatemo.com/tm-559-zay-shop
                         </svg>
                     </a>
 
+                    <!-- 언어 선택 버튼 이미지 -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" href="#">한국어</a>
-                        <a class="dropdown-item" href="#">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>

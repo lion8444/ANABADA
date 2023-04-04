@@ -42,11 +42,13 @@
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_auctionBoard(GB).css}">
 
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 </head>
 
 <body>
-
-
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -125,9 +127,10 @@
                         </svg>
                     </a>
 
+                   <!-- 언어 선택 버튼 이미지 -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" href="#">한국어</a>
-                        <a class="dropdown-item" href="#">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>
@@ -171,10 +174,6 @@
         <div class="container">
             <div class="row justify-content-center align-items-center">
                 <div class="col-lg-9 text-center mt-5">
-                    <div class="usedhref">
-                        <a th:href="@{|/csform/auction?auction_id=${auction_sell.auction_id}|}">
-                            <button class="btn btn-secondary btn-block" value="신고">신고</button></a>
-                    </div>
 
                     <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
                         <ol class="breadcrumb text-center justify-content-center">
@@ -226,10 +225,8 @@
                                 다마고치 넣는 곳
                             </div>
                             <div class="text">
-                                <h3 class="mb-0">Alicia Huston</h3>
-                                <div class="meta mb-3" th:text="${auction_sell.user_email}">Real Estate</div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione laborum quo quos
-                                    omnis sed magnam id ducimus saepe</p>
+                                <!-- <h3 class="mb-0">Alicia Huston</h3> -->
+                                <div class="meta mb-3" th:text="${auction_sell.user_email}">닉네임</div>
                                 <ul class="list-unstyled social dark-hover d-flex">
                                     <!-- <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
                                     <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
@@ -246,14 +243,14 @@
                             <!-- <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a> -->
                             <div class="usedhref">
                                 <a th:href="@{/auction/auctionBoardUpdate(auction_id=${auction_sell.auction_id})}"><button
-                                        class="btn btn-secondary btn-block" value="수정">수정</button></a>
+                                        class="btn btn-secondary btn-block" value="수정" th:text="#{modify}">수정</button></a>
                             </div>
 
                             <input type="hidden" name="auction_id" th:value="${auction_sell.auction_id}">
                             <!-- <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a> -->
                             <div class="usedhref">
                                 <a th:href="@{/auction/auctionBoardDelete(auction_id=${auction_sell.auction_id})}"><button
-                                        class="btn btn-secondary btn-block" value="삭제">삭제</button></a>
+                                        class="btn btn-secondary btn-block" value="삭제" th:text="#{delete}">삭제</button></a>
                             </div>
                         </div>
 
