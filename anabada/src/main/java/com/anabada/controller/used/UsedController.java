@@ -468,7 +468,6 @@ public class UsedController {
 }
 	return "redirect:/";
 	}
-
 	
 	@GetMapping({"/imgshowone"})
 	public String download(HttpServletResponse response, String used_id, int index) {

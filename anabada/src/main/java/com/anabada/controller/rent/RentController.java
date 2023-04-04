@@ -383,4 +383,30 @@ public class RentController {
 		}
 	return "redirect:/";
 	}
+	
+	@GetMapping({"/imgshowone"})
+	public String download(HttpServletResponse response, String rental_id, int index) {
+		log.info(index+"");
+		
+		ArrayList <File> fileList = service.fileListByid(rental_id);
+		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
+
+		FileInputStream in = null;		
+		ServletOutputStream out = null;
+
+	try {	
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(index).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file);
+			out = response.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+			
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			return "redirect:/";
+		
+}
+	return "redirect:/";
+	}
 }	
