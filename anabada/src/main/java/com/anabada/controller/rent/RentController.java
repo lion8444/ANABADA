@@ -91,7 +91,6 @@ public class RentController {
 			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 		
-		
 		return "rental/rentalThanks.html";
 	}
 	
@@ -117,7 +116,6 @@ public class RentController {
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
-	
 		
 		return "rental/rentalBoard(RB)";
 	}
@@ -212,7 +210,7 @@ public class RentController {
 				
 			String rental_id = service.rentalWrite(rental);
 
-			if(upload.isEmpty() || upload.get(0).isEmpty()) {
+			if(uploadOne.isEmpty()) {
 			    log.debug("이미지 X");
 			    return "redirect:/";
 			}
@@ -227,7 +225,8 @@ public class RentController {
 		        savedFile.setBoard_status("렌탈 거래");
 		        service.insertFile(savedFile);
 		    }
-		
+		    
+		    if (!upload.get(0).isEmpty()) {
 			for(int i = 0; i < upload.size(); ++i) {
 			    MultipartFile file = upload.get(i);
 			    String filename = FileService.saveFile(file, uploadPath);
@@ -238,6 +237,7 @@ public class RentController {
 			    savedFile.setBoard_status("렌탈 거래");
 			    service.insertFile(savedFile);
 			}
+		    }
 			
 			return "redirect:/";
 			}
@@ -343,8 +343,6 @@ public class RentController {
 		
 		String user_email = user.getUsername();
 		
-		
-		
 //		Rental_detail rd = new Rental_detail(null, rental_id, user_email, null, rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1, rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
 //		int j = service.purchase(rd);		
 		
@@ -353,7 +351,6 @@ public class RentController {
 //		if(j == 0 || i ==0) {
 //			return "redirect:/rental/purchase?rental_id=" + rental_id;
 //		}
-		
 		
 		return "rental/rentalThanks.html";
 	}
@@ -371,6 +368,31 @@ public class RentController {
 		
 		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
 		
+		FileInputStream in = null;		
+		ServletOutputStream out = null;
+
+	try {	
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(index).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file);
+			out = response.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+			
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			return "redirect:/";
+		}
+	return "redirect:/";
+	}
+	
+	@GetMapping({"/imgshowone"})
+	public String download(HttpServletResponse response, String rental_id, int index) {
+		log.info(index+"");
+		
+		ArrayList <File> fileList = service.fileListByid(rental_id);
+		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
+
 		FileInputStream in = null;		
 		ServletOutputStream out = null;
 

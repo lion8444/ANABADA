@@ -86,13 +86,21 @@ public class UsedController {
 	public String usedSellBoardRead(
 			@RequestParam(name="used_id",defaultValue="0") String used_id
 			,Model model
+			,@RequestParam(name="page", defaultValue="1") int page
 			) {
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+		ArrayList <Used> usedSellList = service.usedSellBoard(
+				navi.getStartRecord(),countPerPage, null, null);
 		
+		model.addAttribute("usedSellList",usedSellList);
+
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList <File> fileList = service.fileListByid(used_id);
 		
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
+		log.info(fileList+"");
 		return "used/usedSellBoardRead(JPBR)";
 	}
 	
@@ -134,14 +142,6 @@ public class UsedController {
 	public String usedSellWrite() {
 		return"used/usedSellWrite(JPBW)";
 	}
-		
-		/*
-		 * used00001
-		 * substring(0,3)
-		 * String str = USED
-		 * string
-		 * 
-		 * func_file_name(str)*/
 
 	/**
 	 * 중고거래 팝니다 글쓰기 처리
@@ -163,7 +163,7 @@ public class UsedController {
 				return "redirect:/";
 			}
 
-			if(upload.isEmpty() || upload.get(0).isEmpty()) {
+			if(uploadOne.isEmpty()) {
 			    log.debug("이미지 X");
 			    return "redirect:/";
 			}
@@ -178,7 +178,8 @@ public class UsedController {
 		        savedFile.setBoard_status("중고 거래");
 		        service.insertFile(savedFile);
 		    }
-		
+		    
+		    if (!upload.get(0).isEmpty()) {
 			for(int i = 0; i < upload.size(); ++i) {
 			    MultipartFile file = upload.get(i);
 			    String filename = FileService.saveFile(file, uploadPath);
@@ -189,7 +190,7 @@ public class UsedController {
 			    savedFile.setBoard_status("중고 거래");
 			    service.insertFile(savedFile);
 			}
-			
+		    }
 			return "redirect:/";
 			}
 
@@ -268,53 +269,6 @@ public class UsedController {
 	    
 	    return "redirect:/";
 	}
-	
-	
-//	@PostMapping("usedSellBoardUpdate")
-//	public String usedSellBoardUpdate(
-//			Used used
-//			,File file
-//			, ArrayList<MultipartFile> upload
-//			, MultipartFile uploadOne
-//			, @AuthenticationPrincipal UserDetails user
-//			) {
-//		//로그인한 사용자의 아이디를 읽음
-//	  	String id = user.getUsername();
-//	  	used.setUser_email(user.getUsername());
-//	  	
-//	  	Used oldBoard = null;
-//	  	File oldFile = null;
-//	  	String oldSavedfile = null;
-//		String savedfile = null;
-//		
-//		if (upload != null && !upload.isEmpty()) {
-//			oldBoard = service.usedSellBoardRead(used.getUsed_id());
-//			oldFile = service.fileList();
-//			oldSavedfile = oldBoard == null ? null : oldFile.getFile_saved();
-//			
-//			savedfile = FileService.saveFile(uploadOne, uploadPath);
-//			//savedfile = FileService.saveFiles(upload, savedfile);
-//			file.setFile_origin(uploadOne.getOriginalFilename());
-//			//file.setFile_origin(((MultipartFile) upload).getOriginalFilename());
-//			
-//			file.setFile_saved(savedfile);
-//	
-//			log.debug("새파일:{}, 구파일:{}", savedfile, oldSavedfile);
-//		}
-//		
-//		int result = service.usedSellBoardUpdate(used);
-//		
-//		//글 수정 성공 and 첨부된 파일이 있는 경우 파일도 삭제
-//		if (result == 1 && savedfile != null) {
-//			FileService.deleteFile(uploadPath + "/" + oldSavedfile);
-//		}
-//		return "redirect:/used/usedSellBoardRead?used_id=" + used.getUsed_id();
-//	}
-//	
-
-	
-
-
 	
 	/**
 	 * 중고거래 삽니다 글쓰기 게시판으로 이동 ok 0324
@@ -507,33 +461,26 @@ public class UsedController {
 }
 	return "redirect:/";
 	}
-
 	
 	@GetMapping({"/imgshowone"})
-	public String download(HttpServletResponse response, String used_id) {
-
-		Used used_sell = service.usedSellBoardRead(used_id);
+	public String download(HttpServletResponse response, String used_id, int index) {
+		log.info(index+"");
+		
 		ArrayList <File> fileList = service.fileListByid(used_id);
-		ArrayList <String> file = new ArrayList<>();
-		
-		for(int i=0 ; i < fileList.size(); ++i) {
-		file.add(uploadPath + "/" + fileList.get(i).getFile_saved());
-		}
-		
+		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
+
 		FileInputStream in = null;		
 		ServletOutputStream out = null;
 
 	try {	
-		for(int i=0 ; i < fileList.size(); ++i) {
-			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(i).getFile_origin(), "UTF-8"));
-			in = new FileInputStream(file.get(i));
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(index).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file);
 			out = response.getOutputStream();
 			
 			FileCopyUtils.copy(in, out);
 			
 			in.close();
 			out.close();
-		}
 		} catch (Exception e) {
 			return "redirect:/";
 		

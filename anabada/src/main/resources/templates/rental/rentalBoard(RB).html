@@ -277,27 +277,25 @@ https://templatemo.com/tm-559-zay-shop
             <div class="row mb-5 align-items-center">
                 <div class="col-lg-6 text-center mx-auto">
                     <h2 class="font-weight-bold text-primary heading" th:text="#{recommendRental}">추천 렌탈</h2>
+                                        <!-- 파파고 버튼 -->
+                    <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-left: 1000px;"> 
                 </div>
             </div>
-
-            <!-- 파파고 버튼 -->
-            <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-left: 1000px;">
-
             <div class="row">
-
                 <div class="col-12">
                     <div class="property-slider-wrap">
-
                         <div class="property-slider">
-
                 <!--item-->
                 <div th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
                     <div class="property-item mb-30">
                     <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
                     	<img th:src="@{/rental/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
                     </a>
-
-
+                    <div class="property-content">
+                        <div class="price mb-2"><span th:text="${rentalList.rental_price}">가격</span></div>
+                        <div>
+                            <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_email}">판매자 이메일</span>
+                            <span class="city d-block mb-3"><span th:text="${rentalList.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글 제목</span></span>
                                             <div class="specs d-flex mb-4">
                                                 <span class="d-block d-flex align-items-center me-3">
                                                     <span class="d-block mb-2 text-black-50"
@@ -317,8 +315,6 @@ https://templatemo.com/tm-559-zay-shop
 
                         </div><!--.slider-->
 
-
-
                         <div>
                             <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
                                 <span class="prev" data-controls="prev" aria-controls="property"
@@ -329,9 +325,6 @@ https://templatemo.com/tm-559-zay-shop
                         </div>
                     </div>
                 </div>
-
-
-
 
                 <!-- 0320 -->
                 <div class="section">
