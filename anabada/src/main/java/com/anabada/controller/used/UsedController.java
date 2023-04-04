@@ -142,14 +142,6 @@ public class UsedController {
 	public String usedSellWrite() {
 		return"used/usedSellWrite(JPBW)";
 	}
-		
-		/*
-		 * used00001
-		 * substring(0,3)
-		 * String str = USED
-		 * string
-		 * 
-		 * func_file_name(str)*/
 
 	/**
 	 * 중고거래 팝니다 글쓰기 처리
@@ -171,7 +163,7 @@ public class UsedController {
 				return "redirect:/";
 			}
 
-			if(upload.isEmpty() || upload.get(0).isEmpty()) {
+			if(uploadOne.isEmpty()) {
 			    log.debug("이미지 X");
 			    return "redirect:/";
 			}
@@ -186,7 +178,8 @@ public class UsedController {
 		        savedFile.setBoard_status("중고 거래");
 		        service.insertFile(savedFile);
 		    }
-		
+		    
+		    if (!upload.get(0).isEmpty()) {
 			for(int i = 0; i < upload.size(); ++i) {
 			    MultipartFile file = upload.get(i);
 			    String filename = FileService.saveFile(file, uploadPath);
@@ -197,7 +190,7 @@ public class UsedController {
 			    savedFile.setBoard_status("중고 거래");
 			    service.insertFile(savedFile);
 			}
-			
+		    }
 			return "redirect:/";
 			}
 

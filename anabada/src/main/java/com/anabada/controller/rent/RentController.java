@@ -210,7 +210,7 @@ public class RentController {
 				
 			String rental_id = service.rentalWrite(rental);
 
-			if(upload.isEmpty() || upload.get(0).isEmpty()) {
+			if(uploadOne.isEmpty()) {
 			    log.debug("이미지 X");
 			    return "redirect:/";
 			}
@@ -225,7 +225,8 @@ public class RentController {
 		        savedFile.setBoard_status("렌탈 거래");
 		        service.insertFile(savedFile);
 		    }
-		
+		    
+		    if (!upload.get(0).isEmpty()) {
 			for(int i = 0; i < upload.size(); ++i) {
 			    MultipartFile file = upload.get(i);
 			    String filename = FileService.saveFile(file, uploadPath);
@@ -236,6 +237,7 @@ public class RentController {
 			    savedFile.setBoard_status("렌탈 거래");
 			    service.insertFile(savedFile);
 			}
+		    }
 			
 			return "redirect:/";
 			}

@@ -200,7 +200,7 @@ public class AuctionController {
 				
 			String auction_id = service.auctionWrite(auction);
 			
-			if(upload.isEmpty() || upload.get(0).isEmpty()) {
+			if(uploadOne.isEmpty()) {
 			    log.debug("이미지 X");
 			    return "redirect:/";
 			}
@@ -215,7 +215,8 @@ public class AuctionController {
 		        savedFile.setBoard_status("옥션 거래");
 		        service.insertFile(savedFile);
 		    }
-		
+		   
+		    if (!upload.get(0).isEmpty()) {
 			for(int i = 0; i < upload.size(); ++i) {
 			    MultipartFile file = upload.get(i);
 			    String filename = FileService.saveFile(file, uploadPath);
@@ -226,7 +227,7 @@ public class AuctionController {
 			    savedFile.setBoard_status("옥션 거래");
 			    service.insertFile(savedFile);
 			}
-			log.debug("{}: " ,auction_id);
+		    }
 			return "redirect:/";
 			}
 	
@@ -336,4 +337,30 @@ public class AuctionController {
 }
 	return "redirect:/";
 	}	
+	
+	@GetMapping({"/imgshowone"})
+	public String download(HttpServletResponse response, String auction_id, int index) {
+		log.info(index+"");
+		
+		ArrayList <File> fileList = service.fileListByid(auction_id);
+		String file = uploadPath + "/" + fileList.get(index).getFile_saved();
+
+		FileInputStream in = null;		
+		ServletOutputStream out = null;
+
+	try {	
+			response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(index).getFile_origin(), "UTF-8"));
+			in = new FileInputStream(file);
+			out = response.getOutputStream();
+			
+			FileCopyUtils.copy(in, out);
+			
+			in.close();
+			out.close();
+		} catch (Exception e) {
+			return "redirect:/";
+		
+}
+	return "redirect:/";
+	}
 }

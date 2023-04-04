@@ -193,11 +193,11 @@
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
                                 <th:block th:each="fileList, i: ${fileList}">
-                                    <img th:src="|@{/img/}${fileList.file_saved}|" alt="Image" class="img-fluid">
+                                	<img th:src="@{/auction/imgshowone(auction_id=${auction_sell.auction_id}, index=${i.index})}" alt="Image" class="img-fluid">
                                 </th:block>
                             </div>
                         </div>
-                    ㄴ</div>
+                    </div>
                     <div class="col-lg-4">
                         <!-- jp_002_상품상세 -->
                         <input type="hidden" name="auction_id" id="auction_id" th:value="${auction_sell.auction_id}">
@@ -214,8 +214,8 @@
                             th:onclick="|location.href='@{/used/purchase(used_id=${used_sell.used_id})}'|"> -->
 
                         <div class="usedhref">
-                            <a th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|"><button
-                                    class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
+                            <a th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
+                            <button class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
                         </div>
                         <br>
 
@@ -287,8 +287,7 @@
                                     enctype="multipart/form-data">
                                     <div class="property-item mb-30">
                                         <a th:href="@{auctionBoardRead(auction_id=${auctionList.auction_id})}" class="img">
-                                            <img th:src="|@{/img/}${fileList2.get(i.index).file_saved}|" alt="Image"
-                                                class="img-fluid">
+                                			<img th:src="@{/auction/imgshow(index=${i.index})}" alt="Image" class="img-fluid">
                                         </a>
 
                                         <div class="property-content">
