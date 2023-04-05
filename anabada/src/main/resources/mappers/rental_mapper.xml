@@ -106,7 +106,7 @@
 					or user_email = #{searchWord}
 				</if>
 			</if>
-			and rental_status != 'DELETE'
+			and rental_status = '거래 중'
 		</where>
     </select>
     
@@ -171,7 +171,7 @@
     			,#{rental_quality}
     			,#{rental_sDate}
 				,#{rental_eDate}
-				,'NEW'
+				,'거래 중'
     			,#{uloc_id}
 				,#{sloc_id}
     			)
@@ -267,7 +267,7 @@
 
 	<update id="rentalBoardDelete" parameterType="Rental">
     	UPDATE rental
-	    SET rental_status = 'DELETE'
+	    SET rental_status = '거래 중지'
 	    WHERE rental_id = #{rental_id}
     <!--  AND
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->

@@ -1,4 +1,4 @@
-let langType = "";
+// let langType = "";
 
 $(document).ready(function () {
     // alert("pathname : " + $(location).attr('pathname'));
@@ -19,20 +19,20 @@ $(document).ready(function () {
     // } else {
     //     langType = "ko"
     // }
-    setInterval(() => {
-        console.log(langType);
-        if (langType == "jp") {
-            papagoTrans2();
-            papagoBoardDetail();
-        } else {
+    // setInterval(() => {
+    //     console.log(langType);
+    //     if (langType == "jp") {
+    //         papagoTrans2();
+    //         papagoBoardDetail();
+    //     } else {
 
-        }
-    }, 1000);
+    //     }
+    // }, 1000);
 
     $("#locales").on('click', springLauguageTest);  // 스프링 다국어 처리 셀렉트박스
 
     // 파파고 api실행 - 반복문에 하나씩 넣기
-    // $("#papagoSubmit").on("click", papagoTrans);
+    $("#papagoSubmit").on("click", papagoTrans);
     $("#papagoSubmit").on("click", papagoTrans2);
 
     // 파파고 api실행 - 전체 한번에
@@ -40,37 +40,37 @@ $(document).ready(function () {
 
     // 파파고 api 실행 - 게시판 글 읽을 때
     $("#papagoSubmit3").on("click", papagoBoardDetail);
-    $(".langType").on("click", springLanguage1);
+    // $(".langType").on("click", springLanguage1);
 });
 
-function springLanguage1() {
+// function springLanguage1() {
 
-    console.log('spring2 진입');
-    let type = $(this).attr("language");
+//     console.log('spring2 진입');
+//     let type = $(this).attr("language");
 
-    if (type == 'ko') {
-        $.ajax({
-            url: "/transLangtest",
-            type: "get",
-            data: {lang: data},
-            success: (data) => {
-                langType = "ko";
-                alert(data);
-                console.log('kokoko');
-            }
+//     if (type == 'ko') {
+//         $.ajax({
+//             url: "/transLangtest",
+//             type: "get",
+//             data: {lang: data},
+//             success: (data) => {
+//                 langType = "ko";
+//                 alert(data);
+//                 console.log('kokoko');
+//             }
 
-        });
-    }
-    else {
-        langType = "jp";
-        alert();
-        console.log('jpjpjpjpjp');
-        let url = $(location).attr('pathname');
-        let search = $(location).attr('search');
-        window.location.replace(url + '?lang=' + data);
-        setInterval(papagoTrans2(data), 1000);
-    }
-}
+//         });
+//     }
+//     else {
+//         langType = "jp";
+//         alert();
+//         console.log('jpjpjpjpjp');
+//         let url = $(location).attr('pathname');
+//         let search = $(location).attr('search');
+//         window.location.replace(url + '?lang=' + data);
+//         setInterval(papagoTrans2(data), 1000);
+//     }
+// }
 
 // 스프링 다국어 처리 selectBox - test용
 function springLauguageTest() {
@@ -97,31 +97,27 @@ function springLanguage(data) {
 
 
     if (data == 'ko') {
-        $.ajax({
-            url: "/transLangtest",
-            type: "get",
-            data: {lang: data},
-            success: (data) => {
-                langType = "ko";
-                alert(data);
-                console.log('kokoko');
-            }
+        // $.ajax({
+        //     url: "/transLangtest",
+        //     type: "get",
+        //     data: {lang: data},
+        //     success: (data) => {
+        //         langType = "ko";
+        //         alert(data);
+        //         console.log('kokoko');
+        //     }
 
-        });
-        // langType = "ko";
-        // alert();
-        // console.log('kokoko');
-        // let url = $(location).attr('pathname');
-        // let search = $(location).attr('search');
+        // });
+        langType = "ko";
+        console.log('kokoko');
+        let url = $(location).attr('pathname');
+        let search = $(location).attr('search');
 
-        // window.location.href = url + '?lang=' + data;
-
-        // papagoTrans2(data);
+        window.location.href = url + '?lang=' + data;
     }
 
     if (data == 'ja-JP') {
         langType = "jp";
-        alert();
         console.log('jpjpjpjpjp');
         let url = $(location).attr('pathname');
         let search = $(location).attr('search');
@@ -140,38 +136,33 @@ function papagoTrans() {
 
     console.log("papagoTrans 진입");
 
-    if (test)
+    str.each(function (e) {
+        let test = $("#papago" + e);
+        console.log("처음 찍는 거 : " + test.text() + "e : " + e + "length : " + str.length);
+        if (test.text() != '') {
 
-        str.each(function (e) {
-            let test = $("#papago" + e);
-            console.log("처음 찍는 거 : " + test.text() + "e : " + e + "length : " + str.length);
-            if (test.text() != '') {
-
-                $.ajax({
-                    type: "post",
-                    url: "/api/translate",
-                    data: { listid: e, source: "ko", target: "ja", text: $(".papagoTrans" + e).text() },
-                    dataType: "json",
-                    success: function (data) {
-                        // for(var i = 0; i < str.length; i++) {
-                        // console.log("i : " + i);
-                        // console.log("length : " + str.length);
-                        // console.log("ajax안에서 " + data.transmsg);
-                        if ($("#papago" + e).attr('papagoCount') == data.listid) {
-                            console.log("papago 번역 테스트 데이터 삽입전 " + $("#papago" + e).text())
-                            // $(".papagoTrans"+e).text('');
-                            $("#papago" + e).text(data.transmsg);
-                            // console.log("papago 번역 테스트 삽입 데이터 " + ".tns-slide-active .papagoTrans"+e)
-                            console.log("papago 번역 테스트 삽입 후 " + $("#papago" + e).text())
-                        }
-                        // }
-                    },
-                    error: function (e) {
-                        alert(JSON.stringify(e));
+            $.ajax({
+                type: "post",
+                url: "/api/translate",
+                data: { listid: e, source: "ko", target: "ja", text: $(".papagoTrans" + e).text() },
+                dataType: "json",
+                success: function (data) {
+                    // for(var i = 0; i < str.length; i++) {
+                    // console.log("i : " + i);
+                    // console.log("length : " + str.length);
+                    // console.log("ajax안에서 " + data.transmsg);
+                    if ($("#papago" + e).attr('papagoCount') == data.listid) {
+                        console.log("papago 번역 테스트 데이터 삽입전 " + $("#papago" + e).text())
+                        // $(".papagoTrans"+e).text('');
+                        $("#papago" + e).text(data.transmsg);
+                        // console.log("papago 번역 테스트 삽입 데이터 " + ".tns-slide-active .papagoTrans"+e)
+                        console.log("papago 번역 테스트 삽입 후 " + $("#papago" + e).text())
                     }
-                });
-            }
-        });
+                    // }
+                },
+            });
+        }
+    });
 }
 
 // 파파고 api실행 - 전체 한번에
@@ -212,9 +203,6 @@ function papagoBoardDetail() {
                     if ($("#papago" + e).attr('papagoCount') == data.listid) {
                         $("#papago" + e).text(data.transmsg);
                     }
-                },
-                error: function (e) {
-                    alert(JSON.stringify(e));
                 }
             });
         }
@@ -245,9 +233,6 @@ function papagoBoardDetail2() {
                             $("#papago" + e).text(data.transmsg);
                         }
                     }
-                },
-                error: function (e) {
-                    alert(JSON.stringify(e));
                 }
             });
         }

@@ -53,7 +53,7 @@
     			,#{used_title}
     			,#{used_price}
     			,#{used_content}
-    			,'NEW'
+    			,'거래 중'
     			,#{used_quality}
     			,#{uloc_id}
 				,#{sloc_id}
@@ -112,7 +112,7 @@
     			,#{category_id}
     			,#{uBuy_title}
     			,#{uBuy_content}
-    			,'NEW'
+    			,'거래 중'
     			)
     </insert>
     <!-- 중고거래 파는 글 다 가져오기 -->
@@ -152,7 +152,7 @@
 					or user_email = #{searchWord}
 				</if>
 			</if>
-			 and used_status != 'DELETE'
+			 and used_status = '거래 중'
 		</where>
     </select>
     
@@ -196,7 +196,7 @@
     		*
     	FROM
     		used_buy
-    	WHERE uBuy_status != 'DELETE';
+    	WHERE uBuy_status = '거래 중';
     	
     </select>
     
@@ -250,7 +250,7 @@
 
 	<update id="usedSellBoardDelete" parameterType="Used">
     	UPDATE used
-	    SET used_status = 'DELETE'
+	    SET used_status = '거래 중지'
 	    WHERE used_id = #{used_id}
     <!--  AND
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
@@ -337,7 +337,7 @@
 	
 	<update id="usedBuyBoardDelete" parameterType="Used_buy">
     	UPDATE used_buy
-	    SET uBuy_status = 'DELETE'
+	    SET uBuy_status = '거래 중지'
 	    WHERE uBuy_id = #{uBuy_id}
     <!--  AND
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->

@@ -80,7 +80,7 @@ public class CSController {
 		
 		
 		if(rental_id != null) {
-			url = aa + "/rentalSellBoardRead?used_id=" +  rental_id;
+			url = aa + "/rentalSellBoardRead?rental_id=" +  rental_id;
 			
 			Rental rt = service.selectRentalById(rental_id);
 

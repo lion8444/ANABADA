@@ -71,26 +71,29 @@
     	FROM
     		auction
 		<where>
-		<if test="searchWord != null and type != null" >
-				<if test="type =='auction_title'">
-					upper(auction_title) like '%' || upper(#{searchWord}) || '%'
-				</if>
+			<if test="searchWord != null and type != null" >
+					<if test="type =='auction_title'">
+						upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+					</if>
+					
+					<if test = "type =='auction_content'">
+						upper(auction_content) like '%' || upper(#{searchWord}) || '%'
+					</if>
+					
+					<if test = "type == 'user_email'">
+						user_email = #{searchWord}
+					</if>
 				
-				<if test = "type =='auction_content'">
-					upper(auction_content) like '%' || upper(#{searchWord}) || '%'
+					<if test ="type == 'all'">
+						upper(auction_title) like '%' || #{searchWord} || '%'
+						or upper(auction_content) like '%' || #{searchWord} || '%'
+						or user_email = #{searchWord}
+					</if>
 				</if>
-				
-				<if test = "type == 'user_email'">
-					user_email = #{searchWord}
-				</if>
-			
-				<if test ="type == 'all'">
-					upper(auction_title) like '%' || #{searchWord} || '%'
-					or upper(auction_content) like '%' || #{searchWord} || '%'
-					or user_email = #{searchWord}
-				</if>
-			</if>
-			 and auction_status != 'DELETE'
+			 AND
+			 auction_status = '거래 중'
+			 AND
+			 auction_finish &gt;= now()
 		</where>
     </select>
     
@@ -153,7 +156,7 @@
     			,#{auction_content}
     			,#{auction_quality}
 				,DATE_ADD(#{auction_finish}, INTERVAL 1 DAY) 
-    			,'NEW'
+    			,'거래 중'
     			,#{uloc_id}
 				,#{sloc_id}
     			)
@@ -246,7 +249,7 @@
   	 <!-- 옥션 글 삭제 -->
 	<update id="auctionBoardDelete" parameterType="Auction">
     	UPDATE auction
-	    SET auction_status = 'DELETE'
+	    SET auction_status = '거래 중지'
 	    WHERE auction_id = #{auction_id}
     <!--  AND
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
