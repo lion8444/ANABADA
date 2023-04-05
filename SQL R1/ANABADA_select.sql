@@ -184,6 +184,7 @@ SELECT `used`.`used_id`,
     `used`.`uloc_id`,
     `used`.`sloc_id`
 FROM `anabada`.`used`;
+-- where used_status = 'NEW';
 
 SELECT `used_buy`.`uBuy_id`,
     `used_buy`.`user_email`,
@@ -209,6 +210,12 @@ FROM `anabada`.`used_detail`;
 
 SELECT *
 FROM `anabada`.`user`;
+
+update user
+set
+user_account = 100000000
+where 
+user_nick = 'Jun';
 
 SELECT `user_character`.`uChar_id`,
     `user_character`.`user_email`,

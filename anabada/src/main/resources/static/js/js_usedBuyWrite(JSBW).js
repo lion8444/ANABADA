@@ -163,7 +163,7 @@ function pagingFormSubmit(currentPage) {
   page.val(currentPage);
   console.log(currentPage)
 
-  location.href = "auctionBoard?page=" + currentPage;
+  location.href = "usedBuyBoard?page=" + currentPage;
 
 }
 

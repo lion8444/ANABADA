@@ -163,16 +163,21 @@
 		select count(*) from used
 		<if test="type != null and searchWord != null">
 		<where>	
+			used_status = 'NEW'
 			<if test="type == 'used_title'">
+				and
 				upper(used_title) like '%' || upper(#{searchWord}) || '%'
 			</if>
 			<if test="type == 'used_contents'">
+				and
 				upper(used_contents) like '%' || upper(#{searchWord}) || '%'
 			</if>
 			<if test="type == 'user_email'">
+				and
 				user_email = #{searchWord}
 			</if>
 			<if test="type == 'all'">
+				and
 				upper(used_title) like '%' || upper(#{searchWord}) || '%'
 				or upper(used_contents) like '%' || upper(#{searchWord}) || '%'
 				or user_email = #{searchWord}
