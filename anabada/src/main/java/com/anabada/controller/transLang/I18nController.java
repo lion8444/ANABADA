@@ -1,4 +1,4 @@
-package com.anabada.controller;
+package com.anabada.controller.transLang;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

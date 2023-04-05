@@ -256,70 +256,61 @@
     
     <!-- 유저의 모든 경매 내역 조회 리스트 (전체)  -->
     <select id="selectAuctionListAllById" parameterType="String" resultType="AuctionAndFile">
-    	SELECT
-			a.auction_id
-			, a.user_email
-			, ad.user_email buyer_email
-			, a.category_id
-			, a.auction_title
-			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
-			, a.auction_price
-			, a.auction_content
-			, a.auction_quality
-			, ad.aDetail_status
-			, a.uloc_id
-			, a.sloc_id
-			, f.file_origin
-			, f.file_saved
-			, ad.aDetail_Date
+		SELECT
+		    a.auction_id
+		    , a.user_email
+		    , ad.user_email buyer_email
+		    , a.category_id
+		    , a.auction_title
+		    , a.auction_date
+		    , DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
+		    , a.auction_price
+		    , a.auction_content
+		    , a.auction_quality
+		    , a.auction_status
+		    , a.auction_finish
+		    , ad.aDetail_status
+		    , a.uloc_id
+		    , a.sloc_id
+		    , f.file_origin
+		    , f.file_saved
+		    , ad.aDetail_Date
 		FROM
-			auction a
-			INNER JOIN auction_detail ad ON a.auction_id = ad.auction_id
-			LEFT OUTER JOIN (
-				SELECT board_no, MIN(file_id) AS file_id
-				FROM file
-				GROUP BY board_no
-			) f_min ON a.auction_id = f_min.board_no
-			INNER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+		    auction a
+		    LEFT OUTER JOIN auction_detail ad ON a.auction_id = ad.auction_id
+		    LEFT OUTER JOIN (
+		        SELECT board_no, MIN(file_id) AS file_id
+		        FROM file
+		        GROUP BY board_no
+		    ) f_min ON a.auction_id = f_min.board_no
+		    LEFT OUTER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
 		WHERE
-			(a.user_email = #{user_email} OR ad.user_email = #{user_email})
+		    a.auction_finish >= NOW()
+		    AND
+		    (a.user_email = #{user_email} OR ad.user_email = #{user_email})
     </select>
     
     <!-- 유저의 경매 내역 조회 리스트 (경매 내역)  -->
     <select id="selectAuctionListSellById" parameterType="String" resultType="AuctionAndFile">
-    	SELECT
-			a.auction_id
-			, a.user_email
-			, ad.user_email buyer_email
-			, a.category_id
-			, a.auction_title
-			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
-			, a.auction_price
-			, a.auction_content
-			, a.auction_quality
-			, ad.aDetail_status
-			, a.uloc_id
-			, a.sloc_id
-			, f.file_origin
-			, f.file_saved
-			, ad.aDetail_Date
+		SELECT
+		    a.auction_id
+		    , a.user_email
+		    , a.category_id
+		    , a.auction_title
+		    , a.auction_price
+		    , auction_status
+		    , a.auction_content
+		    , DATE_FORMAT(a.auction_date, '%Y-%m-%d') auction_date
+		    , a.auction_quality
+		    , a.auction_finish
+		    , a.uloc_id
+		    , a.sloc_id
 		FROM 
-			auction a
-		    , auction_detail ad
-		    , file f
+		    auction a
 		WHERE
-			a.user_email = #{user_email}
-			AND
-			ad.user_email != #{user_email}
-			AND
-			a.auction_id = ad.auction_id
-			AND
-			ad.auction_id = f.board_no
-			AND
-			a.auction_id = f.board_no
-			AND
-			(board_no, file_id) in (
-			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+		    a.user_email = #{user_email}
+		    AND
+		    a.auction_finish &gt;= NOW()
     </select>
     
     <!-- 유저의 경매 내역 조회 리스트 (입찰 내역) -->
@@ -337,13 +328,10 @@
 			, ad.aDetail_status
 			, a.uloc_id
 			, a.sloc_id
-			, f.file_origin
-			, f.file_saved
 			, ad.aDetail_Date
 		FROM 
 			auction a
 		    , auction_detail ad
-		    , file f
 		WHERE
 			a.user_email != #{user_email}
 			AND
@@ -351,12 +339,7 @@
 			AND
 			a.auction_id = ad.auction_id
 			AND
-			ad.auction_id = f.board_no
-			AND
-			a.auction_id = f.board_no
-			AND
-			(board_no, file_id) in (
-			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+			a.auction_finish &gt;= now()
     </select>
     
     <!-- 찜 목록 - 중고 거래 찜 리스트 -->
