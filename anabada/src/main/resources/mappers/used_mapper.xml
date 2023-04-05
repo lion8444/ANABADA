@@ -29,7 +29,6 @@
     	SET user_account = #{account}
     	WHERE user_email = #{user_email}
     </update>
-
     
     <!--중고 팝니다 글 저장 매퍼-->
     <insert id="usedSellWrite" parameterType="Used">
@@ -115,6 +114,7 @@
     			,'NEW'
     			)
     </insert>
+    
     <!-- 중고거래 파는 글 다 가져오기 -->
     <select id="usedSellBoard" resultType="Used" parameterType="map">
     	SELECT
@@ -155,8 +155,6 @@
 			 and used_status != 'DELETE'
 		</where>
     </select>
-    
-
     
     <!-- 전체 글 개수 -->
 	<select id="total" parameterType="map" resultType="int">
@@ -214,8 +212,6 @@
     		uBuy_id = #{uBuy_id}
     </select>
     
-
-    
      <!-- 중고거래 파는 글 한개 읽기 -->
     <select id="usedSellBoardRead" parameterType="String" resultType="Used">
     	SELECT
@@ -245,9 +241,7 @@
     		board_no = #{user_id}
     </select> -->
     
-
     <!-- 중고거래 파는 글 삭제 -->
-
 	<update id="usedSellBoardDelete" parameterType="Used">
     	UPDATE used
 	    SET used_status = 'DELETE'
@@ -310,15 +304,12 @@
 				<if test="type =='used_title'">
 					upper(used_title) like '%' || upper(#{searchWord}) || '%'
 				</if>
-				
 				<if test = "type =='used_content'">
 					upper(used_content) like '%' || upper(#{searchWord}) || '%'
 				</if>
-				
 				<if test = "type == 'user_email'">
 					user_email = #{searchWord}
 				</if>
-				
 				<if test ="type == 'all'">
 					upper(used_title) like '%' || #{searchWord} || '%'
 					or upper(used_content) like '%' || #{searchWord} || '%'
@@ -331,13 +322,11 @@
     <select id="gettitle" resultType="String">
     	SELECT uBuy_title FROM used_buy
     </select>
-    
 		
 	<!-- 중고거래 사는글 삭제-->
-	
 	<update id="usedBuyBoardDelete" parameterType="Used_buy">
     	UPDATE used_buy
-	    SET uBuy_status = 'DELETE'
+	    SET uBuy_status = '거래 중지'
 	    WHERE uBuy_id = #{uBuy_id}
     <!--  AND
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
@@ -356,7 +345,6 @@
 		<!-- AND
 			user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
 	</update>
-
 
 	<!-- 중고거래 파는 글 수정 -->	
 	<update id="usedSellBoardUpdate" parameterType="Used">

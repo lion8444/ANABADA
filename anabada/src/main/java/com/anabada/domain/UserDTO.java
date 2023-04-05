@@ -33,6 +33,7 @@ public class UserDTO implements UserDetails {
 	private int user_trade;
 	private int user_penalty;
 	private int user_account;
+	private boolean enable;
 	private String user_role;
 	private boolean user_status;
 	private String user_nation;
@@ -75,7 +76,7 @@ public class UserDTO implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return true;
+		return this.enable;
 	}
 }
 

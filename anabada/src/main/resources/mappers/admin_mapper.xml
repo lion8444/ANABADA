@@ -43,7 +43,7 @@
 	
 	<update id="usermodify" parameterType="map">
 			UPDATE user
-		    SET user_status = #{selects}
+		    SET enable = #{selects}
 		<if test='selectn != null and selectn != ""'>
 	    	, user_nick = #{selectn}
 	    </if>	    	
