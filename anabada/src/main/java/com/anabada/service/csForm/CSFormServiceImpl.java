@@ -119,8 +119,8 @@ public class CSFormServiceImpl implements CSFormService {
 	 * 중고 거래 완료 글 검색(조인)
 	 */
 	@Override
-	public Used_detail selectUsedFinished(String used_id) {
-		Used_detail ud = dao.selectUsedFinished(used_id);
+	public Used selectUsedFinished(String used_id) {
+		Used ud = dao.selectUsedFinished(used_id);
 		return ud;
 	}
 
@@ -128,8 +128,8 @@ public class CSFormServiceImpl implements CSFormService {
 	 * 렌탈 거래 완료 글 검색(조인)
 	 */
 	@Override
-	public Rental_detail selectRentalFinished(String rental_id) {
-		Rental_detail rd = dao.selectRentalFinished(rental_id);
+	public Rental selectRentalFinished(String rental_id) {
+		Rental rd = dao.selectRentalFinished(rental_id);
 		return rd;
 	}
 

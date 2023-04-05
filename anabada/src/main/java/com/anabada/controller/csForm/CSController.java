@@ -234,7 +234,7 @@ public class CSController {
 		
 		// used_id를 받아 올 때
 		if(used_id != null) {
-			Used_detail ud = service.selectUsedFinished(used_id);
+			Used ud = service.selectUsedFinished(used_id);
 			
 			log.debug("UD: {}", ud);
 						
@@ -243,19 +243,19 @@ public class CSController {
 				return "redirect:/";
 			}
 			
-			if(!ud.getUser_email().equals(user.getUsername())) {
-				log.debug("중고 거래의 구매자가 아님");
-				return "redirect:/";
-			}
+//			if(ud.getUser_email().equals(user.getUsername())) {
+//				log.debug("중고 거래의 구매자가 아님");
+//				return "redirect:/";
+//			}
 			
 			model.addAttribute("used_detail", ud); 
 		}
 		
 		// rental_id를 받아올 때
 		if(rental_id != null) {
-			Rental_detail rd = service.selectRentalFinished(rental_id);
+			Rental rd = service.selectRentalFinished(rental_id);	// 구매자
 			
-			Rental rt = service.selectRentalById(rental_id);
+			Rental rt = service.selectRentalById(rental_id);	// 판매자
 			
 			log.debug("rental_detail : {}", rd);
 			log.debug("rental : {}", rt);
@@ -293,16 +293,19 @@ public class CSController {
 
 		
 		if(used_id != null) {
-			Used_detail ud = service.selectUsedFinished(used_id);
+			Used ud = service.selectUsedFinished(used_id);
 			Used us = service.selectUsedByID(used_id);
 			
+			log.debug("ud  {}", ud);
+			log.debug("us  {}", ud);
+			
 			if(ud == null) {
-				log.debug("잘못된 글");
+				log.debug("잘못된 글1");
 				return "redirect:/";
 			}
 			
 			if(us == null) {
-				log.debug("잘못된 글");
+				log.debug("잘못된 글2");
 				return "redirect:/";
 			}
 			
@@ -319,7 +322,7 @@ public class CSController {
 		}
 		
 		if(rental_id != null) {
-			Rental_detail rd = service.selectRentalFinished(rental_id);
+			Rental rd = service.selectRentalFinished(rental_id);
 			Rental rt = service.selectRentalById(rental_id);
 			
 			log.debug("Rental_detail : {}", rd);

@@ -46,10 +46,10 @@ public interface CSFormService {
 	public UserDTO selectUserById(String user_email);
 
 	// 중고 거래 완료 글 검색(조인)
-	public Used_detail selectUsedFinished(String used_id);
+	public Used selectUsedFinished(String used_id);
 
 	// 렌탈 거래 완료 글 검색(조인)
-	public Rental_detail selectRentalFinished(String rental_id);
+	public Rental selectRentalFinished(String rental_id);
 
 	
 

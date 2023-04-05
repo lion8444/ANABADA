@@ -128,7 +128,7 @@ public interface MyPageService {
 	public int cancleRentalDetail(RentalAndFile rentalAndDetailInfo);
 
 	// 경매 및 경매 디테일 정보 검색
-	public AuctionAndFile selectAuctionAndDetailInfo(String auction_id);
+	public AuctionAndFile selectAuctionAndDetailInfo(AuctionAndFile auctionAndFile);
 
 	// 경매 취소하기
 	public int cancleAuctionDetail(AuctionAndFile auctionAndDetailInfo);

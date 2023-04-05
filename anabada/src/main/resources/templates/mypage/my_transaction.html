@@ -219,22 +219,26 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <div th:if="${list.uDetail_status == '거래 전'}">
-                                        <p th:text="#{usedYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    <div th:if="${list.used_status == '거래 전'}">
+                                        <p><span th:text="#{usedYet}">게시글 상태</span></p>
                                     </div>
-                                    <div th:if="${list.uDetail_status == '거래 중'}">
-                                        <p th:text="#{usedIng}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    <div th:if="${list.used_status == '거래 중'}">
+                                        <p><span th:text="#{usedIng}">게시글 상태</span></p>
                                     </div>
-                                    <div th:if="${list.uDetail_status == '거래 중지'}">
-                                        <p th:text="#{usedStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    <div th:if="${list.used_status == '거래 중지'}">
+                                        <p><span th:text="#{usedStop}">게시글 상태</span></p>
                                     </div>
-                                    <p th:text="${list.uDetail_Date}">날짜</p>
+                                    <div th:if="${list.used_status == '거래 완료'}">
+                                        <p><span th:text="#{usedFin}">게시글 상태</span></p>
+                                    </div>
+                                    <p th:text="${list.used_date}">날짜</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="mypagebutton">       
-                                    <!-- 거래 후기 -->                 
-                                    <input class="btn btn-success" type="button" value="거래후기" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                <div class="mypagebutton"> 
+           
+                                    <!-- 거래 후기 -->  
+                                    <input class="btn btn-success" type="button" value="거래후기" th:if="${list.used_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
                                     <br>
                                     <!-- 거래 취소 -->
                                     <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
@@ -243,8 +247,9 @@ https://templatemo.com/tm-559-zay-shop
                                         <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
                                         <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
-                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}"></input>
+                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}" th:if="${list.used_status == '거래 중'}"></input>
                                     </form>
+                                    <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.used_status == '거래 중'}"></input>
                                 </div>
                             </td>
                         </tr>
@@ -268,22 +273,27 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <div th:if="${list.uDetail_status == '거래 전'}">
-                                        <p th:text="#{usedYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    <div class="mypageTwo">
+                                        <div th:if="${list.used_status == '거래 전'}">
+                                            <p><span th:text="#{usedYet}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.used_status == '거래 중'}">
+                                            <p><span th:text="#{usedIng}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.used_status == '거래 중지'}">
+                                            <p><span th:text="#{usedStop}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.used_status == '거래 완료'}">
+                                            <p><span th:text="#{usedFin}">게시글 상태</span></p>
+                                        </div>
+                                        <p th:text="${list.used_date}">날짜</p>
                                     </div>
-                                    <div th:if="${list.uDetail_status == '거래 중'}">
-                                        <p th:text="#{usedIng}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.uDetail_status == '거래 중지'}">
-                                        <p th:text="#{usedStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <p th:text="${list.uDetail_Date}">날짜</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="mypagebutton">
-                                    <!-- 거래 후기 -->
-                                    <input class="btn btn-success" type="button" value="거래후기" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                <div class="mypagebutton">       
+                                    <!-- 거래 후기 -->                 
+                                    <!-- <input class="btn btn-success" type="button" value="거래후기" th:if="${list.used_status == '거래 완료' and ${list.buyer_email} == ${#authentication.name}}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|"> -->
                                     <br>
                                     <!-- 거래 취소 -->
                                     <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
@@ -292,8 +302,9 @@ https://templatemo.com/tm-559-zay-shop
                                         <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
                                         <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
-                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}"></input>
+                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}" th:if="${list.used_status == '거래 중'}"></input>
                                     </form>
+                                    <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.used_status == '거래 중'}"></input>
                                 </div>
                             </td>
                         </tr>
@@ -317,22 +328,21 @@ https://templatemo.com/tm-559-zay-shop
                             </td>
                             <td>
                                 <div class="mypageTwo">
-                                    <div th:if="${list.uDetail_status == '거래 전'}">
-                                        <p th:text="#{usedYet}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
+                                    <div class="mypageTwo">
+                                        <div th:if="${list.uDetail_status == '거래 중'}">
+                                            <p><span th:text="#{usedIng}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.uDetail_status == '거래 완료'}">
+                                            <p><span th:text="#{usedFin}">게시글 상태</span></p>
+                                        </div>
+                                        <p th:text="${list.uDetail_Date}">날짜</p>
                                     </div>
-                                    <div th:if="${list.uDetail_status == '거래 중'}">
-                                        <p th:text="#{usedIng}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.uDetail_status == '거래 중지'}">
-                                        <p th:text="#{usedStop}"><span th:text="${list.uDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <p th:text="${list.uDetail_Date}">날짜</p>
                                 </div>
                             </td>
                             <td>
-                                <div class="mypagebutton">
-                                    <!-- 거래 후기 -->
-                                    <input class="btn btn-success" type="button" value="거래후기" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                <div class="mypagebutton">       
+                                    <!-- 거래 후기 -->             
+                                    <input class="btn btn-success" type="button" value="거래후기" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
                                     <br>
                                     <!-- 거래 취소 -->
                                     <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
@@ -341,8 +351,9 @@ https://templatemo.com/tm-559-zay-shop
                                         <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
                                         <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
-                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}"></input>
+                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}" th:if="${list.uDetail_status == '거래 중'} and ${list.buyer_email} == ${#authentication.name}"></input>
                                     </form>
+                                    <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.uDetail_status == '거래 중'}"></input>
                                 </div>
                             </td>
                         </tr>

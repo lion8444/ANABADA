@@ -100,7 +100,7 @@
     	)
     </insert>
     
-    <!-- 중고 거래 글 ID로 중고 거래 글 검색 -->
+    <!-- 중고 거래 글 ID로 중고 거래 글 검색 - 판매자 -->
     <select id="selectUsedByID" resultType="Used" parameterType="String">
     	SELECT
     		*
@@ -131,7 +131,7 @@
     </select>
     
     <!-- 받아온 이메일로 유저의 정보 검색 -->
-    <select id="selectUserById" resultType="USerDTO" parameterType="String">
+    <select id="selectUserById" resultType="UserDTO" parameterType="String">
     	SELECT 
     		*
     	FROM
@@ -140,38 +140,33 @@
     		user_email = #{user_email}
     </select>
     
-    <!-- 거래 완료 된 중고 거래 검색 -->
-    <select id="selectUsedFinished" resultType="Used_detail" parameterType="String">
-    	SELECT
+    <!-- 거래 완료 된 중고 거래 검색 - 판매자 -->
+    <select id="selectUsedFinished" resultType="Used" parameterType="String">
+		SELECT
 			ud.user_email
 			, ud.used_id
 		FROM
 			used u
-			, utrade t
-			, used_detail ud
+            , used_Detail ud
 		WHERE
-			u.used_id = t.used_id
+			u.used_status = '거래 완료'
 		    AND
-		    t.used_id = ud.used_id
-		    AND
-		    u.used_id = #{used_id}
+		    ud.used_id = #{used_id}
+            AND
+            u.used_id = ud.used_id;
     </select>
     
     <!-- 렌탈 완료 된 렌탈 거래 검색 -->
-    <select id="selectRentalFinished" resultType="Rental_detail" parameterType="String">
+    <select id="selectRentalFinished" resultType="Rental" parameterType="String">
     	SELECT 
    			rd.user_email
    			, rd.rental_id
 		FROM 
-			rental r
-			, rtrade t
-			, rental_detail rd
+			rental_detail rd
 		WHERE
-			r.rental_id = t.rental_id
+	    	rd.rental_id = #{rental_id}
 	    	AND
-	    	t.rental_id = rd.rental_id
-	    	AND
-	    	r.rental_id = #{rental_id}
+	    	rd.rDetail_status = '거래 완료'
     </select>
    
 </mapper>

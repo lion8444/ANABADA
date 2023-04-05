@@ -82,14 +82,14 @@ public interface CSFormDAO {
 	 * @param used_id 중고글 ID
 	 * @return Used_detail 객체
 	 */
-	public Used_detail selectUsedFinished(String used_id);
+	public Used selectUsedFinished(String used_id);
 
 	/**
 	 * 등록된 렌탈 완료 거래 글 검색 - 중고id로
 	 * @param rental_id 렌탈글 ID
 	 * @return rental_detail 객체
 	 */
-	public Rental_detail selectRentalFinished(String rental_id);
+	public Rental selectRentalFinished(String rental_id);
 
 	
 
