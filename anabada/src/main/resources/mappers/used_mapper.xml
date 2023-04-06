@@ -133,7 +133,6 @@
 		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
 		<where>
 		<if test="searchWord != null and type != null" >
-			
 				<if test="type =='used_title'">
 					upper(used_title) like '%' || upper(#{searchWord}) || '%'
 				</if>
@@ -142,14 +141,13 @@
 					upper(used_content) like '%' || upper(#{searchWord}) || '%'
 				</if>
 				
-				<if test = "type == 'user_email'">
-					user_email = #{searchWord}
+				<if test = "type == 'user_nick'">
+					upper(user_nick) like '%' || upper(#{searchWord}) || '%'
 				</if>
-				
 				<if test ="type == 'all'">
 					upper(used_title) like '%' || #{searchWord} || '%'
 					or upper(used_content) like '%' || #{searchWord} || '%'
-					or user_email = #{searchWord}
+					or upper(user_nick) like '%' || upper(#{searchWord}) || '%'
 				</if>
 			</if>
 			 and used_status = '거래 중'

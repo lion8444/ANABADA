@@ -861,6 +861,21 @@ CREATE TABLE IF NOT EXISTS `anabada`.`aTrade` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `mydb`.`search`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `anabada`.`search` ;
+
+CREATE TABLE IF NOT EXISTS `anabada`.`search` (
+  `search_no` VARCHAR(20) NOT NULL,
+  `user_email` VARCHAR(50) NOT NULL,
+  `search_word` VARCHAR(30) NOT NULL,
+  `search_date` DATETIME NULL DEFAULT now(),
+  PRIMARY KEY (`search_no`),
+  UNIQUE INDEX `search_no_UNIQUE` (`search_no` ASC) VISIBLE)
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

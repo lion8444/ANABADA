@@ -154,20 +154,16 @@ window.onload = function() {
     });
   };
 
-
-
-
 function pagingFormSubmit(currentPage) {
-  let form = $('#pagingForm');
-  let page = $('#page');
-  page.val(currentPage);
-  console.log(currentPage)
+		var form = document.getElementById('pagingForm');
+		var page = document.getElementById('page');
+		page.value = currentPage;
+		form.submit();
+	}
 
-  location.href = "usedSellBoard?page=" + currentPage;
-
-}
-
-
+function statuscheck(vcheck){
+	$('.sstatus').html(vcheck);
+	}
 
 
   
