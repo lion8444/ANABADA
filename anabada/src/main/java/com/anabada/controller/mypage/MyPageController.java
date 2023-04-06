@@ -542,7 +542,6 @@ public class MyPageController {
 	/**
 	 * 나의 다마고치 페이지 포워딩
 	 * @param user 스프링 스큐리티 객체
-	 * @param user_email 로그인한 유저의 이메일
 	 * @param model 모델
 	 * @return 마이다마고치 페이지
 	 */
@@ -555,12 +554,50 @@ public class MyPageController {
 		
 		List<Damagochi> list = service.selectMyDamaListById(user.getUsername());
 		
+		log.debug("dama : {}", dama);
+		log.debug("damaList : {}", list);
+		
 		model.addAttribute("dama", dama);
 		model.addAttribute("damaList", list);
 		
 		return "mypage/my_damagochi";
 	}
 	
+	/**
+	 * 대표 캐릭터 설정하기
+	 * @param user 스프링 시쿠리티 객체
+	 * @param damagochi	uChar_id
+	 * @param model 모델
+	 * @return
+	 */
+	@PostMapping("/setDama")
+	public String setMyDama(
+			@AuthenticationPrincipal UserDetails user
+			, Damagochi damagochi
+			, Model model) {
+		
+		damagochi.setUser_email(user.getUsername());
+		
+		// 현재 설정된 대표 다마고치 해제
+		service.updateCharSelectedZero(damagochi);
+		
+		// 현재 가져오는 정보로 대표 다마고치 설정
+		service.updateCharSelectedOne(damagochi);
+		
+		Damagochi dama = service.selectMyDamaInfoById(user.getUsername());
+		
+		List<Damagochi> list = service.selectMyDamaListById(user.getUsername());
+		
+		log.debug("다마고치 : {}", damagochi);
+		
+		model.addAttribute("dama", dama);
+		model.addAttribute("damaList", list);
+
+		
+		return "redirect:/mypage/mydamagochi";
+	}
+	
+	// 나의 다마고치 상점
 	@GetMapping("/damagochishop")
 	public String damagochiShop(
 			@AuthenticationPrincipal UserDetails user) {
@@ -568,9 +605,9 @@ public class MyPageController {
 		return "mypage/my_damagochiShop";
 	}
 	
+	// 자주 묻는 질문 페이지 포워딩
 	@GetMapping("/faqs")
-	public String faqs() {
-		
+	public String faqs() {	
 		return "mypage/my_faqs";
 	}
 	
@@ -582,44 +619,46 @@ public class MyPageController {
 	 * @param user_email	받아오는 유저의 이메일
 	 * @return
 	 */
-//	@GetMapping("/checkPw")
-//	public String myCheckPw() {
-//			@AuthenticationPrincipal UserDetails user
-//			, String user_email
-//			, Model model) {
-//
-//		// 로그인한 아이디와 user_email이 같지 않으면 메인으로 이동
-//		if(!user_email.equals(user.getUsername())) {
-//			return "redirect:/";
-//		}
-//		
-//		model.addAttribute("user_email", user_email);
-//
-//		return "/mypage/my_checkPwForm";
-//	}
+	@GetMapping("/checkPw")
+	public String myCheckPw(
+			@AuthenticationPrincipal UserDetails user
+			, String user_email
+			, Model model) {
+		
+		log.debug("유저이메일: {}", user_email);
+			 
+		// 로그인한 아이디와 user_email이 같지 않으면 메인으로 이동
+		if(!user_email.equals(user.getUsername())) {
+			return "redirect:/";
+		}
+		
+		model.addAttribute("user_email", user_email);
+
+		return "/mypage/my_checkPwForm";
+	}
 	
-//	@PostMapping("/checkPw")
-//	public String myCheckPw(
-//			@AuthenticationPrincipal UserDetails user
-//			, String user_email
-//			, String user_pwd
-//			, Model model) {
-//		
-//		if(!user_email.equals(user.getUsername())) {
-//			log.debug("로그인 한 ID가 아님");
-//			return "redirect:/";
-//		}
-//		
-//		int result = service.checkIdAndPw(user_email, user_pwd);
-//		
-//		if(result == 1) {
-//			UserDTO us = service.selectUserById(user_email);
-//			model.addAttribute("user", us);
-//			return "mypage/my_modifyInfoForm";
-//		} 
-//		
-//		return "redirect:/";
-//	}
+	@PostMapping("/checkPw")
+	public String myCheckPw(
+			@AuthenticationPrincipal UserDetails user
+			, String user_email
+			, String user_pwd
+			, Model model) {
+		
+		if(!user_email.equals(user.getUsername())) {
+			log.debug("로그인 한 ID가 아님");
+			return "redirect:/";
+		}
+		
+		int result = service.checkIdAndPw(user_email, user_pwd);
+		
+		if(result == 1) {
+			UserDTO us = service.selectUserById(user_email);
+			model.addAttribute("user", us);
+			return "mypage/my_modifyInfoForm";
+		} 
+		
+		return "redirect:/";
+	}
 
 	
 }

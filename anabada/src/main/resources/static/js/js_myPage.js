@@ -16,7 +16,6 @@ $(document).ready(function() {
     inq_answer.on('click', function() {
         $(this).css('display', 'none');
     });
-
     // inquirelist.on('click', function() {
     //     $('.inq_answer').toggle('show');
     // });
@@ -274,7 +273,7 @@ function usedCancleChk() {
     if(regex.test(cancle.val())) {
         if(confirm(cancle.val())) {
             return true;
-        }
+        }   
     } else {
         // console.log(cancle.attr('alertText'));
         if(confirm(cancle.attr('alertText'))) {
@@ -298,6 +297,14 @@ function usedCancleChk() {
 
 function returnCheck() {
     if(confirm('정말로 렌탈 반납을 확인 하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+
+function damaCheck() {
+    if(confirm('대표 다마고치는 최종 레벨에 맞는 다마고치로 적용됩니다.\n변경 하시겠습니까?')) {
         return true;
     }
 

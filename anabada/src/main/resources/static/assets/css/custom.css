@@ -185,8 +185,9 @@ Custom Css
  }
 
  .mydamalist {
-   padding-top: 10px;
-   margin-left: 350px;
+    padding-top: 10px;
+    width: 100px;
+    height: 100px;
  }
 
  .inquiretext {

@@ -259,6 +259,24 @@ public class MyPageServiceImpl implements MyPageService {
 		List<Damagochi> list = dao.selectMyDamaListById(user_email);
 		return list;
 	}
+
+	@Override
+	public int deleteUsedDetail(UsedAndFile usedAndFile) {
+		int result = dao.deleteUsedDetail(usedAndFile);
+		return result;
+	}
+
+	@Override
+	public int updateCharSelectedZero(Damagochi damagochi) {
+		int result = dao.updateCharSelectedZero(damagochi);
+		return result;
+	}
+
+	@Override
+	public int updateCharSelectedOne(Damagochi damagochi) {
+		int result = dao.updateCharSelectedOne(damagochi);
+		return result;
+	}
 	
 	
 	

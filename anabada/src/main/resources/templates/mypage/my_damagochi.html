@@ -227,17 +227,34 @@
                                 <input type="button" class="btn btn-success" value="나의 다마고치" th:value="#{mydamagochi}" id="damabutton">
                             </td>
                         </tr>
-                        <tr th:each="list : ${damaList}">
-                            <td>
-                                <img class="mydamalist" th:src="@{/img/damagochi_imgs/} + ${list.char_one}" alt="다마고치">
-                            </td>
-                            <td>
-                                <img class="mydamalist" th:if="${list.char_level} > 3" th:src="@{/img/damagochi_imgs/} + ${list.char_two}" alt="다마고치">
-                            </td>
-                            <td>
-                                <img class="mydamalist" th:if="${list.char_level} > 6" th:src="@{/img/damagochi_imgs/} + ${list.char_three}" alt="다마고치">
-                            </td>
-                        </tr>
+                        
+                            <tr th:each="list : ${damaList}">
+                                <form th:action="@{/mypage/setDama}" method="post" onsubmit="return damaCheck();">
+                                    <td>
+                                        <input type="image" class="mydamalist" th:src="@{/img/damagochi_imgs/} + ${list.char_one}" alt="다마고치">
+                                        <input type="hidden" name="char_id" th:value="${list.char_id}">
+                                        <input type="hidden" name="uChar_id" th:value="${list.uChar_id}">
+                                        <input type="hidden" name="char_level" th:value="${list.char_level}">
+                                    </td>
+                                </form>
+                                <form th:action="@{/mypage/setDama}" method="post" onsubmit="return damaCheck();">
+                                    <td>
+                                        <input type="image" class="mydamalist" th:if="${list.char_level} > 3" th:src="@{/img/damagochi_imgs/} + ${list.char_two}" alt="다마고치">
+                                        <input type="hidden" name="char_id" th:value="${list.char_id}">
+                                        <input type="hidden" name="uChar_id" th:value="${list.uChar_id}">
+                                        <input type="hidden" name="char_level" th:value="${list.char_level}">
+                                    </td>
+                                </form>
+                                <form th:action="@{/mypage/setDama}" method="post" onsubmit="return damaCheck();">
+                                    <td>
+                                        <input type="image" class="mydamalist" th:if="${list.char_level} > 6" th:src="@{/img/damagochi_imgs/} + ${list.char_three}" alt="다마고치">
+                                        <input type="hidden" name="uChar_id" th:value="${list.uChar_id}">
+                                        <input type="hidden" name="char_id" th:value="${list.char_id}">
+                                        <input type="hidden" name="char_level" th:value="${list.char_level}">
+                                    </td>
+                                </form>
+                            </tr>
+                        </form>
                     </table>
                 </div>
             </div>
@@ -246,7 +263,7 @@
     <!-- End Content -->
 
     <!-- Start Footer -->
-    <footer class="bg-dark" id="tempaltemo_footer">
+    <!-- <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
             <div class="row">
 
@@ -337,7 +354,7 @@
         </div>
 
 
-    </footer>
+    </footer> -->
      <!-- End Footer -->
 
     <!-- Start Script -->
