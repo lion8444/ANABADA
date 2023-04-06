@@ -445,7 +445,7 @@ public class UsedController {
 			return "redirect:/used/purchase?used_id=" + used_detail.getUsed_id();
 		}		
 		
-		return "used/usedThanks.html";
+		return "redirect:/mypage/mytransactionlistall";
 	}
 	
 	@GetMapping({"/imgshow"})

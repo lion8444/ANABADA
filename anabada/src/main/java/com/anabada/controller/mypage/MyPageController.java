@@ -319,21 +319,21 @@ public class MyPageController {
 			@AuthenticationPrincipal UserDetails user
 			, UsedAndFile usedAndFile) {
 		
-		log.debug("user_email : {}", usedAndFile.getUser_email());
-		log.debug("buyer_email : {}", usedAndFile.getBuyer_email());
-		log.debug("used_id : {}", usedAndFile.getUsed_id());
+//		log.debug("user_email : {}", usedAndFile.getUser_email());
+//		log.debug("buyer_email : {}", usedAndFile.getBuyer_email());
+//		log.debug("used_id : {}", usedAndFile.getUsed_id());
 		
 		UsedAndFile usedAndDetailInfo = service.selectUsedAndDetailInfo(usedAndFile.getUsed_id()); 
 
-		log.debug("usedAndDetailInfo : {}", usedAndDetailInfo);
+//		log.debug("usedAndDetailInfo : {}", usedAndDetailInfo);
 			
 		if(!usedAndFile.getUser_email().equals(user.getUsername()) && !usedAndFile.getBuyer_email().equals(user.getUsername())) {
-			log.debug("해당 중고 거래의 구매자나 판매자가 아님");
+//			log.debug("해당 중고 거래의 구매자나 판매자가 아님");
 			return "redirect:/";
 		}
 		
 		if(usedAndDetailInfo.getUsed_status().contains("중지") || usedAndDetailInfo.getUDetail_status().contains("중지")) {
-			log.debug("이미 취소된 거래");
+//			log.debug("이미 취소된 거래");
 			return "redirect:/";
 		}
 		
