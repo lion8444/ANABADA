@@ -319,27 +319,19 @@ public class MyPageController {
 			@AuthenticationPrincipal UserDetails user
 			, UsedAndFile usedAndFile) {
 		
-//		log.debug("user_email : {}", usedAndFile.getUser_email());
-//		log.debug("buyer_email : {}", usedAndFile.getBuyer_email());
-//		log.debug("used_id : {}", usedAndFile.getUsed_id());
-		
-		UsedAndFile usedAndDetailInfo = service.selectUsedAndDetailInfo(usedAndFile.getUsed_id()); 
-
-//		log.debug("usedAndDetailInfo : {}", usedAndDetailInfo);
+		log.debug("usedAndFile : {}", usedAndFile);
+		log.debug("user_email : {}", usedAndFile.getUser_email());
+		log.debug("buyer_email : {}", usedAndFile.getBuyer_email());
+		log.debug("used_id : {}", usedAndFile.getUsed_id());
 			
 		if(!usedAndFile.getUser_email().equals(user.getUsername()) && !usedAndFile.getBuyer_email().equals(user.getUsername())) {
-//			log.debug("해당 중고 거래의 구매자나 판매자가 아님");
-			return "redirect:/";
+			log.debug("해당 중고 거래의 구매자나 판매자가 아님");
+			return "redirect:/mypage/mypage";
 		}
 		
-		if(usedAndDetailInfo.getUsed_status().contains("중지") || usedAndDetailInfo.getUDetail_status().contains("중지")) {
-//			log.debug("이미 취소된 거래");
-			return "redirect:/";
-		}
-		
-		service.cancleUsedDetail(usedAndDetailInfo);
+		service.cancleUsedDetail(usedAndFile);
 			
-		return "redirect:/";
+		return "redirect:/mypage/mytransactionlistall";
 	}
 	
 	/**
@@ -392,7 +384,7 @@ public class MyPageController {
 			return "redirect:/";
 		}
 			
-		return "redirect:/";
+		return "redirect:/mypage/mypage";
 	}
 	
 	/**
@@ -406,27 +398,13 @@ public class MyPageController {
 			@AuthenticationPrincipal UserDetails user
 			, AuctionAndFile auctionAndFile) {
 		
-		log.debug("user_email : {}", auctionAndFile.getUser_email());
-		log.debug("buyer_email : {}", auctionAndFile.getBuyer_email());
-		log.debug("used_id : {}", auctionAndFile.getAuction_id());
-		
-		AuctionAndFile auctionAndDetailInfo = service.selectAuctionAndDetailInfo(auctionAndFile.getAuction_id()); 
-
-		log.debug("usedAndDetailInfo : {}", auctionAndDetailInfo);
-			
-		if(!auctionAndDetailInfo.getUser_email().equals(user.getUsername())) {
+		if(!auctionAndFile.getUser_email().equals(user.getUsername())) {
 			log.debug("경매자가 아님");
-			return "redirect:/";
 		}
-		
-		if(auctionAndDetailInfo.getAuction_status().contains("중지") || auctionAndDetailInfo.getADetail_status().contains("중지")) {
-			log.debug("이미 취소된 거래");
-			return "redirect:/";
-		}
-		
-		service.cancleAuctionDetail(auctionAndDetailInfo);
+				
+		service.cancleAuctionDetail(auctionAndFile);
 			
-		return "redirect:/";
+		return "redirect:/mypage/myauctionlistall";
 		
 	}
 	
@@ -441,28 +419,13 @@ public class MyPageController {
 			@AuthenticationPrincipal UserDetails user
 			, AuctionAndFile auctionAndFile) {
 		
-		log.debug("user_email : {}", auctionAndFile.getUser_email());
-		log.debug("buyer_email : {}", auctionAndFile.getBuyer_email());
-		log.debug("auction_id : {}", auctionAndFile.getAuction_id());
-		
-		AuctionAndFile auctionAndDetailInfo = service.selectAuctionAndDetailInfo(auctionAndFile.getAuction_id()); 
-
-		log.debug("auctionAndDetailInfo : {}", auctionAndDetailInfo);
-		log.debug("auctionAndDetailInfo.바이어 : {}", auctionAndDetailInfo.getBuyer_email());
-			
-		if(!auctionAndDetailInfo.getBuyer_email().equals(user.getUsername())) {
+		if(!auctionAndFile.getBuyer_email().equals(user.getUsername())) {
 			log.debug("입찰자가 아님");
-			return "redirect:/";
 		}
 		
-		if(auctionAndDetailInfo.getAuction_status().contains("중지") || auctionAndDetailInfo.getADetail_status().contains("중지")) {
-			log.debug("이미 취소된 거래");
-			return "redirect:/";
-		}
-		
-		service.cancleBidDetail(auctionAndDetailInfo);
+		service.cancleBidDetail(auctionAndFile);
 			
-		return "redirect:/";		
+		return "redirect:/mypage/myauctionlistall";	
 	}
 	
 	/**
@@ -496,7 +459,7 @@ public class MyPageController {
 		
 		service.returncheck(rentalAndDetailInfo);
 		
-		return "redirect:/";
+		return "redirect:/mypage/myauctionlistall";
 	}
 	
 	@PostMapping("/extendCheck")

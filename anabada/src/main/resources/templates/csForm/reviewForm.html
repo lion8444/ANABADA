@@ -170,7 +170,6 @@
 				<!-- 후기 작성 폼 -->
 				<div class="d-block agent-box p-5">
 					<div class="reviewbox">
-						<span th:text="${#authentication.name}"></span>
 						<!-- 리뷰하기 폼 -->
 						<form th:action="@{/csform/review}" method="post" onsubmit="return reviewValidation();">
 							<!-- 일단 value로 직접 테스트 -->

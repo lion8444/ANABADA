@@ -138,10 +138,10 @@ public interface MyPageDAO {
 
 	/**
 	 * 경매 거래 글 정보와 디테일 정보
-	 * @param auction_id 경매글 ID
+	 * @param auctionAndFile 경매글 ID
 	 * @return AuctionAndFile객체
 	 */
-	public AuctionAndFile selectAuctionAndDetailInfo(String auction_id);
+	public AuctionAndFile selectAuctionAndDetailInfo(AuctionAndFile auctionAndFile);
 
 	/**
 	 * 경매 취소하기

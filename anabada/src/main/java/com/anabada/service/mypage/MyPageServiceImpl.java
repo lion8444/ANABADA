@@ -193,8 +193,8 @@ public class MyPageServiceImpl implements MyPageService {
 	 * 경매 및 경매 디테일 정보 검색
 	 */
 	@Override
-	public AuctionAndFile selectAuctionAndDetailInfo(String auction_id) {
-		AuctionAndFile a = dao.selectAuctionAndDetailInfo(auction_id);
+	public AuctionAndFile selectAuctionAndDetailInfo(AuctionAndFile auctionAndFile) {
+		AuctionAndFile a = dao.selectAuctionAndDetailInfo(auctionAndFile);
 		return a;
 	}
 
