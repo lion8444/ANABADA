@@ -71,8 +71,8 @@ public class UsedController {
 		ArrayList <Used> usedSellList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord);
 
-		ArrayList <Used> recommendList = service.recommendList(
-				navi.getStartRecord(),countPerPage, type, searchWord);
+//		ArrayList <Used> recommendList = service.recommendList(
+//				navi.getStartRecord(),countPerPage, type, searchWord);
 		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);

@@ -38,7 +38,7 @@ public interface UsedDAO {
 	
 	/**
 	 * 중고거래 파는 글 목록 출력*/
-	public ArrayList<Used>usedSellBoard(HashMap<String, String> map, RowBounds r);
+	public ArrayList<Used>usedSellBoard(HashMap<String, String> map, RowBounds rb);
 	public ArrayList<File> fileList();
 	
 	/**
