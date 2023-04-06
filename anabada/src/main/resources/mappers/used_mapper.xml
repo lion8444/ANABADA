@@ -118,39 +118,29 @@
     <!-- 중고거래 파는 글 다 가져오기 -->
     <select id="usedSellBoard" resultType="Used" parameterType="map">
     	SELECT
-    		*
+			*
     	FROM
-    		used
-    	<!-- WHERE
-    		used_id
-    	IN
-    	(SELECT board_no from file ) -->
-    	
-    	<!-- 검색어가 null이 아니면 where조건을 추가한다 -->
-		<!-- 검색대상이 used_title이면 제목에서 검색한다 -->
-		<!-- 검색대상이 used_content이면 본문에서 검색한다 -->
-		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
-		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
+    		used LEFT JOIN user ON used.user_email = user.user_email
 		<where>
-		<if test="searchWord != null and type != null" >
-				<if test="type =='used_title'">
-					upper(used_title) like '%' || upper(#{searchWord}) || '%'
+			<if test="searchWord != null and type != null" >
+				<if test="type == 'used_title'">
+					upper(used.used_title) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 				
-				<if test = "type =='used_content'">
-					upper(used_content) like '%' || upper(#{searchWord}) || '%'
+				<if test = "type == 'used_content'">
+					upper(used.used_content) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 				
 				<if test = "type == 'user_nick'">
-					upper(user_nick) like '%' || upper(#{searchWord}) || '%'
+					upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 				<if test ="type == 'all'">
-					upper(used_title) like '%' || #{searchWord} || '%'
-					or upper(used_content) like '%' || #{searchWord} || '%'
-					or upper(user_nick) like '%' || upper(#{searchWord}) || '%'
+					upper(used.used_title) like upper(CONCAT('%',#{searchWord},'%'))
+					or upper(used.used_content) like upper(CONCAT('%',#{searchWord},'%'))
+					or upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 			</if>
-			 and used_status = '거래 중'
+			 and used.used_status = '거래 중'
 		</where>
     </select>
     

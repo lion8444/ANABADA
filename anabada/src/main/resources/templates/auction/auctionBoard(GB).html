@@ -176,31 +176,29 @@ https://templatemo.com/tm-559-zay-shop
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
                 <div class="card p-3 py-4">
-                    <div class="row g-3 mt-2">
+                	<div class="row g-3 mt-2">
                         <div class="col-md-3">
-                            <div class="dropdown" id="type" name="type">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-expanded="false">
-                                    Any Status </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" value="auction_title"
-                                            th:selected="${type} == 'auction_title'">제목</a></li>
-                                    <li><a class="dropdown-item" href="#" value="auction_content"
-                                            th:selected="${type} == 'auction_content'">본문</a></li>
-                                    <li><a class="dropdown-item" href="#" value="user_email"
-                                            th:selected="${type} == 'user_email'">작성자</a></li>
-                                    <li><a class="dropdown-item" href="#" value="all"
-                                            th:selected="${type} == 'all'">전체</a></li>
-                                </ul>
-                            </div>
+	                            <div class="dropdown">
+	                                <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
+	                                    data-toggle="dropdown" aria-expanded="false" name="type"><th:block th:text="${type}"></th:block><th:block th:if="${type == null}">검색대상</th:block></button>
+	                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	                                    <li><a class="dropdown-item" th:value="auction_title"
+	                                            th:selected="${type} == 'auction_title'" onclick="statuscheck('제목');">제목</a></li>
+	                                    <li><a class="dropdown-item" th:value="auction_content"
+	                                            th:selected="${type} == 'auction_content'" onclick="statuscheck('본문');">본문</a></li>
+	                                    <li><a class="dropdown-item" th:value="user_email"
+	                                            th:selected="${type} == 'user_nick'" onclick="statuscheck('작성자');">작성자</a></li>
+	                                    <li><a class="dropdown-item" th:value="all"
+	                                            th:selected="${type} == 'all'" onclick="statuscheck('전체');">전체</a></li>
+	                                </ul>
+	                            </div>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="찾고 싶은 상품을 검색해보세요!" name="searchWord"
+                            <input type="text" class="form-control" placeholder="찾고 싶은 상품을 검색해보세요!" id="searchWord"
                                 th:value="${searchWord}">
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-secondary btn-block" value="검색" onclick="pagingformSubmit(1)">Search
-                                Results</button>
+                            <button class="btn btn-secondary btn-block" value="검색" onclick="pagingFormSubmit(1)">검색</button>
                         </div>
                     </div>
                     <div class="mt-3">

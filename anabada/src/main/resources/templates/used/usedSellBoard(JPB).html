@@ -169,10 +169,9 @@
                 <div class="card p-3 py-4">
                     <div class="row g-3 mt-2">
                         <div class="col-md-3">
-                        	<form id="pagingForm" th:action="@{/used/usedSellBoard}" method="get">
 	                            <div class="dropdown">
 	                                <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
-	                                    data-toggle="dropdown" aria-expanded="false" name="type">검색대상</button>
+	                                    data-toggle="dropdown" aria-expanded="false" name="type"><th:block th:text="${type}"></th:block><th:block th:if="${type == null}">검색대상</th:block></button>
 	                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 	                                    <li><a class="dropdown-item" th:value="used_title"
 	                                            th:selected="${type} == 'used_title'" onclick="statuscheck('제목');">제목</a></li>
@@ -184,14 +183,13 @@
 	                                            th:selected="${type} == 'all'" onclick="statuscheck('전체');">전체</a></li>
 	                                </ul>
 	                            </div>
-                            </form>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="찾고 싶은 상품을 검색해보세요!" name="searchWord"
+                            <input type="text" class="form-control" placeholder="찾고 싶은 상품을 검색해보세요!" id="searchWord"
                                 th:value="${searchWord}">
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-secondary btn-block" value="검색" onclick="pagingformSubmit(1)">검색</button>
+                            <button class="btn btn-secondary btn-block" value="검색" onclick="pagingFormSubmit(1)">검색</button>
                         </div>
                     </div>
                     <div class="mt-3">

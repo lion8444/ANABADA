@@ -74,43 +74,30 @@
     	SELECT
     		*
     	FROM
-    		rental
-    	<!-- WHERE
-    		rental_id
-    	IN
-    	(SELECT board_no from file ) -->
-    	
-    	<!-- 검색어가 null이 아니면 where조건을 추가한다 -->
-		<!-- 검색대상이 rental_title이면 제목에서 검색한다 -->
-		<!-- 검색대상이 rental_content이면 본문에서 검색한다 -->
-		<!-- 검색대상이 user_email이면 작성자를 검색한다 -->
-		<!-- 검색대상이 all이면 제목 본문 작성자를 모두검색한다 -->
+    		rental LEFT JOIN user ON rental.user_email = user.user_email
 		<where>
 		<if test="searchWord != null and type != null" >
-			
 				<if test="type =='rental_title'">
-					upper(rental_title) like '%' || upper(#{searchWord}) || '%'
+					upper(rental.rental_title) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 				
 				<if test = "type =='rental_content'">
-					upper(rental_content) like '%' || upper(#{searchWord}) || '%'
+					upper(rental.rental_content) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 				
-				<if test = "type == 'user_email'">
-					user_email = #{searchWord}
+				<if test = "type == 'user_nick'">
+					upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 				
 				<if test ="type == 'all'">
-					upper(rental_title) like '%' || #{searchWord} || '%'
-					or upper(rental_content) like '%' || #{searchWord} || '%'
-					or user_email = #{searchWord}
+					upper(rental.rental_title) like upper(CONCAT('%',#{searchWord},'%'))
+					or upper(rental.rental_content) like upper(CONCAT('%',#{searchWord},'%'))
+					or upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
 				</if>
 			</if>
-			and rental_status = '거래 중'
+			and rental.rental_status = '거래 중'
 		</where>
     </select>
-    
-
     
     <!-- 전체 글 개수 -->
 	<select id="total" parameterType="map" resultType="int">

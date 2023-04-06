@@ -111,7 +111,20 @@ public class RentServiceImpl implements RentService {
 		public ArrayList<Rental> rentalBoard(int start, int count, String type, String searchWord) {
 			//검색 대상과 검색어
 			HashMap<String, String> map = new HashMap<>();
-			map.put("type", type);
+			if(type != null) {
+			if(type.equals("제목")) {
+			map.put("type", "rental_title");
+			}
+			if(type.equals("본문")) {
+			map.put("type", "rental_content");
+			}
+			if(type.equals("작성자")) {
+			map.put("type", "user_nick");
+			}
+			if(type.equals("전체")) {
+			map.put("type", "all");
+			}
+			}
 			map.put("searchWord", searchWord);
 			//조회 결과 중 위치, 개수 지정
 			RowBounds rb = new RowBounds(start, count);

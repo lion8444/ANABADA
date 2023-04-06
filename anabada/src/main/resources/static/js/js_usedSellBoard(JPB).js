@@ -155,10 +155,15 @@ window.onload = function() {
   };
 
 function pagingFormSubmit(currentPage) {
-		var form = document.getElementById('pagingForm');
-		var page = document.getElementById('page');
+		let type = $('.sstatus').html();
+		if(type == '검색대상'){
+			alert("검색대상을 설정해 주세요");
+			return false;
+		}
+		let searchWord = document.getElementById('searchWord').value;
+		let page = document.getElementById('page');
 		page.value = currentPage;
-		form.submit();
+  		location.href = "usedSellBoard?type=" + type + "&searchWord=" + searchWord +"&page=" + currentPage ;
 	}
 
 function statuscheck(vcheck){
