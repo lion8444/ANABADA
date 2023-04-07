@@ -1,0 +1,12 @@
+#dropdownMenu {
+    padding: 10px;
+  }
+
+  .container {
+    max-width: 960px; /*최대 너비 설정*/
+    margin: 0 auto;  /*가운데 정렬 */
+    
+  }
+
+
+

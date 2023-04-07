@@ -198,6 +198,19 @@
                             <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
                             <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
                             <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
+                            <li><!-- 언어 선택 -->
+                                <select id="locales">
+                                    <option value="">Language</option>
+                                    <option value="ko" th:text="#{lang.ko}"></option>
+                                    <option value="ja-JP" th:text="#{lang.jp}"></option>
+                                </select>
+                
+                                <!-- 파파고 버튼 -->
+                                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
+                                  
+                                <!-- alert 문구 관련 -->
+                                <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -215,19 +228,7 @@
                         <input type="button" value="구매 내역" id="selectUsedBuy" th:value="#{buyList}" th:onclick="|location.href='@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}'|">
                     </div>
                 </div>
-                
-                <!-- 언어 선택 -->
-                <select id="locales">
-                    <option value="">Language</option>
-                    <option value="ko" th:text="#{lang.ko}"></option>
-                    <option value="ja-JP" th:text="#{lang.jp}"></option>
-                </select>
-
-                <!-- 파파고 버튼 -->
-                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
-
-                <!-- alert 문구 관련 -->
-                <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
+              
 
                 
                 <!-- 전체 중고 거래 내역-->
