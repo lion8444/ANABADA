@@ -112,9 +112,6 @@ public class UsedController {
 		
 		// user 정보 가져오기 4월 4일 추가
 	    UserDTO user = lService.findUser(used_sell.getUser_email()); 
-	    String user_nick = user.getUser_nick();
-	    int user_penalty = user.getUser_penalty();
-	    String user_nation = user.getUser_nation();
 		
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);

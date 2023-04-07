@@ -5,7 +5,7 @@
 update user
 set user_account = 100000000
 where user_email = 'anabada@gmail.com';
-/*
+
 INSERT INTO `anabada`.`user`
 (`user_email`,
 `user_name`,
@@ -18,11 +18,11 @@ INSERT INTO `anabada`.`user`
 `user_account`,
 `user_nation`)
 VALUES
-('anabada@gmail.com',
+('aaa@aaa.com',
 '홍길동',
 'anabada',
-'1111',
-'01012345678',
+'{noop}111',
+'01012345670',
 '06164',
 '서울특별시 강남구 삼성동 159 코엑스',
 'SCIT사무실',
@@ -30,7 +30,7 @@ VALUES
 '한국'
 );
 
-
+/*
 INSERT INTO `anabada`.`user`
 (`user_email`,
 `user_name`,
@@ -314,6 +314,15 @@ VALUES
 
 DELETE FROM `anabada`.`user_location`;
 
+
+INSERT INTO `anabada`.`user_location`
+(`uloc_id`,
+`loc_id`,
+`user_email`)
+VALUES
+('ULOC000001',
+'LOCA000001',
+'anabada@gmail.com');
 
 INSERT INTO `anabada`.`user_location`
 (`uloc_id`,

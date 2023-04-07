@@ -360,7 +360,7 @@
                         <h2 th:text="${used.used_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
                     </div>
                     <div class="meta">
-                        <h3 th:text="'가격: '+${#numbers.formatInteger(used.used_price, 3, 'COMMA')} + '원'" id="papago1" class="papago" papagoCount="1">가격</h3>
+                        <h3 th:text="'가격: '+${#numbers.formatInteger(used.used_price, 3, 'COMMA')} + ' ₩'" id="papago1" class="papago" papagoCount="1">가격</h3>
                     </div><br>
                     <div class="text-black-50">
                         <p th:text="${used.used_content}" id="papago2" class="papago" papagoCount="2">내용</p>
@@ -378,8 +378,6 @@
                         <div class="text">
                             <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
                             <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
-                            <h5 th:text="'국적: '+${user.user_nation}">국적</h5>
-
                             <h5>
                                 <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
                                 <span th:text="'페널티: '+${user.user_penalty}"></span>
@@ -414,7 +412,7 @@
                         <div class="form-group">
                             <p th:text="#{price}">금액</p>
                             <input type="text" class="showused_price form-control"
-                                th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}" readonly>
+                                th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + ' ₩'}" readonly>
                             <input type="text" class="used_price" name="uDetail_price" th:value="${used.used_price}"
                                 hidden>
                         </div>
@@ -490,10 +488,13 @@
                         </div>
                     <input type="text" class="much" th:value="${(user.user_account)}" hidden>
                 </div>
+                <br>
+                <br>
                 <div class="form-group">
                     <p th:text="#{use}">사용</p>
                     <input type="text" class="showmoney form-control"
-                        th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}">
+                        th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + ' ₩'}">
+                        
                     <input type="text" class="money" name="user_account" th:value="${used.used_price}" hidden> <br>
                     <div class="hidden" th:text="#{pointLack}">
                         보유 포인트가 부족합니다.
@@ -501,7 +502,7 @@
                 </div>
                 <div class="form-group">
                     <input type="checkbox" class="agree">
-                    <span th:text="#{agree}">주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
+                    <span th:text="#{agree}"> 주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
                     <div class="hidden" th:text="#{aggreChk}">
                         동의란에 체크해 주세요.
                     </div>
