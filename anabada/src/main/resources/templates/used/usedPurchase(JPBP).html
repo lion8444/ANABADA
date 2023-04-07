@@ -95,7 +95,7 @@
                 , type: 'get'
                 , dataType: 'json'
                 , success: function (userone) {
-                    $('.name').val(userone.user_name);
+                    $('.inname').val(userone.user_name);
                     $('.phone').val(userone.user_phone);
                     $('.post').val(userone.user_post);
                     $('.addr1').val(userone.user_addr1);
@@ -113,7 +113,7 @@
             신규 배송지 선택시 해당 내용 자리 비우기
         */
         function newaddr() {
-            $('.name').val("");
+            $('.inname').val("");
             $('.phone').val("");
             $('.post').val("");
             $('.addr1').val("");
@@ -134,8 +134,8 @@
                 $('.rental_sdate ~ div').css("display", "none");
             }
 
-            if ($('.name').val().trim() == "") {
-                $('.name ~ div').css("display", "block");
+            if ($('.inname').val().trim() == "") {
+                $('.inname ~ div').css("display", "block");
                 return false;
             } else {
                 $('.name ~ div').css("display", "none");
@@ -440,7 +440,7 @@
                         <div class="form-group">
 
                             <p th:text="#{reception}">수령인</p>
-                            <input type="text" class="name form-control" name="uDetail_person"
+                            <input type="text" class="inname form-control" name="uDetail_person"
                                 th:placeholder="#{put20}"><br>
                             <div class="hidden" th:text="#{putReception}">
                                 수령인을 입력해 주세요.

@@ -95,7 +95,8 @@ public class UsedController {
 	 **/
 	@GetMapping("usedSellBoardRead")
 	public String usedSellBoardRead(
-			@RequestParam(name="used_id",defaultValue="0") String used_id
+			@AuthenticationPrincipal UserDetails userDetails
+			,@RequestParam(name="used_id",defaultValue="0") String used_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {

@@ -132,7 +132,8 @@ public class RentController {
 	 **/
 	@GetMapping("rentalBoardRead")
 	public String rentalBoardRead(
-			@RequestParam(name="rental_id",defaultValue="0") String rental_id
+			@AuthenticationPrincipal UserDetails userDetails
+			,@RequestParam(name="rental_id",defaultValue="0") String rental_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {

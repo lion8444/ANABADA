@@ -128,7 +128,8 @@ public class AuctionController {
 	 **/
 	@GetMapping("auctionBoardRead")
 	public String auctionBoardRead(
-			@RequestParam(name="auction_id",defaultValue="0") String auction_id
+			@AuthenticationPrincipal UserDetails userDetails
+			,@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
