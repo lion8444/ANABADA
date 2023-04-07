@@ -41,20 +41,14 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_auctionBoard(RB).css}">
-
+    <!-- 채팅 css -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
     <!-- 제이쿼리 (pyw)-->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
 
-
-<!--
-    
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
 </head>
 
 <body>
@@ -180,7 +174,7 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="col-md-3">
 	                            <div class="dropdown">
 	                                <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
-	                                    data-toggle="dropdown" aria-expanded="false" name="type"><th:block th:text="${type}"></th:block><th:block th:if="${type == null}">검색대상</th:block></button>
+	                                    data-toggle="dropdown" aria-expanded="false" name="type">제목</button>
 	                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 	                                    <li><a class="dropdown-item" th:value="auction_title"
 	                                            th:selected="${type} == 'auction_title'" onclick="statuscheck('제목');">제목</a></li>
@@ -201,36 +195,28 @@ https://templatemo.com/tm-559-zay-shop
                             <button class="btn btn-secondary btn-block" value="검색" onclick="pagingFormSubmit(1)">검색</button>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-                            aria-controls="collapseExample" class="advanced">
-                            Advance Search With Filters <i class="fa fa-angle-down"></i>
-                        </a>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Property ID" class="form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by MAP">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by Country">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Property ID" class="form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by MAP">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by Country">
-                                    </div>
+                    	<div class="mt-3">
+                        	<div class="row">
+                            	<div class="col-md-3">
+                                	<a href=# class="dcheck" th:text="${check}" hidden></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'rank')"><font size=3>랭킹순</font></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'low')"><font size=3>낮은가격순</font></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'high')"><font size=3>높은가격순</font></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'finish')"><font size=3>마감임박순</font></a>
+                                </div>                                
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'recent')"><font size=3>최신순</font></a>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -303,7 +289,87 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </div>
 
+<!-- 채팅 -->
+<section sec:authorize="isAuthenticated()" th:if="${user != null}">
+    <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
+    <button class="chatbox-open">
+        <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+    </button>
+    <button class="chatbox-close">
+        <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+    </button>
 
+    <div class="chatbox-container">
+        <div class="chatbox">
+            <div class="top-bar">
+                <div class="targetInfo">
+                    <img src="" class="avatar" alt="">
+                    <div class="name">Voldemort</div>
+                </div>
+                <div class="icons">
+                    <i class="fas fa-phone"></i>
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="menu">
+                    <div class="dots"></div>
+                </div>
+            </div>
+            <div class="middle chatting">
+                <div class="voldemort">
+                    <!-- <div class="typing">
+                    <div class="bubble">
+                        <div class="ellipsis one"></div>
+                        <div class="ellipsis two"></div>
+                        <div class="ellipsis three"></div>
+                    </div>
+                </div> -->
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="chat">
+                    <input type="text" class="chat-input" placeholder="Type a message..." />
+                    <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="messages"></div>
+        <div class="profile">
+            <img class="avatar" src="/img/pacman.png">
+            <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
+            </div>
+        </div>
+        <ul class="people">
+            <li class="person">
+                <span class="title">Voldemort </span>
+                <span class="time">2:50pm</span><br>
+                <span class="preview">What are you getting... Oh, oops...</span>
+            </li>
+            <li class="person">
+                <span class="title">Ron</span>
+                <span class="time">2:25pm</span><br>
+                <span class="preview">Meet me at Hogsmeade and bring...</span>
+            </li>
+            <li class="person">
+                <span class="title">Hermione</span>
+                <span class="time">2:12pm</span><br>
+                <span class="preview">Have you and Ron done your hom...</span>
+            </li>
+        </ul>
+        <div class="middle format">
+            <div class="voldemort">
+                <div class="messageText">
+                    <div class="margin">
+                        <div>
+                            <span class="bubble"></span>
+                        </div>
+                        <span class="chattime"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- 0320 -->
     <div class="section">
@@ -462,6 +528,10 @@ https://templatemo.com/tm-559-zay-shop
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_auctionBoard(GB).js}"></script>
+    <!-- 채팅 -->
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
+    <script th:src="@{/js/chat/chat.js}"></script>
     <!-- End Script -->
 </body>
 

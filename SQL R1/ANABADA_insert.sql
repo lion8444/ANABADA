@@ -5,7 +5,30 @@
 update user
 set user_account = 100000000
 where user_email = 'anabada@gmail.com';
-
+INSERT INTO `anabada`.`user`
+(`user_email`,
+`user_name`,
+`user_nick`,
+`user_pwd`,
+`user_phone`,
+`user_post`,
+`user_addr1`,
+`user_addr2`,
+`user_account`,
+`user_nation`)
+VALUES
+('bbb@bbb.com',
+'홍길동',
+'테스트',
+'{noop}111',
+'01012345272',
+'06164',
+'서울특별시 강남구 삼성동 159 코엑스',
+'SCIT사무실',
+'100000000',
+'한국'
+);
+/*
 INSERT INTO `anabada`.`user`
 (`user_email`,
 `user_name`,
@@ -217,9 +240,9 @@ INSERT INTO `anabada`.`file`
 `file_origin`,
 `file_saved`)
 VALUES
-('FILE0001',
+('FILE0002',
 '중고거래',
-'USED0001',
+'USED000011',
 'origin.jpg',
 'saved.jpg');
 
@@ -369,8 +392,8 @@ INSERT INTO `anabada`.`used`
 `uloc_id`,
 `sloc_id`)
 VALUES
-('USED0001',
-'anabada@gmail.com',
+(func_seq_10('USED'),
+'bbb@bbb.com',
 'CATE0001',
 '갤럭시 플립 팔아요',
 1000000,

@@ -68,4 +68,6 @@ public interface RentalDAO {
 	ArrayList<File> fileListByid(String rental_id);
 
 	int addtemp(Rental formdata);
+
+	void addsearchWord(HashMap<String, Object> save);
 }

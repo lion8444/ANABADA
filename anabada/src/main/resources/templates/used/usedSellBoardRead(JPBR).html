@@ -18,6 +18,11 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+    <!-- 채팅 -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
 
     <!--           -->
     <meta name="author" content="Untree.co">
@@ -34,6 +39,9 @@
     <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
     <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
 
+    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
 	<link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
 	<link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
 	<link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
@@ -265,135 +273,214 @@
         </div>
         </div>
 
-        <!-- 지도넣는 부분 -->
+    <!-- 지도넣는 부분 -->
 
-        <!-- 추천상품 -->
-        <div class="section">
-            <div class="container">
-                <div class="row mb-5 align-items-center">
-                    <div class="col-lg-6 text-center mx-auto">
-                        <h2 class="font-weight-bold text-primary heading">추천 중고거래</h2>
-                    </div>
-
+    <!-- 추천상품 -->
+    <div class="section">
+        <div class="container">
+            <div class="row mb-5 align-items-center">
+                <div class="col-lg-6 text-center mx-auto">
+                    <h2 class="font-weight-bold text-primary heading">추천 중고거래</h2>
                 </div>
 
-                <div class="row">
+            </div>
 
-                    <div class="col-12">
-                        <div class="property-slider-wrap">
+            <div class="row">
 
-                            <div class="property-slider">
+                <div class="col-12">
+                    <div class="property-slider-wrap">
 
-                                <!--item-->
-                                <div th:each="usedSellList, i: ${usedSellList}" method="get"
-                                    enctype="multipart/form-data">
-                                    <div class="property-item mb-30">
-                                        <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
-                        					<img th:src="@{/used/imgshow(used_id=${usedSellList.used_id})}" alt="Image" class="img-fluid">
-                                        </a>
+                        <div class="property-slider">
 
-                                        <div class="property-content">
-                                            <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span>
+                            <!--item-->
+                            <div th:each="usedSellList, i: ${usedSellList}" method="get" enctype="multipart/form-data">
+                                <div class="property-item mb-30">
+                                    <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}" class="img">
+                                        <img th:src="@{/used/imgshow(used_id=${usedSellList.used_id})}" alt="Image"
+                                            class="img-fluid">
+                                    </a>
+
+                                    <div class="property-content">
+                                        <div class="price mb-2"><span th:text="${usedSellList.used_price}">가격</span>
+                                        </div>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50"
+                                                th:text="${usedSellList.user_email}">판매자 이메일</span>
+                                            <span class="city d-block mb-3" th:text="${usedSellList.used_title}">글
+                                                제목</span>
+
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block d-flex align-items-center me-3">
+                                                    <span class="d-block mb-2 text-black-50"
+                                                        th:text="${usedSellList.category_id}">카테고리</span>
+                                                </span>
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="d-block mb-2 text-black-50"
+                                                        th:text="${usedSellList.used_quality}">상품상태</span>
+                                                </span>
                                             </div>
-                                            <div>
-                                                <span class="d-block mb-2 text-black-50"
-                                                    th:text="${usedSellList.user_email}">판매자 이메일</span>
-                                                <span class="city d-block mb-3" th:text="${usedSellList.used_title}">글
-                                                    제목</span>
-
-                                                <div class="specs d-flex mb-4">
-                                                    <span class="d-block d-flex align-items-center me-3">
-                                                        <span class="d-block mb-2 text-black-50"
-                                                            th:text="${usedSellList.category_id}">카테고리</span>
-                                                    </span>
-                                                    <span class="d-block d-flex align-items-center">
-                                                        <span class="d-block mb-2 text-black-50"
-                                                            th:text="${usedSellList.used_quality}">상품상태</span>
-                                                    </span>
-                                                </div>
-                                                <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
-                                                    class="btn btn-primary py-2 px-3">See details</a>
-                                            </div>
+                                            <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
+                                                class="btn btn-primary py-2 px-3">See details</a>
                                         </div>
                                     </div>
-                                </div><!-- .item -->
-
-                            </div><!--.slider-->
-
-                            <div>
-                                <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
-                                    <span class="prev" data-controls="prev" aria-controls="property"
-                                        tabindex="-1">Prev</span>
-                                    <span class="next" data-controls="next" aria-controls="property"
-                                        tabindex="+1">Next</span>
                                 </div>
+                            </div><!-- .item -->
+
+                        </div><!--.slider-->
+
+                        <div>
+                            <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
+                                <span class="prev" data-controls="prev" aria-controls="property"
+                                    tabindex="-1">Prev</span>
+                                <span class="next" data-controls="next" aria-controls="property"
+                                    tabindex="+1">Next</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 
 
+    <!-- 채팅 -->
+    <section sec:authorize="isAuthenticated()" th:if="${user != null}">
+        <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
+        <button class="chatbox-open">
+            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+        </button>
+        <button class="chatbox-close">
+            <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+        </button>
 
-
-        <!-- Start Footer -->
-        <footer class="bg-dark" id="tempaltemo_footer">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-4 pt-5">
-                        <h2 class="h2 text-success border-bottom pb-3 border-light logo">ANABADA</h2>
-                        <ul class="list-unstyled text-light footer-link-list">
-                            <li>
-                                <i class="fas fa-map-marker-alt fa-fw"></i>
-                                06164 서울특별시 강남구 영동대로 513<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(삼성동, 코엑스) 4층 ICT센터
-                            </li>
-                            <li>
-                                <i class="fa fa-phone fa-fw"></i>
-                                <a class="text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope fa-fw"></i>
-                                <a class="text-decoration-none"
-                                    href="mailto:anabada@anabada.com">anabada@anabada.com</a>
-                            </li>
-                        </ul>
+        <div class="chatbox-container">
+            <div class="chatbox">
+                <div class="top-bar">
+                    <div class="targetInfo">
+                        <img src="" class="avatar" alt="">
+                        <div class="name">Voldemort</div>
                     </div>
-
-                    <div class="col-md-4 pt-5">
-                        <h2 class="h2 text-light border-bottom pb-3 border-light">Menu</h2>
-                        <ul class="list-unstyled text-light footer-link-list">
-                            <li><a class="text-decoration-none" th:href="@{usedSellBoard}">중고거래</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                            <li><a class="text-decoration-none" href="#">지 도</a></li>
-                            <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
-                        </ul>
+                    <div class="icons">
+                        <i class="fas fa-phone"></i>
+                        <i class="fas fa-video"></i>
                     </div>
-
-                    <div class="col-md-4 pt-5">
-                        <h2 class="h2 text-light border-bottom pb-3 border-light">Informations</h2>
-                        <ul class="list-unstyled text-light footer-link-list">
-                            <li><a class="text-decoration-none" th:href="@{/indexMain}">Home</a></li>
-                            <li><a class="text-decoration-none" href="#">About Us</a></li>
-                            <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                            <li><a class="text-decoration-none" href="#">FAQs</a></li>
-                            <li><a class="text-decoration-none" href="#">Contact</a></li>
-                        </ul>
+                    <div class="menu">
+                        <div class="dots"></div>
                     </div>
-
+                </div>
+                <div class="middle chatting">
+                    <div class="voldemort">
+                        <!-- <div class="typing">
+                        <div class="bubble">
+                            <div class="ellipsis one"></div>
+                            <div class="ellipsis two"></div>
+                            <div class="ellipsis three"></div>
+                        </div>
+                    </div> -->
+                    </div>
                 </div>
 
-                <div class="row text-light mb-4">
-                    <div class="col-12 mb-3">
-                        <div class="w-100 my-3 border-top border-light"></div>
+                <div class="bottom-bar">
+                    <div class="chat">
+                        <input type="text" class="chat-input" placeholder="Type a message..." />
+                        <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
                     </div>
-                    <div class="col-auto me-auto">
-                        <ul class="list-inline text-left footer-icons">
-                            <!-- <li class="list-inline-item border border-light rounded-circle text-center">
+                </div>
+            </div>
+            <div class="messages"></div>
+            <div class="profile">
+                <img class="avatar" src="/img/pacman.png">
+                <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
+                </div>
+            </div>
+            <ul class="people">
+                <li class="person">
+                    <span class="title">Voldemort </span>
+                    <span class="time">2:50pm</span><br>
+                    <span class="preview">What are you getting... Oh, oops...</span>
+                </li>
+                <li class="person">
+                    <span class="title">Ron</span>
+                    <span class="time">2:25pm</span><br>
+                    <span class="preview">Meet me at Hogsmeade and bring...</span>
+                </li>
+                <li class="person">
+                    <span class="title">Hermione</span>
+                    <span class="time">2:12pm</span><br>
+                    <span class="preview">Have you and Ron done your hom...</span>
+                </li>
+            </ul>
+            <div class="middle format">
+                <div class="voldemort">
+                    <div class="messageText">
+                        <div class="margin">
+                            <div>
+                                <span class="bubble"></span>
+                            </div>
+                            <span class="chattime"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Start Footer -->
+    <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">ANABADA</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            06164 서울특별시 강남구 영동대로 513<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(삼성동, 코엑스) 4층 ICT센터
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Menu</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" th:href="@{usedSellBoard}">중고거래</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
+                        <li><a class="text-decoration-none" href="#">지 도</a></li>
+                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Informations</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" th:href="@{/indexMain}">Home</a></li>
+                        <li><a class="text-decoration-none" href="#">About Us</a></li>
+                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                        <li><a class="text-decoration-none" href="#">FAQs</a></li>
+                        <li><a class="text-decoration-none" href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row text-light mb-4">
+                <div class="col-12 mb-3">
+                    <div class="w-100 my-3 border-top border-light"></div>
+                </div>
+                <div class="col-auto me-auto">
+                    <ul class="list-inline text-left footer-icons">
+                        <!-- <li class="list-inline-item border border-light rounded-circle text-center">
                             <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
@@ -405,50 +492,54 @@
                         <li class="list-inline-item border border-light rounded-circle text-center">
                             <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
                         </li> -->
-                        </ul>
-                    </div>
-                    <div class="col-auto">
-                        <label class="sr-only" for="subscribeEmail">Email address</label>
-                    </div>
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <label class="sr-only" for="subscribeEmail">Email address</label>
                 </div>
             </div>
+        </div>
 
-            <div class="w-100 bg-black py-3">
-                <div class="container">
-                    <div class="row pt-2">
-                        <div class="col-12">
-                            <p class="text-left text-light">
-                                <!-- Copyright &copy; 2021 Company Name 
+        <div class="w-100 bg-black py-3">
+            <div class="container">
+                <div class="row pt-2">
+                    <div class="col-12">
+                        <p class="text-left text-light">
+                            <!-- Copyright &copy; 2021 Company Name 
                             | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a> -->
-                            </p>
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-        </footer>
-        <!-- End Footer -->
+    </footer>
+    <!-- End Footer -->
 
-        <!-- Start Script -->
-        <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-        <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-        <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
-        <script th:src="@{/assets/property_js/aos.js}"></script>
-        <script th:src="@{/assets/property_js/navbar.js}"></script>
-        <script th:src="@{/assets/property_js/counter.js}"></script>
-        <script th:src="@{/assets/property_js/templatemo.js}"></script>
-        <script th:src="@{/assets/property_js/custom.js}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script th:src="@{/js/js_usedSellBoard(JPB).js}"></script>
-        <script th:src="@{/js/pjh.js}"></script>
-        <!-- 제이쿼리 (pyw) -->
-        <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
-        <script th:src="@{/js/js_myPage.js}"></script>
-        <script th:src="@{/js/lanTest.js}"></script>
-            <!-- End Script -->
-    </body>
+    <!-- Start Script -->
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
+    <script th:src="@{/assets/property_js/aos.js}"></script>
+    <script th:src="@{/assets/property_js/navbar.js}"></script>
+    <script th:src="@{/assets/property_js/counter.js}"></script>
+    <script th:src="@{/assets/property_js/templatemo.js}"></script>
+    <script th:src="@{/assets/property_js/custom.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script th:src="@{/js/js_usedSellBoard(JPB).js}"></script>
+    <script th:src="@{/js/pjh.js}"></script>
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+    <!-- 채팅 -->
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
+    <script th:src="@{/js/chat/chat.js}"></script>
+    <!-- End Script -->
+</body>
 
 </html>

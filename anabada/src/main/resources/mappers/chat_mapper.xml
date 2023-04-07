@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.ChatDAO">
+	
+	<select id="selectChatRoom" parameterType="String" resultType="ChatRoom">
+		select
+			*
+		from
+			chatroom
+		where
+			roomId = #{roomId}
+	</select>
+    <insert id="insertMessage" parameterType="ChatMessage">
+		insert into
+			chatmessage
+		(messageId, roomId, sender, message, sessionCount, unReadCount)
+		values
+		(#{messageId}, #{roomId}, #{sender}, #{message}, #{sessionCount}
+		<if test="sessionCount == 2">
+			,0
+		</if>
+		<if test="sessionCount == 1">
+			,1
+		</if>
+		)
+	</insert>
+
+    <update id="updateCount" parameterType="ChatMessage">
+        update
+			chatmessage
+		set
+			unReadCount = 0
+		where
+			roomId = #{roomId}
+			and
+			sender != #{sender}
+
+    </update>
+
+    <select id="selectUnReadCount" parameterType="ChatMessage" resultType="int">
+		select
+			count(unReadCount)
+		from
+			ChatMessage
+		where
+			roomId = #{roomId}
+    </select>
+
+
+
+    <select id="chatRoomList" parameterType="String" resultType="ChatRoom">
+		select
+			*
+		from
+			chatroom
+		where
+			opener = #{user_nick}
+			or
+			target = #{user_nick}
+    </select>
+
+    <select id="searchChatRoom" parameterType="ChatRoom" resultType="ChatRoom">
+		select
+			*
+		from
+			chatroom
+		where
+			opener = #{opener}
+			and
+			target = #{target}
+			and
+			board_no = #{board_no}
+          
+    </select>
+
+
+    <insert id="createChat" parameterType="ChatRoom">
+		insert into
+			chatroom
+		(roomId, name, opener, target, board_no)
+		values
+		(#{roomId}, #{name}, #{opener}, #{target}, #{board_no})
+    </insert>
+
+
+    <select id="messageList" parameterType="String" resultType="ChatMessage">
+		select
+			messageId
+			,roomId
+			,sender
+			,message
+			,unReadCount
+			,sessionCount
+			,date_format(chatdate, "%H:%i %p") chattime
+		from
+			chatmessage
+		where
+			roomId = #{roomId}
+		order by
+			chatdate
+    </select>
+
+	<select id="findTarget" parameterType="String" resultType="User">
+		select
+			userid
+		from
+			user
+		where
+			userid = #{userid}
+    </select>
+
+	<select id="findUsed" parameterType="String" resultType="int">
+		select
+			count(*)
+		from
+			used
+		where
+			used_id = #{board_id}
+	</select>
+
+	<select id="findRental" parameterType="String" resultType="int">
+		select
+			count(*)
+		from
+			rental
+		where
+			rental_id = #{board_id}
+	</select>	
+
+	<select id="findAuction" parameterType="String" resultType="int">
+		select
+			count(*)
+		from
+			auction
+		where
+			auction_id = #{board_id}
+	</select>
+	
+</mapper>

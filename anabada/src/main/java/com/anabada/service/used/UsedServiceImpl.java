@@ -117,7 +117,7 @@ public class UsedServiceImpl implements UsedService {
 	
 	//파는 글 출력
 	@Override
-	public ArrayList<Used> usedSellBoard(int start, int count, String type, String searchWord) {
+	public ArrayList<Used> usedSellBoard(int start, int count, String type, String searchWord, String check, String email) {
 		//검색 대상과 검색어
 				HashMap<String, String> map = new HashMap<>();
 				if(type != null) {
@@ -134,7 +134,15 @@ public class UsedServiceImpl implements UsedService {
 				map.put("type", "all");
 				}
 				}
+				if(searchWord != null && email != null) {
+					HashMap<String, Object> save = new HashMap<>();
+					save.put("searchWord", searchWord);
+					save.put("email", email);
+					dao.addsearchWord(save);
+				}
+				
 				map.put("searchWord", searchWord);
+				map.put("check", check);
 				//조회 결과 중 위치, 개수 지정
 				RowBounds rb = new RowBounds(start, count);
 		ArrayList<Used>usedSellList = dao.usedSellBoard(map, rb);
@@ -178,10 +186,11 @@ public class UsedServiceImpl implements UsedService {
 	//검색
 	@Override
 	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
-			String searchWord) {
+			String searchWord, String check) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("type", type);
 		map.put("searchWord", searchWord);
+		map.put("check", check);
 		//검색 결과 개수
 		int t = dao.total(map);
 		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성

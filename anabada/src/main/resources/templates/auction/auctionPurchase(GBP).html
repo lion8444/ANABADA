@@ -41,6 +41,10 @@
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_purchase.css}">
 
+    <!-- 채팅 css -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+
     <style>
         .title,
         .auction_date,
@@ -630,9 +634,88 @@
             </div>
             </form>
         </div>
+        <!-- 채팅 -->
+<section sec:authorize="isAuthenticated()" th:if="${user != null}">
+    <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
+    <button class="chatbox-open">
+        <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+    </button>
+    <button class="chatbox-close">
+        <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+    </button>
+
+    <div class="chatbox-container">
+        <div class="chatbox">
+            <div class="top-bar">
+                <div class="targetInfo">
+                    <img src="" class="avatar" alt="">
+                    <div class="name">Voldemort</div>
+                </div>
+                <div class="icons">
+                    <i class="fas fa-phone"></i>
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="menu">
+                    <div class="dots"></div>
+                </div>
+            </div>
+            <div class="middle chatting">
+                <div class="voldemort">
+                    <!-- <div class="typing">
+                    <div class="bubble">
+                        <div class="ellipsis one"></div>
+                        <div class="ellipsis two"></div>
+                        <div class="ellipsis three"></div>
+                    </div>
+                </div> -->
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="chat">
+                    <input type="text" class="chat-input" placeholder="Type a message..." />
+                    <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="messages"></div>
+        <div class="profile">
+            <img class="avatar" src="/img/pacman.png">
+            <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
+            </div>
+        </div>
+        <ul class="people">
+            <li class="person">
+                <span class="title">Voldemort </span>
+                <span class="time">2:50pm</span><br>
+                <span class="preview">What are you getting... Oh, oops...</span>
+            </li>
+            <li class="person">
+                <span class="title">Ron</span>
+                <span class="time">2:25pm</span><br>
+                <span class="preview">Meet me at Hogsmeade and bring...</span>
+            </li>
+            <li class="person">
+                <span class="title">Hermione</span>
+                <span class="time">2:12pm</span><br>
+                <span class="preview">Have you and Ron done your hom...</span>
+            </li>
+        </ul>
+        <div class="middle format">
+            <div class="voldemort">
+                <div class="messageText">
+                    <div class="margin">
+                        <div>
+                            <span class="bubble"></span>
+                        </div>
+                        <span class="chattime"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
+</section>
+       
 
 </body>
 <!-- Start Footer -->
@@ -736,9 +819,10 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
-<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <!-- 채팅 -->
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
+    <script th:src="@{/js/chat/chat.js}"></script>
 <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
 <script th:src="@{/assets/property_js/aos.js}"></script>
 <script th:src="@{/assets/property_js/navbar.js}"></script>

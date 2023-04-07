@@ -109,7 +109,7 @@ public class AuctionServiceImpl implements AuctionService {
 			
 		//파는 글 출력
 		@Override
-		public ArrayList<Auction> auctionBoard(int start, int count, String type, String searchWord) {
+		public ArrayList<Auction> auctionBoard(int start, int count, String type, String searchWord, String check, String email) {
 			//검색 대상과 검색어
 			HashMap<String, String> map = new HashMap<>();
 			if(type != null) {
@@ -126,7 +126,14 @@ public class AuctionServiceImpl implements AuctionService {
 			map.put("type", "all");
 			}
 			}
+			if(searchWord != null && email != null) {
+				HashMap<String, Object> save = new HashMap<>();
+				save.put("searchWord", searchWord);
+				save.put("email", email);
+				dao.addsearchWord(save);
+			}
 			map.put("searchWord", searchWord);
+			map.put("check", check);
 			//조회 결과 중 위치, 개수 지정
 			RowBounds rb = new RowBounds(start, count);
 			ArrayList<Auction>auctionList = dao.auctionBoard(map, rb);
@@ -167,7 +174,7 @@ public class AuctionServiceImpl implements AuctionService {
 			//검색
 			@Override
 			public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
-					String searchWord) {
+					String searchWord, String check) {
 				HashMap<String, String> map = new HashMap<>();
 				map.put("type", type);
 				map.put("searchWord", searchWord);

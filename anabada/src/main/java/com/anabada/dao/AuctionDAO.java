@@ -65,6 +65,8 @@ public interface AuctionDAO {
 	ArrayList<File> fileListByid(String auction_id);
 
 	int addtemp(Auction formdata);
+
+	void addsearchWord(HashMap<String, Object> save);
 	
 
 }

@@ -70,6 +70,8 @@
     		*
     	FROM
     		auction LEFT JOIN user ON auction.user_email = user.user_email
+    		  LEFT JOIN (SELECT auction_id, MAX(aDetail_price) aDetail_price FROM auction_detail GROUP BY auction_id) auction_detail
+    		                ON auction.auction_id = auction_detail.auction_id
 		<where>
 			<if test="searchWord != null and type != null" >
 					<if test="type =='auction_title'">
@@ -95,28 +97,75 @@
 			 AND
 			 auction.auction_finish &gt;= now()
 		</where>
+		<if test="check != null and check !=''">
+			ORDER BY
+			<if test="check == 'rank'">
+				auction.auction_id
+			</if>
+			<if test="check == 'low'">
+				 IFNULL(auction_detail.aDetail_price, auction.auction_price) 
+			</if>
+			<if test="check == 'high'">
+				 IFNULL(auction_detail.aDetail_price, auction.auction_price) DESC
+			</if>
+			<if test="check == 'finish'">
+				auction.auction_finish
+			</if>
+			<if test="check == 'recent'">
+				auction.auction_date DESC
+			</if>									
+		</if>
     </select>
     
     <!-- 전체 글 개수 -->
 	<select id="total" parameterType="map" resultType="int">
-		select count(*) from auction
-		<if test="type != null and searchWord != null">
-		<where>	
-			<if test="type == 'auction_title'">
-				upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+		select count(*) 
+    	FROM
+    		auction LEFT JOIN user ON auction.user_email = user.user_email
+    		  LEFT JOIN (SELECT auction_id, MAX(aDetail_price) aDetail_price FROM auction_detail GROUP BY auction_id) auction_detail
+    		                ON auction.auction_id = auction_detail.auction_id
+		<where>
+			<if test="searchWord != null and type != null" >
+					<if test="type =='auction_title'">
+						upper(auction.auction_title) like upper(CONCAT('%',#{searchWord},'%'))
+					</if>
+					
+					<if test = "type =='auction_content'">
+						upper(auction.auction_content) like upper(CONCAT('%',#{searchWord},'%'))
+					</if>
+					
+					<if test = "type == 'user_nick'">
+						upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
+					</if>
+				
+					<if test ="type == 'all'">
+						upper(auction.auction_title) like upper(CONCAT('%',#{searchWord},'%'))
+						or upper(auction.auction_content) like upper(CONCAT('%',#{searchWord},'%'))
+						or upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
+					</if>
+				</if>
+			 AND
+			 auction.auction_status = '거래 중'
+			 AND
+			 auction.auction_finish &gt;= now()
+		</where>
+		<if test="check != null and check !=''">
+			ORDER BY
+			<if test="check == 'rank'">
+				auction.auction_id
 			</if>
-			<if test="type == 'auction_contents'">
-				upper(auction_contents) like '%' || upper(#{searchWord}) || '%'
+			<if test="check == 'low'">
+				 IFNULL(auction_detail.aDetail_price, auction.auction_price) 
 			</if>
-			<if test="type == 'user_email'">
-				user_email = #{searchWord}
+			<if test="check == 'high'">
+				 IFNULL(auction_detail.aDetail_price, auction.auction_price) DESC
 			</if>
-			<if test="type == 'all'">
-				upper(auction_title) like '%' || upper(#{searchWord}) || '%'
-				or upper(auction_contents) like '%' || upper(#{searchWord}) || '%'
-				or user_email = #{searchWord}
+			<if test="check == 'finish'">
+				auction.auction_finish
 			</if>
-		</where>	
+			<if test="check == 'recent'">
+				auction.auction_date DESC
+			</if>									
 		</if>
 	</select>
 	
@@ -290,5 +339,12 @@
     			,#{uloc_id}    			
     			,#{sloc_id}    			
     			)    	
+    </insert>
+    
+    <insert id="addsearchWord" parameterType="map">
+		INSERT INTO search
+		 (search_no, user_email, search_word)
+		 SELECT func_seq_10('SRCH'), #{email}, #{searchWord}
+		 FROM DUAL WHERE NOT EXISTS(SELECT * FROM search WHERE user_email = #{email} AND search_word = #{searchWord})
     </insert>
 </mapper>
