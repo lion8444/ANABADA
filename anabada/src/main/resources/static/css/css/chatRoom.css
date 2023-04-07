@@ -2,6 +2,10 @@
 
 
 
+ul li {
+  list-style-type: none;
+}
+
 .chatbox-container {
   z-index: 3;
   position: fixed;
@@ -18,8 +22,10 @@
   opacity: 0.8;
   width: 30%;
   height: 80%;
-  top: 2.5%;
-  left: 0%;
+  top: 16.5%;
+  left: 585px;
+  /* top: 2.5%;
+  left: 0%; */
   border-radius: 10px 0 0 10px;
   box-shadow: -5px 5px 10px rgba(119, 119, 119, 0.5);
 }
@@ -29,12 +35,14 @@
   position: absolute;
   list-style-type: none;
   width: 33.2%;
-  left: -4%;
-  top: 27.7%;
+  left: 74%;
+  top: 43.7%;
+  /* left: -4%;
+  top: 27.7%; */
   line-height: 0.7em;
 }
 .people .title {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 0.7em;
   margin-left: 14px;
   letter-spacing: 1px;
@@ -70,15 +78,17 @@
 
 .profile {
   position: absolute;
-  left: 10%;
-  top: 7%;
+  left: 88%;
+  top: 22%;
+  /* left: 10%;
+  top: 7%; */
 }
 
 .name2 {
   position: absolute;
   top: 50px;
   left: 6px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #79C7C5;
   font-size: 0.8em;
   letter-spacing: 2px;
@@ -96,6 +106,7 @@
 
 .chatbox {
   position: absolute;
+  display: none;
   left: 30%;
   height: 100%;
   width: 73%;
@@ -127,7 +138,7 @@
 .name {
   position: absolute;
   top: 22px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   color: #777777;
   font-size: 0.8em;
   letter-spacing: 2px;
@@ -179,17 +190,21 @@
   width: 100%;
   opacity: 1;
   top: 60px;
-  height: 80%;
+  height: 75%;
+  overflow: auto;
 }
 
-.incoming {
+/* .left {
   position: absolute;
   width: 50%;
   height: 100%;
   padding: 20px;
-}
-.incoming .bubble {
+} */
+.left .bubble {
   background: #b2b2b2;
+}
+.left div {
+  text-align: left;
 }
 
 .typing {
@@ -225,29 +240,34 @@
 
 .bubble {
   position: relative;
-  display: inline-block;
-  margin-bottom: 5px;
+  /* display: block; */
+  margin: 5px 12px 5px 12px;
   color: #F9FBFF;
   font-size: 0.7em;
-  padding: 10px 10px 10px 12px;
+  /* 상 우 하 좌 */
+  padding: 10px 12px 10px 12px;
   border-radius: 20px;
+  width: fit-content;
 }
 
 .lower {
   margin-top: 45px;
 }
 
-.outgoing {
+/* .right {
   position: absolute;
   padding: 20px;
   right: 0;
   top: 15%;
   width: 50%;
   height: 100%;
-}
-.outgoing .bubble {
+} */
+.right div .bubble {
   background: #79C7C5;
-  float: right;
+  /* text-align: right; */
+}
+.right div {
+  text-align: right;
 }
 
 .bottom-bar {
@@ -259,9 +279,9 @@
   border-radius: 0 0 10px 10px;
 }
 
-.left {
+/* .left {
   left: 0px;
-}
+} */
 
 input.chat-input {
   padding: 7px;
@@ -314,4 +334,56 @@ button.send-btn:hover {
     transform: translateY(0px);
     opacity: 0.8;
   }
+}
+
+/* .middle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  flex: 1;
+  overflow: auto;
+} */
+
+/* .middle, .messageText.right {
+  display: flex;
+  flex-direction: column; 
+} */
+/* .messageText::before {
+  content: "";
+  display: block;
+  flex: 1;
+} */
+
+
+/* .messageText.right {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  align-items: baseline;
+  flex-wrap: nowrap;
+}
+.messageText.left {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  align-items: baseline;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+}
+.messageText::before {
+  content: "";
+  display: block;
+  flex: 1;
+} */
+.messageText div.margin {
+  margin-bottom: 10px;
+}
+.chattime {
+  margin: 0 7px 0 7px;
+  font-size: 10px;
+}
+
+.format {
+  display: none;
 }

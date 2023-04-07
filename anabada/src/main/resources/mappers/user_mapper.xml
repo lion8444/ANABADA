@@ -51,6 +51,14 @@
         where
         	user_email = #{username}
     </select>
+	<select id="findUserNick" resultType="UserDTO">
+        select
+            *
+        from
+            user
+        where
+        	user_nick = #{nickname}
+    </select>
 
     <delete id="withdraw" parameterType="String">
         delete from
