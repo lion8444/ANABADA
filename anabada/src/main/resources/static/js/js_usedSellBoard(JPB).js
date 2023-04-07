@@ -154,18 +154,18 @@ window.onload = function() {
     });
   };
 
-function pagingFormSubmit(currentPage) {
+function pagingFormSubmit(currentPage, check) {
 		let type = $('.sstatus').html();
-		if(type == '검색대상'){
-			alert("검색대상을 설정해 주세요");
-			return false;
-		}
 		let searchWord = document.getElementById('searchWord').value;
 		let page = document.getElementById('page');
 		page.value = currentPage;
-  		location.href = "usedSellBoard?type=" + type + "&searchWord=" + searchWord +"&page=" + currentPage ;
+		if(check == null){
+			check = $('.dcheck').html();
+		}
+		
+  		location.href = "usedSellBoard?type=" + type + "&searchWord=" + searchWord +"&page=" + currentPage + "&check=" + check;
 	}
-
+	
 function statuscheck(vcheck){
 	$('.sstatus').html(vcheck);
 	}

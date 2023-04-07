@@ -142,33 +142,63 @@
 			</if>
 			 and used.used_status = '거래 중'
 		</where>
+		<if test="check != null and check !=''">
+			ORDER BY
+			<if test="check == 'rank'">
+				used.used_id
+			</if>
+			<if test="check == 'low'">
+				used.used_price
+			</if>
+			<if test="check == 'high'">
+				used.used_price DESC
+			</if>
+			<if test="check == 'recent'">
+				used.used_date DESC
+			</if>									
+		</if>
     </select>
     
     <!-- 전체 글 개수 -->
 	<select id="total" parameterType="map" resultType="int">
-		select count(*) from used
-		<if test="type != null and searchWord != null">
-		<where>	
-			used_status = 'NEW'
-			<if test="type == 'used_title'">
-				and
-				upper(used_title) like '%' || upper(#{searchWord}) || '%'
+		select count(*)
+		FROM
+    		used LEFT JOIN user ON used.user_email = user.user_email
+		<where>
+			<if test="searchWord != null and type != null" >
+				<if test="type == 'used_title'">
+					upper(used.used_title) like upper(CONCAT('%',#{searchWord},'%'))
+				</if>
+				
+				<if test = "type == 'used_content'">
+					upper(used.used_content) like upper(CONCAT('%',#{searchWord},'%'))
+				</if>
+				
+				<if test = "type == 'user_nick'">
+					upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
+				</if>
+				<if test ="type == 'all'">
+					upper(used.used_title) like upper(CONCAT('%',#{searchWord},'%'))
+					or upper(used.used_content) like upper(CONCAT('%',#{searchWord},'%'))
+					or upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
+				</if>
 			</if>
-			<if test="type == 'used_contents'">
-				and
-				upper(used_contents) like '%' || upper(#{searchWord}) || '%'
+			 and used.used_status = '거래 중'
+		</where>
+		<if test="check != null and check !=''">
+			ORDER BY
+			<if test="check == 'rank'">
+				used.used_id
 			</if>
-			<if test="type == 'user_email'">
-				and
-				user_email = #{searchWord}
+			<if test="check == 'low'">
+				used.used_price
 			</if>
-			<if test="type == 'all'">
-				and
-				upper(used_title) like '%' || upper(#{searchWord}) || '%'
-				or upper(used_contents) like '%' || upper(#{searchWord}) || '%'
-				or user_email = #{searchWord}
+			<if test="check == 'high'">
+				used.used_price DESC
 			</if>
-		</where>	
+			<if test="check == 'recent'">
+				used.used_date DESC
+			</if>									
 		</if>
 	</select>
 	
@@ -397,10 +427,12 @@
     			,#{sloc_id}    			
     			)    	
     </insert>
+    
+    <insert id="addsearchWord" parameterType="map">
+		INSERT INTO search
+		 (search_no, user_email, search_word)
+		 SELECT func_seq_10('SRCH'), #{email}, #{searchWord}
+		 FROM DUAL WHERE NOT EXISTS(SELECT * FROM search WHERE user_email = #{email} AND search_word = #{searchWord})
+    </insert>
 </mapper>
-
-
-
-
-
 	

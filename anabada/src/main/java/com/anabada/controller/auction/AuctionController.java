@@ -96,15 +96,23 @@ public class AuctionController {
 	 **/
 	@GetMapping("/auctionBoard")       
 	public String auctionBoard(
-			@RequestParam(name="page", defaultValue="1") int page
+			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
+			, String check
 			, Model model) {
 		PageNavigator navi = 
-			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord);
+			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
+		
+		String email = null;
+		
+		if(user != null) {
+		email = user.getUsername();
+		}
 		
 		ArrayList <Auction> auctionList = service.auctionBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord);
+				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 		
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
@@ -124,9 +132,9 @@ public class AuctionController {
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
 		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
 		ArrayList <Auction> auctionList = service.auctionBoard(
-				navi.getStartRecord(),countPerPage, null, null);
+				navi.getStartRecord(),countPerPage, null, null, null, null);
 		model.addAttribute("auctionList",auctionList);
 		
 		Auction auction_sell = service.auctionBoardRead(auction_id);

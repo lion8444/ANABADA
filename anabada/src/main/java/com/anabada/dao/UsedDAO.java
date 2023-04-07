@@ -89,5 +89,7 @@ public interface UsedDAO {
 
 	int addtemp(Used formdata);
 
+	void addsearchWord(HashMap<String, Object> save);
+
 	
 }

@@ -99,15 +99,23 @@ public class RentController {
 	 **/
 	@GetMapping("/rentalBoard")       
 	public String rentalBoard(
-			@RequestParam(name="page", defaultValue="1") int page
+			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
+			, String check
 			, Model model) {
 		PageNavigator navi = 
-			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord);
+			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
+		
+		String email = null;
+		
+		if(user != null) {
+		email = user.getUsername();
+		}
 		
 		ArrayList <Rental> rentalList = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord);
+				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
@@ -131,10 +139,10 @@ public class RentController {
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
 		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
 		
 		ArrayList <Rental> rentalList = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, null, null);
+				navi.getStartRecord(),countPerPage, null, null, null, null);
 		ArrayList <File> fileList2 = service.fileList();
 		
 		

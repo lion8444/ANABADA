@@ -31,11 +31,11 @@ public interface AuctionService {
 	ArrayList<File> fileListAll(String auction_id);
 	
 	//옥션 글 목록 출력
-	public ArrayList<Auction>auctionBoard(int start, int count, String type, String searchWord);
+	public ArrayList<Auction>auctionBoard(int start, int count, String type, String searchWord, String check, String email);
 	public ArrayList<File> fileList();
 	
 	//페이지 정보 객체 생성
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type, String searchWord);
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type, String searchWord, String check);
 	
 	//옥션 글 저장
 	public String auctionWrite(Auction auction);

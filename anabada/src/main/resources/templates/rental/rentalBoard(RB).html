@@ -181,7 +181,7 @@ https://templatemo.com/tm-559-zay-shop
                         <div class="col-md-3">
 	                            <div class="dropdown">
 	                                <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
-	                                    data-toggle="dropdown" aria-expanded="false" name="type"><th:block th:text="${type}"></th:block><th:block th:if="${type == null}">검색대상</th:block></button>
+	                                    data-toggle="dropdown" aria-expanded="false" name="type">제목</button>
 	                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 	                                    <li><a class="dropdown-item" th:value="rental_title"
 	                                            th:selected="${type} == 'rental_title'" onclick="statuscheck('제목');">제목</a></li>
@@ -202,36 +202,25 @@ https://templatemo.com/tm-559-zay-shop
                             <button class="btn btn-secondary btn-block" value="검색" onclick="pagingFormSubmit(1)">검색</button>
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-                            aria-controls="collapseExample" class="advanced">
-                            Advance Search With Filters <i class="fa fa-angle-down"></i>
-                        </a>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Property ID" class="form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by MAP">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by Country">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" placeholder="Property ID" class="form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by MAP">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" placeholder="Search by Country">
-                                    </div>
+                    	<div class="mt-3">
+                        	<div class="row">
+                            	<div class="col-md-3">
+                                	<a href=# class="dcheck" th:text="${check}" hidden></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'rank')"><font size=3>랭킹순</font></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'low')"><font size=3>낮은가격순</font></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'high')"><font size=3>높은가격순</font></a>
+                                </div>
+                                <div class="col-auto">
+                                    <a href=# onclick="pagingFormSubmit(1, 'recent')"><font size=3>최신순</font></a>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -377,8 +366,7 @@ https://templatemo.com/tm-559-zay-shop
                                 <ul class="pagination pagination-lg justify-content-center">
                                     <span
                                         th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
-                                        <li
-                                            th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                                        <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
                                             <a class="page-link" th:text="${counter}"
                                                 th:href="|javascript:pagingFormSubmit(${counter})|"></a>
                                         </li>

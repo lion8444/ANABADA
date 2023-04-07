@@ -41,11 +41,11 @@ public interface UsedService {
 	public String usedSellWrite(Used used, MultipartFile uploadOne);
 	
 	//파는 글 목록 출력
-	public ArrayList<Used>usedSellBoard(int start, int count, String type, String searchWord);
+	public ArrayList<Used>usedSellBoard(int start, int count, String type, String searchWord, String check, String email);
 	public ArrayList<File> fileList();
 	
 	//페이지 정보 객체 생성
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type, String searchWord);
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type, String searchWord, String check);
 	
 	//파는 글 목록 한개 출력
 	public Used usedSellBoardRead(String used_id);

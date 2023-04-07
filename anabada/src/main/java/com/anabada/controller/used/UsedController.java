@@ -61,28 +61,28 @@ public class UsedController {
 	 **/
 	@GetMapping("/usedSellBoard")      //@GetMapping("/SellBoard") 리퀘스트 매핑 넣고 바꿔주기
 	public String usedSellBoard(
-			@RequestParam(name="page", defaultValue="1") int page
+			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
+			, String check
 			, Model model) {
 		PageNavigator navi = 
-			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord);
+			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
 		
+		String email = null;
+		
+		if(user != null) {
+		email = user.getUsername();
+		}
 		ArrayList <Used> usedSellList = service.usedSellBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord);
+				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 
-//		ArrayList <Used> recommendList = service.recommendList(
-//				navi.getStartRecord(),countPerPage, type, searchWord);
-		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
-		
-//		for(int i = 0; i <= usedSellList.size(); ++i) {
-//			UserDTO user = lService.findUser(usedSellList.get(i).getUser_email());
-//		}
-//		
+		model.addAttribute("check",check);		
 		
 		return "used/usedSellBoard(JPB)";
 	}
@@ -98,9 +98,9 @@ public class UsedController {
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
 		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null);
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
 		ArrayList <Used> usedSellList = service.usedSellBoard(
-				navi.getStartRecord(),countPerPage, null, null);
+				navi.getStartRecord(),countPerPage, null, null, null, null);
 		
 		model.addAttribute("usedSellList",usedSellList);
 		
