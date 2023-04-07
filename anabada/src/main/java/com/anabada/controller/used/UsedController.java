@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,8 @@ public class UsedController {
 			, String type
 			, String searchWord
 			, String check
-			, Model model) {
+			, Model model
+			, HttpServletResponse response) {
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
 		
@@ -77,6 +79,16 @@ public class UsedController {
 		ArrayList <Used> usedSellList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 
+		if(searchWord != null) {
+			Cookie cookie = new Cookie("useremail","blueskii");
+			cookie.setDomain("localhost");
+			cookie.setPath("/");
+			// 30초간 저장
+			cookie.setMaxAge(30*60);
+			cookie.setSecure(true);
+			response.addCookie(cookie);
+		}
+		
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 			
 		model.addAttribute("usedSellList",usedSellList);

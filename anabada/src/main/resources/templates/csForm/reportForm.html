@@ -176,7 +176,7 @@
 									<tr>
 										<th th:text="#{reported}">신고대상</th>
 										<td>
-											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.used_id != null}" th:value="${us.user_email}">
+											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.used_id != null}" th:value="${user.user_email}">
 											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.rental_id != null}" th:value="${rt.user_email}">
 											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.used_id == null}">
 											<div class="reported_ok"></div>
@@ -314,50 +314,54 @@
         </div>
     </section>
 
-	<div class="site-footer">
-		<div class="container">
 
-			<div class="row">
-				<div class="col-lg-4">
-					<div class="widget">
-						<h3>Contact</h3>
-						<address>43 Raymouth Rd. Baltemoer, London 3910</address>
-						<ul class="list-unstyled links">
-							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-							<li><a href="mailto:info@mydomain.com">info@mydomain.com</a></li>
-						</ul>
-					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
-				<div class="col-lg-4">
-					<div class="widget">
-						<h3>Sources</h3>
-						<ul class="list-unstyled float-start links">
-							<li><a href="#">About us</a></li>
-							<li><a href="#">Services</a></li>
-							<li><a href="#">Vision</a></li>
-							<li><a href="#">Mission</a></li>
-							<li><a href="#">Terms</a></li>
-							<li><a href="#">Privacy</a></li>
-						</ul>
-						<ul class="list-unstyled float-start links">
-							<li><a href="#">Partners</a></li>
-							<li><a href="#">Business</a></li>
-							<li><a href="#">Careers</a></li>
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Creative</a></li>
-						</ul>
-					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
-				<div class="col-lg-4">
-					<div class="widget">
-						<h3>Links</h3>
-						<ul class="list-unstyled links">
-							<li><a href="#">Our Vision</a></li>
-							<li><a href="#">About us</a></li>
-							<li><a href="#">Contact us</a></li>
-						</ul>
+     <!-- Start Footer -->
+     <footer class="bg-dark" id="tempaltemo_footer">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">ANABADA</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt fa-fw"></i>
+                            06164 서울특별시 강남구 영동대로 513<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(삼성동, 코엑스) 4층 ICT센터
+                        </li>
+                        <li>
+                            <i class="fa fa-phone fa-fw"></i>
+                            <a class="text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope fa-fw"></i>
+                            <a class="text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Menu</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
+                        <li><a class="text-decoration-none" href="#">지 도</a></li>
+                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 pt-5">
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Informations</h2>
+                    <ul class="list-unstyled text-light footer-link-list">
+                        <li><a class="text-decoration-none" th:href="@{/indexMain}">Home</a></li>
+                        <li><a class="text-decoration-none" href="#">About Us</a></li>
+                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                        <li><a class="text-decoration-none" href="#">FAQs</a></li>
+                        <li><a class="text-decoration-none" href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+            </div>
 
             <div class="row text-light mb-4">
                 <div class="col-12 mb-3">

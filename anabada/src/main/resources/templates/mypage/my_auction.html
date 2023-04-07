@@ -207,13 +207,13 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myauctionlistall(user_email=${us.user_email})}'|">
+                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myauctionlistall(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="경매 내역" th:value="#{auctionlist}" th:onclick="|location.href='@{/mypage/myauctionlistsell(user_email=${us.user_email})}'|">
+                        <input type="button" value="경매 내역" th:value="#{auctionlist}" th:onclick="|location.href='@{/mypage/myauctionlistsell(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="입찰 내역" th:value="#{bidList}" th:onclick="|location.href='@{/mypage/myauctionlistbid(user_email=${us.user_email})}'|">
+                        <input type="button" value="입찰 내역" th:value="#{bidList}" th:onclick="|location.href='@{/mypage/myauctionlistbid(user_email=${user.user_email})}'|">
                     </div>
                 </div>
 
@@ -259,13 +259,13 @@
                                     <!-- 경매 취소 -->
                                     <form th:action="@{/mypage/cancleAuction}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-success" th:value="#{auctionCancle}" value="경매 취소" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
                                     </form>
                                     <!-- 입찰 취소 -->
                                     <form th:action="@{/mypage/cancleBid}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="buyer_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-success" value="입찰 취소" th:value="#{bidCancle}" th:if="${list.buyer_email} == ${#authentication.name} and ${list.aDetail_status == '입찰 중'}">                            
                                     </form>
                                 </div>
@@ -310,7 +310,7 @@
                                     <!-- 경매 취소 -->
                                     <form th:action="@{/mypage/cancleAuction}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-success" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
                                     </form>                    
                                 </div>
@@ -357,7 +357,7 @@
                                 <div class="mypagebutton">
                                     <form th:action="@{/mypage/cancleBid}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="buyer_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="buyer_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-success" value="입찰 취소" th:value="#{bidCancle}" th:if="${list.buyer_email} == ${#authentication.name} and ${list.aDetail_status == '입찰 중'}">                            
                                     </form>                            
                                 </div>
@@ -369,110 +369,6 @@
         </div>
     </div>
     <!-- End Content -->
-
-    <!-- Start Brands -->
-    <section class="bg-light py-5">
-        <div class="container my-4">
-            <div class="row text-center py-3">
-                <div class="col-lg-6 m-auto">
-                    <h1 class="h1">Our Brands</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        Lorem ipsum dolor sit amet.
-                    </p>
-                </div>
-                <div class="col-lg-9 m-auto tempaltemo-carousel">
-                    <div class="row d-flex flex-row">
-                        <!--Controls-->
-                        <div class="col-1 align-self-center">
-                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
-                                <i class="text-light fas fa-chevron-left"></i>
-                            </a>
-                        </div>
-                        <!--End Controls-->
-
-                        <!--Carousel Wrapper-->
-                        <div class="col">
-                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example" data-bs-ride="carousel">
-                                <!--Slides-->
-                                <div class="carousel-inner product-links-wap" role="listbox">
-
-                                    <!--First slide-->
-                                    <div class="carousel-item active">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End First slide-->
-
-                                    <!--Second slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Second slide-->
-
-                                    <!--Third slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Third slide-->
-
-                                </div>
-                                <!--End Slides-->
-                            </div>
-                        </div>
-                        <!--End Carousel Wrapper-->
-
-                        <!--Controls-->
-                        <div class="col-1 align-self-center">
-                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
-                                <i class="text-light fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                        <!--End Controls-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--End Brands-->
 
     <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">

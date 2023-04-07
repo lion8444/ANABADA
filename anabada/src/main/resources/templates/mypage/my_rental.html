@@ -208,13 +208,13 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myrentallistall(user_email=${us.user_email})}'|">
+                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myrentallistall(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="빌려준 내역" th:value="#{rentalSell}" th:onclick="|location.href='@{/mypage/myrentallistsell(user_email=${us.user_email})}'|">
+                        <input type="button" value="빌려준 내역" th:value="#{rentalSell}" th:onclick="|location.href='@{/mypage/myrentallistsell(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="빌린 내역" th:value="#{rentalBuy}" th:onclick="|location.href='@{/mypage/myrentallistbuy(user_email=${us.user_email})}'|">
+                        <input type="button" value="빌린 내역" th:value="#{rentalBuy}" th:onclick="|location.href='@{/mypage/myrentallistbuy(user_email=${user.user_email})}'|">
                     </div>
                 </div>
 
@@ -260,7 +260,7 @@
                                     <!-- 렌탈 취소 -->
                                     <form th:action="@{/mypage/cancleRental}" method="post">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" th:value="${list.rental_status}">
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
@@ -335,7 +335,7 @@
                                     <!-- 렌탈 취소 -->
                                     <form th:action="@{/mypage/cancleRental}" method="post">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" th:value="${list.rental_status}">
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
@@ -352,10 +352,10 @@
                                     <!-- <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${list.user_email}">
-                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${us.user_email}"></input>
+                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${user.user_email}"></input>
                                     </form> -->
                                     <!-- 렌탈 연장 확인-->
-                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${us.user_email}"></input>                                 -->
+                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${user.user_email}"></input>                                 -->
                                 </div>
                             </td>
                         </tr>
@@ -403,14 +403,14 @@
                                     <!-- 렌탈 취소 -->
                                     <!-- <form th:action="@{/mypage/cancleRental}" method="post">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" th:value="${list.rental_status}">
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
                                         <input type="submit" class="btn btn-success" value="렌탈취소" th:value="#{rentalCancle}" th:if="${list.rental == list.buyer_email}"></input>
                                     </form> -->
                                     <!-- 렌탈 연장 하기-->
-                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:if="${list.buyer_email} == ${us.user_email}" th:rentalid="${list.rental_id}" th:sDate="${list.rDetail_sDate}" th:eDate="${list.rDetail_eDate}" onclick="extendRental(this.getAttribute('rentalid'), this.getAttribute('sDate'), this.getAttribute('eDate'))"></input> -->
+                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:if="${list.buyer_email} == ${user.user_email}" th:rentalid="${list.rental_id}" th:sDate="${list.rDetail_sDate}" th:eDate="${list.rDetail_eDate}" onclick="extendRental(this.getAttribute('rentalid'), this.getAttribute('sDate'), this.getAttribute('eDate'))"></input> -->
                                     
                                     <!-- 렌탈 반납 확인-->
                                     <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
@@ -510,111 +510,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Start Brands -->
-    <section class="bg-light py-5">
-        <div class="container my-4">
-            <div class="row text-center py-3">
-                <div class="col-lg-6 m-auto">
-                    <h1 class="h1">Our Brands</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        Lorem ipsum dolor sit amet.
-                    </p>
-                </div>
-                <div class="col-lg-9 m-auto tempaltemo-carousel">
-                    <div class="row d-flex flex-row">
-                        <!--Controls-->
-                        <div class="col-1 align-self-center">
-                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
-                                <i class="text-light fas fa-chevron-left"></i>
-                            </a>
-                        </div>
-                        <!--End Controls-->
-
-                        <!--Carousel Wrapper-->
-                        <div class="col">
-                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example" data-bs-ride="carousel">
-                                <!--Slides-->
-                                <div class="carousel-inner product-links-wap" role="listbox">
-
-                                    <!--First slide-->
-                                    <div class="carousel-item active">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End First slide-->
-
-                                    <!--Second slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Second slide-->
-
-                                    <!--Third slide-->
-                                    <div class="carousel-item">
-                                        <div class="row">
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_01.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_02.pn}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_03.png}" alt="Brand Logo"></a>
-                                            </div>
-                                            <div class="col-3 p-md-5">
-                                                <a href="#"><img class="img-fluid brand-img" th:src="@{/assets/img/brand_04.png}" alt="Brand Logo"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End Third slide-->
-
-                                </div>
-                                <!--End Slides-->
-                            </div>
-                        </div>
-                        <!--End Carousel Wrapper-->
-
-                        <!--Controls-->
-                        <div class="col-1 align-self-center">
-                            <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
-                                <i class="text-light fas fa-chevron-right"></i>
-                            </a>
-                        </div>
-                        <!--End Controls-->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--End Brands-->
-
 
      <!-- Start Footer -->
      <footer class="bg-dark" id="tempaltemo_footer">
