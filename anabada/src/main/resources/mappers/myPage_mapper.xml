@@ -50,6 +50,7 @@
     <select id="selectUsedListAllById" resultType="UsedAndFile" parameterType="String">
 		SELECT
 		    u.used_id
+		    , ud.uDetail_id
 		    , u.user_email
 		    , ud.user_email buyer_email
 		    , u.category_id
@@ -90,12 +91,14 @@
 		    , u.used_content
 		    , u.used_quality
 		    , u.used_status
+		    , u.used_price
 		    , u.uloc_id
 		    , u.sloc_id
             , f.file_origin
             , f.file_saved
             , ud.udetail_status
             , ud.used_id
+            , ud.uDetail_id
             , ud.user_email AS buyer_email
             , uDetail_Date
     	FROM
@@ -503,13 +506,21 @@
     <!-- 중고 거래 취소하기 -->
     <update id="cancleUsedDetail" parameterType="UsedAndFile">
     	UPDATE 
-			used u 
+			used u
+			, user us
+			, used_detail ud 
 		SET 
 			u.used_status = '거래 중지'
+			, us.user_account = us.user_account + #{used_price}
+			, ud.uDetail_status = '거래 중지'
 		WHERE 
-			u.used_id= #{used_id} 
+			u.used_id = #{used_id} 
 			AND
-			u.user_email=#{user_email}
+			ud.used_id = #{used_id}
+			AND
+			ud.user_email = #{buyer_email}
+			AND
+			ud.uDetail_id = #{uDetail_id}
     </update>
     
     <!-- 렌탈 취소하기  -->
@@ -603,36 +614,36 @@
     
     <!-- 유저가 보유한 다마고치 리스트 -->
     <select id="selectMyDamaListById" resultType="Damagochi" parameterType="String">
-    	SELECT 
-			u.user_level
-		    , u.user_nick
-		    , u.user_email
-		    , uc.char_id
-		    , uc.char_grade
-		    , uc.char_one
-		    , uc.char_two
-		    , uc.char_three
-		    , uc.char_level
-		    , uc.char_selected
-		FROM
-			user u
-		    , (select
-				uc.user_email
-				,uc.char_id
-		        , uc.char_level
-		        , uc.char_selected
-				, c.char_grade
-				, c.char_one
-				, c.char_two
-				, c.char_three
-		    from
-				`character` c
-				, user_character uc
-			where
-				c.char_id = uc.char_id) uc
-		WHERE
-			u.user_email = uc.user_email
-		    AND
-		    u.user_email = #{user_email}
+    	    select 
+		* 
+	from 
+		`character` c
+		, user_character uc
+	WHERE
+		c.char_id = uc.char_id
+		AND
+		user_email = #{user_email}
     </select>
+    
+    <!-- 현재 설정된 대표 다마고치 설정 해제 -->
+    <update id="updateCharSelectedZero" parameterType="Damagochi">
+	    	UPDATE
+				user_character
+			SET
+				char_selected = 0
+			WHERE
+				user_email = #{user_email}
+    </update>
+    
+    <!-- 현재 선택한 다마고치로 대표 다마고치 설정 -->
+    <update id="updateCharSelectedOne" parameterType="Damagochi">
+    	UPDATE 
+    		user_character
+    	SET
+    		char_selected = 1
+    	WHERE
+    		uChar_id = #{uChar_id}
+		AND
+            user_email = #{user_email};
+    </update>
 </mapper>

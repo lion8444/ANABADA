@@ -173,6 +173,12 @@ public interface MyPageService {
 	 * @return 유저가 보유한 다마고치 리스트
 	 */
 	public List<Damagochi> selectMyDamaListById(String user_email);
+
+	public int deleteUsedDetail(UsedAndFile usedAndFile);
+
+	public int updateCharSelectedZero(Damagochi damagochi);
+
+	public int updateCharSelectedOne(Damagochi damagochi);
 	
 
 }

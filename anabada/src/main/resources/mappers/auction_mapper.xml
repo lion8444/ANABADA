@@ -69,35 +69,33 @@
     	SELECT
     		*
     	FROM
-    		auction
+    		auction LEFT JOIN user ON auction.user_email = user.user_email
 		<where>
 			<if test="searchWord != null and type != null" >
 					<if test="type =='auction_title'">
-						upper(auction_title) like '%' || upper(#{searchWord}) || '%'
+						upper(auction.auction_title) like upper(CONCAT('%',#{searchWord},'%'))
 					</if>
 					
 					<if test = "type =='auction_content'">
-						upper(auction_content) like '%' || upper(#{searchWord}) || '%'
+						upper(auction.auction_content) like upper(CONCAT('%',#{searchWord},'%'))
 					</if>
 					
-					<if test = "type == 'user_email'">
-						user_email = #{searchWord}
+					<if test = "type == 'user_nick'">
+						upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
 					</if>
 				
 					<if test ="type == 'all'">
-						upper(auction_title) like '%' || #{searchWord} || '%'
-						or upper(auction_content) like '%' || #{searchWord} || '%'
-						or user_email = #{searchWord}
+						upper(auction.auction_title) like upper(CONCAT('%',#{searchWord},'%'))
+						or upper(auction.auction_content) like upper(CONCAT('%',#{searchWord},'%'))
+						or upper(user.user_nick) like upper(CONCAT('%',#{searchWord},'%'))
 					</if>
 				</if>
 			 AND
-			 auction_status = '거래 중'
+			 auction.auction_status = '거래 중'
 			 AND
-			 auction_finish &gt;= now()
+			 auction.auction_finish &gt;= now()
 		</where>
     </select>
-    
-
     
     <!-- 전체 글 개수 -->
 	<select id="total" parameterType="map" resultType="int">

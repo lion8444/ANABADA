@@ -204,7 +204,8 @@
             </div>
 
             <div class="col-lg-9">
-                <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:value="#{memberInfoModify}" th:onclick="|location.href='@{/checkPw(${user.user_email})}'|">
+                <p th:text="${user.user_email}"></p>
+                <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:value="#{memberInfoModify}" th:onclick="|location.href='@{/mypage/checkPw(user_email=${user.user_email})}'|">
                 <br>
                 <div class="row">
                     <span class="col-md-4">

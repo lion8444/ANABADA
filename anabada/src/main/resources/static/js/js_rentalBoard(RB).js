@@ -153,20 +153,22 @@ window.onload = function() {
       }, 200);
     });
   };
-
-
-
-
+  
 function pagingFormSubmit(currentPage) {
-  let form = $('#pagingForm');
-  let page = $('#page');
-  page.val(currentPage);
-  console.log(currentPage)
+		let type = $('.sstatus').html();
+		if(type == '검색대상'){
+			alert("검색대상을 설정해 주세요");
+			return false;
+		}
+		let searchWord = document.getElementById('searchWord').value;
+		let page = document.getElementById('page');
+		page.value = currentPage;
+  		location.href = "rentalBoard?type=" + type + "&searchWord=" + searchWord +"&page=" + currentPage ;
+	}
 
-  location.href = "rentalBoard?page=" + currentPage;
-
-}
-
+function statuscheck(vcheck){
+	$('.sstatus').html(vcheck);
+	}
 
 
 

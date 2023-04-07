@@ -21,4 +21,5 @@ public class Damagochi {
 	String char_selected;
 	String char_name;
 	String char_date;
+	String uChar_id;
 }
