@@ -91,7 +91,7 @@ public class AuctionController {
 	 **/
 	@GetMapping("/auctionBoard")
 	public String auctionBoard(
-			@AuthenticationPrincipal UserDetails user
+			@AuthenticationPrincipal UserDetails userDetails
 			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
@@ -105,8 +105,8 @@ public class AuctionController {
 
 		String email = null;
 		
-		if(user != null) {
-		email = user.getUsername();
+		if(userDetails != null) {
+		email = userDetails.getUsername();
 		}
 		
 		ArrayList <Auction> auctionList = service.auctionBoard(
@@ -125,7 +125,8 @@ public class AuctionController {
 	 **/
 	@GetMapping("auctionBoardRead")
 	public String auctionBoardRead(
-			@RequestParam(name="auction_id",defaultValue="0") String auction_id
+			@AuthenticationPrincipal UserDetails userDetails
+			,@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {

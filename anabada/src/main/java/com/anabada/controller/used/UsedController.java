@@ -41,7 +41,7 @@ public class UsedController {
 	UsedService service;
 	
 	@Autowired
-	LoginService lService;
+	LoginService lservice;
 	
 	//설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -60,7 +60,7 @@ public class UsedController {
 	 **/
 	@GetMapping("/usedSellBoard") // @GetMapping("/SellBoard") 리퀘스트 매핑 넣고 바꿔주기
 	public String usedSellBoard(
-			@AuthenticationPrincipal UserDetails user
+			@AuthenticationPrincipal UserDetails userDetails
 			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
@@ -71,8 +71,8 @@ public class UsedController {
 		
 		String email = null;
 		
-		if(user != null) {
-		email = user.getUsername();
+		if(userDetails != null) {
+		email = userDetails.getUsername();
 		}
 		ArrayList <Used> usedSellList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
@@ -95,7 +95,8 @@ public class UsedController {
 	 **/
 	@GetMapping("usedSellBoardRead")
 	public String usedSellBoardRead(
-			@RequestParam(name="used_id",defaultValue="0") String used_id
+			@AuthenticationPrincipal UserDetails userDetails
+			,@RequestParam(name="used_id",defaultValue="0") String used_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
