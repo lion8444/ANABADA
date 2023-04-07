@@ -21,4 +21,6 @@ public interface UserDAO {
 
     int updateUser(UserDTO user);
 
+    UserDTO findUserNick(String nick);
+
 }

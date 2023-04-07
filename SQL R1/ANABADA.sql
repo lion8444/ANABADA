@@ -255,47 +255,47 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `anabada`.`chatRoom`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `anabada`.`chatRoom` ;
-
-CREATE TABLE IF NOT EXISTS `anabada`.`chatRoom` (
-  `chatRoom_id` VARCHAR(20) NOT NULL,
-  `user_email` VARCHAR(50) NOT NULL,
-  `chatRoom_date` DATETIME NULL DEFAULT now(),
-  PRIMARY KEY (`chatRoom_id`),
-  INDEX `fk_chatRoom_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_chatRoom_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+DROP TABLE IF EXISTS `anabada`.`chatroom` ;
+create table `anabada`.`chatroom` (
+	`roomId` varchar(100) primary key
+    ,`name` varchar(100)
+    ,`board_no` varchar(10)
+    ,`opener` varchar(100)
+    ,`target` varchar(100)
+    ,`unReadCount` int default 0
+    ,`roomdate` datetime default now()
+);
+-- CREATE TABLE IF NOT EXISTS `anabada`.`chatRoom` (
+--   `chatRoom_id` VARCHAR(20) NOT NULL,
+--   `user_email` VARCHAR(50) NOT NULL,
+--   `chatRoom_date` DATETIME NULL DEFAULT now(),
+--   PRIMARY KEY (`chatRoom_id`),
+--   INDEX `fk_chatRoom_user1_idx` (`user_email` ASC) VISIBLE,
+--   CONSTRAINT `fk_chatRoom_user1`
+--     FOREIGN KEY (`user_email`)
+--     REFERENCES `anabada`.`user` (`user_email`)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION)
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `anabada`.`chat`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `anabada`.`chat` ;
+DROP TABLE IF EXISTS `anabada`.`chatmessage` ;
 
-CREATE TABLE IF NOT EXISTS `anabada`.`chat` (
-  `chat_id` VARCHAR(20) NOT NULL,
-  `chatRoom_id` VARCHAR(20) NOT NULL,
-  `user_email` VARCHAR(50) NOT NULL,
-  `chat_contents` VARCHAR(255) NOT NULL,
-  `chat_date` DATETIME NULL DEFAULT now(),
-  PRIMARY KEY (`chat_id`),
-  INDEX `fk_chat_chatRoom1_idx` (`chatRoom_id` ASC) VISIBLE,
-  INDEX `fk_chat_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_chat_chatRoom1`
-    FOREIGN KEY (`chatRoom_id`)
-    REFERENCES `anabada`.`chatRoom` (`chatRoom_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_chat_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+create table `anabada`.`chatmessage` (
+	`messageId` varchar(100) primary key
+	,`roomId` varchar(100) not null
+    ,`sender` varchar(100)
+    ,`message` varchar(255)
+    ,`unReadCount` int default 0	
+    ,`sessionCount` int default 0
+    ,`chatdate` datetime default now()
+    ,foreign key(`roomId`)
+		references `anabada`.`chatroom`(`roomId`)
+        on delete cascade
+);
 
 
 -- -----------------------------------------------------

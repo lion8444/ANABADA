@@ -1,72 +1,85 @@
 package com.anabada.service.chat;
 
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 
-import com.anabada.dao.ChatDAO;
-import com.anabada.domain.ChatRoom;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.anabada.domain.UserDTO;
+import com.anabada.domain.chat.ChatMessage;
+import com.anabada.domain.chat.ChatRoom;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@RequiredArgsConstructor
 @Service
-public class ChatService {
+public interface ChatService {
 
-    private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+    /**
+     * 방 번호를 선택하는 메소드
+     * @param roomId
+     * @return
+     */
+    ChatRoom selectChatRoom(String roomId);
+ 
+    /**
+     * 채팅 메세지 DB 저장
+     * @param chatMessage
+     * @return 
+     */
+    int insertMessage(ChatMessage chatMessage);
+ 
+    /**
+     * 메세지 내용 리스트 출력
+     * @param roomId
+     * @return
+     */
+    List<ChatMessage> messageList(String roomId);
+ 
+    /**
+     * 채팅 방 DB 저장
+     * @param room
+     * @return
+     */
+    int createChat(ChatRoom room);
+ 
+    /**
+     * DB에 채팅 방이 있는지 확인
+     * @param room
+     * @return
+     */
+    ChatRoom searchChatRoom(ChatRoom room);
+ 
+    /**
+     * 채팅 방 리스트 출력
+     * @param userEmail
+     * @return
+     */
+    List<ChatRoom> chatRoomList(String userEmail);
+ 
+    /**
+     * 채팅 읽지 않은 메세지 수 출력
+     * @param message
+     * @return
+     */
+    int selectUnReadCount(ChatMessage message);
+ 
+    /**
+     * 읽은 메세지 숫자 0으로 바꾸기
+     * @param message
+     * @return
+     */
+    int updateCount(ChatMessage message);
+
+    /**
+     * 상세 게시글 판매자 정보 
+     * 여기선 편의상 ChatService 이용
+     * @param target 판매자 아이디
+     * @return
+     */
+    UserDTO getTargetSeller(String target);
+
+    /**
+     * 만들어진 채팅방 확인
+     * @param str
+     * @return
+     */
+    Boolean findBoard(String str);
     
-    @Autowired
-    ChatDAO dao;
-
-    @PostConstruct
-    private void init() {
-        chatRooms = new LinkedHashMap<>();
-    }
-
-    public List<ChatRoom> findAllRoom() {
-        return new ArrayList<>(chatRooms.values());
-    }
-
-    public ChatRoom findRoomById(String roomId) {
-        return chatRooms.get(roomId);
-    }
-
-    public ChatRoom createRoom(ChatRoom room, String roomName) {
-    	// int res = dao.insertChatRoom(room);
-    	
-//        String randomId = UUID.randomUUID().toString();
-        
-        log.debug("room : {}", room);
-
-        ChatRoom chatRoom = ChatRoom.builder()
-               .chatRoom_id("CHAT0001")
-               .chatRoom_name(roomName)
-               .build();
-        chatRooms.put(room.getChatRoom_id(), chatRoom);
-        return room;
-    }
-
-    public <T> void sendMessage(WebSocketSession session, T message) {
-        try {
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-        }
-    }
 }
