@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>ANABADA</title>
@@ -34,191 +33,188 @@
     <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
     <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
 
-	<link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- 개인 css-->
-    <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPBR).css}">
-
+    <link rel="stylesheet" th:href="@{/css/css_purchase.css}">
     <style>
-    
-      .info input[type=text], .showmuch, .showrental_price, .showmoney {
-      background: transparent;
-       pointer-events: none;
-      }
-      
-      .addr1{
-             pointer-events: none;
-      
-      }
-      
-      .hidden {
-      display:none;
-      color: red;
-      
-      }
+        .info input[type=text],
+        .showmuch,
+        .showrental_price,
+        .showmoney {
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .addr1 {
+            pointer-events: none;
+
+        }
+
+        .hidden {
+            display: none;
+            color: red;
+
+        }
     </style>
 
-    <!-- 제이쿼리 (pyw) -->
-    <script th:src="@{/js/js_myPage.js}"></script>
-    <script th:src="@{/js/lanTest.js}"></script>
+    <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	
-	<script>
-	$(document).ready(function(){
-		$('.myaddr').change(myaddr);
-		$('.newaddr').change(newaddr);
-		$('.post').click(sample6_execDaumPostcode);
-		$('#purchaseform').submit(submitcheck);
+    <script>
+        $(document).ready(function () {
+            $('.myaddr').change(myaddr);
+            $('.newaddr').change(newaddr);
+            $('.post').click(sample6_execDaumPostcode);
+            $('#purchaseform').submit(submitcheck);
 
-	});	
+        });
 
-	/**
-		숫자 천자리 마다 , 넣기
-	*/	
-    function comma(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    }
-    
-	/**
-		내 주소 선택시 해당 내용 db에서 불러와서 넣기
-	*/	
-	function myaddr(){
-		$.ajax({
-			url: 'myaddr'
-			, type: 'get'
-			, dataType: 'json'
-			, success: function(userone){
-				$('.name').val(userone.user_name);
-				$('.phone').val(userone.user_phone);
-				$('.post').val(userone.user_post);	
-				$('.addr1').val(userone.user_addr1);	
-				$('.addr2').val(userone.user_addr2);		
+        /**
+            숫자 천자리 마다 , 넣기
+        */
+        function comma(str) {
+            str = String(str);
+            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+        }
 
-			}
-			, error: function(){
-				alert("실패");
-			}
-			
-		});
-	}
-	
-	/**
-		신규 배송지 선택시 해당 내용 자리 비우기
-	*/	
-	function newaddr(){
-		$('.name').val("");
-		$('.phone').val("");
-		$('.post').val("");
-		$('.addr1').val("");
-		$('.addr2').val("");
-	}
-	
-	
-	/**
-		submit 클릭 시 데이터 무결성 확인
-	*/	  		
-	function submitcheck(){
-		let check = /[0-9]{11,11}$/; 
-		
-		if($('.rental_sdate').val() == "" || $('.rental_edate').val() == "" || $('.rental_price').val() <= 0){
-			$('.rental_sdate ~ div').css("display" ,"block");
-			return false;
-		}else{
-			$('.rental_sdate ~ div').css("display" ,"none");
-		}
-		
-		if($('.name').val().trim() == ""){
-			$('.name ~ div').css("display" ,"block");
-			return false;
-		}else{
-			$('.name ~ div').css("display" ,"none");
-		}
-		
-		if($('.phone').val() == "" || !check.test($('.phone').val())){
-			$('.phone ~ div').css("display" ,"block");
-			return false;
-		}else{
-			$('.phone ~ div').css("display" ,"none");
-		}
-		
-		if($('.post').val() == ""){
-			$('.post ~ div').css("display" ,"block");
-			return false;
-		}else{
-			$('.post ~ div').css("display" ,"none");
-		}
-		
-		if(Number($('.money').val()) > Number($('.much').val())){
-			$('.money ~ div').css("display" ,"block");
-			return false;
-		}else{
-			$('.money ~ div').css("display" ,"none");
-		}
-		
-		
-		if(!$('.agree').is(":checked")){
-			$('.agree ~ div').css("display" ,"block");
-			return false;
-		}else{
-			$('.agree ~ div').css("display" ,"none");
-		}
-		
-	}
-	
-	
-	<!-- 다음 우편번호 검색 -->
-	
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+        /**
+            내 주소 선택시 해당 내용 db에서 불러와서 넣기
+        */
+        function myaddr() {
+            $.ajax({
+                url: 'myaddr'
+                , type: 'get'
+                , dataType: 'json'
+                , success: function (userone) {
+                    $('.name').val(userone.user_name);
+                    $('.phone').val(userone.user_phone);
+                    $('.post').val(userone.user_post);
+                    $('.addr1').val(userone.user_addr1);
+                    $('.addr2').val(userone.user_addr2);
 
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
+                }
+                , error: function () {
+                    alert("실패");
                 }
 
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                
-                } 
+            });
+        }
 
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
+        /**
+            신규 배송지 선택시 해당 내용 자리 비우기
+        */
+        function newaddr() {
+            $('.name').val("");
+            $('.phone').val("");
+            $('.post').val("");
+            $('.addr1').val("");
+            $('.addr2').val("");
+        }
+
+
+        /**
+            submit 클릭 시 데이터 무결성 확인
+        */
+        function submitcheck() {
+            let check = /[0-9]{11,11}$/;
+
+            if ($('.rental_sdate').val() == "" || $('.rental_edate').val() == "" || $('.rental_price').val() <= 0) {
+                $('.rental_sdate ~ div').css("display", "block");
+                return false;
+            } else {
+                $('.rental_sdate ~ div').css("display", "none");
             }
-        }).open();
-    }
-</script>
+
+            if ($('.name').val().trim() == "") {
+                $('.name ~ div').css("display", "block");
+                return false;
+            } else {
+                $('.name ~ div').css("display", "none");
+            }
+
+            if ($('.phone').val() == "" || !check.test($('.phone').val())) {
+                $('.phone ~ div').css("display", "block");
+                return false;
+            } else {
+                $('.phone ~ div').css("display", "none");
+            }
+
+            if ($('.post').val() == "") {
+                $('.post ~ div').css("display", "block");
+                return false;
+            } else {
+                $('.post ~ div').css("display", "none");
+            }
+
+            if (Number($('.money').val()) > Number($('.much').val())) {
+                $('.money ~ div').css("display", "block");
+                return false;
+            } else {
+                $('.money ~ div').css("display", "none");
+            }
+
+
+            if (!$('.agree').is(":checked")) {
+                $('.agree ~ div').css("display", "block");
+                return false;
+            } else {
+                $('.agree ~ div').css("display", "none");
+            }
+
+        }
+
+
+        <!-- 다음 우편번호 검색 -->
+
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if (data.userSelectedType === 'R') {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== '' && data.apartment === 'Y') {
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraAddr !== '') {
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
 </head>
 
 <body>
@@ -302,8 +298,10 @@
 
                     <!-- 언어 선택 버튼 이미지 -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
-                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO"
+                            th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP"
+                            th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>
@@ -312,10 +310,11 @@
         </div>
     </nav>
     <!-- Close Header -->
-    
+
 
     <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="w-100 pt-1 mb-5 text-right">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -330,7 +329,7 @@
             </form>
         </div>
     </div>
-    
+
     <!-- 넣을부분 -->
     <div class="site-mobile-menu site-navbar-target">
         <div class="site-mobile-menu-header">
@@ -341,153 +340,189 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-        <a href="" th:text="#{report}">신고</a>
-        <!-- <div class="usedhref">
-            <a th:href="@{|/csform/report?used_id=${used_sell.used_id}|}">
-                <button class="btn btn-secondary btn-block" value="신고" th:text="#{report}">신고</button></a>
-        </div> -->
-        <div class="section">
-            <div class="container">
-                
-                <div class="row justify-content-between">
-                    
-                    <div class="col-lg-7">
-                        <div class="img-property-slide-wrap">
-                            <div class="img-property-slide">
-                                <img th:src="@{/assets/property_images/img_1.jpg}" alt="Image" class="img-fluid">
-                                <img th:src="@{/assets/property_images/img_2.jpg}" alt="Image" class="img-fluid">
-                                <img th:src="@{/assets/property_images/img_3.jpg}" alt="Image" class="img-fluid">
-                            </div>
+    <div class="section">
+        <div class="container">
+
+            <div class="row justify-content-between">
+
+                <div class="col-lg-7">
+                    <div class="img-property-slide-wrap">
+                        <div class="img-property-slide">
+                            <th:block th:each="fileList, i: ${fileList}">
+                                <img th:src="@{/used/imgshowone(used_id=${used.used_id}, index=${i.index})}" alt="Image" class="img-fluid">
+                            </th:block>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                       
-                        <h2 class="heading text-primary">닌텐도 스위치 대여</h2>
-                        <p class="meta">일 100000원</p><br>
-                        <p class="text-black-50">닌텐도 스위치 대여합니다</p>
-                        <p class="text-black-30">* 사용감있음</p>
-                        <p class="text-black-30">* 대여기간 내 손상시 수리비 청구</p>
-                        <p class="text-black-30">* 배송시 배송료 별도</p>
-                        
-                      
-                        <div class="d-block agent-box p-5">
-                            <div class="img mb-4"> 
-                                <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid">
-                            </div>
-                            <div class="text">
-                                <h3 class="mb-0">Alicia Huston</h3>
-                                <div class="meta mb-3">Real Estate</div>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione laborum quo quos omnis sed magnam id ducimus saepe</p>
-                                <ul class="list-unstyled social dark-hover d-flex">
-                                    <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li>
-    
-                                </ul>
+                </div>
+                <div class="col-lg-4">
+                    <input type="hidden" name="used_id" id="used_id" th:value="${used.used_id}">
+                    <div class="heading text-primary">
+                        <h2 th:text="${used.used_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
+                    </div>
+                    <div class="meta">
+                        <h3 th:text="'가격: '+${#numbers.formatInteger(used.used_price, 3, 'COMMA')} + '원'" id="papago1" class="papago" papagoCount="1">가격</h3>
+                    </div><br>
+                    <div class="text-black-50">
+                        <p th:text="${used.used_content}" id="papago2" class="papago" papagoCount="2">내용</p>
+                    </div>
+                    <div class="text-black-30">
+                        <p th:text="${'상품상태: '+ used.used_quality}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
+                    </div>
+                    <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
+
+                    <div class="d-block agent-box p-5">
+                        <div class="img mb-4">
+                            <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
+                            다마고치 넣는곳
+                        </div>
+                        <div class="text">
+                            <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
+                            <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
+                            <h5 th:text="'국적: '+${user.user_nation}">국적</h5>
+
+                            <h5>
+                                <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
+                                <span th:text="'페널티: '+${user.user_penalty}"></span>
+                            </h5>
+
+                            <div style="text-align: right;"> 
+                                <button type="button" class="btn btn-primary btn-lg">채 팅</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <br>
+    </div>
+    <br>
 
 
-        <div class="col-md-4 container bg-default">
-          <form th:action="@{/used/purchase}" method="post" id="purchaseform">
-        
-            <div class="info form-group">
-            
-            	<h3 class="my-4" th:text="#{transactionInfo}">거래 정보</h3>
-            	<input type="text" name="used_id" th:value="${used.used_id}" hidden>
-            	<div class="form-group">
-            		<p th:text="#{pdName}">상품명</p>
-            	    <input type="text" class="form-control" th:value="${used.used_title}"  readonly>
-            	</div>
-				<div class="form-group">
-	            	<p th:text="#{price}">금액</p>
-	            	<input type="text" class="showused_price form-control" th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}"  readonly>
-	            	<input type="text" class="used_price" name="uDetail_price" th:value="${used.used_price}"  hidden>
-          	</div>
-          	
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+
+                <form th:action="@{/used/purchase}" method="post" id="purchaseform">
+
+                    <div class="info form-group">
+
+                        <h3 class="my-4" th:text="#{transactionInfo}">거래 정보</h3>
+                        <input type="text" name="used_id" th:value="${used.used_id}" hidden>
+                        <div class="form-group">
+                            <p th:text="#{pdName}">상품명</p>
+                            <input type="text" class="form-control" th:value="${used.used_title}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <p th:text="#{price}">금액</p>
+                            <input type="text" class="showused_price form-control"
+                                th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}" readonly>
+                            <input type="text" class="used_price" name="uDetail_price" th:value="${used.used_price}"
+                                hidden>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <h3 class="my-4" th:text="#{shippingInfo}">배송지 정보</h3>
+                        <div class="form-group">
+
+                            <p th:text="#{shippingAddrSelect}">배송지 선택</p>
+
+                            <input type="radio" class="newaddr form-check-label" name="addr" value="new"
+                                th:text="#{newShippingAddr}" checked>
+                            <input type="radio" class="myaddr form-check-label" name="addr" value="default"
+                                th:text="#{myAddr}">
+                        </div>
+                        <div class="form-group">
+
+                            <p th:text="#{reception}">수령인</p>
+                            <input type="text" class="name form-control" name="uDetail_person"
+                                th:placeholder="#{put20}"><br>
+                            <div class="hidden" th:text="#{putReception}">
+                                수령인을 입력해 주세요.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <p th:text="#{phone}">연락처</p>
+                            <input type="text" class="phone form-control" name="uDetail_phone"
+                                th:placeholder="#{putNo-}"><br>
+                            <div class="hidden" th:text="#{putCorrectPhoneNum}">
+                                정확한 핸드폰 번호를 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <p th:text="#{shippingAddrInfo}">배송지 주소</p>
+                            
+                            <input type="text" id="sample6_postcode" name="uDetail_post" class="post form-control"
+                                th:placeholder="#{postCode}"> 
+                                <div class="usedhref">
+                                    <button class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
+                                    th:value="#{searchPostCode}" value="우편번호 찾기">우편번호 찾기</button>
+                                </div>
+                            <input id="sample6_address" class="addr1 form-control" name="uDetail_addr1" type="text"
+                                readonly><br>
+                            <input id="sample6_detailAddress" class="addr2 form-control" name="uDetail_addr2"
+                                type="text"><br>
+                            <div class="hidden" th:text="#{putAddr}">
+                                주소를 입력해 주세요.
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <p th:text="#{shippingMemo}">배송메모</p>
+                            <textarea name="uDetail_memo" class="form-control"
+                                th:placeholder="#{putShippingRequest}"></textarea>
+                        </div>
+                        <div><p></p></div>
+                    </div>
             </div>
-            <br>
-            <div class="form-group">
-                <h3 class="my-4" th:text="#{shippingInfo}">배송지 정보</h3>
-				<div class="form-group">
-                
-	            	<p th:text="#{shippingAddrSelect}">배송지 선택</p>
-	            	
-                	<input type="radio" class="newaddr form-check-label" name="addr" value="new" th:text="#{newShippingAddr}" checked>
-	                <input type="radio" class="myaddr form-check-label" name="addr" value="default" th:text="#{myAddr}">
-				</div>
-				<div class="form-group">
-				
-	                <p th:text="#{reception}">수령인</p>
-	                <input type="text" class="name form-control" name="uDetail_person" th:placeholder="#{put20}"><br>
-	            		<div class="hidden" th:text="#{putReception}">
-              				수령인을 입력해 주세요.
-            			</div>
-            	</div>
-            	
-				<div class="form-group">
-	                <p th:text="#{phone}">연락처</p>
-	                <input type="text" class="phone form-control" name="uDetail_phone" th:placeholder="#{putNo-}"><br>
-	            		<div class="hidden" th:text="#{putCorrectPhoneNum}">
-              				정확한 핸드폰 번호를 입력해주세요.
-            			</div>
-					</div>  
-				<div class="form-group">
-					        			
-	                <p th:text="#{shippingAddrInfo}">배송지 주소</p>
-	                <input type="text" id="sample6_postcode" name="uDetail_post" class="post form-control" th:placeholder="#{postCode}"> <input type="button" onclick="sample6_execDaumPostcode()" th:value="#{searchPostCode}" value="우편번호 찾기"><br>
-	            	<input id="sample6_address" class="addr1 form-control" name="uDetail_addr1" type="text" readonly><br>
-	            	<input id="sample6_detailAddress" class="addr2 form-control" name="uDetail_addr2" type="text"><br>
-	            		<div class="hidden" th:text="#{putAddr}">
-              				주소를 입력해 주세요.
-            			</div>
-            			</div>
-				<div class="form-group">
-            			
-	            	<p th:text="#{shippingMemo}">배송메모</p>
-	            	<textarea name="uDetail_memo" class="form-control" th:placeholder="#{putShippingRequest}"></textarea>
-	            	</div>	
-            </div>
-            <br>
-            
-            <div>
+
+            <div class="col-md-4">
                 <h3 class="my-4" th:text="#{anaPoint}">아나바다 포인트 </h3>
                 <div class="form-group">
-	                <p th:text="#{have}">보유</p> 
-	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly> <input type="button" class="charge" th:value="#{charge}" value="충전">
-	                <input type="text" class="much" th:value="${(user.user_account)}" hidden>
-	            </div>
-	            <div class="form-group">
-	                <p th:text="#{use}">사용</p> 
-	                <input type="text" class="showmoney form-control" th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}">
-	                <input type="text" class="money" name="user_account" th:value="${used.used_price}" hidden> <br>
-                	<div class="hidden" th:text="#{pointLack}">
-						보유 포인트가 부족합니다.
-            		</div>
-            	</div>
-            	<div class="form-group">
-                	<input type="checkbox" class="agree">
-                	<span th:text="#{agree}">주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
-		 	            <div class="hidden" th:text="#{aggreChk}">
-		              		동의란에 체크해 주세요.
-		            	</div>               	
-		         </div>
+                    <p th:text="#{have}">보유</p>
+                    <input type="text" class="showmuch form-control"
+                        th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly>
+                        <!-- <input type="button" class="charge" th:value="#{charge}" value="충전"> -->
+                        <div class="usedhref">
+	                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전">충전</button>
+                        </div>
+                    <input type="text" class="much" th:value="${(user.user_account)}" hidden>
+                </div>
+                <div class="form-group">
+                    <p th:text="#{use}">사용</p>
+                    <input type="text" class="showmoney form-control"
+                        th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + '원'}">
+                    <input type="text" class="money" name="user_account" th:value="${used.used_price}" hidden> <br>
+                    <div class="hidden" th:text="#{pointLack}">
+                        보유 포인트가 부족합니다.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" class="agree">
+                    <span th:text="#{agree}">주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
+                    <div class="hidden" th:text="#{aggreChk}">
+                        동의란에 체크해 주세요.
+                    </div>
+                </div>
+
+                <div>
+                    <!-- <input type="submit" th:value="#{pay}" value="결제하기"> -->
+                    <div class="usedhref">
+                        <button type="submit" class="btn btn-secondary btn-block" value="삭제" th:text="#{pay}">결제하기</button>
+                    </div>
+                </div><br>
             </div>
-            <div><input type="submit" th:value="#{pay}" value="결제하기"></div><br>
-            
-			</form>
-
+            </form>
         </div>
-       
+    </div>
 
-   <!-- Start Footer -->
-   <footer class="bg-dark" id="tempaltemo_footer">
+
+</body>
+
+<!-- Start Footer -->
+<footer class="bg-dark" id="tempaltemo_footer">
     <div class="container">
         <div class="row">
 
@@ -581,32 +616,34 @@
 </footer>
 <!-- End Footer -->
 
-    <!-- Start Script -->
-    <script src="assets/js/jquery-1.11.0.min.js"></script>
-    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/templatemo.js"></script>
-    <script src="assets/js/custom.js"></script>
-    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script> 
-    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
-    <script th:src="@{/assets/property_js/aos.js}"></script>
-    <script th:src="@{/assets/property_js/navbar.js}"></script>
-    <script th:src="@{/assets/property_js/counter.js}"></script>  
-    <script th:src="@{/assets/js/templatemo.js}"></script>
-    <script th:src="@{/assets/property_js/custom.js}"></script> 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script th:src="@{/js/js_usedSellBoard(JPB).js}"></script>
-    <script th:src="@{/js/pjh.js}"></script>
-    
-    <!-- 제이쿼리 (pyw)-->
-    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
-    <script th:src="@{/js/js_myPage.js}"></script>
-    <script th:src="@{/js/lanTest.js}"></script>
-    
-    <!-- End Script -->
-</body>
+<!-- Start Script -->
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/property_js/tiny-slider.js}"></script>
+<script th:src="@{/assets/property_js/aos.js}"></script>
+<script th:src="@{/assets/property_js/navbar.js}"></script>
+<script th:src="@{/assets/property_js/counter.js}"></script>
+<script th:src="@{/assets/js/templatemo.js}"></script>
+<script th:src="@{/assets/property_js/custom.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/js/js_usedSellBoard(JPB).js}"></script>
+<script th:src="@{/js/pjh.js}"></script>
+
+<!-- 제이쿼리 (pyw)-->
+<script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+<script th:src="@{/js/js_myPage.js}"></script>
+<script th:src="@{/js/lanTest.js}"></script>
+
+
+
+<!-- End Script -->
+
 
 </html>

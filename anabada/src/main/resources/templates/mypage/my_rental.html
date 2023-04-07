@@ -249,8 +249,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="mypagebutton">
-                                    <p th:text="${list.user_email}"></p>
+                                <div class="mypagebutton">                                    
                                     <!-- 렌탈 후기 -->
                                     <input type="button" class="btn btn-success" value="렌탈후기" th:if="${list.rental_status == '거래 완료'}" th:value="#{rentalReview}" th:onclick="|location.href='@{/csform/review(rental_id=${list.rental_id})}'|"></input>
                                     <br>
@@ -306,7 +305,6 @@
                                 </div>
                             </td>
                             <td>
-                                <p th:text="${list.user_email}"></p>
                                 <div class="mypageTwo">
                                     <div th:if="${list.rDetail_status == '거래 전'}">
                                         <p th:text="#{rentalYet}"><span th:text="${list..rDetail_status}">게시글 상태</span></p>
@@ -375,8 +373,6 @@
                                 </div>
                             </td>
                             <td>
-                                <p th:text="${list.user_email}"></p>
-                                <p th:text="${list.buyer_email}"></p>
                                 <div class="mypageTwo">
                                     <div th:if="${list.rental_status == '거래 전'}">
                                         <p th:text="#{rentalYet}"><span th:text="${list.retnal_status}">게시글 상태</span></p>

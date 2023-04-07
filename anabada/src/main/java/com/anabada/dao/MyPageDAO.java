@@ -199,4 +199,10 @@ public interface MyPageDAO {
 	 */
 	public List<Damagochi> selectMyDamaListById(String user_email);
 
+	public int deleteUsedDetail(UsedAndFile usedAndFile);
+
+	public int updateCharSelectedZero(Damagochi damagochi);
+	
+	public int updateCharSelectedOne(Damagochi damagochi);
+
 }

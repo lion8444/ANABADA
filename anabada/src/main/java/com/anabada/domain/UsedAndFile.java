@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsedAndFile {
+	String uDetail_id;
 	String used_id;
 	String user_email;
 	String buyer_email;

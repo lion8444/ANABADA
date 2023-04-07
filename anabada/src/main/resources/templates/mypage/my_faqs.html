@@ -10,6 +10,8 @@
     <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
+    
+
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
@@ -39,9 +41,25 @@
     <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- 부트 스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <style>
+        .accordion-item {
+            width:800px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $('.accordian-button').on('click', function() {
+                $(this).attr('', value);
+            });
+        });
+    </script>
 
 </head>
 
@@ -114,7 +132,7 @@
                         <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
                         <a class="dropdown-item" th:href="@{/login}">로그인</a>
                         <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -204,6 +222,42 @@
                     <div class="inquiretext" th:text="#{qnaList}">자주 묻는 질문</div>
                 </div>
                 <br>
+                <!-- 부트스트랩 예시 시작 -->
+                <div class="accordion accordion-flush open" id="accordionFlushExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            [결제] 결제가 안되면 어떻게 하나요??
+                        </button>
+                      </h2>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">잘 하시면 됩니다.</div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                          [다마고치] 다마고치 시스템은 뭔가요?
+                        </button>
+                      </h2>
+                      <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">잘 키우는 캐릭터임</div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                          [사기] 사기걸리면 어떻게 하나요?
+                        </button>
+                      </h2>
+                      <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">알아서 하세요.</div>
+                      </div>
+                    </div>
+                </div>
+                
+                <!-- 부트 스트랩 예시 끝-->
+                <br>
                 <div id="transbox">
                     <ul class="faqsbanner">
                         <li>
@@ -235,6 +289,9 @@
         </div>
     </div>
     <!-- End Content -->
+
+    <!-- 부트 스트랩 예시 -->
+    
 
      <!-- Start Footer -->
      <footer class="bg-dark" id="tempaltemo_footer">
@@ -354,6 +411,11 @@
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
     <!-- End Script -->
+
+    <!-- 부트 스트랩 -->
+    <script>
+
+    </script>
 </body>
 
 </html>
