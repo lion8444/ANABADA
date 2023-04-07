@@ -5,20 +5,19 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import com.anabada.websocket.WebSocketHandler;
+import com.anabada.handler.ChatHandler;
+
+import lombok.RequiredArgsConstructor;
 
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
-    private final WebSocketHandler webSocketHandler;
-
-    public WebSocketConfig(WebSocketHandler webSocketHandler) {
-        this.webSocketHandler = webSocketHandler;
-    }
+    private final ChatHandler chatHandler;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(webSocketHandler, "/chat").setAllowedOrigins("*");
+        registry.addHandler(chatHandler, "/ws/chat").setAllowedOrigins("*");
     }
 }

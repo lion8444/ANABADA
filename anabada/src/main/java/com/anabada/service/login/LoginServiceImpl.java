@@ -34,6 +34,12 @@ public class LoginServiceImpl implements LoginService {
 	}
 
 	@Override
+	public UserDTO findUserNick(String nick) {
+		UserDTO user = dao.findUserNick(nick);
+		return user;
+	}
+
+	@Override
 	public boolean findUser(String user_email, String pwd) {
 		UserDTO user = dao.findUser(user_email);
 		log.debug("비밀번호 비교 : {}", user.getPassword());

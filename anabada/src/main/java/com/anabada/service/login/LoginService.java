@@ -11,6 +11,8 @@ public interface LoginService {
 	int joinUser(UserDTO user);
 
 	UserDTO findUser(String username);
+	
+	UserDTO findUserNick(String nick);
 
 	boolean findUser(String username, String pwd);
 
