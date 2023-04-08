@@ -62,4 +62,24 @@ public class RestMyPageController {
 		
 		return list;
 	}
+	
+	@PostMapping("charge")
+	public int charge(@AuthenticationPrincipal UserDetails userDetails, String money) {
+			if(isInteger(money)) {
+				String email = userDetails.getUsername();
+				int result = service.addmoney(email, money);
+				return result;
+			}
+		
+		return 0;
+	}
+
+	private boolean isInteger(String money) {
+	    try {
+	        Integer.parseInt(money);
+	        return true;
+	      } catch (NumberFormatException ex) {
+	        return false;
+	      }
+	    }
 }

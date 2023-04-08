@@ -379,4 +379,9 @@ public class AuctionController {
 		}
 		return "redirect:/";
 	}
+	
+	@GetMapping("charge")
+	public String charge() {
+		return "/mypage/charge.html";
+	}
 }

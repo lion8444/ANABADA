@@ -179,6 +179,8 @@ public interface MyPageService {
 	public int updateCharSelectedZero(Damagochi damagochi);
 
 	public int updateCharSelectedOne(Damagochi damagochi);
+
+	public int addmoney(String email, String money);
 	
 
 }

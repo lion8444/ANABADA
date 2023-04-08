@@ -338,7 +338,7 @@
                 <h3 class="my-4">아나바다 포인트 </h3>
                 <div class="form-group">
 	                <p>보유</p> 
-	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly> <input type="button" class="charge" value="충전">
+	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly> <input type="button" class="charge" value="충전" th:onclick="charge()">
 	                <input type="text" class="much" th:value="${(user.user_account)}" hidden>
 	            </div>
 	            <div class="form-group">

@@ -55,4 +55,6 @@ public interface AuctionService {
 	ArrayList<File> fileListByid(String auction_id);
 
 	int addtemp(Auction formdata);
+
+	int addmoney(String email, String money);
 }

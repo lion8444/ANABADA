@@ -201,3 +201,7 @@ $(document).ready(function(){
             }
         }).open();
     }
+    
+    function charge(){
+	window.open('charge', '충전 페이지', "width=1000, height=500");
+	}

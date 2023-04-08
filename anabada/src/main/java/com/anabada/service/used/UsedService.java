@@ -84,6 +84,8 @@ public interface UsedService {
 
 	int addtemp(Used formdata);
 
+	int addmoney(String email, String money);
+
 
 	
 }

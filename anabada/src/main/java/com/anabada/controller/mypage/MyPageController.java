@@ -660,5 +660,8 @@ public class MyPageController {
 		return "redirect:/";
 	}
 
-	
+	@GetMapping("charge")
+	public String charge(String user_nick) {
+		return "mypage/charge.html";
+	}
 }

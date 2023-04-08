@@ -311,3 +311,7 @@ function damaCheck() {
     return false;
 }
 
+function charge(user_nick){
+	window.open('charge', '충전 페이지', "width=1000, height=500");
+}
+
