@@ -25,8 +25,10 @@ import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
+import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
+import com.anabada.service.login.LoginService;
 import com.anabada.service.auction.AuctionService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
@@ -40,6 +42,9 @@ public class AuctionController {
 
 	@Autowired
 	private AuctionService service;
+	
+	@Autowired
+	private LoginService lservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -98,9 +103,6 @@ public class AuctionController {
 			, String check
 			, Model model) {
 
-		UserDTO user = service.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);
-
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
 		
@@ -110,9 +112,20 @@ public class AuctionController {
 		email = userDetails.getUsername();
 		}
 		
-		ArrayList <Auction> auctionList = service.auctionBoard(
+		ArrayList <Auction> auctionLists = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 		
+		//0408 추가 
+		ArrayList <Auction> auctionList = new ArrayList<>();
+		for (Auction auction : auctionLists) {
+			UserDTO target = lservice.findUser(auction.getUser_email());
+			auction.setUser_nick(target.getUser_nick());
+			auctionList.add(auction);
+		}
+		
+		UserDTO user = service.findUser(userDetails.getUsername());
+		
+		model.addAttribute("user", user);
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);

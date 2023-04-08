@@ -102,8 +102,7 @@ public class RentController {
 			, String searchWord
 			, String check
 			, Model model) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);				
+		
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
 		
@@ -113,16 +112,27 @@ public class RentController {
 		email = userDetails.getUsername();
 		}
 		
-		ArrayList <Rental> rentalList = service.rentalBoard(
+		ArrayList <Rental> rentalLists = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		
+		//0408 추가 
+		ArrayList <Rental> rentalList = new ArrayList<>();
+		for (Rental rental : rentalLists) {
+			UserDTO target = lservice.findUser(rental.getUser_email());
+			rental.setUser_nick(target.getUser_nick());
+			rentalList.add(rental);
+		}
+		
+		UserDTO user = lservice.findUser(userDetails.getUsername());
+		
 		model.addAttribute("rentalList",rentalList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("user", user);
 		model.addAttribute("check",check);
 
 		return "rental/rentalBoard(RB)";

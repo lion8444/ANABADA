@@ -267,16 +267,18 @@
             		<p>상품명</p>
             	    <input type="text" class="form-control" th:value="${rental.rental_title}"  readonly>
             	</div>
+                <br>
             	<div class="form-group">
             		<p>대여기간</p>
 	            	<input type="date" class="fixedrental_sDate" th:value="${rental.rental_sDate}" hidden>
 	            	<input type="date" class="fixedrental_eDate" th:value="${rental.rental_eDate}" hidden>            		
 	            	<input type="date" class="rental_sdate form-control" name="rDetail_sDate" th:value="${rental.rental_sDate}">
-	            		- <input type="date" class="rental_edate form-control" name="rDetail_eDate" th:value="${rental.rental_eDate}">
+	            		~ <input type="date" class="rental_edate form-control" name="rDetail_eDate" th:value="${rental.rental_eDate}">
 	            		<div class="hidden">
               				대여기간을 다시 설정해 주세요.
             			</div>
 	            </div>
+                <br>
 				<div class="form-group">
 	            	<p>대여금액</p>
 	            	<input type="text" class="showrental_price form-control"  readonly>
@@ -294,6 +296,7 @@
                 	<input type="radio" class="newaddr form-check-label" name="addr" value="new" checked>신규배송지
 	                <input type="radio" class="myaddr form-check-label" name="addr" value="default">내 주소
 				</div>
+                <br>
 				<div class="form-group">
 				
 	                <p>수령인</p>

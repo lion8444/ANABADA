@@ -271,27 +271,31 @@
                             <p>상품명</p>
                             <input type="text" class="title form-control" th:value="${auction.auction_title}" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <p>경매기간</p>
                             <input type="text" class="auction_date form-control" name="auction_date">
                             ~ <input type="text" class="auction_finish form-control" name="auction_finish"
                                 th:value="${auction.auction_finish}">
                         </div>
+                        <br>
                         <div class="form-group">
                             <p>남은 기간</p>
                             <input type="text" class="restdate form-control" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <p>경매 시작가</p>
                             <input type="text" class="startprice form-control"
                                 th:value="|₩ ${#numbers.formatInteger(auction.auction_price, 3, 'COMMA')}|" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <p>현재 입찰가</p>
                             <input type="text" class="nowprice form-control" readonly>
                             <input type="text" class="renowprice" hidden>
                         </div>
-
+                        <br>
                         <div class="form-group">
                             <p>입찰금액</p>
                             <input type="text" class="showbid_price form-control">
@@ -312,6 +316,7 @@
                             <input type="radio" class="newaddr form-check-label" name="addr" value="new" checked>신규배송지
                             <input type="radio" class="myaddr form-check-label" name="addr" value="default">내 주소
                         </div>
+                        <br>
                         <div class="form-group">
 
                             <p>수령인</p>

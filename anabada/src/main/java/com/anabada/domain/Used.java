@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Used {
 	String used_id;
+	String user_nick;
 	String user_email;
 	String category_id;
 	String used_title;

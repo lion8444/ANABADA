@@ -62,30 +62,46 @@ public class UsedController {
 	@GetMapping("/usedSellBoard") // @GetMapping("/SellBoard") 리퀘스트 매핑 넣고 바꿔주기
 	public String usedSellBoard(
 			@AuthenticationPrincipal UserDetails userDetails
-			,HttpServletResponse response
 			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
 			, String check
-			, Model model) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-
+			, Model model
+			, HttpServletResponse response) {
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
 		
 		String email = null;
-		model.addAttribute("user", user);
 		
 		if(userDetails != null) {
 		email = userDetails.getUsername();
 		}
-		ArrayList <Used> usedSellList = service.usedSellBoard(
+		ArrayList <Used> usedList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
+
+		if(searchWord != null) {
+			Cookie cookie = new Cookie("useremail","blueskii");
+			cookie.setDomain("localhost");
+			cookie.setPath("/");
+			// 30초간 저장
+			cookie.setMaxAge(30*60);
+			cookie.setSecure(true);
+			response.addCookie(cookie);
+		}
+		
+		ArrayList <Used> usedSellList = new ArrayList<>();
+		for (Used used : usedList) {
+			UserDTO target = lservice.findUser(used.getUser_email());
+			used.setUser_nick(target.getUser_nick());
+			usedSellList.add(used);
+		}
+		UserDTO user = lservice.findUser(userDetails.getUsername());
 		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("user", user);
 		model.addAttribute("check",check);		
 		
 		return "used/usedSellBoard(JPB)";
