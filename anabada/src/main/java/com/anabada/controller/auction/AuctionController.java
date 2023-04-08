@@ -136,7 +136,7 @@ public class AuctionController {
 	}
 
 	/**
-	 * 렌탈 상세 게시판으로 이동
+	 * 렌탈 상세 게시판으로 이동(한개 보여줌)
 	 * 조회수
 	 **/
 	@GetMapping("auctionBoardRead")
@@ -145,20 +145,20 @@ public class AuctionController {
 			,@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
-			) {
-		UserDTO user = service.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);
-						
+			) {			
 		PageNavigator navi = 
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
 		ArrayList <Auction> auctionList = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, null, null, null, null);
+		
 		model.addAttribute("auctionList",auctionList);
 		
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
 
 		UserDTO target = service.findUser(auction_sell.getUser_email());
+		UserDTO user = service.findUser(userDetails.getUsername());
+		model.addAttribute("user", user);
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);

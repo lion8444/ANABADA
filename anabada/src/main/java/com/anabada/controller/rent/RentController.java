@@ -149,8 +149,7 @@ public class RentController {
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);	
+			
 					
 		PageNavigator navi = 
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
@@ -158,8 +157,6 @@ public class RentController {
 		ArrayList <Rental> rentalList = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, null, null, null, null);
 		ArrayList <File> fileList2 = service.fileList();
-		
-		
 		
 		for(int i=0 ; i < fileList2.size(); ++i) {
 			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
@@ -173,9 +170,13 @@ public class RentController {
 
 		Rental rental_sell = service.rentalBoardRead(rental_id);
 		ArrayList<File> fileList = service.fileListByid(rental_id);
+		
+		UserDTO user = lservice.findUser(userDetails.getUsername());
+		UserDTO target = lservice.findUser(rental_sell.getUser_email());
+		
+		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
-		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		model.addAttribute("target", target);
 		return "rental/rentalBoardRead(RBR)";
 	}
