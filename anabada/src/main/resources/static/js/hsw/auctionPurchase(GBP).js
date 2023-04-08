@@ -1,4 +1,4 @@
- $(document).ready(function () {
+        $(document).ready(function () {
             nowprice();
             setInterval(nowprice, 1000);
             pricecal();
@@ -21,7 +21,7 @@
                 , type: 'get'
                 , data: { 'auction_id': $('.auction_id').val() }
                 , success: function (price) {
-                    $('.nowprice').val(comma(price) + "원");
+                    $('.nowprice').val('₩ '+ comma(price));
                     $('.renowprice').val(price);
                 }
                 , error: function () {
@@ -183,7 +183,7 @@
         }
 
 
-/*        <!-- 다음 우편번호 검색 -->*/
+        /*<!-- 다음 우편번호 검색 -->*/
 
         function sample6_execDaumPostcode() {
             new daum.Postcode({
