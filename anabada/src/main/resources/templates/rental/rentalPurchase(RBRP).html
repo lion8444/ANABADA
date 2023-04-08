@@ -95,7 +95,7 @@
 		let countday = count / (1000 * 60 * 60 * 24);
 		let total = $('.rental_price_day').val() * countday;
 		if($.isNumeric(total) && total > 0){
-			$('.showrental_price').val(comma(total)+'원');
+			$('.showrental_price').val('₩ '+ comma(total));
 			$('.rental_price').val(total);
 			$('.showmoney').val($('.showrental_price').val());	
 			$('.money').val($('.rental_price').val());	
@@ -104,7 +104,7 @@
 		else{
 			$('.showrental_price').val(0);
 			$('.rental_price').val(0);
-			$('.showmoney').val($('.showrental_price').val()+'원');	
+			$('.showmoney').val($('₩ '+'.showrental_price').val());	
 			$('.money').val($('.rental_price').val());	
 		}
 		
@@ -313,10 +313,10 @@
                             <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">MAP</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">INTRODUCTION</a>
                         </li>
                     </ul>
                 </div>
@@ -329,14 +329,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
-
+                   
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -344,10 +337,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -419,7 +413,8 @@
                                 <h2 th:text="${rental.rental_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
                             </div>
                             <div class="meta">
-                                <h3 th:text="${rental.rental_price}" id="papago1" class="papago" papagoCount="1">가격</h3>
+                                <h3 th:text="'₩ '+ ${#numbers.formatInteger(rental.rental_price, 3, 'COMMA')}" id="papago1"
+                                    class="papago" papagoCount="1">가격</h3>
                             </div><br>
                             <div class="text-black-50">
                                 <p th:text="${rental.rental_content}" id="papago2" class="papago" papagoCount="2">내용</p>
@@ -428,10 +423,10 @@
                                 <p th:text="${rental.rental_quality}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
                             </div>
                             <div class="text-black-30">
-                                <p th:text="${rental.rental_sDate}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
+                                <p th:text="'렌탈 시작일: ' + ${rental.rental_sDate}" id="papago3" class="papago" papagoCount="3">시작 날짜</p>
                             </div>
                             <div class="text-black-30">
-                                <p th:text="${rental.rental_eDate}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
+                                <p th:text="'렌탈 종료일: ' + ${rental.rental_eDate}" id="papago3" class="papago" papagoCount="3">끝나는 날짜</p>
                             </div>
                             <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 대여기간 내 손상시 수리비 청구</span></p>
                             <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
@@ -442,16 +437,18 @@
                                 다마고치 넣는 곳
                             </div>
                             <div class="text">
-                                <h3 class="mb-0" th:text="${user.user_nick}">닉네임</h3>
-                                <div class="meta mb-3"th:text="${user.user_nation}">국적</div>
-                                <p th:text="${user.user_penalty}">페널티</p>
-                                <ul class="list-unstyled social dark-hover d-flex">
-                                    <!-- <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
-                                    <li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li> -->
+                                <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
+                                <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
+                                <h5 th:text="'국적: '+${user.user_nation}">국적</h5>
+    
+                                <h5>
+                                    <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
+                                    <span th:text="'페널티: '+${user.user_penalty}"></span>
+                                </h5>
+    
+                                <div style="text-align: right;">
                                     <button type="button" class="btn btn-primary btn-lg">채 팅</button>
-                                </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -488,9 +485,8 @@
 	            	<p>대여금액</p>
 	            	<input type="text" class="showrental_price form-control"  readonly>
 	            	<input type="text" class="rental_price" name="rDetail_price"  hidden>
-                <input type="text" class="rental_price_day form-control" th:value="${rental.rental_price}" hidden>
-          	</div>
-          	
+                    <input type="text" class="rental_price_day form-control" th:value="${rental.rental_price}" hidden>
+          	    </div>
             </div>
             <br>
             <div class="form-group">
@@ -521,7 +517,13 @@
 				<div class="form-group">
 					        			
 	                <p>배송지 주소</p>
-	                <input type="text" id="sample6_postcode" name="rDetail_post" class="post form-control" placeholder="우편번호"> <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+	                <input type="text" id="sample6_postcode" name="rDetail_post" class="post form-control" placeholder="우편번호"> 
+                    <!-- <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br> -->
+                    <div class="usedhref">
+                        <button class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
+                            th:value="#{searchPostCode}" value="우편번호 찾기">우편번호 찾기</button>
+                    </div>
+
 	            	<input id="sample6_address" class="addr1 form-control" name="rDetail_addr1" type="text" readonly><br>
 	            	<input id="sample6_detailAddress" class="addr2 form-control" name="rDetail_addr2" type="text"><br>
 	            		<div class="hidden">
@@ -542,9 +544,14 @@
                 <h3 class="my-4">아나바다 포인트 </h3>
                 <div class="form-group">
 	                <p>보유</p> 
-	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly> <input type="button" class="charge" value="충전">
+	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly>
+                    <div class="usedhref">
+                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전">충전</button>
+                    </div>
 	                <input type="text" class="much" th:value="${(user.user_account)}" hidden>
 	            </div>
+                <br>
+                <br>
 	            <div class="form-group">
 	                <p>사용</p> 
 	                <input type="text" class="showmoney form-control">
@@ -562,7 +569,10 @@
 		         </div>
             
             <div>
-                <input type="submit" value="결제하기">
+                <div class="usedhref">
+                    <button type="submit" class="btn btn-secondary btn-block" value="삭제"
+                        th:text="#{pay}">결제하기</button>
+                </div>
             </div><br>
             </div>
 			</form>
@@ -650,6 +660,7 @@
             </div>
         </div>
     </section>
+
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
@@ -680,8 +691,8 @@
                         <li><a class="text-decoration-none" th:href="@{usedSellBoard}">중고거래</a></li>
                         <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                         <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                     </ul>
                 </div>
     
@@ -704,26 +715,12 @@
                 </div>
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
-                        <!-- <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                        </li> -->
+                       
                     </ul>
                 </div>
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <!-- <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div> -->
+                    
                 </div>
             </div>
         </div>

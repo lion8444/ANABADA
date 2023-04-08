@@ -29,13 +29,7 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
-<!--
-    
-TemplateMo 559 Zay Shop
 
-https://templatemo.com/tm-559-zay-shop
-
--->
 </head>
 
 
@@ -88,26 +82,12 @@ https://templatemo.com/tm-559-zay-shop
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
-
-                    <!-- 드랍다운이 적용되는지 확인하기 위해 주석 걸어놓음 성공하면 이부분 지워도 됨  -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" th:href="@{login}">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
-                    </a> -->
 
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink" aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                       <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
                         <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
                         <div sec:authorize="isAuthenticated()">
                             <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>

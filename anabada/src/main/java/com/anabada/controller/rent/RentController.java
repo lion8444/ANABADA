@@ -86,7 +86,7 @@ public class RentController {
 			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 
-		return "rental/rentalThanks.html";
+		return "redirect:/mypage/myrentallistall";
 	}
 
 	/**

@@ -83,7 +83,7 @@ public class AuctionController {
 			return "redirect:/auction/purchase?auction_id=" + auction_detail.getAuction_id();
 		}
 
-		return "auction/auctionThanks.html";
+		return "redirect:/mypage/myauctionlistall";
 	}
 
 	/**
