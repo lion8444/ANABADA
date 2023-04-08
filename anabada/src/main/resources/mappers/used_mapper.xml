@@ -434,5 +434,9 @@
 		 SELECT func_seq_10('SRCH'), #{email}, #{searchWord}
 		 FROM DUAL WHERE NOT EXISTS(SELECT * FROM search WHERE user_email = #{email} AND search_word = #{searchWord})
     </insert>
+    
+    <delete id="deleteWord">
+    	DELETE FROM search WHERE NOW() > DATE_ADD(date(search_date), INTERVAL 7 DAY)
+    </delete>
 </mapper>
 	

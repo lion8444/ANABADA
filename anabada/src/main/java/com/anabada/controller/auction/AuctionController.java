@@ -59,11 +59,11 @@ public class AuctionController {
 		model.addAttribute("user", user);
 		Auction auction = service.findOneAuction(auction_id);
 		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
-
-		// Auction_bid auction_bid= service.findOneAuctionbid();
+		ArrayList<File> fileList = service.fileListByid(auction_id);
 
 		model.addAttribute("auction", auction);
 		model.addAttribute("auction_detail", auction_detail);
+		model.addAttribute("fileList", fileList);
 
 		return "auction/auctionPurchase(GBP).html";
 	}
