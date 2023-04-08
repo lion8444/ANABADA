@@ -60,9 +60,11 @@ public class RentController {
 		Rental rental = service.findOneRental(rental_id);
 		String user_email = user.getUsername();
 		UserDTO userone = service.findUser(user_email);
+		ArrayList<File> fileList = service.fileListByid(rental_id);
 
 		model.addAttribute("rental", rental);
 		model.addAttribute("user", userone);
+		model.addAttribute("fileList", fileList);
 
 		return "rental/rentalPurchase(RBRP).html";
 	}
@@ -107,8 +109,8 @@ public class RentController {
 		
 		String email = null;
 		
-		if(user != null) {
-		email = user.getUsername();
+		if(userDetails != null) {
+		email = userDetails.getUsername();
 		}
 		
 		ArrayList <Rental> rentalList = service.rentalBoard(

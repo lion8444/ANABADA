@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class UsedController {
 	@GetMapping("/usedSellBoard") // @GetMapping("/SellBoard") 리퀘스트 매핑 넣고 바꿔주기
 	public String usedSellBoard(
 			@AuthenticationPrincipal UserDetails userDetails
+			,HttpServletResponse response
 			,@RequestParam(name="page", defaultValue="1") int page
 			, String type
 			, String searchWord
@@ -74,12 +76,12 @@ public class UsedController {
 		String email = null;
 		model.addAttribute("user", user);
 		
-		if(user != null) {
-		email = user.getUsername();
+		if(userDetails != null) {
+		email = userDetails.getUsername();
 		}
 		ArrayList <Used> usedSellList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
-
+		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
@@ -119,7 +121,6 @@ public class UsedController {
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
 
-		log.info(fileList + "");
 		return "used/usedSellBoardRead(JPBR)";
 	}
 
@@ -431,10 +432,12 @@ public class UsedController {
 		// Used_detail used_detail= service.findOneUseddetail(used_id);
 		UserDTO user = service.findUser(userDetails.getUsername());
 		// //Auction_bid auction_bid= service.findOneAuctionbid();
+			ArrayList<File> fileList = service.fileListByid(used_id);
 
 		model.addAttribute("used", used);
 		// model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("user", user);
+		model.addAttribute("fileList", fileList);
 
 		return "used/usedPurchase(JPBP).html";
 	}

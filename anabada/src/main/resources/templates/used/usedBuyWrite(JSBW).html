@@ -195,22 +195,13 @@
               <label for="content">내용</label>
               <textarea class="form-control" rows="5" name="uBuy_content" id="uBuy_content" placeholder="내용을 입력해 주세요" ></textarea>
             </div>
-
             <div>
-      
                 <input type="submit" class="btn btn-sm btn-primary" value="임시저장">
-                
                 <input type="submit" class="btn btn-sm btn-primary" value="저장">
-          
               </div>
           </form>
-      
-          
-      
         </div>
-      
       </article>
-
 
       <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">

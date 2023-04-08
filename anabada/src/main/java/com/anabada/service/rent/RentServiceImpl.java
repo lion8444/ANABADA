@@ -130,6 +130,7 @@ public class RentServiceImpl implements RentService {
 				save.put("searchWord", searchWord);
 				save.put("email", email);
 				dao.addsearchWord(save);
+				dao.deleteWord();
 			}
 			map.put("searchWord", searchWord);
 			map.put("check", check);
