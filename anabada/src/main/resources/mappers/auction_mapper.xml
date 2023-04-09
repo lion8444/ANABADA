@@ -351,4 +351,13 @@
      <delete id="deleteWord">
     	DELETE FROM search WHERE NOW() > DATE_ADD(date(search_date), INTERVAL 7 DAY)
     </delete>   
+    
+        <update id="addmoney" parameterType="map">
+    	UPDATE 
+    		user
+    	SET
+    		user_account = user_account + #{money}
+    	WHERE
+            user_email = #{email};
+    </update>
 </mapper>

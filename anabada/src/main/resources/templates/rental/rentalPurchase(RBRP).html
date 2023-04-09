@@ -345,7 +345,7 @@
 	                <p>보유</p> 
 	                <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly>
                     <div class="usedhref">
-                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전">충전</button>
+                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전" th:onclick="charge()">충전</button>
                     </div>
 	                <input type="text" class="much" th:value="${(user.user_account)}" hidden>
 	            </div>

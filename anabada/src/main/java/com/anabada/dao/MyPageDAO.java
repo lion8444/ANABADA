@@ -1,5 +1,6 @@
 package com.anabada.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -204,5 +205,7 @@ public interface MyPageDAO {
 	public int updateCharSelectedZero(Damagochi damagochi);
 	
 	public int updateCharSelectedOne(Damagochi damagochi);
+
+	public int addmoney(HashMap<String, Object> map);
 
 }

@@ -445,4 +445,9 @@ public class RentController {
 		}
 		return "redirect:/";
 	}
+	
+	@GetMapping("charge")
+	public String charge() {
+		return "/mypage/charge.html";
+	}
 }

@@ -242,7 +242,14 @@ public class AuctionServiceImpl implements AuctionService {
 				return i;
 			}
 
-			
+			@Override
+			public int addmoney(String email, String money) {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("email", email);
+				map.put("money", money);
+				int result = dao.addmoney(map);
+				return result;
+			}			
 			
 			
 

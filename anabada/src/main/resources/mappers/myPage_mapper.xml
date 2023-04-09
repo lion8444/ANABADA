@@ -646,4 +646,13 @@
 		AND
             user_email = #{user_email};
     </update>
+    
+    <update id="addmoney" parameterType="map">
+    	UPDATE 
+    		user
+    	SET
+    		user_account = user_account + #{money}
+    	WHERE
+            user_email = #{email};
+    </update>
 </mapper>

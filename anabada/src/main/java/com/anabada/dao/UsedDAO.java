@@ -93,5 +93,7 @@ public interface UsedDAO {
 
 	void deleteWord();
 
+	int addmoney(HashMap<String, Object> map);
+
 	
 }

@@ -265,7 +265,7 @@
                     <span id="anamoney" th:text="${user.user_account}"></span>
                     <br>
                     <br>
-                    <input type="button" value="충전" th:value="#{charge}" id="anacharge">
+                    <input type="button" value="충전" th:value="#{charge}" id="anacharge" th:onclick="charge([[${user.user_nick}]])">
                     <input type="button" value="&#8361;계좌송금" th:value="#{sendMoney}" id="anatransfer">
                 </div>
                 <div id="singo">

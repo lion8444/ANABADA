@@ -290,7 +290,6 @@ public class UsedServiceImpl implements UsedService {
 		return list;
 	}
 
-
 	@Override
 	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
 		// TODO Auto-generated method stub
@@ -311,31 +310,13 @@ public class UsedServiceImpl implements UsedService {
 		return i;
 	}
 	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public int addmoney(String email, String money) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("money", money);
+		int result = dao.addmoney(map);
+		return result;
+	}
 
 }
