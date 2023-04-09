@@ -85,10 +85,10 @@
                             <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">MAP</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">INTRODUCTION</a>
                         </li>
                     </ul>
                 </div>
@@ -119,7 +119,7 @@
                         <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
                         <a class="dropdown-item" th:href="@{/login}">로그인</a>
                         <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a class="dropdown-item" th:href="@{/}">로그아웃</a>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -229,7 +229,7 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(auction_id=${list.auction_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   
@@ -280,7 +280,7 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(auction_id=${list.auction_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   
@@ -325,7 +325,7 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(auction_id=${list.auction_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   

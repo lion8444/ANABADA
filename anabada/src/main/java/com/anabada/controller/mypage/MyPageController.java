@@ -1,17 +1,26 @@
 package com.anabada.controller.mypage;
 
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
@@ -25,6 +34,7 @@ import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.WishAndFile;
 import com.anabada.service.mypage.MyPageService;
+import com.anabada.util.PageNavigator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +50,18 @@ public class MyPageController {
 
 	@Autowired
 	MyPageService service;
+	
+	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
+	@Value("${spring.servlet.multipart.location}")
+	String uploadPath;
+	
+	// 페이지 당 글 수
+	@Value("${user.board.page}")
+	int countPerPage;
+
+	// 페이지당 이동링크 수
+	@Value("${user.board.group}")
+	int pagePerGroup;
 
 	/**
 	 * 마이페이지 포워딩
@@ -53,13 +75,17 @@ public class MyPageController {
 		// 현재 로그인한 유저의 개인 정보
 		UserDTO userDTO = service.selectUserById(user.getUsername());
 
-		List<CharacterDTO> characterDTO = service.selectUserDama(user.getUsername());
-
+//		List<CharacterDTO> characterDTO = service.selectUserDama(user.getUsername());
+		
+		Damagochi selectDama = service.selectMyDamaInfoById(user.getUsername());
+		
 		log.debug("정보 : {}", userDTO);
-		log.debug("다마정보 : {}", characterDTO);
-
+//		log.debug("다마정보 : {}", characterDTO);
+		log.debug("셀렉트다마 : ", selectDama);
+		
 		model.addAttribute("user", userDTO);
-		model.addAttribute("dama", characterDTO);
+//		model.addAttribute("dama", characterDTO);
+		model.addAttribute("selectDama", selectDama);
 
 		return "mypage/mypage";
 	}
@@ -117,15 +143,22 @@ public class MyPageController {
 	@GetMapping("/mytransactionlistall")
 	public String myTradeList(
 			@AuthenticationPrincipal UserDetails user
+			, @RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
 		
 		log.debug("스프링 user : {}", user.getUsername());
 				
-		List<UsedAndFile> list = service.selectUsedListAllById(user.getUsername());
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page);
+		
+		List<UsedAndFile> list = service.selectUsedListAllById(navi.getStartRecord(),countPerPage, user.getUsername());
+		
 		UserDTO us = service.selectUserById(user.getUsername());
+		
 			
 		model.addAttribute("usedListAll", list);
 		model.addAttribute("us", us);
+		model.addAttribute("navi",navi);
 		
 		return "mypage/my_transaction";
 	}
@@ -658,6 +691,103 @@ public class MyPageController {
 		} 
 		
 		return "redirect:/";
+	}
+	
+	/**
+	 * 이미지 불러오기 - 사진 출력
+	 * @param response
+	 * @param used_id
+	 * @param index
+	 * @return
+	 */
+	@GetMapping({"/imgshowone"})
+	public String download(HttpServletResponse response, String used_id, String rental_id, String auction_id) {
+		//		log.info(index+"");
+
+		if(used_id != null) {
+			ArrayList <File> fileList = service.fileListByid(used_id);
+			String file = uploadPath + "/" + fileList.get(0).getFile_saved();
+
+			FileInputStream in = null;		
+			ServletOutputStream out = null;
+
+			try {	
+				response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(0).getFile_origin(), "UTF-8"));
+				in = new FileInputStream(file);
+				out = response.getOutputStream();
+
+				FileCopyUtils.copy(in, out);
+
+				in.close();
+				out.close();
+			} catch (Exception e) {
+				return "redirect:/";
+			}
+		}
+		
+		if(rental_id != null) {
+			ArrayList <File> fileList = service.fileListByid(rental_id);
+			String file = uploadPath + "/" + fileList.get(0).getFile_saved();
+
+			FileInputStream in = null;		
+			ServletOutputStream out = null;
+
+			try {	
+				response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(0).getFile_origin(), "UTF-8"));
+				in = new FileInputStream(file);
+				out = response.getOutputStream();
+
+				FileCopyUtils.copy(in, out);
+
+				in.close();
+				out.close();
+			} catch (Exception e) {
+				return "redirect:/";
+			}
+		}
+		
+		if(auction_id != null) {
+			ArrayList <File> fileList = service.fileListByid(auction_id);
+			String file = uploadPath + "/" + fileList.get(0).getFile_saved();
+
+			FileInputStream in = null;		
+			ServletOutputStream out = null;
+
+			try {	
+				response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(0).getFile_origin(), "UTF-8"));
+				in = new FileInputStream(file);
+				out = response.getOutputStream();
+
+				FileCopyUtils.copy(in, out);
+
+				in.close();
+				out.close();
+			} catch (Exception e) {
+				return "redirect:/";
+			}
+		}
+		return "redirect:/";
+	}
+	
+	/**
+	 * 회원 탈퇴 페이지 진입
+	 * @param user 스프링 시큐리티
+	 * @param model 모델
+	 * @return
+	 */
+	@GetMapping("/goToUnregister")
+	public String goToUnregister(
+			@AuthenticationPrincipal UserDetails user
+			, Model model) {
+		
+		log.debug("진입");
+		
+		UserDTO us = service.selectUserById(user.getUsername());
+		
+		model.addAttribute("user", user.getUsername());
+		model.addAttribute("user", us);
+		
+		return "mypage/my_unregisterForm";
 	}
 
 	

@@ -106,10 +106,10 @@
                             <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">MAP</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">INTRODUCTION</a>
                         </li>
                     </ul>
                 </div>
@@ -140,7 +140,7 @@
                         <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
                         <a class="dropdown-item" th:href="@{/login}">로그인</a>
                         <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -227,15 +227,18 @@
             </div>
 
             <div class="col-lg-9">
-                <p th:text="${user.user_email}"></p>
                 <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:value="#{memberInfoModify}" th:onclick="|location.href='@{/mypage/checkPw(user_email=${user.user_email})}'|">
                 <br>
                 <div class="row">
                     <span class="col-md-4">
                         <span class="card mb-4 product-wap rounded-0">
-                            <span class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" th:src="@{/assets/img/pikachu.png}">
-                            </span> 
+                            <div th:if="${selectDama.char_selected} == 1">
+                                <span class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 1 and ${selectDama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${selectDama.char_one}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 4 and ${selectDama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${selectDama.char_two}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${selectDama.char_three}">
+                                </span> 
+                            </div> 
                             <span class="card-body">
                                 <b>Lv.&nbsp;<span th:text="${user.user_level}">레벨</span></b>
                             </span>

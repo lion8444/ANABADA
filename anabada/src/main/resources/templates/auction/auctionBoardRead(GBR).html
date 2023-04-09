@@ -218,6 +218,8 @@
                         <div class="usedhref">
                             <a th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
                             <button class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
+                            <input type="image" id="deleteWish" th:if="${wish != null}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${auction_sell.auction_id}" th:email="${auction_sell.user_email}">
+                            <input type="image" id="insertWish" th:if="${wish == null}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${auction_sell.auction_id}" th:email="${auction_sell.user_email}">
                         </div>
                         <br>
 
@@ -522,6 +524,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script th:src="@{/js/js_auctionBoard(GB).js}"></script>
         <script th:src="@{/pjh.js}"></script>
+        <script th:src="@{/js/wish/wish.js}"></script>
         <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>

@@ -61,15 +61,6 @@
             width:800px;
         }
     </style>
-
-    <script>
-        $(document).ready(function() {
-            $('.accordian-button').on('click', function() {
-                $(this).attr('', value);
-            });
-        });
-    </script>
-
 </head>
 
 <body>
@@ -107,10 +98,10 @@
                             <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">MAP</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">INTRODUCTION</a>
                         </li>
                     </ul>
                 </div>
@@ -231,7 +222,6 @@
                     <div class="inquiretext" th:text="#{qnaList}">자주 묻는 질문</div>
                 </div>
                 <br>
-                <!-- 부트스트랩 예시 시작 -->
                 <div class="accordion accordion-flush open" id="accordionFlushExample">
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="flush-headingOne">
@@ -240,61 +230,139 @@
                         </button>
                       </h2>
                       <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">잘 하시면 됩니다.</div>
+                        <div class="accordion-body">
+                            • 만약 아나바다페이를 이용하는 데 결제가 되지 않는다면, 포인트가 있는지 확인하고<br>
+                            &nbsp;&nbsp;다시 시도해주세요. <br>
+                            • 그 이후에도 되지 않는다면, 고객센터로 연락 주세요.
+                        </div>
                       </div>
                     </div>
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="flush-headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                          [다마고치] 다마고치 시스템은 뭔가요?
+                          [채팅] 채팅을 보냈는데 상대방이 메시지를 읽지 않아요. (답장이 안와요)
                         </button>
                       </h2>
                       <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">잘 키우는 캐릭터임</div>
+                        <div class="accordion-body">
+                            상대방이 메시지를 읽지 않거나 답장이 없다면 여러가지 이유가 있을 수 있어요. <br>
+
+                            • 바빠서 채팅 메시지를 확인하지 못 하는 경우 <br>
+                            • 의도적으로 채팅을 안 읽거나 답장을 하지 않는 경우 <br>
+                            • 당근마켓 앱을 삭제한 경우 <br>
+                            • 휴대기기가 분실/ 파손된 경우 <br>
+                        </div>
                       </div>
                     </div>
                     <div class="accordion-item">
                       <h2 class="accordion-header" id="flush-headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                          [사기] 사기걸리면 어떻게 하나요?
+                        [일반] 기본매너
                         </button>
                       </h2>
                       <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                        <div class="accordion-body">알아서 하세요.</div>
+                        <div class="accordion-body">기본 매너
+                            기본적으로 지켜야 하는 매너에는 무엇이 있을까요? <br> 기본 매너인 만큼 꼭 지켜 주실 거라고 믿어요. <br>
+                            
+                            • 서로 존중해요. 우리 존댓말로 대화해요. <br>
+                            
+                            • 모두의 시간은 소중합니다. 시간 약속을 꼭 지켜주세요. <br>
+                            
+                            • 절대로 중간에 연락 끊기는 일이 없도록 해요. (잠수는 절대 안 돼요!) <br>
+                            
+                            • 따뜻한 감사 인사로 마무리를 지어요. <br>
+                            
+                            • 어떤 상황에서도 욕설, 비방, 명예훼손 등의 언행은 지양해주세요. <br>
+                            
+                            • 늦은 시간 채팅은 부담스러울 수 있어요. 특히 새벽 시간에는 채팅을 자제해주세요. <br>
+                            
+                            • 택배 거래는 부득이한 경우에만 요청하시고 가능한 한 직거래로 해주세요. <br>
+                        </div>
                       </div>
                     </div>
-                </div>
-                
-                <!-- 부트 스트랩 예시 끝-->
-                <br>
-                <div id="transbox">
-                    <ul class="faqsbanner">
-                        <li>
-                            <span class="faqsbannerbox">환불</span>
-                        </li>
-                        <li>
-                            <span class="faqsbannerbox">배송문의</span>
-                        </li>
-                        <li>
-                            <span class="faqsbannerbox">회원서비스</span>
-                        </li>
-                        <li>
-                            <span class="faqsbannerbox">아나바다페이</span>
-                        </li>
-                        <li class="faqsbannerbox">보호조치</li>
-                        <li class="faqsbannerbox">다마고치</li>
-                    </ul>
-                </div>
-                <br>
-                <div class="row">
-                    <div>
-                        <div class="faqlist">
-                            <span>[카테고리] 질문1 ?</span>
-                            <span><input id="downarrow" type="image" src="assets/img/down-arrow.png"></span>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingFour">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                            [사기] 판매자에게 사기를 당한 것 같아요.
+                          </button>
+                        </h2>
+                        <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            판매자에게 사기를 당한 경우, 바로 ANABADA고객센터로 연락주세요.
+                          </div>
                         </div>
-                    </div>      
-                </div>
-            </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingFive">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                            [회원탈퇴] 회원 탈퇴는 어떻게 하나요?
+                          </button>
+                        </h2>
+                        <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            	
+                            회원 탈퇴는 아래의 절차를 따라 하실 수 있습니다. 탈퇴 시 회원 전용 웹 서비스 이용이 불가합니다. <br>            
+                            탈퇴 전 유의사항을 반드시 확인해 주시기 바랍니다. 
+                            <br>
+                            <strong>회원 탈퇴하기</strong> <br>
+                            마이페이지 → 회원정보변경 → 비밀번호 입력 → [회원탈퇴] 클릭 후 남은 절차를 모두 확인 및 동의하면 회원탈퇴가 완료됩니다.
+                          </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingSix">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                            [회원정보] 회원정보 수정은 어떻게 하나요?
+                          </button>
+                        </h2>
+                        <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">
+                            회원정보수정은 마이페이지 → 회원정보변경 → 비밀번호 입력 → 수정할 정보를 클릭 후 수정하기를 누르면 됩니다.
+                          </div>
+                        </div>
+                    </div>
+                    <!-- <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingSeven">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+                            [사기] 사기걸리면 어떻게 하나요?
+                          </button>
+                        </h2>
+                        <div id="flush-collapseSeven" class="accordion-collapse collapse" aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">알아서 하세요.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingEight">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
+                            [사기] 사기걸리면 어떻게 하나요?
+                          </button>
+                        </h2>
+                        <div id="flush-collapseEight" class="accordion-collapse collapse" aria-labelledby="flush-headingEight" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">알아서 하세요.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingNine">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false" aria-controls="flush-collapseNine">
+                            [사기] 사기걸리면 어떻게 하나요?
+                          </button>
+                        </h2>
+                        <div id="flush-collapseNine" class="accordion-collapse collapse" aria-labelledby="flush-headingNine" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">알아서 하세요.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTen">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTen" aria-expanded="false" aria-controls="flush-collapseTen">
+                            [사기] 사기걸리면 어떻게 하나요?
+                          </button>
+                        </h2>
+                        <div id="flush-collapseTen" class="accordion-collapse collapse" aria-labelledby="flush-headingTen" data-bs-parent="#accordionFlushExample">
+                          <div class="accordion-body">알아서 하세요.</div>
+                        </div>
+                    </div> -->
+                </div>          
+                <!-- 부트 스트랩 예시 끝-->
         </div>
     </div>
     <!-- End Content -->

@@ -226,9 +226,11 @@ Custom Css
 
  .inquirereply {
    border: 1px solid #6c757d;
-   width:10%;
+   width:6%;
+   padding: 10px;
    display: inline-block;
    text-align: center;
+   position: absolute;
  }
 
  #downarrow {
@@ -452,7 +454,7 @@ pjh 추가 Custom Css
 
 .inquirereply {
   position: absolute;
-  right: 200px;
+  right: 450px;
 }
 
 .inq_answer {

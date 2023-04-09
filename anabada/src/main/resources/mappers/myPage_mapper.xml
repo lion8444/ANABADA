@@ -34,6 +34,8 @@
     		INQUIRY
     	WHERE
     		user_email = #{user_email}
+    	ORDER BY
+    		inq_date DESC
     </select>
     
     <!--  유저 이메일로 유저의 신고내역 리스트 검색 -->
@@ -44,6 +46,8 @@
     		report
     	WHERE
     		user_email = #{user_email}
+    	ORDER BY
+    		report_date DESC
     </select>
     
     <!-- 유저의 중고 거래 내역 모든 리스트 검색 -->
@@ -434,7 +438,7 @@
 		    AND
 		    a.auction_id = f.board_no
 		    AND
-			w.board_status = '옥션 거래'
+			w.board_status = '경매 거래'
 		    AND
 		    w.user_email = #{user_email}
 		    AND
@@ -614,15 +618,15 @@
     
     <!-- 유저가 보유한 다마고치 리스트 -->
     <select id="selectMyDamaListById" resultType="Damagochi" parameterType="String">
-    	    select 
-		* 
-	from 
-		`character` c
-		, user_character uc
-	WHERE
-		c.char_id = uc.char_id
-		AND
-		user_email = #{user_email}
+	    select 
+			* 
+		from 
+			`character` c
+			, user_character uc
+		WHERE
+			c.char_id = uc.char_id
+			AND
+			user_email = #{user_email}
     </select>
     
     <!-- 현재 설정된 대표 다마고치 설정 해제 -->
@@ -646,4 +650,32 @@
 		AND
             user_email = #{user_email};
     </update>
+    
+    <!-- 파일 출력 -->
+    <select id="fileListByid" parameterType="String" resultType="File">
+       SELECT
+          *
+       FROM
+          file
+       WHERE board_no = #{id}
+    </select>
+    
+    <!-- 전체 글 수 -->
+    <select id="total" parameterType="map" resultType="int">
+    	SELECT 
+    		count(*)
+    	FROM
+    		used u
+		    LEFT OUTER JOIN used_detail ud ON u.used_id = ud.used_id
+		    LEFT OUTER JOIN (
+		        SELECT board_no, MIN(file_id) AS file_id
+		        FROM file
+		        GROUP BY board_no
+		    ) f_min ON u.used_id = f_min.board_no
+		    INNER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+		WHERE
+		    (u.user_email = #{user_email} OR ud.user_email = #{user_email})	
+		ORDER BY
+			u.used_date DESC
+    </select>
 </mapper>

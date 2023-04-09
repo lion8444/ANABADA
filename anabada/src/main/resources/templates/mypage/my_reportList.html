@@ -91,10 +91,10 @@
                             <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">MAP</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">INTRODUCTION</a>
                         </li>
                     </ul>
                 </div>
@@ -125,7 +125,7 @@
                         <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
                         <a class="dropdown-item" th:href="@{/login}">로그인</a>
                         <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -215,15 +215,25 @@
                     <div class="inquiretext" th:text="#{myReportList}">나의 신고 내역</div>
                 </div>
                 <hr width="80%">
-                <div class="row" th:each="list : ${report}">   
-                    <div id="reportlist">
-                        <div class="reportreply" th:if="${list.report_answer != null}" th:text="#{treatFin}">처리 완료</div>
-                        <div class="reportreply" th:if="${list.report_answer == null}" th:text="#{treatYet}">처리 중</div>
-                        <div class="reportlist" th:text="${list.report_comment}">
-                            신고한 내역 1
-                            <!-- <span><input id="downarrow" type="image" th:src="@{/assets/img/down-arrow.png}"></span> -->
+                <div class="row" th:each="list, i : ${report}" style="width: 75%;">   
+                    <div class="accordion accordion-flush open" th:id="|accordionFlushExample${i.index}|">
+                        <div class="accordion-item">
+                            <div class="inquirereply" th:if="${list.report_answer} == null">처리 중</div>
+                            <div class="inquirereply" th:if="${list.report_answer} != null">처리 완료</div>
+                            <h2 class="accordion-header" th:id="|flush-heading${i.index}|">
+                            <button class="accordion-button collapsed" type="button" th:text="${list.report_comment}" data-bs-toggle="collapse" th:data-bs-target="|#flush-collapse${i.index}|" aria-expanded="false" th:aria-controls="|flush-collapse${i.index}|">
+                                신고 내용
+                            </button>
+                            </h2>
+                            <div th:id="|flush-collapse${i.index}|" class="accordion-collapse collapse" th:aria-labelledby="|flush-heading${i.index}|" th:data-bs-parent="|#accordionFlushExample${i.index}|">
+                                <div class="accordion-body" th:if="${list.report_answer} == null"> 
+                                    아직 문의 답변이 등록되지 않았습니다.
+                                </div>
+                                <div class="accordion-body" th:if="${list.report_answer} != null" th:text="${list.report_answer}"> 
+                                    문의 답변
+                                </div>
+                            </div>
                         </div>
-                        <div class="report_answer" id="report_answer" th:if="${list.report_answer != null}" th:text="${list.report_answer}">신고 답변 내용</div>
                     </div>                        
                 </div>
             </div>

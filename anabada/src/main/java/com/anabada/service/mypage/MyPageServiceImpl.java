@@ -1,9 +1,11 @@
 package com.anabada.service.mypage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import com.anabada.domain.Used;
 import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.WishAndFile;
+import com.anabada.util.PageNavigator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -92,8 +95,10 @@ public class MyPageServiceImpl implements MyPageService {
 
 	// 유저의 모든 중고 거래내역 리스트 검색 (중고 + 사진까지)
 	@Override
-	public List<UsedAndFile> selectUsedListAllById(String user_email) {
-		List<UsedAndFile> list = dao.selectUsedListAllById(user_email);
+	public List<UsedAndFile> selectUsedListAllById(int start, int count, String user_email) {
+
+		RowBounds rb = new RowBounds(start, count);
+		List<UsedAndFile> list = dao.selectUsedListAllById(user_email, rb);
 		return list;
 	}
 
@@ -276,6 +281,25 @@ public class MyPageServiceImpl implements MyPageService {
 	public int updateCharSelectedOne(Damagochi damagochi) {
 		int result = dao.updateCharSelectedOne(damagochi);
 		return result;
+	}
+
+	@Override
+	public ArrayList<File> fileListByid(String used_id) {
+		ArrayList<File> list = dao.fileListByid(used_id);
+		return list;
+	}
+
+	@Override
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page) {
+		HashMap<String, String> map = new HashMap<>();
+		
+		//검색 결과 개수
+		int t = dao.total(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
 	}
 	
 	

@@ -26,8 +26,10 @@ import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
 import com.anabada.service.rent.RentService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -42,6 +44,10 @@ public class RentController {
 	private RentService service;
 	@Autowired
 	private LoginService lservice;
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -147,7 +153,8 @@ public class RentController {
 				navi.getStartRecord(),countPerPage, null, null, null, null);
 		ArrayList <File> fileList2 = service.fileList();
 		
-		
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(rental_id, userDetails.getUsername());
 		
 		for(int i=0 ; i < fileList2.size(); ++i) {
 			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
@@ -165,6 +172,9 @@ public class RentController {
 		model.addAttribute("rental_sell", rental_sell);
 		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		model.addAttribute("target", target);
+		
+		model.addAttribute("wish", wish);
+		
 		return "rental/rentalBoardRead(RBR)";
 	}
 

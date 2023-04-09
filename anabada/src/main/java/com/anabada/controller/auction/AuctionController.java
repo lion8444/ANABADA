@@ -27,7 +27,9 @@ import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.Wish;
 import com.anabada.service.auction.AuctionService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -40,6 +42,10 @@ public class AuctionController {
 
 	@Autowired
 	private AuctionService service;
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -146,9 +152,14 @@ public class AuctionController {
 		ArrayList<File> fileList = service.fileListByid(auction_id);
 
 		UserDTO target = service.findUser(auction_sell.getUser_email());
+		
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(auction_id, userDetails.getUsername());
+				
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("wish", wish);
 		return "auction/auctionBoardRead(GBR)";
 	}
 

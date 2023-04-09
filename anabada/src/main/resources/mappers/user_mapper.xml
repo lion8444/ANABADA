@@ -82,8 +82,14 @@
 		<if test="user_phone != null">
 			,user_phone = #{user_phone}
 		</if>
-		<if test="user_addr != null">
-			,user_addr = #{user_addr}
+		<if test="user_post != null">
+			,user_post = #{user_post}
+		</if>
+		<if test="user_addr1 != null">
+			,user_addr1 = #{user_addr1}
+		</if>
+		<if test="user_addr2 != null">
+			,user_addr2 = #{user_addr2}
 		</if>
 		<if test="user_pwd != ''">
 			,user_pwd = #{user_pwd}

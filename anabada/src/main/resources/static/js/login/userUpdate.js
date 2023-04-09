@@ -230,37 +230,34 @@ function updateUserFormSubmit() {
 }
 
 function withdrawUser() {
+    
+    let withdrawChk = $("#withdrawChk");
+
+    if(!withdrawChk.is(":checked")) {
+        alert('탈퇴 약관에 동의해 주세요.');
+        withdrawChk.focus();
+        return;
+    }
+    
     $.ajax({
-        url: 'withdraw'
+        url: '/withdraw'
         ,type: 'post'
         ,dataType: 'json'
         ,success: (result) => {
             console.log("result : '" + result + "'");
+            alert(result);
             if(result != 1) {
-                centerNotify.fire({
-                    icon: 'error',
-                    title: '탈퇴 실패',
-                    text: '메인페이지로 이동합니다.'
-                });
-                location.replace("/");
+                
+                withdrawError();
             }
             else {
-                centerNotify.fire({
-                    icon: 'success',
-                    title: '탈퇴 성공',
-                    text: '메인페이지로 이동합니다.'
-                });
-                location.replace("/logout");
+                withdrawSuccess();
             }
         }
-        ,error: () => {
+        ,error: (e) => {
             console.log("error");
-            centerNotify.fire({
-                icon: 'error',
-                title: '탈퇴 실패',
-                text: '메인페이지로 이동합니다.'
-            });
-            location.replace("/");
+            alert(JSON.stringify(e));
+            withdrawError();
         }
     });
 }

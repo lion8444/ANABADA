@@ -225,6 +225,8 @@
                         <div class="usedhref">
                             <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id})}'|"><button
                                     class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
+                            <input type="image" id="deleteWish" th:if="${wish != null}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${rental_sell.user_email}">
+                            <input type="image" id="insertWish" th:if="${wish == null}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${rental_sell.user_email}">
                         </div>
                         <br>
 
@@ -530,6 +532,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script th:src="@{/js/js_rentalBoard(RB).js}"></script>
         <script th:src="@{/pjh.js}"></script>
+        <script th:src="@{/js/wish/wish.js}"></script>
         <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>

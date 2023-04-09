@@ -1,12 +1,16 @@
 package com.anabada.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Damagochi;
+import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Report;
@@ -48,9 +52,10 @@ public interface MyPageDAO {
 	/**
 	 * 유저의 모든 중고 거래내역 리스트 검색 (중고 + 사진까지)
 	 * @param user_email 로그인한 유저의 이메일
+	 * @param rb 
 	 * @return 모든 중고 거래내역 리스트
 	 */
-	public List<UsedAndFile> selectUsedListAllById(String user_email);
+	public List<UsedAndFile> selectUsedListAllById(String user_email, RowBounds rb);
 
 	/**
 	 * 유저의 중고 거래 - 구매내역 리스트 검색 (중고 + 사진까지)
@@ -204,5 +209,9 @@ public interface MyPageDAO {
 	public int updateCharSelectedZero(Damagochi damagochi);
 	
 	public int updateCharSelectedOne(Damagochi damagochi);
+
+	public ArrayList<File> fileListByid(String used_id);
+
+	public int total(HashMap<String, String> map);
 
 }
