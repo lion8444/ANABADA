@@ -52,6 +52,7 @@
 </head>
 
 <body>
+    <div id="auction_finish" th:attr="data-time=${auction_sell.auction_finish}"></div>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -168,6 +169,8 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
+    <!-- 글 상세 정보 번역 버튼 파파고 -->
+    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
     <!-- 넣을부분 -->
     <div class="section">
         <div class="container">
@@ -207,8 +210,8 @@
                     <div class="usedhref">
                         <a th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
                             <button class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
-                            <input type="image" id="deleteWish" th:if="${wish != null}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${auction_sell.auction_id}" th:email="${auction_sell.user_email}">
-                            <input type="image" id="insertWish" th:if="${wish == null}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${auction_sell.auction_id}" th:email="${auction_sell.user_email}">
+                            <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${auction_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${auction_sell.auction_id}" th:email="${#authentication.name}">
+                            <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${auction_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${auction_sell.auction_id}" th:email="${#authentication.name}">
                     </div>
                     <br>
                     <div class="d-block agent-box p-5">
@@ -508,7 +511,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_auctionBoard(GB).js}"></script>
     <script th:src="@{/pjh.js}"></script>
-        <script th:src="@{/js/wish/wish.js}"></script>
+    <script th:src="@{/js/wish/wish.js}"></script>
+    <script th:src="@{/js/auctionReadLimit.js}"></script>
     <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>

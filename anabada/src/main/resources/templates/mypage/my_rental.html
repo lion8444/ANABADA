@@ -215,12 +215,12 @@
                         <input type="button" value="빌린 내역" th:value="#{rentalBuy}" th:onclick="|location.href='@{/mypage/myrentallistbuy(user_email=${us.user_email})}'|">
                     </div>
                 </div>
-
+              
                 <!-- 파파고 버튼 -->
                 <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
 
                 <!-- 전체 렌탈 거래 내역 -->
-                <div id="mylistbox" th:each="list, i : ${rentalListAll}" th:if="${rentalListAll} != null">
+                <div id="mylistbox" th:each="list, i : ${rentalListAll}" th:if="${rentalListAll} != null">                    
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -231,6 +231,12 @@
                             <td >   
                                 <div class="mypageTitle">
                                     <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.rDetail_sDateFormat} != null">
+                                        <span>렌탈기한:</span>
+                                        <span th:text="${list.rDetail_sDateFormat}"></span> ~
+                                        <span th:text="${list.rDetail_eDateFormat}"></span>
+                                    </div>
+                                    <div th:if="${list.rDetail_sDateFormat} == null"><span>아직 거래가 시작되지 않았습니다.</span></div>
                                 </div>
                             </td>
                             <td>
@@ -304,6 +310,12 @@
                             <td >   
                                 <div class="mypageTitle">
                                     <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.rDetail_sDateFormat} != null">
+                                        <span>렌탈기한:</span>
+                                        <span th:text="${list.rDetail_sDateFormat}"></span> ~
+                                        <span th:text="${list.rDetail_eDateFormat}"></span>
+                                    </div>
+                                    <div th:if="${list.rDetail_sDateFormat} == null"><span>아직 거래가 시작되지 않았습니다.</span></div>
                                 </div>
                             </td>
                             <td>
@@ -372,6 +384,12 @@
                             <td >   
                                 <div class="mypageTitle">
                                     <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.rDetail_sDateFormat} != null">
+                                        <span>렌탈기한:</span>
+                                        <span th:text="${list.rDetail_sDateFormat}"></span> ~
+                                        <span th:text="${list.rDetail_eDateFormat}"></span>
+                                    </div>
+                                    <div th:if="${list.rDetail_sDateFormat} == null"><span>아직 거래가 시작되지 않았습니다.</span></div>
                                 </div>
                             </td>
                             <td>

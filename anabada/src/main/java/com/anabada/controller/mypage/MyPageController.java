@@ -231,6 +231,9 @@ public class MyPageController {
 		List<RentalAndFile> list = service.selectRentalListAllById(user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
+		log.debug("시작날: {}", list.get(0).getRDetail_sDateFormat());
+		log.debug("끝나는날: {}", list.get(0).getRDetail_eDateFormat());
+		
 		model.addAttribute("us", us);
 		model.addAttribute("rentalListAll", list);
 		
@@ -288,8 +291,12 @@ public class MyPageController {
 			@AuthenticationPrincipal UserDetails user
 			, Model model) {
 	
+		// 페이지 들어갈 때 경매 시간이 지나면 거래 완료로 변경하기 
 		List<AuctionAndFile> list = service.selectAuctionListAllById(user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
+		
+		int result = service.updateAuctionStatus(list);
+		log.debug("경매완료로 업데이트된 개수 : {}", result);
 		
 		model.addAttribute("auctionListAll", list);
 		model.addAttribute("us", us);
@@ -403,19 +410,34 @@ public class MyPageController {
 		}
 		
 		// 날짜 계산
-		LocalDateTime now = LocalDateTime.now();
+//		LocalDateTime now = LocalDateTime.now();
 		String rDetail_sDate = rentalAndDetailInfo.getRDetail_sDate();
+//		
+//		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate + "T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);	
+//		
+//		log.debug("파싱저장 날짜: {}", rDetailDate);
+//		
+//		// 3일 이상 남았을 때
+//		if (!rDetailDate.isBefore(now.plusDays(3))) {
+//			service.cancleRentalDetail(rentalAndDetailInfo);
+//		} else {
+//			log.debug("3일 이상 남지않음");
+//			return "redirect:/";
+//		}
 		
-		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate + "T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);	
+		// GPT
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate, formatter);
+		LocalDateTime now = LocalDateTime.now();
 		
+		log.debug("현재 날짜: {}", now);
 		log.debug("파싱저장 날짜: {}", rDetailDate);
-		
-		// 3일 이상 남았을 때
+
 		if (!rDetailDate.isBefore(now.plusDays(3))) {
-			service.cancleRentalDetail(rentalAndDetailInfo);
+		    service.cancleRentalDetail(rentalAndDetailInfo);
 		} else {
-			log.debug("3일 이상 남지않음");
-			return "redirect:/";
+		    log.debug("3일 이상 남지않음");
+		    return "redirect:/";
 		}
 			
 		return "redirect:/mypage/mypage";

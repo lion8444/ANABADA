@@ -187,6 +187,8 @@ public interface MyPageService {
 	public ArrayList<File> fileListByid(String used_id);
 
 	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);
+
+	public int updateAuctionStatus(List<AuctionAndFile> list);
 	
 
 }

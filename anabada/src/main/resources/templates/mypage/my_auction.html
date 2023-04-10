@@ -229,6 +229,10 @@
                             <td >   
                                 <div class="mypageTitle">
                                     <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.auction_finish} != null">
+                                        <span>경매종료일:</span>
+                                        <span th:text="${list.auction_finish}"></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -280,6 +284,10 @@
                             <td >   
                                 <div class="mypageTitle">
                                     <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.auction_finish} != null">
+                                        <span>경매종료일:</span>
+                                        <span th:text="${list.auction_finish}"></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -325,6 +333,10 @@
                             <td >   
                                 <div class="mypageTitle">
                                     <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.auction_finish} != null">
+                                        <span>경매종료일:</span>
+                                        <span th:text="${list.auction_finish}"></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -344,6 +356,7 @@
                                             <p th:text="#{tradeFin}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
                                         </div>                                                                      
                                     <p th:text="${list.aDetail_Date}">날짜</p>
+                                    <!-- 모달 -->
                                 </div>
                             </td>
                             <td>

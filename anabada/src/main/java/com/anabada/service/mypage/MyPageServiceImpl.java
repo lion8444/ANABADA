@@ -308,4 +308,12 @@ public class MyPageServiceImpl implements MyPageService {
 		int result = dao.addmoney(map);
 		return result;
 	}
+
+	@Override
+	public int updateAuctionStatus(List<AuctionAndFile> list) {
+		int result = dao.updateAuctionStatus(list);
+		return result;
+	}
+	
+	
 }

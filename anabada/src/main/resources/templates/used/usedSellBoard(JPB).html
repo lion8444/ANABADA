@@ -379,7 +379,8 @@
         </div>
     </div>
     <br>
-
+    <!-- 글 상세 정보 번역 버튼 파파고 -->
+    <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
     <div class="section">
         <div class="container">
             <div class="row mb-5 align-items-center">
@@ -401,7 +402,7 @@
                                     </a>
                                     <div class="property-content">
                                         <span class="city d-block mb-3">
-                                            <span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}"
+                                            <span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}"
                                                 th:text="${usedSellList.used_title}">글 제목</span></span>
                                         <div class="price mb-2">
                                             <span

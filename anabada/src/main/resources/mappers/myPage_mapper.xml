@@ -164,7 +164,9 @@
 		    r.rental_date,
 		    rd.rDetail_Date,
 		    rd.rDetail_sDate,
-		    rd.rDetail_eDate
+		    rd.rDetail_eDate,
+		    DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') AS rDetail_sDateFormat,
+		    DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') AS rDetail_eDateFormat
 		FROM rental r
 		LEFT JOIN rental_detail rd ON r.rental_id = rd.rental_id
 		LEFT JOIN (
@@ -197,6 +199,8 @@
 			, rd.rDetail_Date
 			, rd.rDetail_sDate
 			, rd.rDetail_eDate
+			, DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') AS rDetail_sDateFormat
+			, DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') AS rDetail_eDateFormat
 		FROM
 			rental r, rental_detail rd, file f
 		WHERE
@@ -216,29 +220,32 @@
     
     <!-- 유저의 렌탈 빌려준 내역 리스트 검색 -->
     <select id="selectRentalListSellById" parameterType="String" resultType="RentalAndFile">
-    	SELECT
-			r.rental_id
-			, r.user_email
-			, r.category_id
-			, r.rental_title
-			, r.rental_price
-			, r.rental_content
-			, r.rental_quality
-			, r.rental_status
-			, r.rental_date
-			, f.file_origin
-			, f.file_saved
+		 SELECT
+		    r.rental_id,
+		    r.user_email,
+		    r.category_id,
+		    r.rental_title,
+		    r.rental_price,
+		    r.rental_content,
+		    r.rental_quality,
+		    r.rental_status,
+		    r.rental_date,
+		    f.file_origin,
+		    f.file_saved,
+		    DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') AS rDetail_sDateFormat,
+		    DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') AS rDetail_eDateFormat
 		FROM
-			rental r, file f
+		    rental r
+		    JOIN file f ON r.rental_id = f.board_no
+		    LEFT JOIN rental_detail rd ON r.rental_id = rd.rental_id
 		WHERE
-			r.user_email = #{user_email}
-			AND
-			r.rental_id = f.board_no
-			AND
-			(board_no, file_id) in (
-			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
-			ORDER BY
-				r.rental_date DESC
+		    r.user_email = #{user_email}
+		    AND (board_no, file_id) IN (
+		        SELECT board_no, MIN(file_id)
+		        FROM file
+		        GROUP BY board_no
+		    )
+		ORDER BY r.rental_date DESC
     </select>
     
     <!-- 유저의 모든 경매 내역 조회 리스트 (전체)  -->
@@ -270,8 +277,6 @@
 		    ) f_min ON a.auction_id = f_min.board_no
 		    LEFT OUTER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
 		WHERE
-		    a.auction_finish >= NOW()
-		    AND
 		    (a.user_email = #{user_email} OR ad.user_email = #{user_email})
 		    ORDER BY
 		    	a.auction_date DESC
@@ -308,7 +313,7 @@
 			, ad.user_email buyer_email
 			, a.category_id
 			, a.auction_title
-			, DATE_FORMAT(ad.aDetail_Date, '%Y-%m-%d') aDetail_Date
+			, ad.aDetail_Date
 			, a.auction_price
 			, a.auction_content
 			, a.auction_quality
@@ -516,6 +521,7 @@
 			, rental_detail rd 
 		SET 
 			r.rental_status = '거래 중지'
+			, rd.rDetail_status = '거래 중지'
 		WHERE 
 			r.rental_id= #{rental_id}
 			and 
@@ -668,5 +674,21 @@
     		user_account = user_account + #{money}
     	WHERE
             user_email = #{email};
+    </update>
+    
+    <!-- 경매 시간이 지나면 거래 완료로 변경하기 -->
+    <update id="updateAuctionStatus" parameterType="AuctionAndFile">
+    	UPDATE
+    		auction a
+    		, auction_detail ad
+    	SET
+    		a.auction_status = '거래 완료'
+    		, ad.aDetail_status = '거래 완료'
+    	WHERE
+    		a.auction_finish &lt;= now()
+    		AND
+		    a.auction_status != '거래 완료'
+		    AND
+		    ad.aDetail_status != '거래 완료'
     </update>
 </mapper>

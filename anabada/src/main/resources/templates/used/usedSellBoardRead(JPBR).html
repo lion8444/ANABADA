@@ -205,8 +205,8 @@
                     <div class="usedhref">
                         <a th:onclick="|location.href='@{/used/purchase(used_id=${used_sell.used_id})}'|"><button
                                 class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
-                                <input type="image" id="deleteWish" th:if="${wish != null}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${used_sell.used_id}" th:email="${used_sell.user_email}">
-                                <input type="image" id="insertWish" th:if="${wish == null}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${used_sell.used_id}" th:email="${used_sell.user_email}">
+                                <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${used_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${used_sell.used_id}" th:email="${#authentication.name}">
+                                <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${used_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${used_sell.used_id}" th:email="${#authentication.name}">
                     </div>
                     <br>
                     <div class="d-block agent-box p-5">

@@ -168,6 +168,8 @@
             </div>
             <div class="site-mobile-menu-body"></div>
         </div>
+                    <!-- 글 상세 정보 번역 버튼 파파고 -->
+                    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
 
         <!-- 넣을부분 -->
         <div class="section">
@@ -210,8 +212,8 @@
                         <div class="usedhref">
                             <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id})}'|"><button
                                     class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
-                            <input type="image" id="deleteWish" th:if="${wish != null}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${rental_sell.user_email}">
-                            <input type="image" id="insertWish" th:if="${wish == null}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${rental_sell.user_email}">
+                            <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                            <input type="image" id="insertWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
                         </div>
                         <br>
                         <div class="d-block agent-box p-5">

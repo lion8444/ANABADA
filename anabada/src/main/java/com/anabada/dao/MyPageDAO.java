@@ -216,4 +216,6 @@ public interface MyPageDAO {
 
 	public int addmoney(HashMap<String, Object> map);
 
+	public int updateAuctionStatus(List<AuctionAndFile> list);
+
 }
