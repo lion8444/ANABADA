@@ -1,18 +1,17 @@
-package com.anabada.service.map;
+package com.anabada.dao;
 
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.anabada.domain.Location;
 
-@Service
-public interface MapService {
+@Mapper
+public interface MapDAO {
 
     Location findLocation(String loc_id);
 
     int insertLocation(Location location);
-
+    
     Location findBoardLocation(String board_no);
 
     int updateLocation(Location location);
-    
 }

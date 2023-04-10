@@ -18,6 +18,4 @@ public class Auction {
 	String auction_content;
 	String auction_quality;
 	String auction_status;
-	String uloc_id;
-	String sloc_id;
 }

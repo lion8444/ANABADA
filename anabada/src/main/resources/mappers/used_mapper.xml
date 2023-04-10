@@ -42,8 +42,6 @@
 				,used_content
 				,used_status
 				,used_quality
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('USED')
@@ -54,8 +52,7 @@
     			,#{used_content}
     			,'거래 중'
     			,#{used_quality}
-    			,#{uloc_id}
-				,#{sloc_id}
+
     			)
     	<selectKey keyProperty="used_id" keyColumn="used_id" resultType="String" order="AFTER">
     		SELECT 
@@ -247,8 +244,7 @@
 			, used_content
 			, used_quality
 			, used_status
-			, uloc_id
-			, sloc_id
+
     	FROM
     		used
     	WHERE
@@ -379,9 +375,7 @@
 	        used_price = #{used_price},
 	        used_content = #{used_content},
 	        used_quality = #{used_quality},
-	        used_status = #{used_status},
-	        uloc_id = #{uloc_id},
-	        sloc_id = #{sloc_id}
+	        used_status = #{used_status}
 	    WHERE
 	        used_id = #{used_id}
 	</update>
@@ -412,8 +406,6 @@
 				,bTemp_price
 				,bTemp_content
 				,bTemp_quality
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('UTEM')
@@ -422,9 +414,7 @@
     			,#{used_title}
     			,#{used_price}
     			,#{used_content}    			
-    			,#{used_quality}    			
-    			,#{uloc_id}    			
-    			,#{sloc_id}    			
+    			,#{used_quality}    					
     			)    	
     </insert>
     

@@ -44,11 +44,35 @@
     <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
 
     <!-- 제이쿼리 (pyw) -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
+    <style>
+        #map-wrapper {
+            margin: 30px 0 30px 0;
+            width: 100%;
+            height: 600px;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        strong {
+            font-weight: 600;
+            font-size: 30px;
+        }
+
+        .gomap {
+            float: right;
+            padding-top: 20px;
+            color: rgb(89, 89, 89);
+        }
+    </style>
 </head>
 
 <body>
@@ -130,10 +154,12 @@
                         </svg>
                     </a>
 
-                   <!-- 언어 선택 버튼 이미지 -->
+                    <!-- 언어 선택 버튼 이미지 -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
-                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO"
+                            th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP"
+                            th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>
@@ -195,14 +221,15 @@
                         <div class="img-property-slide-wrap">
                             <div class="img-property-slide">
                                 <th:block th:each="fileList, i: ${fileList}">
-                                	<img th:src="@{/auction/imgshowone(auction_id=${auction_sell.auction_id}, index=${i.index})}" alt="Image" class="img-fluid">
+                                    <img th:src="@{/auction/imgshowone(auction_id=${auction_sell.auction_id}, index=${i.index})}"
+                                        alt="Image" class="img-fluid">
                                 </th:block>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <!-- jp_002_상품상세 -->
-                        <input type="hidden" name="auction_id" id="auction_id" th:value="${auction_sell.auction_id}">
+                        <input type="hidden" name="auction_id" id="board_no" th:value="${auction_sell.auction_id}">
                         <h2 class="heading text-primary" th:text="${auction_sell.auction_title}">제목</h2>
                         <p class="meta" th:text="${auction_sell.auction_price}">가격</p><br>
                         <p class="text-black-50" th:text="${auction_sell.auction_content}">내용</p>
@@ -216,8 +243,9 @@
                             th:onclick="|location.href='@{/used/purchase(used_id=${used_sell.used_id})}'|"> -->
 
                         <div class="usedhref">
-                            <a th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
-                            <button class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
+                            <a
+                                th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
+                                <button class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
                         </div>
                         <br>
 
@@ -229,13 +257,13 @@
                             </div>
                             <div class="text">
                                 <!-- <h3 class="mb-0">Alicia Huston</h3> -->
-                                <div class="meta mb-3" th:text="${auction_sell.user_email}">닉네임</div>
-                                <ul class="list-unstyled social dark-hover d-flex">
+                                <div class="meta mb-3" th:text="${target.user_nick}">닉네임</div>
+                                <ul class="list-unstyled social dark-hover d-flex" th:if="${user.user_nick != target.user_nick}">
                                     <!-- <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
                                     <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
                                     <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
                                     <li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li> -->
-                                    <button type="button" class="btn btn-primary btn-lg">채 팅</button>    
+                                    <button type="button" class="btn btn-primary btn-lg">채 팅</button>
                                 </ul>
                             </div>
                         </div>
@@ -246,24 +274,35 @@
                             <!-- <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a> -->
                             <div class="usedhref">
                                 <a th:href="@{/auction/auctionBoardUpdate(auction_id=${auction_sell.auction_id})}"><button
-                                        class="btn btn-secondary btn-block" value="수정" th:text="#{modify}">수정</button></a>
+                                        class="btn btn-secondary btn-block" value="수정"
+                                        th:text="#{modify}">수정</button></a>
                             </div>
 
                             <input type="hidden" name="auction_id" th:value="${auction_sell.auction_id}">
                             <!-- <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a> -->
                             <div class="usedhref">
                                 <a th:href="@{/auction/auctionBoardDelete(auction_id=${auction_sell.auction_id})}"><button
-                                        class="btn btn-secondary btn-block" value="삭제" th:text="#{delete}">삭제</button></a>
+                                        class="btn btn-secondary btn-block" value="삭제"
+                                        th:text="#{delete}">삭제</button></a>
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
+            <!-- 지도넣는 부분 -->
+            <br><br>
+            <div id="map-wrapper">
+                <span><strong>직거래 선호 위치</strong><a class="gomap" th:href="@{/map(loc_id=${location.loc_id})}">지도
+                        바로가기</a></span>
+                <div id="map"></div>
+            </div>
+            <div>
+                <input type="hidden" id="latitude" th:value="${location.lat}">
+                <input type="hidden" id="longitude" th:value="${location.lng}">
+                <input type="hidden" id="loc_name" th:value="${location.loc_name}">
+            </div>
         </div>
-        </div>
-
-        <!-- 지도넣는 부분 -->
 
         <!-- 추천상품 -->
         <div class="section">
@@ -286,12 +325,15 @@
                                 <div th:each="auctionList, i: ${auctionList}" method="get"
                                     enctype="multipart/form-data">
                                     <div class="property-item mb-30">
-                                        <a th:href="@{auctionBoardRead(auction_id=${auctionList.auction_id})}" class="img">
-                                			<img th:src="@{/auction/imgshow(auction_id=${auctionList.auction_id})}" alt="Image" class="img-fluid">
+                                        <a th:href="@{auctionBoardRead(auction_id=${auctionList.auction_id})}"
+                                            class="img">
+                                            <img th:src="@{/auction/imgshow(auction_id=${auctionList.auction_id})}"
+                                                alt="Image" class="img-fluid">
                                         </a>
 
                                         <div class="property-content">
-                                            <div class="price mb-2"><span th:text="${auctionList.auction_price}">가격</span>
+                                            <div class="price mb-2"><span
+                                                    th:text="${auctionList.auction_price}">가격</span>
                                             </div>
                                             <div>
                                                 <span class="d-block mb-2 text-black-50"
@@ -333,87 +375,87 @@
         </div>
 
 
-<!-- 채팅 -->
-<section sec:authorize="isAuthenticated()" th:if="${user != null}">
-    <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
-    <button class="chatbox-open">
-        <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
-    </button>
-    <button class="chatbox-close">
-        <i class="fa fa-close fa-2x" aria-hidden="true"></i>
-    </button>
+        <!-- 채팅 -->
+        <section sec:authorize="isAuthenticated()" th:if="${user != null}">
+            <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
+            <button class="chatbox-open">
+                <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+            </button>
+            <button class="chatbox-close">
+                <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+            </button>
 
-    <div class="chatbox-container">
-        <div class="chatbox">
-            <div class="top-bar">
-                <div class="targetInfo">
-                    <img src="" class="avatar" alt="">
-                    <div class="name">Voldemort</div>
-                </div>
-                <div class="icons">
-                    <i class="fas fa-phone"></i>
-                    <i class="fas fa-video"></i>
-                </div>
-                <div class="menu">
-                    <div class="dots"></div>
-                </div>
-            </div>
-            <div class="middle chatting">
-                <div class="voldemort">
-                    <!-- <div class="typing">
+            <div class="chatbox-container">
+                <div class="chatbox">
+                    <div class="top-bar">
+                        <div class="targetInfo">
+                            <img src="" class="avatar" alt="">
+                            <div class="name">Voldemort</div>
+                        </div>
+                        <div class="icons">
+                            <i class="fas fa-phone"></i>
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="menu">
+                            <div class="dots"></div>
+                        </div>
+                    </div>
+                    <div class="middle chatting">
+                        <div class="voldemort">
+                            <!-- <div class="typing">
                     <div class="bubble">
                         <div class="ellipsis one"></div>
                         <div class="ellipsis two"></div>
                         <div class="ellipsis three"></div>
                     </div>
                 </div> -->
-                </div>
-            </div>
-
-            <div class="bottom-bar">
-                <div class="chat">
-                    <input type="text" class="chat-input" placeholder="Type a message..." />
-                    <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
-                </div>
-            </div>
-        </div>
-        <div class="messages"></div>
-        <div class="profile">
-            <img class="avatar" src="/img/pacman.png">
-            <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
-            </div>
-        </div>
-        <ul class="people">
-            <li class="person">
-                <span class="title">Voldemort </span>
-                <span class="time">2:50pm</span><br>
-                <span class="preview">What are you getting... Oh, oops...</span>
-            </li>
-            <li class="person">
-                <span class="title">Ron</span>
-                <span class="time">2:25pm</span><br>
-                <span class="preview">Meet me at Hogsmeade and bring...</span>
-            </li>
-            <li class="person">
-                <span class="title">Hermione</span>
-                <span class="time">2:12pm</span><br>
-                <span class="preview">Have you and Ron done your hom...</span>
-            </li>
-        </ul>
-        <div class="middle format">
-            <div class="voldemort">
-                <div class="messageText">
-                    <div class="margin">
-                        <div>
-                            <span class="bubble"></span>
                         </div>
-                        <span class="chattime"></span>
+                    </div>
+
+                    <div class="bottom-bar">
+                        <div class="chat">
+                            <input type="text" class="chat-input" placeholder="Type a message..." />
+                            <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="messages"></div>
+                <div class="profile">
+                    <img class="avatar" src="/img/pacman.png">
+                    <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
+                    </div>
+                </div>
+                <ul class="people">
+                    <li class="person">
+                        <span class="title">Voldemort </span>
+                        <span class="time">2:50pm</span><br>
+                        <span class="preview">What are you getting... Oh, oops...</span>
+                    </li>
+                    <li class="person">
+                        <span class="title">Ron</span>
+                        <span class="time">2:25pm</span><br>
+                        <span class="preview">Meet me at Hogsmeade and bring...</span>
+                    </li>
+                    <li class="person">
+                        <span class="title">Hermione</span>
+                        <span class="time">2:12pm</span><br>
+                        <span class="preview">Have you and Ron done your hom...</span>
+                    </li>
+                </ul>
+                <div class="middle format">
+                    <div class="voldemort">
+                        <div class="messageText">
+                            <div class="margin">
+                                <div>
+                                    <span class="bubble"></span>
+                                </div>
+                                <span class="chattime"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 
         <!-- Start Footer -->
@@ -523,9 +565,13 @@
         <script th:src="@{/js/js_auctionBoard(GB).js}"></script>
         <script th:src="@{/pjh.js}"></script>
         <!-- 채팅 -->
-    <script th:src="@{/js/chat/chatButton.js}"></script>
-    <script th:src="@{/js/chat/chatRoom.js}"></script>
-    <script th:src="@{/js/chat/chat.js}"></script>
+        <script th:src="@{/js/chat/chatButton.js}"></script>
+        <script th:src="@{/js/chat/chatRoom.js}"></script>
+        <script th:src="@{/js/chat/chat.js}"></script>
+        <!-- 지도 -->
+        <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
+        <script th:src="@{/js/map/boardViewMap.js}"></script>
         <!-- End Script -->
     </body>
 

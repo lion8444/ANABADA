@@ -2,11 +2,10 @@
 let countAll = 0;
 
 $(document).on("click", "#goChatting", function () {
-    alert($("#target").text());
     $.ajax({
         type: "post",
         url: "/makeChatRoom",
-        data: { target: $("#target").text(), board_no: $("#used_id").val() },
+        data: { target: $("#target").text(), board_no: $("#board_no").val() },
         success: function (data) {
             alert(data);
             if (data == "error") {

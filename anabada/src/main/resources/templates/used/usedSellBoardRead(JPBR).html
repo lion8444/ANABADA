@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>ANABADA</title>
@@ -42,14 +41,37 @@
     <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPBR).css}">
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
+    <style>
+        #map-wrapper {
+            margin: 30px 0 30px 0;
+            width: 100%;
+            height: 600px;
+        }
 
+        #map {
+            height: 100%;
+        }
+
+        strong {
+            font-weight: 600;
+            font-size: 30px;
+        }
+
+        .gomap {
+            float: right;
+            padding-top: 20px;
+            color: rgb(89, 89, 89);
+        }
+    </style>
 </head>
 
 <body>
@@ -135,8 +157,10 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
                         <!-- <div><input type="button" class="langType" id="langKO" language="ko" value="한국어"></div>
                         <div><input type="button" class="langType" id="langJP" language="ja-JP" value="일본어"></div> -->
-                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
-                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO"
+                            th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP"
+                            th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>
@@ -174,104 +198,119 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-lg-9 text-center mt-5">
-                    <!-- 그냥 빈공간 주기위한 공백 -->
-                </div>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <!-- 그냥 빈공간 주기위한 공백 -->
             </div>
         </div>
-        <!-- 글 상세 정보 번역 버튼 파파고 -->
-        <!-- <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}"> -->
-        <div class="section">
-            <div class="container">
-                <div class="row justify-content-between">
-                    <div class="col-lg-7">
-                        <div class="img-property-slide-wrap">
-                            <div class="img-property-slide">
-                                <th:block th:each="fileList, i: ${fileList}">
-                                	<img th:src="@{/used/imgshowone(used_id=${used_sell.used_id}, index=${i.index})}" alt="Image" class="img-fluid">
-                                </th:block>  
+    </div>
+    <!-- 글 상세 정보 번역 버튼 파파고 -->
+    <!-- <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}"> -->
+    <div class="section">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-7">
+                    <div class="img-property-slide-wrap">
+                        <div class="img-property-slide">
+                            <th:block th:each="fileList, i: ${fileList}">
+                                <img th:src="@{/used/imgshowone(used_id=${used_sell.used_id}, index=${i.index})}"
+                                    alt="Image" class="img-fluid">
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" id="contentText">
+                    <!-- jp_002_상품상세 -->
+                    <input type="hidden" name="used_id" id="board_no" th:value="${used_sell.used_id}">
+                    <div class="heading text-primary">
+                        <h2 th:text="${used_sell.used_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
+                    </div>
+                    <div class="meta">
+                        <h4 th:text="'₩ '+${#numbers.formatInteger(used_sell.used_price, 3, 'COMMA')}" id="papago1"
+                            class="papago" papagoCount="1">가격</h4>
+                    </div><br>
+                    <div class="text-black-50">
+                        <p th:text="${used_sell.used_content}" id="papago2" class="papago" papagoCount="2">내용</p>
+                    </div>
+                    <div class="text-black-30">
+                        <p th:text="${used_sell.used_quality}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
+                    </div>
+                    <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
+
+                    <div class="usedhref">
+                        <a th:onclick="|location.href='@{/used/purchase(used_id=${used_sell.used_id})}'|"><button
+                                class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
+                    </div>
+                    <br>
+
+                    <!-- jp_004_판매자 카드 -->
+                    <div class="d-block agent-box p-5">
+                        <div class="img mb-4">
+                            <!-- <img src="assets/images/person_2-min.jpg" alt="Image" class="img-fluid"> -->
+                            다마고치 넣는 곳
+                        </div>
+                        <div class="text">
+                            <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
+                            <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
+                            <h5>
+                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
+                                <span th:text="'페널티: '+${target.user_penalty}"></span>
+                            </h5>
+                            <br>
+                            <div style="text-align: right;" th:if="${user.user_nick != target.user_nick}">
+                                <button type="button" class="btn btn-primary btn-lg">채 팅</button>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4" id="contentText">
-                        <!-- jp_002_상품상세 -->
-                        <input type="hidden" name="used_id" id="used_id" th:value="${used_sell.used_id}">
-                        <div class="heading text-primary">
-                            <h2 th:text="${used_sell.used_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
-                        </div>
-                        <div class="meta">
-                            <h4 th:text="'₩ '+${#numbers.formatInteger(used_sell.used_price, 3, 'COMMA')}" id="papago1" class="papago" papagoCount="1">가격</h4>
-                        </div><br>
-                        <div class="text-black-50">
-                            <p th:text="${used_sell.used_content}" id="papago2" class="papago" papagoCount="2">내용</p>
-                        </div>
-                        <div class="text-black-30">
-                            <p th:text="${used_sell.used_quality}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
-                        </div>
-                        <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
 
+                    <div th:if="${#authentication.name}==${used_sell.user_email}">
+
+                        <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
+                        <!-- <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a> -->
                         <div class="usedhref">
-                            <a th:onclick="|location.href='@{/used/purchase(used_id=${used_sell.used_id})}'|"><button
-                                    class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
-                        </div>
-                        <br>
-
-                        <!-- jp_004_판매자 카드 -->
-                        <div class="d-block agent-box p-5">
-                            <div class="img mb-4">
-                                <!-- <img src="assets/images/person_2-min.jpg" alt="Image" class="img-fluid"> -->
-                                다마고치 넣는 곳
-                            </div>
-                            <div class="text">
-                                <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
-                            <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
-                            <h5>
-                                <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
-                                <span th:text="'페널티: '+${user.user_penalty}"></span>
-                            </h5>
-                            <br>
-                            <div style="text-align: right;"> 
-                                <button type="button" class="btn btn-primary btn-lg">채 팅</button>
-                            </div>
-                            </div>
+                            <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}"><button
+                                    class="btn btn-secondary btn-block" value="삭제" th:text="#{delete}">삭제</button></a>
                         </div>
 
-                        <div th:if="${#authentication.name}==${used_sell.user_email}">
+                        <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
+                        <!-- <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a> -->
+                        <div class="usedhref">
+                            <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}"><button
+                                    class="btn btn-secondary btn-block" value="수정" th:text="#{modify}">수정</button></a>
+                        </div>
 
-                            <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
-                            <!-- <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}">삭제</a> -->
-                            <div class="usedhref">
-                                <a th:href="@{/used/usedSellBoardDelete(used_id=${used_sell.used_id})}"><button
-                                        class="btn btn-secondary btn-block" value="삭제" th:text="#{delete}">삭제</button></a>
-                            </div>
-
-                            <input type="hidden" name="used_id" th:value="${used_sell.used_id}">
-                            <!-- <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}">수정</a> -->
-                            <div class="usedhref">
-                                <a th:href="@{/used/usedSellBoardUpdate(used_id=${used_sell.used_id})}"><button
-                                        class="btn btn-secondary btn-block" value="수정"  th:text="#{modify}">수정</button></a>
-                            </div>
-
-                            <!-- <div class="usedhref">
+                        <!-- <div class="usedhref">
                                 <a th:href="@{|/csform/report?used_id=${used_sell.used_id}|}">
                                     <button class="btn btn-secondary btn-block" value="신고" th:text="#{report}">신고</button></a>
                             </div> -->
-                        </div>
-
-                        <div th:if="${#authentication.name}!=${used_sell.user_email}">
-                            <div class="usedhref">
-                                <a th:href="@{|/csform/report?used_id=${used_sell.used_id}|}">
-                                    <button class="btn btn-secondary btn-block" value="신고" th:text="#{report}">신고</button></a>
-                            </div>
-                        </div>
-
                     </div>
+
+                    <div th:if="${#authentication.name}!=${used_sell.user_email}">
+                        <div class="usedhref">
+                            <a th:href="@{|/csform/report?used_id=${used_sell.used_id}|}">
+                                <button class="btn btn-secondary btn-block" value="신고"
+                                    th:text="#{report}">신고</button></a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
+            <!-- 지도넣는 부분 -->
+        <br><br>
+        <div id="map-wrapper">
+            <span><strong>직거래 선호 위치</strong><a class="gomap" th:href="@{/map(loc_id=${location.loc_id})}">지도
+                    바로가기</a></span>
+            <div id="map"></div>
+        </div>
+        <div>
+            <input type="hidden" id="latitude" th:value="${location.lat}">
+            <input type="hidden" id="longitude" th:value="${location.lng}">
+            <input type="hidden" id="loc_name" th:value="${location.loc_name}">
         </div>
         </div>
+        
+    </div>
 
     <!-- 지도넣는 부분 -->
 
@@ -539,6 +578,10 @@
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
+    <!-- 지도 -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
+    <script th:src="@{/js/map/boardViewMap.js}"></script>
     <!-- End Script -->
 </body>
 

@@ -45,11 +45,35 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_rentalBoard(RB).css}">
+        <!-- 지도 -->
+        <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
 
     <!-- 제이쿼리 (pyw) -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
+    <style>
+        #map-wrapper {
+            margin: 30px 0 30px 0;
+            width: 100%;
+            height: 600px;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        strong {
+            font-weight: 600;
+            font-size: 30px;
+        }
+
+        .gomap {
+            float: right;
+            padding-top: 20px;
+            color: rgb(89, 89, 89);
+        }
+    </style>
 </head>
 
 <body>
@@ -207,7 +231,7 @@
                     </div>
                     <div class="col-lg-4">
                         <!-- jp_002_상품상세 -->
-                        <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
+                        <input type="hidden" name="rental_id" id="board_no" th:value="${rental_sell.rental_id}">
                         <div class="heading text-primary"><h2 th:text="${rental_sell.rental_title}" id="papago0" class="papago" papagoCount="0">제목</h2></div>
                         <div class="meta"><p th:text="${rental_sell.rental_price}" id="papago1" class="papago" papagoCount="1">가격</p></div><br>
                         <div class="text-black-50"><p th:text="${rental_sell.rental_content}" id="papago2" class="papago" papagoCount="2">내용</p></div>
@@ -236,9 +260,9 @@
                             </div>
                             <div class="text">
                                 <!-- <h3 class="mb-0">Alicia Huston</h3> -->
-                                <div class="meta mb-3" th:text="${rental_sell.user_email}">닉네임</div>
+                                <div class="meta mb-3" id="target" th:text="${target.user_email}">닉네임</div>
                                
-                                <ul class="list-unstyled social dark-hover d-flex">
+                                <ul class="list-unstyled social dark-hover d-flex" th:if="${user.user_nick != target.user_nick}">
                                     <!-- <li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
                                     <li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
                                     <li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -268,10 +292,19 @@
                     </div>
                 </div>
             </div>
+            <!-- 지도넣는 부분 -->
+            <br><br>
+            <div id="map-wrapper">
+                <span><strong>직거래 선호 위치</strong><a class="gomap" th:href="@{/map(loc_id=${location.loc_id})}">지도
+                        바로가기</a></span>
+                <div id="map"></div>
+            </div>
+            <div>
+                <input type="hidden" id="latitude" th:value="${location.lat}">
+                <input type="hidden" id="longitude" th:value="${location.lng}">
+                <input type="hidden" id="loc_name" th:value="${location.loc_name}">
+            </div>
         </div>
-        </div>
-
-        <!-- 지도넣는 부분 -->
 
         <!-- 추천상품 -->
         <div class="section">
@@ -534,6 +567,10 @@
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
+    <!-- 지도 -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
+<script th:src="@{/js/map/boardViewMap.js}"></script>
         <!-- End Script -->
     </body>
 

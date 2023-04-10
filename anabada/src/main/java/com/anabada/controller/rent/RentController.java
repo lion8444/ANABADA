@@ -22,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.File;
+import com.anabada.domain.Location;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.map.MapService;
 import com.anabada.service.rent.RentService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
@@ -42,6 +44,8 @@ public class RentController {
 	private RentService service;
 	@Autowired
 	private LoginService lservice;
+	@Autowired
+	private MapService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -145,7 +149,7 @@ public class RentController {
 				navi.getStartRecord(),countPerPage, null, null, null, null);
 		ArrayList <File> fileList2 = service.fileList();
 		
-		
+		Location location = mservice.findBoardLocation(rental_id);
 		
 		for(int i=0 ; i < fileList2.size(); ++i) {
 			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
@@ -159,6 +163,7 @@ public class RentController {
 
 		Rental rental_sell = service.rentalBoardRead(rental_id);
 		ArrayList<File> fileList = service.fileListByid(rental_id);
+		model.addAttribute("location", location);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
 		UserDTO target = lservice.findUser(rental_sell.getUser_email());
@@ -216,6 +221,7 @@ public class RentController {
 	public String rentalWrite(
 			@AuthenticationPrincipal UserDetails user,
 			@ModelAttribute Rental rental,
+			Location location,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
 
@@ -223,6 +229,9 @@ public class RentController {
 		rental.setUser_email(user.getUsername());
 
 		String rental_id = service.rentalWrite(rental);
+
+		location.setBoard_no(rental_id);
+		mservice.insertLocation(location);
 
 		if (uploadOne.isEmpty()) {
 			log.debug("이미지 X");
@@ -269,6 +278,7 @@ public class RentController {
 
 		// 전달된 아이디의 글정보 읽기
 		Rental rental = service.rentalBoardRead(rental_id);
+		Location location = mservice.findBoardLocation(rental_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
 		if (!rental.getUser_email().equals(userDetails.getUsername()))
@@ -276,6 +286,7 @@ public class RentController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("rental", rental);
+		model.addAttribute("location", location);
 
 		// 수정을 html로 포워딩
 		return "rental/rentalBoardUpdate.html";
@@ -285,15 +296,18 @@ public class RentController {
 	@PostMapping("rentalBoardUpdate")
 	public String rentalBoardUpdate(
 			@ModelAttribute Rental rental, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
+			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne, @AuthenticationPrincipal UserDetails user) {
 		String rental_id = service.rentalBoardUpdate(rental);
-
-		// 로그인한 사용자의 아이디를 읽음
-		String id = user.getUsername();
 
 		if (rental_id == null) {
 			return "redirect:/";
 		}
+
+		Location updateLoc = mservice.findBoardLocation(rental_id);
+		location.setLoc_id(updateLoc.getLoc_id());
+		mservice.updateLocation(location);
+
 		// 처음에 해당 글에 file있는지 여부 확인해서 isempty 그래서 있으면
 		// 걍 싹 다 지우고 다시 저장하는데 순서가 맨 처음에 uploadOne 을 넣고 그다음에
 		// 배열 돌리기

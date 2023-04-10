@@ -25,9 +25,11 @@ import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.File;
+import com.anabada.domain.Location;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.auction.AuctionService;
+import com.anabada.service.map.MapService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -40,6 +42,9 @@ public class AuctionController {
 
 	@Autowired
 	private AuctionService service;
+
+	@Autowired
+	MapService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -142,7 +147,10 @@ public class AuctionController {
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
 
+		Location location = mservice.findBoardLocation(auction_id);
+
 		UserDTO target = service.findUser(auction_sell.getUser_email());
+		model.addAttribute("location", location);
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
@@ -197,6 +205,7 @@ public class AuctionController {
 	public String auctionWrite(
 			@AuthenticationPrincipal UserDetails userDetails,
 			@ModelAttribute Auction auction,
+			Location location,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
 
@@ -204,6 +213,9 @@ public class AuctionController {
 		auction.setUser_email(userDetails.getUsername());
 
 		String auction_id = service.auctionWrite(auction);
+
+		location.setBoard_no(auction_id);
+		mservice.insertLocation(location);
 
 		if (uploadOne.isEmpty()) {
 			log.debug("이미지 X");
@@ -248,6 +260,8 @@ public class AuctionController {
 
 		// 전달된 아이디의 글정보 읽기
 		Auction auction = service.auctionBoardRead(auction_id);
+		Location location = mservice.findBoardLocation(auction_id);
+
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
 		if (!auction.getUser_email().equals(userDetails.getUsername()))
@@ -255,6 +269,7 @@ public class AuctionController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("auction", auction);
+		model.addAttribute("location", location);
 
 		// 수정을 html로 포워딩
 		return "auction/auctionBoardUpdate.html";
@@ -264,11 +279,16 @@ public class AuctionController {
 	@PostMapping("auctionBoardUpdate")
 	public String auctionBoardUpdate(
 			@ModelAttribute Auction auction, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
+			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne,
 			@AuthenticationPrincipal UserDetails userDetails) {
 		String auction_id = service.auctionBoardUpdate(auction);
 
 		// 로그인한 사용자의 아이디를 읽음
+
+		Location updateLoc = mservice.findBoardLocation(auction_id);
+		location.setLoc_id(updateLoc.getLoc_id());
+		mservice.updateLocation(location);
 
 		if (auction_id == null) {
 			return "redirect:/";

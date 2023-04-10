@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.MapDAO">
+	<insert id="insertLocation" parameterType="Location">
+        insert into
+			location
+		(
+			loc_id
+			,board_no
+			,loc_name
+			,lat
+			,lng
+		)
+		values
+		(
+			func_seq_10('LOCA')
+			,#{board_no}
+			,#{loc_name}
+			,#{lat}
+			,#{lng}
+		)
+    </insert>
+
+    <select id="findLocation" parameterType="String" resultType="Location">
+        select
+			*
+		from
+			location
+		where
+			loc_id = #{loc_id}
+    </select>
+
+
+    <select id="findBoardLocation" parameterType="String" resultType="Location">
+        select
+			*
+		from
+			location
+		where
+			board_no = #{board_no}
+    </select>
+
+
+    <update id="updateLocation" parameterType="Location">
+		update
+			location
+		SET
+			loc_name = #{loc_name}
+			,lat = #{lat}
+			,lng = #{lng}
+		where
+			loc_id = #{loc_id}
+    </update>
+
+</mapper>

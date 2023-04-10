@@ -19,8 +19,6 @@ public class AuctionAndFile {
 	String auction_quality;
 	String auction_status;
 	String auction_finish;
-	String uloc_id;
-	String sloc_id;
 	String file_origin;
 	String file_saved;
 	String aDetail_status;

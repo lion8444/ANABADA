@@ -17,6 +17,4 @@ public class Used {
 	String used_content;
 	String used_quality;
 	String used_status;
-	String uloc_id;
-	String sloc_id;
 }

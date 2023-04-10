@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.File;
+import com.anabada.domain.Location;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.map.MapService;
 import com.anabada.service.used.UsedService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
@@ -43,6 +45,9 @@ public class UsedController {
 	
 	@Autowired
 	LoginService lservice;
+
+	@Autowired
+	MapService mservice;
 	
 	//설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -122,9 +127,12 @@ public class UsedController {
 		// used_sell 정보 가져오기
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList<File> fileList = service.fileListByid(used_id);
+		Location location = mservice.findBoardLocation(used_id);
 
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
+		
+		model.addAttribute("location", location);
 		model.addAttribute("user", user);
 		model.addAttribute("target", targetUser);
 
@@ -186,6 +194,7 @@ public class UsedController {
 	public String usedSellWrite(
 			@AuthenticationPrincipal UserDetails userDetails,
 			@ModelAttribute Used used,
+			Location location,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
 
@@ -193,6 +202,9 @@ public class UsedController {
 		used.setUser_email(userDetails.getUsername());
 
 		String used_id = service.usedSellWrite(used, uploadOne);
+		
+		location.setBoard_no(used_id);
+		mservice.insertLocation(location);
 
 		if (used_id.equals("0")) {
 			return "redirect:/";
@@ -240,6 +252,7 @@ public class UsedController {
 
 		// 전달된 아이디의 글정보 읽기
 		Used used = service.usedSellBoardRead(used_id);
+		Location location = mservice.findBoardLocation(used_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
 		if (!used.getUser_email().equals(userDetails.getUsername()))
@@ -247,6 +260,7 @@ public class UsedController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("used", used);
+		model.addAttribute("location", location);
 
 		// 수정을 html로 포워딩
 		return "used/usedSellBoardUpdate.html";
@@ -256,12 +270,16 @@ public class UsedController {
 	@PostMapping("usedSellBoardUpdate")
 	public String usedSellBoardUpdate(
 			@ModelAttribute Used used, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
+			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne,
 			@AuthenticationPrincipal UserDetails userDetails) {
 		String used_id = service.usedSellBoardUpdate(used);
+		
+		
 
-		// 로그인한 사용자의 아이디를 읽음
-		String id = userDetails.getUsername();
+		Location updateLoc = mservice.findBoardLocation(used_id);
+		location.setLoc_id(updateLoc.getLoc_id());
+		mservice.updateLocation(location);
 
 		if (used_id == null) {
 			return "redirect:/";

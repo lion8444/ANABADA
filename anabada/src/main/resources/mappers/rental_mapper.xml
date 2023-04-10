@@ -22,7 +22,7 @@
     	, rental_content, rental_quality
     	, DATE_FORMAT(rental_sDate, '%Y-%m-%d') AS rental_sDate
     	, DATE_FORMAT(rental_eDate, '%Y-%m-%d') AS rental_eDate
-    	, rental_status, uloc_id, sloc_id
+    	, rental_status
     	FROM rental WHERE rental_id = #{rental_id}
     </select>
     
@@ -181,8 +181,6 @@
 				,rental_sDate
 				,rental_eDate
 				,rental_status
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('RENT')
@@ -195,8 +193,6 @@
     			,#{rental_sDate}
 				,#{rental_eDate}
 				,'거래 중'
-    			,#{uloc_id}
-				,#{sloc_id}
     			)
     	<selectKey keyProperty="rental_id" keyColumn="rental_id" resultType="String" order="AFTER">
     		SELECT 
@@ -250,8 +246,6 @@
 			, rental_status
 			, rental_sDate
 			, rental_eDate
-			, uloc_id
-			, sloc_id
     	FROM
     		rental
     	WHERE
@@ -270,9 +264,7 @@
 	        rental_quality = #{rental_quality},
 	        rental_status = #{rental_status},
 	        rental_sDate = #{rental_sDate},
-			rental_eDate = #{rental_eDate},
-	        uloc_id = #{uloc_id},
-	        sloc_id = #{sloc_id}
+			rental_eDate = #{rental_eDate}
 	    WHERE
 	        rental_id = #{rental_id}
 	</update>
@@ -319,8 +311,6 @@
 			<if test="rental_eDate != ''">
 				,bTemp_eDate
 			</if>	
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('RTEM')
@@ -336,8 +326,6 @@
     		<if test="rental_eDate != ''">
     			,#{rental_eDate}
     		</if>	
-    			,#{uloc_id}
-    			,#{sloc_id}
     			)    	
     </insert>
     

@@ -18,8 +18,6 @@ public class RentalAndFile {
 	String rental_content;
 	String rental_quality;
 	String rental_status;
-	String uloc_id;
-	String sloc_id;
 	String file_origin;
 	String file_saved;
 	String rDetail_status;
