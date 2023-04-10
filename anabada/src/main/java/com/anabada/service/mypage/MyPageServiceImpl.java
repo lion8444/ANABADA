@@ -13,6 +13,7 @@ import com.anabada.dao.MyPageDAO;
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Damagochi;
+import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Report;

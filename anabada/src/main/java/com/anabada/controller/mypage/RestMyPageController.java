@@ -48,20 +48,20 @@ public class RestMyPageController {
 		return result;
 	}
 	
-	@PostMapping("/mytransactionlistall")
-	public List<UsedAndFile> myTransactionListAll(
-			@AuthenticationPrincipal UserDetails user
-			, String user_email
-			, Model model) {
-		
-		List<UsedAndFile> list = service.selectUsedListAllById(user_email);
-		
-//		model.addAttribute("usedList", list);
-				
-//		list = service.selectUsedListAllById(user_email);
-		
-		return list;
-	}
+//	@PostMapping("/mytransactionlistall")
+//	public List<UsedAndFile> myTransactionListAll(
+//			@AuthenticationPrincipal UserDetails user
+//			, String user_email
+//			, Model model) {
+//		
+//		List<UsedAndFile> list = service.selectUsedListAllById(user_email);
+//		
+////		model.addAttribute("usedList", list);
+//				
+////		list = service.selectUsedListAllById(user_email);
+//		
+//		return list;
+//	}
 	
 	@PostMapping("charge")
 	public int charge(@AuthenticationPrincipal UserDetails userDetails, String money) {

@@ -2,9 +2,11 @@ package com.anabada.controller.mypage;
 
 import java.io.FileInputStream;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
@@ -406,9 +408,8 @@ public class MyPageController {
 		
 		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate + "T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);	
 		
-		log.debug("현재 날짜: {}", now);
-		log.debug("DB 저장 날짜: {}", rDetailDate);
-	
+		log.debug("파싱저장 날짜: {}", rDetailDate);
+		
 		// 3일 이상 남았을 때
 		if (!rDetailDate.isBefore(now.plusDays(3))) {
 			service.cancleRentalDetail(rentalAndDetailInfo);
