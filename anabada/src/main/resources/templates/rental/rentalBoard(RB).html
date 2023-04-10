@@ -249,27 +249,32 @@
                                             class="img-fluid">
                                     </a>
                                     <div class="property-content">
+                                        <span class="city d-block mb-3">
+                                            <span th:text="${rentalList.rental_title}"
+                                                th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글
+                                                제목</span></span>
                                         <div class="price mb-2">
                                             <span
                                                 th:text="'₩ '+ ${#numbers.formatInteger(rentalList.rental_price, 3, 'COMMA')}">가격</span>
                                         </div>
-                                        <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저
-                                            닉네임</span>
-                                        <span class="city d-block mb-3"><span th:text="${rentalList.rental_title}"
-                                                th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글
-                                                제목</span></span>
-                                        <div class="specs d-flex mb-4">
-                                            <span class="d-block d-flex align-items-center me-3">
-                                                <span class="d-block mb-2 text-black-50"
-                                                    th:text="${rentalList.category_id}">카테고리</span>
-                                            </span>
-                                            <span class="d-block d-flex align-items-center">
-                                                <span class="d-block mb-2 text-black-50"
-                                                    th:text="${rentalList.rental_quality}">상품상태</span>
-                                            </span>
+                                        <div>
+                                            <span class="d-block mb-2 text-black-50"
+                                                th:text="'대여시작일: '+ ${rentalList.rental_sDate}">시작일</span>
+                                            <!-- <span th:text="${#temporals.format(rentalList.rental_sDate, 'yyyy-MM-dd')}"></span> -->
+                                            <span class="d-block mb-2 text-black-50"
+                                                th:text="'대여종료일: '+ ${rentalList.rental_eDate}">종료일</span>
+                                            <!-- <span th:text="${#temporals.format(rentalList.rental_eDate, 'yyyy-MM-dd')}"></span> -->
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저
+                                                    닉네임</span>&nbsp;/&nbsp;
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="d-block mb-2 text-black-50"
+                                                        th:text="${rentalList.rental_quality}">상품상태</span>
+                                                </span>
+                                            </div>
+                                            <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
+                                                class="btn btn-primary py-2 px-3">See details</a>
                                         </div>
-                                        <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
-                                            class="btn btn-primary py-2 px-3">See details</a>
                                     </div>
                                 </div>
                             </th:block><!-- .item -->
@@ -313,24 +318,30 @@
                         </a>
 
                         <div class="property-content">
+                            <span class="city d-block mb-3">
+                                <span th:text="${rentalList.rental_title}"
+                                    th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글
+                                    제목</span></span>
                             <div class="price mb-2">
                                 <span
                                     th:text="'₩ '+ ${#numbers.formatInteger(rentalList.rental_price, 3, 'COMMA')}">가격</span>
                             </div>
                             <div>
-                                <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저 닉네임</span>
-                                <span class="city d-block mb-3" th:text="${rentalList.rental_title}">글제목</span>
+                                <span class="d-block mb-2 text-black-50"
+                                    th:text="'대여시작일: '+ ${rentalList.rental_sDate}">시작일</span>
+                                <!-- <span th:text="${#temporals.format(rentalList.rental_sDate, 'yyyy-MM-dd')}"></span> -->
+                                <span class="d-block mb-2 text-black-50"
+                                    th:text="'대여종료일: '+ ${rentalList.rental_eDate}">종료일</span>
+                                <!-- <span th:text="${#temporals.format(rentalList.rental_eDate, 'yyyy-MM-dd')}"></span> -->
                                 <div class="specs d-flex mb-4">
-                                    <span class="d-block d-flex align-items-center me-3">
-                                        <span class="d-block mb-2 text-black-50"
-                                            th:text="${rentalList.category_id}">카테고리</span>
-                                    </span>
+                                    <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저
+                                        닉네임</span>&nbsp;/&nbsp;
                                     <span class="d-block d-flex align-items-center">
                                         <span class="d-block mb-2 text-black-50"
                                             th:text="${rentalList.rental_quality}">상품상태</span>
                                     </span>
                                 </div>
-                                <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}"
+                                <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
                                     class="btn btn-primary py-2 px-3">See details</a>
                             </div>
                         </div>
