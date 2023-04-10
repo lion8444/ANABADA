@@ -66,6 +66,8 @@
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
     <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
+     
+
 
 </head>
 
@@ -257,12 +259,17 @@
                     <span id="anamoney" th:text="${user.user_account}"></span>
                     <br>
                     <br>
-                    <input type="button" value="충전" th:value="#{charge}" id="anacharge"
-                        th:onclick="charge([[${user.user_nick}]])">
-                    <input type="button" value="&#8361;계좌송금" th:value="#{sendMoney}" id="anatransfer">
+                    <!-- <input type="button" value="충전" th:value="#{charge}" id="anacharge"
+                    class="underline-btn" th:onclick="charge([[${user.user_nick}]])"> -->
+
+                    <div class="usedhref" style="margin-left: -100px;">
+                        <button type="submit" class="btn btn-secondary btn-block" value="충전"
+                        th:value="#{charge}" th:onclick="charge([[${user.user_nick}]])">충전하기</button>
+                    </div>
+                    
                 </div>
                 <div id="singo">
-                    <span>if) 신고 누적으로 제제내역 있을 시</span>
+                    <span>※ 신고 누적으로 제제내역 있을 시</span>
                     <p>※ 현재 회원님은 신고 누적으로 사이트 제한됩니다.</p>
                     <p>※ 사이트 모든 기능 1주일 이용 정지</p>
                 </div>
