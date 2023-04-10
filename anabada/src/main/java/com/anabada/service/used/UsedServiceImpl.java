@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.dao.UsedDAO;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
@@ -73,6 +74,10 @@ public class UsedServiceImpl implements UsedService {
 		}
 		
 		int k = dao.purchase(used_detail);
+		if (k == 1 ) {
+			dao.purchaseupdate(used_detail.getUsed_id());
+		}
+		
 		return k;
 	}
 
@@ -179,9 +184,6 @@ public class UsedServiceImpl implements UsedService {
 //		return result;
 //	}
 	
-	
-	
-
 	//검색
 	@Override
 	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
@@ -197,9 +199,6 @@ public class UsedServiceImpl implements UsedService {
 		
 		return navi;
 	}
-	
-	
-
 
 	//사진 출력
 	@Override
@@ -317,6 +316,31 @@ public class UsedServiceImpl implements UsedService {
 		map.put("money", money);
 		int result = dao.addmoney(map);
 		return result;
+	}
+
+	@Override
+	public ArrayList<Category> maincategory() {
+		ArrayList<Category> category_main = dao.maincategory();
+		for(int i = 1; i < category_main.size(); ++i) {
+			String now = category_main.get(i-1).getCategory_main();
+			if(category_main.get(i).getCategory_main().equals(now)){
+				category_main.remove(i);
+				--i;
+			}
+		}			
+		return category_main;
+	}
+
+	@Override
+	public ArrayList<Category> subcategory(String main) {
+		ArrayList<Category> category_sub = dao.subcategory(main);
+		for(int i = 0; i < category_sub.size(); ++i) {
+			if(category_sub.get(i).getCategory_sub().equals("")){
+				category_sub.remove(i);
+				--i;
+			}
+		}
+		return category_sub;
 	}
 
 }

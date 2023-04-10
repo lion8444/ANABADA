@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
@@ -94,6 +95,14 @@ public interface UsedDAO {
 	void deleteWord();
 
 	int addmoney(HashMap<String, Object> map);
+
+	void purchaseupdate(String used_id);
+
+	ArrayList<Category> allcategory();
+
+	ArrayList<Category> subcategory(String main);
+
+	ArrayList<Category> maincategory();
 
 	
 }

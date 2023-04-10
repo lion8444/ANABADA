@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.anabada.dao.AuctionDAO;
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.UserDTO;
 import com.anabada.util.PageNavigator;
@@ -249,8 +250,30 @@ public class AuctionServiceImpl implements AuctionService {
 				map.put("money", money);
 				int result = dao.addmoney(map);
 				return result;
-			}			
-			
-			
+			}
 
+			@Override
+			public ArrayList<Category> maincategory() {
+				ArrayList<Category> category_main = dao.maincategory();
+				for(int i = 1; i < category_main.size(); ++i) {
+					String now = category_main.get(i-1).getCategory_main();
+					if(category_main.get(i).getCategory_main().equals(now)){
+						category_main.remove(i);
+						--i;
+					}
+				}			
+				return category_main;
+			}
+
+			@Override
+			public ArrayList<Category> subcategory(String main) {
+				ArrayList<Category> category_sub = dao.subcategory(main);
+				for(int i = 0; i < category_sub.size(); ++i) {
+					if(category_sub.get(i).getCategory_sub().equals("")){
+						category_sub.remove(i);
+						--i;
+					}
+				}
+				return category_sub;
+			}			
 }

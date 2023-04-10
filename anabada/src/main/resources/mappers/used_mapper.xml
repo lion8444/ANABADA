@@ -42,8 +42,6 @@
 				,used_content
 				,used_status
 				,used_quality
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('USED')
@@ -54,8 +52,6 @@
     			,#{used_content}
     			,'거래 중'
     			,#{used_quality}
-    			,#{uloc_id}
-				,#{sloc_id}
     			)
     	<selectKey keyProperty="used_id" keyColumn="used_id" resultType="String" order="AFTER">
     		SELECT 
@@ -247,8 +243,6 @@
 			, used_content
 			, used_quality
 			, used_status
-			, uloc_id
-			, sloc_id
     	FROM
     		used
     	WHERE
@@ -273,49 +267,6 @@
             user_email = #{user_email} 나중에 로그인하고 주석해제해야함-->
 	</update>
 	
-	<!-- 현재 테이블에서 데이터 삭제 -->
-	<!-- <delete id="deleteUsed" parameterType="int">
-	  DELETE FROM used
-	  WHERE used_id = #{used_id}
-	</delete> -->
-
-	<!-- 다른 테이블로 데이터 이동 -->
-	<!-- <insert id="insertUsedSellBoard" parameterType="Used">
-	  INSERT INTO used_sell_board (
-		  used_id,
-		  user_email,
-		  category_id, 
-		  used_title, 
-		  used_date, 
-		  used_price, 
-		  used_content, 
-		  used_quality, 
-		  used_status, 
-		  uloc_id, 
-		  sloc_id
-		  )
-	  VALUES (
-	  	#{used_id},
-		#{user_email},
-	  	#{category_id}, 
-	  	#{used_title},
-	  	#{used_date}, 
-	  	#{used_price},
-	  	#{used_content}, 
-	  	#{used_quality},
-	  	#{used_status}, 
-	  	#{uloc_id},
-	  	#{sloc_id}
-	  	   )
-	</insert> -->
-
-<!-- 이전에 해당 게시물에 업로드된 파일 리스트 가져오기 -->
-<!-- 	<select id="selectFileListByBoardNo" parameterType="int" resultType="File">
-	  SELECT *
-	  FROM file
-	  WHERE board_no = #{board_no}
-	</select> -->
-
  <select id="recommendList" resultType="Used" parameterType="map">
     	SELECT
     		*
@@ -379,9 +330,7 @@
 	        used_price = #{used_price},
 	        used_content = #{used_content},
 	        used_quality = #{used_quality},
-	        used_status = #{used_status},
-	        uloc_id = #{uloc_id},
-	        sloc_id = #{sloc_id}
+	        used_status = #{used_status}
 	    WHERE
 	        used_id = #{used_id}
 	</update>
@@ -412,8 +361,6 @@
 				,bTemp_price
 				,bTemp_content
 				,bTemp_quality
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('UTEM')
@@ -422,9 +369,7 @@
     			,#{used_title}
     			,#{used_price}
     			,#{used_content}    			
-    			,#{used_quality}    			
-    			,#{uloc_id}    			
-    			,#{sloc_id}    			
+    			,#{used_quality}    						
     			)    	
     </insert>
     
@@ -439,7 +384,7 @@
     	DELETE FROM search WHERE NOW() > DATE_ADD(date(search_date), INTERVAL 7 DAY)
     </delete>
     
-        <update id="addmoney" parameterType="map">
+     <update id="addmoney" parameterType="map">
     	UPDATE 
     		user
     	SET
@@ -447,5 +392,22 @@
     	WHERE
             user_email = #{email};
     </update>
+    
+    <update id="purchaseupdate" parameterType="String">
+    	UPDATE 
+    		used
+    	SET
+    		used_status = '거래 완료'
+    	WHERE
+            used_id = #{used_id};
+    </update>
+    
+    <select id="maincategory" resultType="Category">
+    	SELECT category_main FROM category
+    </select>
+    
+    <select id="subcategory" parameterType="String" resultType="Category">
+    	SELECT * FROM category WHERE category_main = #{main}
+    </select>
 </mapper>
 	

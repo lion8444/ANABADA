@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.UserDTO;
 
@@ -71,6 +72,12 @@ public interface AuctionDAO {
 	void deleteWord();
 
 	int addmoney(HashMap<String, Object> map);
+
+	ArrayList<Category> allcategory();
+
+	ArrayList<Category> subcategory(String main);
+
+	ArrayList<Category> maincategory();
 	
 
 }

@@ -191,8 +191,6 @@
 				,auction_quality
 				,auction_finish
 				,auction_status
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('AUCT')
@@ -204,8 +202,6 @@
     			,#{auction_quality}
 				,DATE_ADD(#{auction_finish}, INTERVAL 1 DAY) 
     			,'거래 중'
-    			,#{uloc_id}
-				,#{sloc_id}
     			)
     	<selectKey keyProperty="auction_id" keyColumn="auction_id" resultType="String" order="AFTER">
     		SELECT 
@@ -258,8 +254,6 @@
 			, auction_quality
 			, auction_status
 			, auction_finish
-			, uloc_id
-			, sloc_id
     	FROM
     		auction
     	WHERE
@@ -277,9 +271,7 @@
 	        auction_content = #{auction_content},
 	        auction_quality = #{auction_quality},
 	        auction_status = #{auction_status},
-	        auction_finish = #{auction_finish},
-	        uloc_id = #{uloc_id},
-	        sloc_id = #{sloc_id}
+	        auction_finish = #{auction_finish}
 	    WHERE
 	        auction_id = #{auction_id}
 	</update>
@@ -322,8 +314,6 @@
    			<if test="auction_finish != ''">   
 				,bTemp_finish
 			</if>
-				,uloc_id
-				,sloc_id
     		    )
     	VALUES(
 	    		func_seq_10('ATEM')
@@ -335,9 +325,7 @@
     			,#{auction_quality} 
    			<if test="auction_finish != ''">   
     			,#{auction_finish}    			
-			</if>
-    			,#{uloc_id}    			
-    			,#{sloc_id}    			
+			</if>		
     			)    	
     </insert>
     
@@ -360,4 +348,12 @@
     	WHERE
             user_email = #{email};
     </update>
+    
+    <select id="maincategory" resultType="Category">
+    	SELECT category_main FROM category
+    </select>
+    
+    <select id="subcategory" parameterType="String" resultType="Category">
+    	SELECT * FROM category WHERE category_main = #{main}
+    </select> 
 </mapper>

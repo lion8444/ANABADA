@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
@@ -74,4 +75,8 @@ public interface RentalDAO {
 	void deleteWord();
 
 	int addmoney(HashMap<String, Object> map);
+
+	ArrayList<Category> maincategory();
+
+	ArrayList<Category> subcategory(String main);
 }

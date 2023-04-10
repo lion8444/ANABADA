@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
@@ -203,6 +204,8 @@ public class AuctionController {
 			Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		UserDTO user = service.findUser(userDetails.getUsername());
 		model.addAttribute("user", user);
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 		return "auction/auctionWrite(GBW)";
 	}
 

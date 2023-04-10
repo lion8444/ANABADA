@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
@@ -79,16 +80,6 @@ public class UsedController {
 		ArrayList <Used> usedList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 
-		if(searchWord != null) {
-			Cookie cookie = new Cookie("useremail","blueskii");
-			cookie.setDomain("localhost");
-			cookie.setPath("/");
-			// 30초간 저장
-			cookie.setMaxAge(30*60);
-			cookie.setSecure(true);
-			response.addCookie(cookie);
-		}
-		
 		ArrayList <Used> usedSellList = new ArrayList<>();
 		for (Used used : usedList) {
 			UserDTO target = lservice.findUser(used.getUser_email());
@@ -181,6 +172,8 @@ public class UsedController {
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		// UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		model.addAttribute("user", user);
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 		// model.addAttribute("target", targetUser);
 		return "used/usedSellWrite(JPBW)";
 	}
@@ -198,17 +191,17 @@ public class UsedController {
 		// 로그인한 아이디 읽어서 board객체에 추가
 		used.setUser_email(userDetails.getUsername());
 
-		String used_id = service.usedSellWrite(used, uploadOne);
-
-		if (used_id.equals("0")) {
-			return "redirect:/";
-		}
-
 		if (uploadOne.isEmpty()) {
 			log.debug("이미지 X");
 			return "redirect:/";
 		}
-
+		
+		String used_id = service.usedSellWrite(used, uploadOne);
+		
+		if (used_id.equals("0")) {
+			return "redirect:/";
+		}
+		
 		// 추가된 사진 처리
 		if (!uploadOne.isEmpty()) {
 			String filename = FileService.saveFile(uploadOne, uploadPath);

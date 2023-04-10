@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
@@ -57,4 +58,8 @@ public interface AuctionService {
 	int addtemp(Auction formdata);
 
 	int addmoney(String email, String money);
+
+	ArrayList<Category> maincategory();
+
+	ArrayList<Category> subcategory(String main);
 }

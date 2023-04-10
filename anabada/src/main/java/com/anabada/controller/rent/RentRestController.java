@@ -1,5 +1,7 @@
 package com.anabada.controller.rent;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.Rental;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.rent.RentService;
@@ -59,4 +62,10 @@ public class RentRestController {
 	        return false;
 	      }
 	    }
+	
+	@GetMapping("subcate")
+	public ArrayList<Category> subcate(String main) {
+		ArrayList<Category> category_sub = service.subcategory(main);
+		return category_sub;
+	}
 }

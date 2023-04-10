@@ -21,8 +21,6 @@
 -- char_id = CHAR
 -- uChar_id = UCHA
 -- loc_id = LOCA
--- uloc_id = ULOC
--- sloc_id = SLOC
 -- wish_id = WISH
 -- uBuy_id = UBUY
 -- egg_id = EGGI
@@ -348,8 +346,9 @@ DROP TABLE IF EXISTS `anabada`.`location` ;
 CREATE TABLE IF NOT EXISTS `anabada`.`location` (
   `loc_id` VARCHAR(20) NOT NULL,
   `loc_name` VARCHAR(45) NOT NULL,
-  `loc_lat` DOUBLE NOT NULL,
-  `loc_lon` DOUBLE NOT NULL,
+  `board_no` varchar(10) unique,
+  `lat` DOUBLE NOT NULL,
+  `lng` DOUBLE NOT NULL,
   PRIMARY KEY (`loc_id`))
 ENGINE = InnoDB;
 
@@ -359,50 +358,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `anabada`.`user_location` ;
 
-CREATE TABLE IF NOT EXISTS `anabada`.`user_location` (
-  `uloc_id` VARCHAR(20) NOT NULL,
-  `loc_id` VARCHAR(20) NOT NULL,
-  `user_email` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`uloc_id`),
-  INDEX `fk_user_location_location1_idx` (`loc_id` ASC) VISIBLE,
-  INDEX `fk_user_location_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_user_location_location1`
-    FOREIGN KEY (`loc_id`)
-    REFERENCES `anabada`.`location` (`loc_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_location_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
 -- -----------------------------------------------------
 -- Table `anabada`.`sale_location`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `anabada`.`sale_location` ;
-
-CREATE TABLE IF NOT EXISTS `anabada`.`sale_location` (
-  `sloc_id` VARCHAR(20) NOT NULL,
-  `loc_id` VARCHAR(20) NOT NULL,
-  `user_email` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`sloc_id`),
-  INDEX `fk_sale_location_location1_idx` (`loc_id` ASC) VISIBLE,
-  INDEX `fk_sale_location_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_sale_location_location1`
-    FOREIGN KEY (`loc_id`)
-    REFERENCES `anabada`.`location` (`loc_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sale_location_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `anabada`.`used`
@@ -419,31 +378,12 @@ CREATE TABLE IF NOT EXISTS `anabada`.`used` (
   `used_content` VARCHAR(2000) NOT NULL,
   `used_quality` VARCHAR(45) NOT NULL,
   `used_status` VARCHAR(45) NULL DEFAULT '거래 중',
-  `uloc_id` VARCHAR(20) NOT NULL,
-  `sloc_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`used_id`),
   INDEX `fk_used_user1_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_used_category1_idx` (`category_id` ASC) VISIBLE,
-  INDEX `fk_used_user_location1_idx` (`uloc_id` ASC) VISIBLE,
-  INDEX `fk_used_sale_location1_idx` (`sloc_id` ASC) VISIBLE,
-  CONSTRAINT `fk_used_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_used_category1`
     FOREIGN KEY (`category_id`)
     REFERENCES `anabada`.`category` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_used_user_location1`
-    FOREIGN KEY (`uloc_id`)
-    REFERENCES `anabada`.`user_location` (`uloc_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_used_sale_location1`
-    FOREIGN KEY (`sloc_id`)
-    REFERENCES `anabada`.`sale_location` (`sloc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -466,31 +406,11 @@ CREATE TABLE IF NOT EXISTS `anabada`.`rental` (
   `rental_sDate` DATETIME NOT NULL,
   `rental_eDate` DATETIME NOT NULL,
   `rental_status` VARCHAR(45) NULL DEFAULT '거래 중',
-  `uloc_id` VARCHAR(20) NOT NULL,
-  `sloc_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`rental_id`),
-  INDEX `fk_rental_user1_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_rental_category1_idx` (`category_id` ASC) VISIBLE,
-  INDEX `fk_rental_user_location1_idx` (`uloc_id` ASC) VISIBLE,
-  INDEX `fk_rental_sale_location1_idx` (`sloc_id` ASC) VISIBLE,
-  CONSTRAINT `fk_rental_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_rental_category1`
     FOREIGN KEY (`category_id`)
     REFERENCES `anabada`.`category` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rental_user_location1`
-    FOREIGN KEY (`uloc_id`)
-    REFERENCES `anabada`.`user_location` (`uloc_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rental_sale_location1`
-    FOREIGN KEY (`sloc_id`)
-    REFERENCES `anabada`.`sale_location` (`sloc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -512,31 +432,11 @@ CREATE TABLE IF NOT EXISTS `anabada`.`auction` (
   `auction_content` VARCHAR(2000) NOT NULL,
   `auction_quality` VARCHAR(45) NOT NULL,
   `auction_status` VARCHAR(45) NULL DEFAULT '거래 중',
-  `uloc_id` VARCHAR(20) NOT NULL,
-  `sloc_id` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`auction_id`),
-  INDEX `fk_auction_user1_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_auction_category1_idx` (`category_id` ASC) VISIBLE,
-  INDEX `fk_auction_user_location1_idx` (`uloc_id` ASC) VISIBLE,
-  INDEX `fk_auction_sale_location1_idx` (`sloc_id` ASC) VISIBLE,
-  CONSTRAINT `fk_auction_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_auction_category1`
     FOREIGN KEY (`category_id`)
     REFERENCES `anabada`.`category` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_auction_user_location1`
-    FOREIGN KEY (`uloc_id`)
-    REFERENCES `anabada`.`user_location` (`uloc_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_auction_sale_location1`
-    FOREIGN KEY (`sloc_id`)
-    REFERENCES `anabada`.`sale_location` (`sloc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -556,13 +456,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`review` (
   `review_moment` DATETIME NULL DEFAULT now(),
   `review_star` INT NULL,
   `review_comment` VARCHAR(2000) NULL,
-  PRIMARY KEY (`review_id`),
-  INDEX `fk_review_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_review_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`review_id`))
 ENGINE = InnoDB;
 
 
@@ -583,30 +477,10 @@ CREATE TABLE IF NOT EXISTS `anabada`.`board_temp` (
   `bTemp_sDate` DATETIME NULL,
   `bTemp_eDate` DATETIME NULL,
   `bTemp_finish` DATETIME NULL,
-  `uloc_id` VARCHAR(20) NULL,
-  `sloc_id` VARCHAR(20) NULL,
   PRIMARY KEY (`bTemp_id`),
-  INDEX `fk_board_temp_user1_idx` (`user_email` ASC) VISIBLE,
-  INDEX `fk_board_temp_user_location1_idx` (`uloc_id` ASC) VISIBLE,
-  INDEX `fk_board_temp_sale_location1_idx` (`sloc_id` ASC) VISIBLE,
-  CONSTRAINT `fk_board_temp_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
 	CONSTRAINT `fk_board_temp_category1`
     FOREIGN KEY (`category_id`)
     REFERENCES `anabada`.`category` (`category_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_board_temp_user_location1`
-    FOREIGN KEY (`uloc_id`)
-    REFERENCES `anabada`.`user_location` (`uloc_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_board_temp_sale_location1`
-    FOREIGN KEY (`sloc_id`)
-    REFERENCES `anabada`.`sale_location` (`sloc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -622,13 +496,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`wish` (
   `user_email` VARCHAR(50) NOT NULL,
   `board_status` VARCHAR(45) NOT NULL,
   `board_no` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`wish_id`),
-  INDEX `fk_wish_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_wish_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`wish_id`))
 ENGINE = InnoDB;
 
 
@@ -654,16 +522,10 @@ CREATE TABLE IF NOT EXISTS `anabada`.`used_detail` (
   `uDetail_Date` DATETIME DEFAULT now(),
   PRIMARY KEY (`uDetail_id`),
   INDEX `fk_used_detail_used1_idx` (`used_id` ASC) VISIBLE,
-  INDEX `fk_used_detail_user1_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_used_detail_chat1_idx` (`chat_id` ASC) VISIBLE,
   CONSTRAINT `fk_used_detail_used1`
     FOREIGN KEY (`used_id`)
     REFERENCES `anabada`.`used` (`used_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_used_detail_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_used_detail_chat1`
@@ -698,16 +560,10 @@ CREATE TABLE IF NOT EXISTS `anabada`.`rental_detail` (
   
   PRIMARY KEY (`rDetail_id`),
   INDEX `fk_rental_detail_rental1_idx` (`rental_id` ASC) VISIBLE,
-  INDEX `fk_rental_detail_user1_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_rental_detail_chat1_idx` (`chat_id` ASC) VISIBLE,
   CONSTRAINT `fk_rental_detail_rental1`
     FOREIGN KEY (`rental_id`)
     REFERENCES `anabada`.`rental` (`rental_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rental_detail_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_rental_detail_chat1`
@@ -740,16 +596,10 @@ CREATE TABLE IF NOT EXISTS `anabada`.`auction_detail` (
 
   PRIMARY KEY (`aDetail_id`),
   INDEX `fk_auction_detail_auction1_idx` (`auction_id` ASC) VISIBLE,
-  INDEX `fk_auction_detail_user1_idx` (`user_email` ASC) VISIBLE,
   INDEX `fk_auction_detail_chat1_idx` (`chat_id` ASC) VISIBLE,
   CONSTRAINT `fk_auction_detail_auction1`
     FOREIGN KEY (`auction_id`)
     REFERENCES `anabada`.`auction` (`auction_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_auction_detail_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_auction_detail_chat1`
@@ -773,15 +623,9 @@ CREATE TABLE IF NOT EXISTS `anabada`.`auction_bid` (
   `bid_date` DATETIME NULL DEFAULT now(),
   PRIMARY KEY (`aBid_id`),
   INDEX `fk_auction_bid_auction1_idx` (`auction_id` ASC) VISIBLE,
-  INDEX `fk_auction_bid_user1_idx` (`user_email` ASC) VISIBLE,
   CONSTRAINT `fk_auction_bid_auction1`
     FOREIGN KEY (`auction_id`)
     REFERENCES `anabada`.`auction` (`auction_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_auction_bid_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

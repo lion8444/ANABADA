@@ -2,6 +2,7 @@ package com.anabada.service.used;
 
 import java.util.ArrayList;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
@@ -85,6 +86,10 @@ public interface UsedService {
 	int addtemp(Used formdata);
 
 	int addmoney(String email, String money);
+
+	ArrayList<Category> maincategory();
+
+	ArrayList<Category> subcategory(String main);
 
 
 	

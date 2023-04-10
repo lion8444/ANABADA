@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
-import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.login.LoginService;
 import com.anabada.service.rent.RentService;
@@ -218,8 +218,9 @@ public class RentController {
 	public String rentalWrite(
 			@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		UserDTO user = lservice.findUser(userDetails.getUsername());
-
+		ArrayList<Category> category_main = service.maincategory();
 		model.addAttribute("user", user);
+		model.addAttribute("category_main", category_main);
 		return "rental/rentalWrite(RBW)";
 	}
 

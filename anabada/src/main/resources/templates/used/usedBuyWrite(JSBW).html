@@ -179,9 +179,9 @@
             <div class="mb-3">
                 <label for="category">카테고리</label><br>
                 <select id="category_id" name="category_id" class="select_categories">
-                    <option value="CATE000001">피규어/완구/취미</option>
-                    <option value="2">피규어/완구/취미</option>
-                    <option value="3">피규어/완구/취미</option>
+                    	<th:block th:each="category, i: ${category}">
+                        	<option th:value="${category.category_id}" th:text="${category.category_sub}"></option>
+                        </th:block>
                 </select>
             </div>   
       
