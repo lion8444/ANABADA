@@ -72,23 +72,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -101,14 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
-
+                    
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -116,10 +109,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -411,8 +405,8 @@
                     <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
                     <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                     <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                    <li><a class="text-decoration-none" href="#">지 도</a></li>
-                    <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                    <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                    <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                 </ul>
             </div>
 
