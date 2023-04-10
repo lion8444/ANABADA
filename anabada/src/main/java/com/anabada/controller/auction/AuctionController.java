@@ -30,7 +30,9 @@ import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.login.LoginService;
+import com.anabada.domain.Wish;
 import com.anabada.service.auction.AuctionService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -46,6 +48,10 @@ public class AuctionController {
 	
 	@Autowired
 	private LoginService lservice;
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -137,7 +143,7 @@ public class AuctionController {
 	}
 
 	/**
-	 * 렌탈 상세 게시판으로 이동
+	 * 렌탈 상세 게시판으로 이동(한개 보여줌)
 	 * 조회수
 	 **/
 	@GetMapping("auctionBoardRead")
@@ -146,23 +152,28 @@ public class AuctionController {
 			,@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
-			) {
-		UserDTO user = service.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);
-						
+			) {			
 		PageNavigator navi = 
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
 		ArrayList <Auction> auctionList = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, null, null, null, null);
+		
 		model.addAttribute("auctionList",auctionList);
 		
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
 
 		UserDTO target = service.findUser(auction_sell.getUser_email());
+		UserDTO user = service.findUser(userDetails.getUsername());
+		model.addAttribute("user", user);
+		
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(auction_id, userDetails.getUsername());
+				
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("wish", wish);
 		return "auction/auctionBoardRead(GBR)";
 	}
 

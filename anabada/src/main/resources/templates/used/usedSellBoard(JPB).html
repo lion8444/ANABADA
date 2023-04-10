@@ -45,11 +45,162 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
-
+    <!-- <link rel="stylesheet" th:href="@{/css/css_buttons.css}"> -->
     <!-- 제이쿼리 (pyw)-->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
+
+    <!-- 버튼관련 css -->
+    <style>
+    .underline-btn {
+    display: inline-block;
+    padding: 0.5em 0;
+    border-radius: 0;
+    color: #00838f;
+    margin-top: 0rem;
+    font-weight: bold;
+    font-size: 0.678rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+    }
+    .underline-btn:before, .underline-btn:after {
+    content: "";
+    display: block;
+    position: absolute;
+    height: 1px;
+    width: 0;
+    }
+    .underline-btn:before {
+    transition: width 0s ease, background 0.4s ease;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    }
+    .underline-btn:after {
+    right: 2.2%;
+    bottom: 6px;
+    background: #00838f;
+    transition: width 0.4s ease;
+    }
+    .underline-btn:hover:before {
+    width: 97.8%;
+    background: #00838f;
+    transition: width 0.4s ease;
+    }
+    .underline-btn:hover:after {
+    width: 97.8%;
+    background: 0 0;
+    transition: all 0s ease;
+    }
+    .frame-btn {
+  margin-top: 0px;
+  line-height: 10px;
+  display: inline-block;
+  padding: 25px 30px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-decoration: none;
+  position: relative;
+}
+.frame-btn__text {
+  color: #00838f;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: 300ms ease;
+  position: relative;
+}
+.frame-btn:hover .frame-btn__text {
+  color: white;
+}
+.frame-btn__solid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  background-color: #00838f;
+  width: calc(100% - (5px * 4));
+  height: calc(100% - (5px * 4));
+  transform-origin: 50%;
+  transform: scale(0.85);
+  opacity: 0;
+  transition: 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.frame-btn:hover .frame-btn__solid {
+  opacity: 1;
+  transform: scale(1);
+}
+.frame-btn__outline {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.frame-btn__outline--tall {
+  margin: 0 5px;
+  width: calc(100% - (5px * 2));
+  height: 100%;
+}
+.frame-btn__outline--flat {
+  margin: 5px 0;
+  height: calc(100% - (5px * 2));
+  width: 100%;
+}
+.frame-btn__line {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.frame-btn__line--tall:before, .frame-btn__line--tall:after {
+  height: 100%;
+  width: 1px;
+  top: 0;
+}
+.frame-btn:hover .frame-btn__outline--flat .frame-btn__line--tall:before, .frame-btn:hover .frame-btn__outline--flat .frame-btn__line--tall:after {
+  transform: scaleY(0);
+}
+.frame-btn:hover .frame-btn__outline--tall .frame-btn__line--tall:before, .frame-btn:hover .frame-btn__outline--tall .frame-btn__line--tall:after {
+  margin: 5px 0;
+  height: calc(100% - (5px * 2));
+}
+.frame-btn__line--tall:before {
+  left: 0;
+}
+.frame-btn__line--tall:after {
+  right: 0;
+}
+.frame-btn__line--flat:before, .frame-btn__line--flat:after {
+  width: 100%;
+  height: 1px;
+  left: 0;
+}
+.frame-btn:hover .frame-btn__outline--tall .frame-btn__line--flat:before, .frame-btn:hover .frame-btn__outline--tall .frame-btn__line--flat:after {
+  transform: scaleX(0);
+}
+.frame-btn:hover .frame-btn__outline--flat .frame-btn__line--flat:before, .frame-btn:hover .frame-btn__outline--flat .frame-btn__line--flat:after {
+  margin: 0 5px;
+  width: calc(100% - (5px * 2));
+}
+.frame-btn__line--flat:before {
+  top: 0;
+}
+.frame-btn__line--flat:after {
+  bottom: 0;
+}
+.frame-btn__line:before, .frame-btn__line:after {
+  content: "";
+  display: block;
+  position: absolute;
+  background-color: #00838f;
+  transition: 800ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.frame-btn:hover .frame-btn__line:before, .frame-btn:hover .frame-btn__line:after {
+  transition: 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+    </style>
 </head>
 
 <body>
@@ -249,27 +400,40 @@
                                             class="img-fluid">
                                     </a>
                                     <div class="property-content">
+                                        <span class="city d-block mb-3">
+                                            <span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}"
+                                                th:text="${usedSellList.used_title}">글 제목</span></span>
                                         <div class="price mb-2">
                                             <span
                                                 th:text="'₩ '+ ${#numbers.formatInteger(usedSellList.used_price, 3, 'COMMA')}">가격</span>
                                         </div>
-                                        <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_nick}">유저
-                                            닉네임</span>
-                                        <span class="city d-block mb-3"><span th:id="|papago${i.index}|" class="papago"
-                                                th:papagoCount="${i.index}" th:text="${usedSellList.used_title}">글
-                                                제목</span></span>
-                                        <div class="specs d-flex mb-4">
+                                        <div>
                                             <span class="d-block d-flex align-items-center me-3">
                                                 <span class="d-block mb-2 text-black-50"
-                                                    th:text="${usedSellList.category_id}">카테고리</span>
+                                                    th:text="${usedSellList.used_date}">날짜</span>
                                             </span>
-                                            <span class="d-block d-flex align-items-center">
-                                                <span class="d-block mb-2 text-black-50"
-                                                    th:text="${usedSellList.used_quality}">상품상태</span>
-                                            </span>
+                                            <div class="specs d-flex mb-4">
+                                                <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_nick}">유저
+                                                    닉네임</span>&nbsp;/&nbsp;
+                                                <span class="d-block d-flex align-items-center">
+                                                    <span class="d-block mb-2 text-black-50"
+                                                        th:text="${usedSellList.used_quality}">상품상태</span>
+                                                </span>
+                                            </div>
+                                            <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
+                                                class="frame-btn">
+                                                <span class="frame-btn__outline frame-btn__outline--tall">
+                                                    <span class="frame-btn__line frame-btn__line--tall"></span>
+                                                    <span class="frame-btn__line frame-btn__line--flat"></span>
+                                                  </span>
+                                                  <span class="frame-btn__outline frame-btn__outline--flat">
+                                                    <span class="frame-btn__line frame-btn__line--tall"></span>
+                                                    <span class="frame-btn__line frame-btn__line--flat"></span>
+                                                  </span>
+                                                  <span class="frame-btn__solid"></span>
+                                                  <span class="frame-btn__text">See details</span></a>
+                                                
                                         </div>
-                                        <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
-                                            class="btn btn-primary py-2 px-3">See details</a>
                                     </div>
                                 </div>
                             </th:block><!-- .item -->
@@ -394,28 +558,28 @@
                                 class="img-fluid">
                         </a>
                         <div class="property-content">
+                            <span class="city d-block mb-3">
+                                <span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}"
+                                    th:text="${usedSellList.used_title}">글 제목</span></span>
                             <div class="price mb-2">
                                 <span
                                     th:text="'₩ '+ ${#numbers.formatInteger(usedSellList.used_price, 3, 'COMMA')}">가격</span>
                             </div>
                             <div>
-                                <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_nick}">유저
-                                    닉네임</span>
-                                <span class="city d-block mb-3">
-                                    <span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}"
-                                        th:text="${usedSellList.used_title}">글 제목</span></span>
+                                <span class="d-block d-flex align-items-center me-3">
+                                    <span class="d-block mb-2 text-black-50"
+                                        th:text="${usedSellList.used_date}">날짜</span>
+                                </span>
                                 <div class="specs d-flex mb-4">
-                                    <span class="d-block d-flex align-items-center me-3">
-                                        <span class="d-block mb-2 text-black-50"
-                                            th:text="${usedSellList.category_id}">카테고리</span>
-                                    </span>
+                                    <span class="d-block mb-2 text-black-50" th:text="${usedSellList.user_nick}">유저
+                                        닉네임</span>&nbsp;/&nbsp;
                                     <span class="d-block d-flex align-items-center">
                                         <span class="d-block mb-2 text-black-50"
                                             th:text="${usedSellList.used_quality}">상품상태</span>
                                     </span>
                                 </div>
                                 <a th:href="@{usedSellBoardRead(used_id=${usedSellList.used_id})}"
-                                    class="btn btn-primary py-2 px-3">See details</a>
+                                    class="underline-btn">See details</a>
                             </div>
                         </div>
                     </div>

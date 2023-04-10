@@ -28,8 +28,10 @@ import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
 import com.anabada.service.used.UsedService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -44,6 +46,10 @@ public class UsedController {
 
 	@Autowired
 	LoginService lservice;
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -122,11 +128,17 @@ public class UsedController {
 
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
+		
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(used_id, userDetails.getUsername());
+		
 		model.addAttribute("user", user);
 		model.addAttribute("target", targetUser);
 
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
+		
+		model.addAttribute("wish", wish);
 
 		return "used/usedSellBoardRead(JPBR)";
 	}

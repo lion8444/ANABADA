@@ -256,20 +256,22 @@
                                             alt="Image" class="img-fluid">
                                     </a>
                                     <div class="property-content">
+                                        <span class="city d-block mb-3">
+                                            <span class="city d-block mb-3"
+                                                th:text="${auctionList.auction_title}">글제목</span></span>
                                         <div class="price mb-2">
                                             <span
                                                 th:text="'₩ '+ ${#numbers.formatInteger(auctionList.auction_price, 3, 'COMMA')}">가격</span>
                                         </div>
                                         <div>
-                                            <span class="d-block mb-2 text-black-50"
-                                                th:text="${auctionList.user_nick}">유저 닉네임</span>
-                                            <span class="city d-block mb-3"
-                                                th:text="${auctionList.auction_title}">글제목</span>
+                                            <span class="d-block d-flex align-items-center me-3">
+                                                <span class="d-block mb-2 text-black-50"
+                                                    th:text="'종료일: '+ ${auctionList.auction_finish}">끝나는 날짜</span>
+                                            </span>
                                             <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${auctionList.category_id}">카테고리</span>
-                                                </span>
+                                                <span class="d-block mb-2 text-black-50"
+                                                    th:text="${auctionList.user_nick}">유저
+                                                    닉네임</span>&nbsp;/&nbsp;
                                                 <span class="d-block d-flex align-items-center">
                                                     <span class="d-block mb-2 text-black-50"
                                                         th:text="${auctionList.auction_quality}">상품상태</span>
@@ -408,19 +410,22 @@
                         </a>
 
                         <div class="property-content">
+                            <span class="city d-block mb-3">
+                                <span class="city d-block mb-3"
+                                    th:text="${auctionList.auction_title}">글제목</span></span>
                             <div class="price mb-2">
                                 <span
                                     th:text="'₩ '+ ${#numbers.formatInteger(auctionList.auction_price, 3, 'COMMA')}">가격</span>
                             </div>
                             <div>
-                                <span class="d-block mb-2 text-black-50" th:text="${auctionList.user_nick}">유저
-                                    닉네임</span>
-                                <span class="city d-block mb-3" th:text="${auctionList.auction_title}">글 제목</span>
+                                <span class="d-block d-flex align-items-center me-3">
+                                    <span class="d-block mb-2 text-black-50"
+                                        th:text="'종료일: '+ ${auctionList.auction_finish}">끝나는 날짜</span>
+                                </span>
                                 <div class="specs d-flex mb-4">
-                                    <span class="d-block d-flex align-items-center me-3">
-                                        <span class="d-block mb-2 text-black-50"
-                                            th:text="${auctionList.category_id}">카테고리</span>
-                                    </span>
+                                    <span class="d-block mb-2 text-black-50"
+                                        th:text="${auctionList.user_nick}">유저
+                                        닉네임</span>&nbsp;/&nbsp;
                                     <span class="d-block d-flex align-items-center">
                                         <span class="d-block mb-2 text-black-50"
                                             th:text="${auctionList.auction_quality}">상품상태</span>
@@ -435,18 +440,17 @@
             </div>
         </div>
     </div>
-                <div class="row">
-                    <ul class="pagination pagination-lg justify-content-center">
-                        <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
-                            <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
-                                <a class="page-link" th:text="${counter}"
-                                    th:href="|javascript:pagingFormSubmit(${counter})|"></a>
-                            </li>
-                        </span>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <div class="row">
+        <ul class="pagination pagination-lg justify-content-center">
+            <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+                </li>
+            </span>
+        </ul>
+    </div>
+    </div>
+    </div>
     </div>
 
     <!-- End Content -->

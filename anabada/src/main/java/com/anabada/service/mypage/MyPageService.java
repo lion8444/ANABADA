@@ -1,5 +1,6 @@
 package com.anabada.service.mypage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.anabada.domain.AuctionAndFile;
@@ -13,6 +14,7 @@ import com.anabada.domain.Used;
 import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.WishAndFile;
+import com.anabada.util.PageNavigator;
 
 public interface MyPageService {
 
@@ -57,7 +59,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 모든 중고 거래내역 리스트
 	 */
-	public List<UsedAndFile> selectUsedListAllById(String user_email);
+	public List<UsedAndFile> selectUsedListAllById(int start, int count, String user_email);
 
 	/**
 	 * 유저의 중고 거래 - 구매내역 리스트 검색 (중고 + 사진까지)
@@ -181,6 +183,10 @@ public interface MyPageService {
 	public int updateCharSelectedOne(Damagochi damagochi);
 
 	public int addmoney(String email, String money);
+	
+	public ArrayList<File> fileListByid(String used_id);
+
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);
 	
 
 }

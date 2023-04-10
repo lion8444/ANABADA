@@ -6,14 +6,17 @@ Custom Css
     flex-wrap: nowrap;
  }
 
- #anabox { 
-    margin : 20px; 
+ #anabox {
+  /* display: flex;
+  justify-content: center; */
+    align-items: center; 
+    margin : 35px; 
     padding : 15px;
     width: 800px;
     height: 200px;
     border : 1px solid black;
     border-radius : 5px;
-    background-color: black;
+   
  }
 
  #damabox {
@@ -37,13 +40,13 @@ Custom Css
  }
 
  #anamoney {
-    color:white;
+    /* color:black; */
     font-size: 3em;
     padding-left: 250px;
  }
 
  #anacharge {
-    margin-left: 150px;
+  margin-left: 350px;
  }
 
  #anatransfer {
@@ -51,6 +54,7 @@ Custom Css
  }
 
  #singo {
+  margin-left: -90px;
     text-align: center;
     color: red;
     font-size: 1em;
@@ -226,9 +230,11 @@ Custom Css
 
  .inquirereply {
    border: 1px solid #6c757d;
-   width:10%;
+   width:6%;
+   padding: 10px;
    display: inline-block;
    text-align: center;
+   position: absolute;
  }
 
  #downarrow {
@@ -452,7 +458,7 @@ pjh 추가 Custom Css
 
 .inquirereply {
   position: absolute;
-  right: 200px;
+  right: 450px;
 }
 
 .inq_answer {
