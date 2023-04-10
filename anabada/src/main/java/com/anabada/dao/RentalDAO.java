@@ -70,4 +70,8 @@ public interface RentalDAO {
 	int addtemp(Rental formdata);
 
 	void addsearchWord(HashMap<String, Object> save);
+
+	void deleteWord();
+
+	int addmoney(HashMap<String, Object> map);
 }

@@ -790,5 +790,8 @@ public class MyPageController {
 		return "mypage/my_unregisterForm";
 	}
 
-	
+	@GetMapping("charge")
+	public String charge(String user_nick) {
+		return "mypage/charge.html";
+	}
 }

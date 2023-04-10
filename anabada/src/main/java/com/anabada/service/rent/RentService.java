@@ -52,5 +52,7 @@ public interface RentService {
 	ArrayList<File> fileListByid(String rental_id);
 
 	int addtemp(Rental formdata);
+
+	int addmoney(String email, String money);
 	
 }

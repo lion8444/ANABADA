@@ -66,9 +66,11 @@ public class RentController {
 		Rental rental = service.findOneRental(rental_id);
 		String user_email = user.getUsername();
 		UserDTO userone = service.findUser(user_email);
+		ArrayList<File> fileList = service.fileListByid(rental_id);
 
 		model.addAttribute("rental", rental);
 		model.addAttribute("user", userone);
+		model.addAttribute("fileList", fileList);
 
 		return "rental/rentalPurchase(RBRP).html";
 	}
@@ -92,7 +94,7 @@ public class RentController {
 			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 
-		return "rental/rentalThanks.html";
+		return "redirect:/mypage/myrentallistall";
 	}
 
 	/**
@@ -106,27 +108,37 @@ public class RentController {
 			, String searchWord
 			, String check
 			, Model model) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);				
+		
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
 		
 		String email = null;
 		
-		if(user != null) {
-		email = user.getUsername();
+		if(userDetails != null) {
+		email = userDetails.getUsername();
 		}
 		
-		ArrayList <Rental> rentalList = service.rentalBoard(
+		ArrayList <Rental> rentalLists = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
 		
+		//0408 추가 
+		ArrayList <Rental> rentalList = new ArrayList<>();
+		for (Rental rental : rentalLists) {
+			UserDTO target = lservice.findUser(rental.getUser_email());
+			rental.setUser_nick(target.getUser_nick());
+			rentalList.add(rental);
+		}
+		
+		UserDTO user = lservice.findUser(userDetails.getUsername());
+		
 		model.addAttribute("rentalList",rentalList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("user", user);
 		model.addAttribute("check",check);
 
 		return "rental/rentalBoard(RB)";
@@ -143,8 +155,7 @@ public class RentController {
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
 			) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);	
+			
 					
 		PageNavigator navi = 
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
@@ -168,9 +179,13 @@ public class RentController {
 
 		Rental rental_sell = service.rentalBoardRead(rental_id);
 		ArrayList<File> fileList = service.fileListByid(rental_id);
+		
+		UserDTO user = lservice.findUser(userDetails.getUsername());
+		UserDTO target = lservice.findUser(rental_sell.getUser_email());
+		
+		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
-		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		model.addAttribute("target", target);
 		
 		model.addAttribute("wish", wish);
@@ -441,5 +456,10 @@ public class RentController {
 
 		}
 		return "redirect:/";
+	}
+	
+	@GetMapping("charge")
+	public String charge() {
+		return "/mypage/charge.html";
 	}
 }

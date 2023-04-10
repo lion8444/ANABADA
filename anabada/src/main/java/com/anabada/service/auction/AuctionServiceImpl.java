@@ -131,6 +131,7 @@ public class AuctionServiceImpl implements AuctionService {
 				save.put("searchWord", searchWord);
 				save.put("email", email);
 				dao.addsearchWord(save);
+				dao.deleteWord();
 			}
 			map.put("searchWord", searchWord);
 			map.put("check", check);
@@ -241,7 +242,14 @@ public class AuctionServiceImpl implements AuctionService {
 				return i;
 			}
 
-			
+			@Override
+			public int addmoney(String email, String money) {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("email", email);
+				map.put("money", money);
+				int result = dao.addmoney(map);
+				return result;
+			}			
 			
 			
 

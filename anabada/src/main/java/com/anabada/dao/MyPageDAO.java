@@ -214,4 +214,6 @@ public interface MyPageDAO {
 
 	public int total(HashMap<String, String> map);
 
+	public int addmoney(HashMap<String, Object> map);
+
 }

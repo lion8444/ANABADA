@@ -3,7 +3,6 @@ package com.anabada.service.mypage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,9 @@ import com.anabada.dao.MyPageDAO;
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Damagochi;
-import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Report;
-import com.anabada.domain.Used;
 import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.WishAndFile;
@@ -301,9 +298,13 @@ public class MyPageServiceImpl implements MyPageService {
 		
 		return navi;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public int addmoney(String email, String money) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("money", money);
+		int result = dao.addmoney(map);
+		return result;
+	}
 }

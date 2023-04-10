@@ -67,6 +67,10 @@ public interface AuctionDAO {
 	int addtemp(Auction formdata);
 
 	void addsearchWord(HashMap<String, Object> save);
+
+	void deleteWord();
+
+	int addmoney(HashMap<String, Object> map);
 	
 
 }

@@ -182,6 +182,8 @@ public interface MyPageService {
 
 	public int updateCharSelectedOne(Damagochi damagochi);
 
+	public int addmoney(String email, String money);
+	
 	public ArrayList<File> fileListByid(String used_id);
 
 	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);

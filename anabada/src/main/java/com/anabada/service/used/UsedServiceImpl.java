@@ -139,14 +139,13 @@ public class UsedServiceImpl implements UsedService {
 					save.put("searchWord", searchWord);
 					save.put("email", email);
 					dao.addsearchWord(save);
+					dao.deleteWord();
 				}
-				
 				map.put("searchWord", searchWord);
 				map.put("check", check);
 				//조회 결과 중 위치, 개수 지정
 				RowBounds rb = new RowBounds(start, count);
 		ArrayList<Used>usedSellList = dao.usedSellBoard(map, rb);
-		log.info(usedSellList+"");
 		return usedSellList;
 	}
 
@@ -291,7 +290,6 @@ public class UsedServiceImpl implements UsedService {
 		return list;
 	}
 
-
 	@Override
 	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
 		// TODO Auto-generated method stub
@@ -312,31 +310,13 @@ public class UsedServiceImpl implements UsedService {
 		return i;
 	}
 	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public int addmoney(String email, String money) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("money", money);
+		int result = dao.addmoney(map);
+		return result;
+	}
 
 }
