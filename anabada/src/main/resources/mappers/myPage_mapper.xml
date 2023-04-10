@@ -66,8 +66,6 @@
 		    , u.used_quality
 		    , u.used_status
 		    , ud.uDetail_status
-		    , u.uloc_id
-		    , u.sloc_id
 		    , f.file_origin
 		    , f.file_saved
 		    , ud.uDetail_Date
@@ -96,8 +94,6 @@
 		    , u.used_quality
 		    , u.used_status
 		    , u.used_price
-		    , u.uloc_id
-		    , u.sloc_id
             , f.file_origin
             , f.file_saved
             , ud.udetail_status
@@ -134,8 +130,6 @@
 		    , u.used_content
 		    , u.used_quality
 		    , u.used_status
-		    , u.uloc_id
-		    , u.sloc_id
             , f.file_origin
             , f.file_saved
     	FROM
@@ -165,8 +159,6 @@
 		    r.rental_quality,
 		    r.rental_status,
 		    rd.rDetail_status,
-		    r.uloc_id,
-		    r.sloc_id,
 		    f.file_origin,
 		    f.file_saved,
 		    r.rental_date,
@@ -200,8 +192,6 @@
 			, r.rental_quality
 			, r.rental_status
 			, rd.rDetail_status
-			, r.uloc_id
-			, r.sloc_id
 			, f.file_origin
 			, f.file_saved
 			, rd.rDetail_Date
@@ -236,8 +226,6 @@
 			, r.rental_quality
 			, r.rental_status
 			, r.rental_date
-			, r.uloc_id
-			, r.sloc_id
 			, f.file_origin
 			, f.file_saved
 		FROM
@@ -269,8 +257,6 @@
 		    , a.auction_status
 		    , a.auction_finish
 		    , ad.aDetail_status
-		    , a.uloc_id
-		    , a.sloc_id
 		    , f.file_origin
 		    , f.file_saved
 		    , ad.aDetail_Date
@@ -304,8 +290,6 @@
 		    , a.auction_date
 		    , a.auction_quality
 		    , a.auction_finish
-		    , a.uloc_id
-		    , a.sloc_id
 		FROM 
 		    auction a
 		WHERE
@@ -331,8 +315,6 @@
 			, a.auction_date
 			, a.auction_finish
 			, ad.aDetail_status
-			, a.uloc_id
-			, a.sloc_id
 			, ad.aDetail_Date
 		FROM 
 			auction a
