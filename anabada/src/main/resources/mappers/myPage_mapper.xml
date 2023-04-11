@@ -677,7 +677,7 @@
     </update>
     
     <!-- 경매 시간이 지나면 거래 완료로 변경하기 -->
-    <update id="updateAuctionStatus" parameterType="AuctionAndFile">
+    <update id="updateAuctionStatus" >
     	UPDATE
     		auction a
     		, auction_detail ad
@@ -690,5 +690,163 @@
 		    a.auction_status != '거래 완료'
 		    AND
 		    ad.aDetail_status != '거래 완료'
+    </update>
+    
+    <!-- (경매) 거래 완료인거 aTrade에 넣기 -->
+ <insert id="insertATrade" parameterType="AuctionAndFile">
+    INSERT INTO aTrade (aTrade_id, auction_id, aDetail_id)
+    SELECT func_seq_10('ATRA'), item.auction_id, item.aDetail_id
+    FROM (
+        SELECT a.auction_id, ad.aDetail_id
+        FROM auction a, auction_detail ad
+        WHERE a.auction_status = '거래 완료'
+            AND ad.aDetail_status = '거래 완료'
+            AND a.auction_id = ad.auction_id
+    ) AS item
+    <foreach collection="list" item="item" index="index" separator="UNION ALL">
+        SELECT NULL, #{item.auction_id}, #{item.aDetail_id}
+    </foreach>
+</insert>
+    
+    <!-- 렌탈 시작 시간이 되면 rental_detail테이블 거래 완료로 변경 -->
+    <update id="updateRentalStatus">
+    	UPDATE
+			rental_detail 
+    	SET
+    		rDetail_status = '거래 완료'
+    	WHERE
+    		rDetail_sDate &lt;= now()
+		    AND
+		    rDetail_status != '거래 완료'
+    </update>
+    
+        <!-- (경매) 거래 완료인거 aTrade에 넣기 -->
+    <insert id="insertRTrade" parameterType="RentalAndFile">
+			INSERT INTO
+				 rTrade 
+            (
+            	rTrade_id
+            	, rental_id
+            	, rDetail_id
+            )  
+			SELECT 
+				func_seq_10('RTRA')
+				, #{rental_id}
+				, #{rDetail_id}
+			FROM DUAL 
+			WHERE EXISTS
+			(
+				SELECT 
+					* 
+				FROM 
+					rental_detail rd 
+				WHERE 
+				rd.rDetail_status = '거래 완료'
+			)
+    </insert>
+    
+    <!-- 모든 경매 디테일 가져오기 -->
+    <select id="selectAuctionListOfDetail" resultType="AuctionAndFile">
+    	SELECT
+			a.auction_id
+			, a.user_email
+			, ad.user_email buyer_email
+			, a.category_id
+			, a.auction_title
+			, ad.aDetail_Date
+			, a.auction_price
+			, a.auction_content
+			, a.auction_quality
+			, a.auction_date
+			, a.auction_finish
+			, ad.aDetail_status
+			, ad.aDetail_Date
+		FROM 
+			auction a
+		    , auction_detail ad
+		WHERE
+			a.auction_id = ad.auction_id
+    </select>
+    
+    <!-- 모든 경매거래 가져오기 -->
+    <select id="selectAuctionListAll" resultType="AuctionAndFile">
+    	SELECT
+		    a.auction_id
+		    , ad.aDetail_id
+		    , a.user_email
+		    , ad.user_email buyer_email
+		    , a.category_id
+		    , a.auction_title
+		    , a.auction_date
+		    , ad.aDetail_Date
+		    , a.auction_price
+		    , a.auction_content
+		    , a.auction_quality
+		    , a.auction_status
+		    , a.auction_finish
+		    , ad.aDetail_status
+		    , f.file_origin
+		    , f.file_saved
+		    , ad.aDetail_Date
+		FROM
+		    auction a
+		    LEFT OUTER JOIN auction_detail ad ON a.auction_id = ad.auction_id
+		    LEFT OUTER JOIN (
+		        SELECT board_no, MIN(file_id) AS file_id
+		        FROM file
+		        GROUP BY board_no
+		    ) f_min ON a.auction_id = f_min.board_no
+		    LEFT OUTER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+	    ORDER BY
+	    	a.auction_date DESC
+    </select>
+    
+    <!-- 모든 렌탈 거래 가져오기 -->
+    <select id="selectRentalListAll" resultType="RentalAndFile">
+    	SELECT
+		    r.rental_id,
+		    r.user_email,
+		    rd.user_email AS buyer_email,
+		    r.category_id,
+		    r.rental_title,
+		    rd.rDetail_Date,
+		    r.rental_price,
+		    r.rental_content,
+		    r.rental_quality,
+		    r.rental_status,
+		    rd.rDetail_status,
+		    f.file_origin,
+		    f.file_saved,
+		    r.rental_date,
+		    rd.rDetail_Date,
+		    rd.rDetail_sDate,
+		    rd.rDetail_eDate,
+		    DATE_FORMAT(rd.rDetail_sDate, '%Y-%m-%d') AS rDetail_sDateFormat,
+		    DATE_FORMAT(rd.rDetail_eDate, '%Y-%m-%d') AS rDetail_eDateFormat
+		FROM rental r
+		LEFT JOIN rental_detail rd ON r.rental_id = rd.rental_id
+		LEFT JOIN (
+		    SELECT board_no, MIN(file_id) AS file_id
+		    FROM file
+		    GROUP BY board_no
+		) f_min ON r.rental_id = f_min.board_no
+		LEFT JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
+		ORDER BY
+			r.rental_date DESC
+    </select>
+    
+    <update id="confirmUsed" parameterType="UsedANdFile">
+    	UPDATE
+    		used u
+    		, used_detail ud
+    	SET
+    		u.used_status = '거래 완료'
+    		, ud.uDetail_status = '거래 완료'
+    	WHERE
+    		u.used_id = #{used_id}
+    		AND
+    		ud.uDetail_id = #{uDetail_id}
+    		AND
+    		ud.user_email = #{buyer_email}
     </update>
 </mapper>

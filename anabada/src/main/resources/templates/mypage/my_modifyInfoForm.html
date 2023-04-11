@@ -175,10 +175,10 @@
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" href="">거래내역</a></li>
-                            <li><a class="text-decoration-none" href="">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" href="">경매내역</a></li>
-                            <li><a class="text-decoration-none" href="">찜 목록</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
@@ -186,19 +186,20 @@
                             MY 다마고치
                         </p>
                         <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" href="">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" href="">다마고치 상점</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
                         </ul>
                     </li>
                     <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none">
+                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
                             고객센터
                         </p>
                         <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" href="">문의하기</a></li>
-                            <li><a class="text-decoration-none" href="">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" href="">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" href="">나의 신고 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
                         </ul>
                     </li>
                 </ul>

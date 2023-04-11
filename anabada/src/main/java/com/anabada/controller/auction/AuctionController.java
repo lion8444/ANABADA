@@ -125,9 +125,17 @@ public class AuctionController {
 		email = userDetails.getUsername();
 		}
 		
+		log.debug("옥션보드진입");
+		
 		// 게시판 들어가면 그 시간에 경매 마감되는 게시물 '거래 완료'로 변경 후 안보이게 
-		List<AuctionAndFile> list = mservice.selectAuctionListAllById(userDetails.getUsername());
-		mservice.updateAuctionStatus(list);
+		List<AuctionAndFile> listAll = mservice.selectAuctionListAll();
+		mservice.updateAuctionStatus();
+		log.debug("업데이트 처리");
+		
+		//s 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
+//		List<AuctionAndFile> listDetail = mservice.selectAuctionListOfDetail();
+//		int aDetailResult = mservice.insertATrade(listDetail);
+//		log.debug("aTrade에 추가된 개수 : {}", aDetailResult); 
 		
 		ArrayList <Auction> auctionLists = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);

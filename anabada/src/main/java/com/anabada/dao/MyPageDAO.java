@@ -216,6 +216,18 @@ public interface MyPageDAO {
 
 	public int addmoney(HashMap<String, Object> map);
 
-	public int updateAuctionStatus(List<AuctionAndFile> list);
+	public int updateAuctionStatus();
+
+	public int insertATrade(List<AuctionAndFile> list);
+
+	public int updateRentalStatus();
+
+	public List<AuctionAndFile> selectAuctionListOfDetail();
+
+	public List<RentalAndFile> selectRentalListAll();
+
+	public List<AuctionAndFile> selectAuctionListAll();
+
+	public int confirmUsed(UsedAndFile usedData);
 
 }

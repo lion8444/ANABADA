@@ -173,9 +173,9 @@
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}">경매내역</a></li>
                             <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
@@ -206,9 +206,6 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myrentallistall(user_email=${us.user_email})}'|">
-                    </div>
-                    <div class="translist">
                         <input type="button" value="빌려준 내역" th:value="#{rentalSell}" th:onclick="|location.href='@{/mypage/myrentallistsell(user_email=${us.user_email})}'|">
                     </div>
                     <div class="translist">
@@ -218,85 +215,6 @@
               
                 <!-- 파파고 버튼 -->
                 <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
-
-                <!-- 전체 렌탈 거래 내역 -->
-                <div id="mylistbox" th:each="list, i : ${rentalListAll}" th:if="${rentalListAll} != null">                    
-                    <table class="mypagebox">
-                        <tr>
-                            <td>
-                                <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(rental_id=${list.rental_id})}" alt="거래 글 대표사진">                                    
-                                </div>
-                            </td>
-                            <td >   
-                                <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
-                                    <div th:if="${list.rDetail_sDateFormat} != null">
-                                        <span>렌탈기한:</span>
-                                        <span th:text="${list.rDetail_sDateFormat}"></span> ~
-                                        <span th:text="${list.rDetail_eDateFormat}"></span>
-                                    </div>
-                                    <div th:if="${list.rDetail_sDateFormat} == null"><span>아직 거래가 시작되지 않았습니다.</span></div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypageTwo">
-                                    <div th:if="${list.rental_status == '거래 전'}">
-                                        <p th:text="#{rentalYet}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.rental_status == '거래 중'}">
-                                        <p th:text="#{rentalIng}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.rental_status == '거래 중지'}">
-                                        <p th:text="#{rentalStop}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.rental_status == '거래 완료'}">
-                                        <p th:text="#{rentalFin}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>                                   
-                                    <p th:text="${list.rental_date}">날짜</p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypagebutton">                                    
-                                    <!-- 렌탈 후기 -->
-                                    <input type="button" class="btn btn-success" value="렌탈후기" th:if="${list.rental_status == '거래 완료'}" th:value="#{rentalReview}" th:onclick="|location.href='@{/csform/review(rental_id=${list.rental_id})}'|"></input>
-                                    <br>
-                                    <!-- 렌탈 취소 -->
-                                    <form th:action="@{/mypage/cancleRental}" method="post">
-                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
-                                        <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
-                                        <input type="hidden" name="used_status" th:value="${list.rental_status}">
-                                        <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
-                                        <input type="submit" class="btn btn-success" value="렌탈취소" th:value="#{rentalCancle}" th:if="${list.rental_status == '거래 중'} and ${#authentication.name} == ${list.buyer_email}"></input>
-                                    </form>
-                                    <br>
-                                    <!-- 렌탈 연장 하기 -->
-                                    <form action="" method="post">
-                                        <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:onclick="|location.href='@{/rental/extension(rental_id=${list.rental_id})}'|" th:if="${#authentication.name} == ${list.buyer_email} and ${list.rental_status == '거래 중'}"></input>
-                                    </form>
-                                    <br>
-                                    <!-- 렌탈 반납 확인-->
-                                    <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
-                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
-                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}"></input>
-                                    </form>
-                                    <br>
-                                    <!-- 렌탈 연장 확인-->
-                                    <form th:action="@{/mypage/extendCheck}" method="post">
-                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="rDetail_sDate" th:value="${list.rDetail_sDate}">
-                                        <input type="hidden" name="rDetail_eDate" th:value="${list.rDetail_eDate}">
-                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
-                                        <input type="submit" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}">
-                                    </form>
-                                    <br>                                
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
 
                 <!-- 렌탈 빌린 내역 -->
                 <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
@@ -309,7 +227,7 @@
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                     <div th:if="${list.rDetail_sDateFormat} != null">
                                         <span>렌탈기한:</span>
                                         <span th:text="${list.rDetail_sDateFormat}"></span> ~
@@ -354,18 +272,12 @@
                                             th:value="#{rentalCancle}">
                                         </input>
                                     </form>
-                                    <!-- 렌탈 연장 하기-->
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" 
-                                        th:if="${list.buyer_email} == ${#authentication.name} and ${list.rDetail_status == '거래 중'}">
-                                    </input>
                                     <!-- 렌탈 반납 확인-->
                                     <!-- <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${list.user_email}">
                                         <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${us.user_email}"></input>
                                     </form> -->
-                                    <!-- 렌탈 연장 확인-->
-                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${us.user_email}"></input>                                 -->
                                 </div>
                             </td>
                         </tr>
@@ -383,7 +295,7 @@
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                     <div th:if="${list.rDetail_sDateFormat} != null">
                                         <span>렌탈기한:</span>
                                         <span th:text="${list.rDetail_sDateFormat}"></span> ~
@@ -425,17 +337,13 @@
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
                                         <input type="submit" class="btn btn-success" value="렌탈취소" th:value="#{rentalCancle}" th:if="${list.rental == list.buyer_email}"></input>
                                     </form> -->
-                                    <!-- 렌탈 연장 하기-->
-                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:if="${list.buyer_email} == ${us.user_email}" th:rentalid="${list.rental_id}" th:sDate="${list.rDetail_sDate}" th:eDate="${list.rDetail_eDate}" onclick="extendRental(this.getAttribute('rentalid'), this.getAttribute('sDate'), this.getAttribute('eDate'))"></input> -->
-                                    
+
                                     <!-- 렌탈 반납 확인-->
                                     <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${list.user_email}">
                                         <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}"></input>
-                                    </form>
-                                    <!-- 렌탈 연장 확인-->
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}"></input>                                
+                                    </form>     
                                 </div>
                             </td>
                         </tr>

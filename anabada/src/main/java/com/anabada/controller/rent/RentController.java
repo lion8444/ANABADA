@@ -3,6 +3,7 @@ package com.anabada.controller.rent;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -24,10 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
+import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.mypage.MyPageService;
 import com.anabada.service.rent.RentService;
 import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
@@ -48,6 +51,9 @@ public class RentController {
 	// 위시리스트 관련 서비스
 	@Autowired
 	WishService wservice;
+	
+	@Autowired
+	MyPageService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -117,6 +123,11 @@ public class RentController {
 		if(userDetails != null) {
 		email = userDetails.getUsername();
 		}
+		
+		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
+		List<RentalAndFile> listAll = mservice.selectRentalListAll();
+		int result = mservice.updateRentalStatus();
+		log.debug("렌탈일로 업데이트 된 개수 : {}", result);
 		
 		ArrayList <Rental> rentalLists = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
