@@ -288,12 +288,9 @@ public class MyPageServiceImpl implements MyPageService {
 	}
 
 	@Override
-	public PageNavigator getPageNavigator(int pagePerGroup
-			, int countPerPage
-			, int page
-			, String email) {
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page) {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("user_email", email);
+		
 		//검색 결과 개수
 		int t = dao.total(map);
 		

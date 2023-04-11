@@ -93,8 +93,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button" aria-haspopup="true" aria-expanded="false">USED</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                                <a class="dropdown-item"  th:href="@{/used/usedSellBoard}">중고판매</a>
-                                <a class="dropdown-item"  th:href="@{/used/usedBuyBoard}">중고구매</a>
+                                <a class="dropdown-item"  th:href="@{/used/usedSellBoard}" th:text="#{used}">중고판매</a>
+                                <a class="dropdown-item"  th:href="@{/used/usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
