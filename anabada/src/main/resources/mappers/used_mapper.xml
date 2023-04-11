@@ -409,5 +409,16 @@
     <select id="subcategory" parameterType="String" resultType="Category">
     	SELECT * FROM category WHERE category_main = #{main}
     </select>
+    
+    <insert id="uTradeinsert" parameterType="map">
+    	INSERT INTO uTrade
+    	VALUES (func_seq_10('UTRA'), #{used_id}, #{uDetail_id})
+    </insert>
+    
+        
+    <select id="findOneUseddetail" parameterType="String" resultType="Used_detail">
+    	SELECT *
+    	FROM used_detail WHERE used_id = #{used_id}
+    </select>
 </mapper>
 	

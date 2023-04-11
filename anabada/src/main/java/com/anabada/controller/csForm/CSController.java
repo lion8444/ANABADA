@@ -106,11 +106,7 @@ public class CSController {
 			, ArrayList<MultipartFile> upload) {
 		log.debug("신고하기로 올라온 데이터 : {}", report);
 		
-		// id가 다를 시 처리 X
-//		if(!report.getUser_email().equals(user.getUsername())) {
-//			log.debug("신고하기 - ID일치 X");
-//			return "redirect:/";
-//		}
+		report.setUser_email(user.getUsername());
 				
 		// 첨부파일 없을 때 - 신고하기만 처리
 		if(upload.get(0).isEmpty()) {
@@ -171,15 +167,10 @@ public class CSController {
 			, File file
 			, ArrayList<MultipartFile> upload) {
 		
+		inquiry.setUser_email(user.getUsername());
+		
 		log.debug("문의하기로 올라온 데이터 : {}", inquiry);
 		
-		// ID가 로그인 한 ID와 다르면 처리X
-		if(!inquiry.getUser_email().equals(user.getUsername())) {
-			log.debug("문의하기 - ID가 다름");
-			
-			return "redirect:/";
-		}
-						
 		// 첨부파일 없을 때 - 문의하기만 처리
 		if(upload.get(0).isEmpty()) {
 			log.debug("문의하기 - 첨부파일 X");

@@ -272,8 +272,8 @@
             		<p>대여기간</p>
 	            	<input type="date" class="fixedrental_sDate" th:value="${rental.rental_sDate}" hidden>
 	            	<input type="date" class="fixedrental_eDate" th:value="${rental.rental_eDate}" hidden>            		
-	            	<input type="date" class="rental_sdate form-control" name="rDetail_sDate" th:value="${rental.rental_sDate}">
-	            		~ <input type="date" class="rental_edate form-control" name="rDetail_eDate" th:value="${rental.rental_eDate}">
+	            	<input type="date" class="rental_sdate form-control" name="rDetail_sDate" th:value="${fsdate}" readonly>
+	            		- <input type="date" class="rental_edate form-control" name="rDetail_eDate" th:value="${fedate}" readonly>
 	            		<div class="hidden">
               				대여기간을 다시 설정해 주세요.
             			</div>

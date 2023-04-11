@@ -285,6 +285,9 @@ public class AuctionController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("auction", auction);
+		
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 
 		// 수정을 html로 포워딩
 		return "auction/auctionBoardUpdate.html";

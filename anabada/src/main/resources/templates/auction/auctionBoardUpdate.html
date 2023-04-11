@@ -12,17 +12,55 @@
 
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
     
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/custom.css}">
+
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
+
+    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+   <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+   <script th:src="@{/js/hsw/usedSellWrite(JPBW).js}"></script>
+    
+   <!-- 개인 css-->
+    <link rel="stylesheet" th:href="@{/css/css_usedBuyWrite(JSBW).css}">
+    
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
     <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
-	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
-	<script th:src="@{/js/hsw/auctionWrite(GBW).js}"></script>
+
+    <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/hsw/auctionWrite(GBW).js}"></script>
     
     <style>
       .hidden {
@@ -35,22 +73,7 @@
 </head>
 
 <body>
-    <!-- Start Top Nav -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-    <!-- Close Top Nav -->
-
-
+   
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -150,124 +173,12 @@
         </div>
     </div>
 
-    <!-- 글 쓰는 폼 -->
-    
-    <!-- <form th:action="@{auctionWrite}" method="post" id="write" 
-            enctype="multipart/form-data">
-            
-            <input type="hidden" name="uloc_id" value="uloc000001">
-            <input type="hidden" name="sloc_id" value="sloc000001">
-          
-    <table>
-        <tr>
-            <th><h1>경매 글 쓰기</h1></th>
-            <td colspan="2" class="white pull-right" style="position:absolute; right: 0;">
-                <input type="button" value="임시등록">
-                <input type="submit" value="등록">
-            </td>
-        </tr>
-    </table>
-
-    <section class="writeForm">
-
-        <div class="categories_option">
-            <select id="category_id" name="category_id" class="select_categories">
-                <option value="CATE000001">피규어/완구/취미</option>
-                <option value="2">피규어/완구/취미</option>
-                <option value="3">피규어/완구/취미</option>
-            </select>
-        </div>    
-          
-        <div class="name_merchandise">
-            <input type="text" id="auction_title" name="auction_title" placeholder="상품명을 입력하세요" class="input_name_meerchandise">
-      		<div class="hidden">
- 				상품명을 입력해 주세요.
-			</div>        
-        </div>
-
-    <table class="table_writingContent">
-        <tr>
-            <th>
-                판매 가격*
-            </th>
-        </tr>
-            
-        <tr>
-            <td>
-                <input type="text" id="auction_price" name="auction_price" placeholder="가격을 입력해 주세요" class="input_price"> 원
-            </td>
-        </tr>
-		<tr class="hidden">
- 			<td>가격을 입력해 주세요.</td>
-		</tr>
-        <tr>
-            <th>상품 상태</th>
-        </tr>
-
-        <tr>
-            <th>
-                <input type="radio" name="auction_quality" value="미개봉"> 미개봉
-                <input type="radio" name="auction_quality" value="사용감 있음" checked> 사용감 있음
-                <input type="radio" name="auction_quality" value="파손 있음"> 파손 있음
-            </th>
-        </tr>
-
-        <tr>
-            <th>
-                <input type="date" id="auction_finish" name="auction_finish">경매기간 설정
-            </th>
-        </tr>
-		<tr class="hidden">
- 			<td>경매 마감 일자를 정확하게 입력해 주세요.</td>
-		</tr>	        
-        </table>
-    
-        <div class="">
-            * 등록시 주의사항
-        </div>
-
-        <div class="">
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-            주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-        </div>
-        <br>
-        <div class="">
-            <p>대표 사진첨부(1장만 가능합니다)</p>
-            <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
-           	<div class="hidden">
- 				사진을 업로드해 주세요.
-			</div>
-        </div>
-        <br>
-        <div class="">
-            <p>사진첨부(10장까지 가능)</p>
-            <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
-        </div>
-        </table>
-        <br>
-        
-        <div class="">
-            *글 편집하는 기능 넣는 부분
-        </div>
-
-        <div class="">
-            <textarea name="auction_content" id="auction_content" style="width:400px"></textarea>
-        <div class="hidden">
- 				상세설명을 50자 이상 입력해 주세요.
-		</div>
-        </div>
-    </form>
-    </section> -->
-
-    <!-- 글 쓰는 폼 -->
-    
-   
     <br>
     <article>
       
         <div class="container" role="main">
       
-            <h2>경매 글 쓰기</h2>
+            <h2>경매 글 수정</h2>
       
             <form th:action="@{auctionWrite}" method="post" id="write"
                     enctype="multipart/form-data">
@@ -278,14 +189,19 @@
                 <div class="mb-3">
                     <label for="auction_title">제목</label>
                     <input type="text" class="form-control" id="auction_title" name="auction_title" placeholder="제목을 입력해 주세요">
+                            <div class="hidden">
+ 								상품명을 입력해 주세요.
+							</div>
                 </div>
       
                 <div class="mb-3">
                     <label for="category">카테고리</label><br>
-                    <select id="category_id" name="category_id" class="select_categories">
-                        <option value="CATE000001">피규어/완구/취미</option>
-                        <option value="2">피규어/완구/취미</option>
-                        <option value="3">피규어/완구/취미</option>
+                          <select class="select_categories main">
+                    	<th:block th:each="main, i: ${category_main}">
+                        	<option th:text="${main.category_main}"></option>
+                        </th:block>
+                    </select>
+                    <select id="category_id" name="category_id" class="select_categories subcate">
                     </select>
                 </div> 
       
@@ -299,16 +215,18 @@
                 <div class="mb-3">
                     <label for="auction_price">판매가격</label>
                     <input type="text" class="form-control" id="auction_price" name="auction_price" placeholder="가격을 입력해 주세요">
+                        <div class="hidden">
+ 								가격을 입력해 주세요.
+						</div>
                 </div>
 
                 <div class="mb-3">
                     <label for="auction_finish">경매기간 설정:</label>
                     <input type="date" id="auction_finish" name="auction_finish">
-                </div>
-                
                 <div class="hidden">
                     <p>경매 마감 일자를 정확하게 입력해 주세요.</p>
-                </div>	    
+                </div>	                      
+                </div>
 
                 <div class="mb-3">
                     <label for="caution">*등록시 주의사항<br> 
@@ -344,13 +262,14 @@
                 </div>
                 
                 <div>
-                    <button  class="btn btn-sm btn-primary" onclick="saveDraft()">임시저장</button>
+                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
                     <input type="submit"  class="btn btn-sm btn-primary" value="저장">
                 </div>
             </form>
         </div>
         </article>
-<!-- 채팅 -->
+
+    <!-- 채팅 -->
 <section sec:authorize="isAuthenticated()" th:if="${user != null}">
     <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
     <button class="chatbox-open">
@@ -431,64 +350,63 @@
         </div>
     </div>
 </section>
-    
 
     <!-- Start Footer -->
-    <footer class="bg-dark" id="tempaltemo_footer">
-        <div class="container">
-            <div class="row">
+        <footer class="bg-dark" id="tempaltemo_footer">
+            <div class="container">
+                <div class="row">
 
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">ANABADA</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li>
-                            <i class="fas fa-map-marker-alt fa-fw"></i>
-                            06164 서울특별시 강남구 영동대로 513<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(삼성동, 코엑스) 4층 ICT센터
-                        </li>
-                        <li>
-                            <i class="fa fa-phone fa-fw"></i>
-                            <a class="text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope fa-fw"></i>
-                            <a class="text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
-                        </li>
-                    </ul>
+                    <div class="col-md-4 pt-5">
+                        <h2 class="h2 text-success border-bottom pb-3 border-light logo">ANABADA</h2>
+                        <ul class="list-unstyled text-light footer-link-list">
+                            <li>
+                                <i class="fas fa-map-marker-alt fa-fw"></i>
+                                06164 서울특별시 강남구 영동대로 513<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(삼성동, 코엑스) 4층 ICT센터
+                            </li>
+                            <li>
+                                <i class="fa fa-phone fa-fw"></i>
+                                <a class="text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
+                            </li>
+                            <li>
+                                <i class="fa fa-envelope fa-fw"></i>
+                                <a class="text-decoration-none"
+                                    href="mailto:anabada@anabada.com">anabada@anabada.com</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4 pt-5">
+                        <h2 class="h2 text-light border-bottom pb-3 border-light">Menu</h2>
+                        <ul class="list-unstyled text-light footer-link-list">
+                            <li><a class="text-decoration-none" th:href="@{usedSellBoard}">중고거래</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
+                            <li><a class="text-decoration-none" href="#">지 도</a></li>
+                            <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4 pt-5">
+                        <h2 class="h2 text-light border-bottom pb-3 border-light">Informations</h2>
+                        <ul class="list-unstyled text-light footer-link-list">
+                            <li><a class="text-decoration-none" th:href="@{/indexMain}">Home</a></li>
+                            <li><a class="text-decoration-none" href="#">About Us</a></li>
+                            <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                            <li><a class="text-decoration-none" href="#">FAQs</a></li>
+                            <li><a class="text-decoration-none" href="#">Contact</a></li>
+                        </ul>
+                    </div>
+
                 </div>
-                
 
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Menu</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌    탈</a></li>
-                        <li><a class="text-decoration-none" th:href="@{auctionBoard}">경    매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Informations</h2>
-                    <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" th:href="@{/indexMain}">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                        <li><a class="text-decoration-none" href="#">FAQs</a></li>
-                        <li><a class="text-decoration-none" href="#">Contact</a></li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <div class="row text-light mb-4">
-                <div class="col-12 mb-3">
-                    <div class="w-100 my-3 border-top border-light"></div>
-                </div>
-                <div class="col-auto me-auto">
-                    <ul class="list-inline text-left footer-icons">
-                        <!-- <li class="list-inline-item border border-light rounded-circle text-center">
+                <div class="row text-light mb-4">
+                    <div class="col-12 mb-3">
+                        <div class="w-100 my-3 border-top border-light"></div>
+                    </div>
+                    <div class="col-auto me-auto">
+                        <ul class="list-inline text-left footer-icons">
+                            <!-- <li class="list-inline-item border border-light rounded-circle text-center">
                             <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                         </li>
                         <li class="list-inline-item border border-light rounded-circle text-center">
@@ -500,34 +418,30 @@
                         <li class="list-inline-item border border-light rounded-circle text-center">
                             <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
                         </li> -->
-                    </ul>
-                </div>
-                <div class="col-auto">
-                    <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <!-- <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-
-        <div class="w-100 bg-black py-3">
-            <div class="container">
-                <div class="row pt-2">
-                    <div class="col-12">
-                        <p class="text-left text-light">
-                            <!-- Copyright &copy; 2021 Company Name 
-                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a> -->
-                        </p>
+                        </ul>
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="subscribeEmail">Email address</label>
                     </div>
                 </div>
             </div>
-        </div>
-        
 
-    </footer>
-    <!-- End Footer -->
+            <div class="w-100 bg-black py-3">
+                <div class="container">
+                    <div class="row pt-2">
+                        <div class="col-12">
+                            <p class="text-left text-light">
+                                <!-- Copyright &copy; 2021 Company Name 
+                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a> -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </footer>
+        <!-- End Footer -->
 
     <!-- Start Script -->
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
@@ -541,14 +455,14 @@
     <script th:src="@{/assets/property_js/custom.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script th:src="@{/js/js_auctionWrite(GBW).js}"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script th:src="@{/js/js_rentalWrite(RBW).js}"></script>
     <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
-    <!-- End Script -->
+    <!-- jQuery -->
+<!--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ -->    <!-- End Script -->
    
 </body>
 

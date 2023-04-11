@@ -104,5 +104,7 @@ public interface UsedDAO {
 
 	ArrayList<Category> maincategory();
 
+	void uTradeinsert(HashMap<String, Object> map);
+
 	
 }

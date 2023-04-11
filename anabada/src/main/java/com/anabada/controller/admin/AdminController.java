@@ -57,7 +57,6 @@ public class AdminController {
 		return "admin/admin_details.html";
 	}
 	
-	
 	@GetMapping("ask")
 	public String ask(Model model) {
 		ArrayList<Inquiry> inquiry = service.getallinquiry();

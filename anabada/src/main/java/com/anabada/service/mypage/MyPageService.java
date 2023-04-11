@@ -186,7 +186,7 @@ public interface MyPageService {
 	
 	public ArrayList<File> fileListByid(String used_id);
 
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String email);
 	
 
 }

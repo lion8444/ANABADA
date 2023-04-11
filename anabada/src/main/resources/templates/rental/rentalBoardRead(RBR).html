@@ -200,15 +200,16 @@
                         </div>
                         <p class="text-black-30" th:text="${'대여시작일: '+ rental_sell.rental_sDate}">대여시작일</p>
                         <p class="text-black-30" th:text="${'대여마감일: '+ rental_sell.rental_eDate}">대여마감일</p>
-                        <input type="date" id="currentDate"><span id="papago4" class="papago" papagoCount="4">원하는 대여 시작일
-                            설정</span><br>
-                        <input type="date" id="endDate"><span id="papago5" class="papago" papagoCount="5">원하는 대여 마감일
-                            설정</span>
+                        <p id="papago4" class="papago" papagoCount="4">대여 기간: </p>
+                        <input type="date" id="currentDate" class="fsdate form-control" th:value="${fsdate}" style="width: 45%; display: inline-block;" readonly>
+                        <span id="papago5" class="papago" papagoCount="5"> - </span>
+                        <input type="date" id="endDate" class="fedate form-control" th:value="${fedate}" style="width: 45%; display: inline-block;" readonly>
                         <div class="text-black-30">
+                        <br>
                             <p id="papago6" class="papago" papagoCount="6">* 배송시 배송료 별도</p>
                         </div>
                         <div class="usedhref">
-                            <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id})}'|"><button
+                            <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id}, fsdate=${fsdate}, fedate=${fedate})}'|"><button
                                     class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
                             <input type="image" id="deleteWish" th:if="${wish != null}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${rental_sell.user_email}">
                             <input type="image" id="insertWish" th:if="${wish == null}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${rental_sell.user_email}">

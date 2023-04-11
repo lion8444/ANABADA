@@ -258,6 +258,9 @@ public class UsedController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("used", used);
+		
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 
 		// 수정을 html로 포워딩
 		return "used/usedSellBoardUpdate.html";

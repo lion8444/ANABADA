@@ -62,7 +62,7 @@ public class RentController {
 	int pagePerGroup;
 
 	@GetMapping({ "purchase" })
-	public String purchase(@AuthenticationPrincipal UserDetails user, String rental_id, Model model) {
+	public String purchase(@AuthenticationPrincipal UserDetails user, String rental_id, Model model, String fsdate, String fedate) {
 		Rental rental = service.findOneRental(rental_id);
 		String user_email = user.getUsername();
 		UserDTO userone = service.findUser(user_email);
@@ -71,6 +71,8 @@ public class RentController {
 		model.addAttribute("rental", rental);
 		model.addAttribute("user", userone);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("fsdate",fsdate);
+		model.addAttribute("fedate",fedate);
 
 		return "rental/rentalPurchase(RBRP).html";
 	}
@@ -107,10 +109,12 @@ public class RentController {
 			, String type
 			, String searchWord
 			, String check
+			, String fsdate
+			, String fedate
 			, Model model) {
 		
 		PageNavigator navi = 
-			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
+			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check, fsdate, fedate);
 		
 		String email = null;
 		
@@ -119,7 +123,16 @@ public class RentController {
 		}
 		
 		ArrayList <Rental> rentalLists = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
+				navi.getStartRecord(),countPerPage, type, searchWord, check, email, fsdate, fedate);
+		
+		for(int i = 0; i < rentalLists.size(); ++i) {
+			for(int j = i+1; j < rentalLists.size(); ++ j) {
+				if(rentalLists.get(i).getRental_id().equals(rentalLists.get(j).getRental_id())) {
+					rentalLists.remove(i);
+					--i;
+				}
+			}
+		}
 		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
@@ -128,7 +141,7 @@ public class RentController {
 		ArrayList <Rental> rentalList = new ArrayList<>();
 		for (Rental rental : rentalLists) {
 			UserDTO target = lservice.findUser(rental.getUser_email());
-			rental.setUser_nick(target.getUser_nick());
+			rental.setUser_nick(target.getUser_nick());	
 			rentalList.add(rental);
 		}
 		
@@ -140,6 +153,8 @@ public class RentController {
 		model.addAttribute("searchWord",searchWord);
 		model.addAttribute("user", user);
 		model.addAttribute("check",check);
+		model.addAttribute("fsdate",fsdate);
+		model.addAttribute("fedate",fedate);
 
 		return "rental/rentalBoard(RB)";
 	}
@@ -154,14 +169,16 @@ public class RentController {
 			,@RequestParam(name="rental_id",defaultValue="0") String rental_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
+			, String fsdate
+			, String fedate
 			) {
 			
 					
 		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null, null, null);
 		
 		ArrayList <Rental> rentalList = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, null, null, null, null);
+				navi.getStartRecord(),countPerPage, null, null, null, null, null, null);
 		ArrayList <File> fileList2 = service.fileList();
 		
 		// 위시리스트 유무 정보 가져오기
@@ -189,7 +206,8 @@ public class RentController {
 		model.addAttribute("target", target);
 		
 		model.addAttribute("wish", wish);
-		
+		model.addAttribute("fsdate",fsdate);
+		model.addAttribute("fedate",fedate);
 		return "rental/rentalBoardRead(RBR)";
 	}
 
@@ -304,7 +322,8 @@ public class RentController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("rental", rental);
-
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 		// 수정을 html로 포워딩
 		return "rental/rentalBoardUpdate.html";
 	}

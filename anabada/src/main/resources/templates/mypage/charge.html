@@ -65,6 +65,7 @@
 				, type: 'post'
 				, data : {money: $('.money').val()}
 				, success: function(){
+					opener.location.reload();
 					window.close();
 				}
 				, error: function(){

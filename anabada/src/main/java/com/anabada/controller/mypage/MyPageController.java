@@ -151,7 +151,7 @@ public class MyPageController {
 		log.debug("스프링 user : {}", user.getUsername());
 				
 		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page);
+				service.getPageNavigator(pagePerGroup, countPerPage, page, user.getUsername());
 		
 		List<UsedAndFile> list = service.selectUsedListAllById(navi.getStartRecord(),countPerPage, user.getUsername());
 		
@@ -184,10 +184,6 @@ public class MyPageController {
 		
 		model.addAttribute("usedListBuy", list);
 		model.addAttribute("us", us);
-		
-		log.debug("but: {}", list);
-		log.debug("buy 이즈엠티 : {}", list.isEmpty());
-		log.debug("buy 자체 : {}", list == null);
 		
 		return "mypage/my_transaction";
 	}

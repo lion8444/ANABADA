@@ -29,11 +29,11 @@ public interface RentService {
 	ArrayList<File> fileListAll(String rental_id);
 	
 	//렌트 글 목록 출력
-	public ArrayList<Rental>rentalBoard(int start, int count, String type, String searchWord, String check, String email);
+	public ArrayList<Rental>rentalBoard(int start, int count, String type, String searchWord, String check, String email, String fsdate, String fedate);
 	public ArrayList<File> fileList();
 	
 	//페이지 정보 객체 생성
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type, String searchWord, String check);
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type, String searchWord, String check, String fsdate, String fedate);
 	
 	//파는 글 저장
 	public String rentalWrite(Rental rental);
