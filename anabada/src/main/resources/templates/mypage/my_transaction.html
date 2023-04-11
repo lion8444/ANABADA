@@ -18,6 +18,10 @@
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+
+    <!-- 채팅 css -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
     <link rel="stylesheet" th:href="@{/assets/css/test.css}">
 
@@ -43,10 +47,10 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
-    <!-- 채팅 css -->
-    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
-    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 
     
@@ -75,23 +79,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -104,14 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
-
+                    
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -119,10 +116,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -146,151 +144,104 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
-                <ul class="list-unstyled templatemo-accordion">
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
-                            MY 거래
-                        </p>
-                        <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
-                        <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
-                            MY 다마고치
-                        </p>
-                        <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
-                            고객센터
-                        </p>
-                        <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
-                            <li><!-- 언어 선택 -->
-                                <select id="locales">
-                                    <option value="">Language</option>
-                                    <option value="ko" th:text="#{lang.ko}"></option>
-                                    <option value="ja-JP" th:text="#{lang.jp}"></option>
-                                </select>
-                
-                                <!-- 파파고 버튼 -->
-                                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
-                                  
-                                <!-- alert 문구 관련 -->
-                                <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
+               <div class="container1">
+                    <nav>
+                        <ul class="mcd-menu">
+                            <li>
+                                <a class="aTag" th:href="@{/mypage/mypage}">
+                                    <strong th:text="#{mypage}" >마이페이지</strong>
+                                    <small>ANABADA</small>
+                                </a>
                             </li>
+            
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mytrade}">MY거래</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mydamagochi}">나의 다마고치</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}" class="aTag">나의 다마고치</a></li>
+                                    <li><a th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}" class="aTag">다마고치 상점</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{customerCenter}" >고객센터</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/csform/inquiry}" th:text="#{inquiry}" class="aTag">문의하기</a></li>
+                                    <li><a th:href="@{/csform/report}" th:text="#{report}" class="aTag">신고</a></li>
+                                    <li><a th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}" class="aTag">나의 문의 내역</a></li>
+                                    <li><a th:href="@{/mypage/faqs}" th:text="#{qnaList}" class="aTag">자주 묻는 질문</a></li>
+                                    <li><a th:href="@{/mypage/myreportlist}" th:text="#{myReportList}" class="aTag">나의 신고 내역</a></li>
+                                </ul>
+                            </li>
+            
                         </ul>
-                    </li>
-                </ul>
+                    </nav>
+                </div>
             </div>
 
             <div class="col-lg-9">
-                <div id="transbox">
-                    <div class="translist">
-                        <input type="button" value="전체" id="selectUsedAll" th:value="#{all}" th:onclick="|location.href='@{/mypage/mytransactionlistall(user_email=${user.user_email})}'|">
-                    </div>
+
+                <!-- <div id="transbox">
                     <div class="translist">
                         <input type="button" value="판매 내역" id="selectUsedSell" th:value="#{sellList}" th:onclick="|location.href='@{/mypage/mytransactionlistsell(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
                         <input type="button" value="구매 내역" id="selectUsedBuy" th:value="#{buyList}" th:onclick="|location.href='@{/mypage/mytransactionlistbuy(user_email=${user.user_email})}'|">
                     </div>
-                </div>
-              
+                </div> -->
 
-                
-                <!-- 전체 중고 거래 내역-->
-                <div id="mylistbox" th:each="list, i: ${usedListAll}" th:if="${usedListAll} != null">                   
-                    <table class="mypagebox">
-                        <tr>
-                            <td>
-                                <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypageTitle">
-                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypageTwo">
-                                    <div th:if="${list.used_status == '거래 전'}">
-                                        <p><span th:text="#{usedYet}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.used_status == '거래 중'}">
-                                        <p><span th:text="#{usedIng}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.used_status == '거래 중지'}">
-                                        <p><span th:text="#{usedStop}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.used_status == '거래 완료'}">
-                                        <p><span th:text="#{usedFin}">게시글 상태</span></p>
-                                    </div>
-                                    <p th:text="${list.used_date}">날짜</p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypagebutton"> 
-                                    <!-- 거래 후기 -->  
-                                    <input class="btn btn-success" type="button" value="거래후기" th:if="${list.used_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
-                                    <br>
-                                    <!-- 거래 취소 -->
-                                    <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
-                                        <input type="hidden" name="uDetail_id" class="cancle_usedId" th:value="${list.uDetail_id}">
-                                        <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
-                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${user.user_email}">
-                                        <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
-                                        <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
-                                        <input type="hidden" name="used_price" class="cancle_used_price" th:value="${list.used_price}">
-                                        <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
-                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}" 
-                                            th:if="${list.used_status == '거래 중'} and ${list.buyer_email} == ${#authentication.name} and ${list.uDetail_status == '거래 중'}">
-                                        </input>
-                                    </form>
-                                    <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.used_status == '거래 중'}"></input>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                <nav class="navbar navbar-expand-sm bg-light">
+                    <div class="container-fluid">                  
+                      <ul class="navbar-nav">                  
+                        <li class="nav-item">                  
+                          <a class="nav-link" th:href="@{/mypage/mytransactionlistsell(user_email=${us.user_email})}" style="font-weight: bolder;">판매내역</a>
+                        </li>         
+                        <li class="nav-item">    
+                          <a class="nav-link" th:href="@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}" style="font-weight: bolder;">구매내역</a>          
+                        </li>         
+                      </ul>
+                    </div>
+                  </nav>
 
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+                <div style='width:120%;margin:0 auto;margin-top:50px; color: black;'>
+                    <ul class="nav nav-tabs">
+                        <li class='active'>
+                            <a th:href="@{/mypage/mytransactionlistsell(user_email=${us.user_email})}" data-toggle="tab">
+                                판매 내역
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}" data-toggle="tab">
+                                구매 내역
+                            </a>
+                        </li>
+                    </ul>
+                </div>  
                 <!-- 중고 판매 내역 -->
                 <div id="mylistbox" th:each="list, i : ${usedListSell}" th:if="${usedListSell} != null">
                     <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
@@ -298,12 +249,12 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(used_id=${list.used_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -343,7 +294,64 @@
                                             th:if="${list.used_status == '거래 중'} and ${list.buyer_email} == ${#authentication.name} and ${list.uDetail_status == '거래 중'}">
                                         </input>
                                     </form> -->
-                                    <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.used_status == '거래 중'}"></input>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- 중고 판매 내역 -->
+                <div id="mylistbox" th:each="list, i : ${usedListSell}" th:if="${usedListSell} != null">
+                    <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
+                    <table class="mypagebox">
+                        <tr>
+                            <td>
+                                <div class="mypageImg">
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(used_id=${list.used_id})}" alt="거래 글 대표사진">                                    
+                                </div>
+                            </td>
+                            <td >   
+                                <div class="mypageTitle">
+                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mypageTwo">
+                                    <div class="mypageTwo">
+                                        <div th:if="${list.used_status == '거래 전'}">
+                                            <p><span th:text="#{usedYet}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.used_status == '거래 중'}">
+                                            <p><span th:text="#{usedIng}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.used_status == '거래 중지'}">
+                                            <p><span th:text="#{usedStop}">게시글 상태</span></p>
+                                        </div>
+                                        <div th:if="${list.used_status == '거래 완료'}">
+                                            <p><span th:text="#{usedFin}">게시글 상태</span></p>
+                                        </div>
+                                        <p th:text="${list.used_date}">날짜</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="mypagebutton">       
+                                    <!-- 거래 후기 -->                 
+                                    <!-- <input class="btn btn-success" type="button" value="거래후기" th:if="${list.used_status == '거래 완료' and ${list.buyer_email} == ${#authentication.name}}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|"> -->
+                                    <br>
+                                    <!-- 거래 취소 -->
+                                    <!-- <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
+                                        <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.uDetail_id}">
+                                        <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${user.user_email}">
+                                        <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
+                                        <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
+                                        <input type="hidden" name="used_price" class="cancle_used_price" th:value="${list.used_price}">
+                                        <input type="hidden" name="uDetail_status" class="cancle_uDetail_status" th:value="${list.uDetail_status}">
+                                        <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}" 
+                                            th:if="${list.used_status == '거래 중'} and ${list.buyer_email} == ${#authentication.name} and ${list.uDetail_status == '거래 중'}">
+                                        </input>
+                                    </form> -->
                                 </div>
                             </td>
                         </tr>
@@ -357,12 +365,12 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(used_id=${list.used_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/used/usedSellBoardRead(used_id=${list.used_id})}"><span th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" th:text="${list.used_title}" style="text-align: center;">제목</span></a>
                                 </div>
                             </td>
                             <td>
@@ -398,7 +406,12 @@
                                         <input class="btn btn-success" type="submit" value="거래취소" th:value="#{usedCancle}" 
                                             th:if="${list.uDetail_status == '거래 중'} and ${list.buyer_email} == ${#authentication.name} and ${list.uDetail_status == '거래 중'}"></input>
                                     </form>
-                                    <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.uDetail_status == '거래 중'}"></input>
+                                    <form th:action="@{/mypage/comfirmUsed}" method="post" onsubmit="return usedComfirmChk();">
+                                        <input class="btn btn-success" type="submit" value="거래완료" th:value="#{usedFin}" th:if="${list.uDetail_status == '거래 중'}"></input>
+                                        <input type="hidden" name="used_id" th:value="${list.used_id}">
+                                        <input type="hidden" name="buyer_email" th:value="${#authentication.name}">
+                                        <input type="hidden" name="uDetail_id" th:value="${list.uDetail_id}">
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -490,6 +503,19 @@
             </div>
         </div>
     </section>
+
+    <!-- <div class="row">
+		<ul class="pagination pagination-lg justify-content-center"> -->
+                        <!-- <li class="page-item disabled">
+                            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1"></a>
+                        </li> -->
+			<!-- <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+				<li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+				<a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+				</li>
+			</span>
+		</ul>
+	</div> -->
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">

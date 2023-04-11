@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Auction {
 	String auction_id;
+	String user_nick;
 	String user_email;
 	String category_id;
 	String auction_title;
@@ -18,4 +19,5 @@ public class Auction {
 	String auction_content;
 	String auction_quality;
 	String auction_status;
+	
 }

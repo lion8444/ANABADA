@@ -1,5 +1,7 @@
 package com.anabada.controller.auction;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.anabada.domain.Auction;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Category;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.auction.AuctionService;
 
@@ -52,5 +55,31 @@ public class AuctionRestController {
 				,Auction formdata) {
 		formdata.setUser_email(user.getUsername());
 		int i = service.addtemp(formdata);
+	}
+	
+	@PostMapping("charge")
+	public int charge(@AuthenticationPrincipal UserDetails userDetails, String money) {
+			if(isInteger(money)) {
+				String email = userDetails.getUsername();
+				int result = service.addmoney(email, money);
+				return result;
+			}
+		
+		return 0;
+	}
+
+	private boolean isInteger(String money) {
+	    try {
+	        Integer.parseInt(money);
+	        return true;
+	      } catch (NumberFormatException ex) {
+	        return false;
+	      }
+	    }
+	
+	@GetMapping("subcate")
+	public ArrayList<Category> subcate(String main) {
+		ArrayList<Category> category_sub = service.subcategory(main);
+		return category_sub;
 	}
 }

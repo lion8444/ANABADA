@@ -25,6 +25,11 @@
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
 
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
     <!--           -->
     <meta name="author" content="Untree.co">
     <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
@@ -47,14 +52,17 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 </head>
 
 <body>
   
-   <!-- Header -->
-   <nav class="navbar navbar-expand-lg navbar-light shadow">
+  <!-- Header -->
+  <nav class="navbar navbar-expand-lg navbar-light shadow">
     <div class="container d-flex justify-content-between align-items-center">
 
         <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}" id="title_logo">
@@ -73,23 +81,23 @@
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false">USED</a>
+                            aria-haspopup="true" aria-expanded="false">중고거래</a>
                         <div class="dropdown-menu" aria-labelledby="usedDropdown">
                             <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                             <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                        <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                        <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">MAP</a>
+                        <a class="nav-link" th:href="@{/map}">지도</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">INTRODUCTION</a>
+                        <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                     </li>
                 </ul>
             </div>
@@ -102,14 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                </a> -->
-                <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                </a> -->
-
+                
                 <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                     aria-expanded="false">
                     <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -117,10 +118,11 @@
                         class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
                 <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                    <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                    <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                    <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                    <a class="dropdown-item" href="#">로그아웃</a>
+                    <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                    <div sec:authorize="isAuthenticated()">
+                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                    </div>
                 </div>
 
                 <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -144,65 +146,60 @@
 </nav>
 <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
-                <ul class="list-unstyled templatemo-accordion">
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
-                            MY 거래
-                        </p>
-                        <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
-                        <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
+                <div class="container1">
+                    <nav>
+                        <ul class="mcd-menu">
+                            <li>
+                                <a class="aTag" th:href="@{/mypage/mypage}">
+                                    <strong th:text="#{mypage}" >마이페이지</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                            </li>
+            
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mytrade}">MY거래</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mydamagochi}">나의 다마고치</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}" class="aTag">나의 다마고치</a></li>
+                                    <li><a th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}" class="aTag">다마고치 상점</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{customerCenter}" >고객센터</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/csform/inquiry}" th:text="#{inquiry}" class="aTag">문의하기</a></li>
+                                    <li><a th:href="@{/csform/report}" th:text="#{report}" class="aTag">신고</a></li>
+                                    <li><a th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}" class="aTag">나의 문의 내역</a></li>
+                                    <li><a th:href="@{/mypage/faqs}" th:text="#{qnaList}" class="aTag">자주 묻는 질문</a></li>
+                                    <li><a th:href="@{/mypage/myreportlist}" th:text="#{myReportList}" class="aTag">나의 신고 내역</a></li>
+                                </ul>
+                            </li>
+            
                         </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
-                            MY 다마고치
-                        </p>
-                        <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
-                            고객센터
-                        </p>
-                        <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                    </nav>
+                </div>
             </div>
 
             <!-- 컨텐츠 시작 -->
@@ -212,9 +209,9 @@
                         <span  id="damaMainImg" class="card mb-4 product-wap rounded-0">
                             <div th:if="${dama.char_selected} == 1">
                                 <span class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                                    <!-- <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
                                     <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
-                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}"> -->
                                 </span> 
                             </div>
                             <span class="card-body">
@@ -265,6 +262,87 @@
         </div>
     </div>
     <!-- End Content -->
+    <!-- 채팅 -->
+    <section sec:authorize="isAuthenticated()" th:if="${user != null}">
+        <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
+        <button class="chatbox-open">
+            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
+        </button>
+        <button class="chatbox-close">
+            <i class="fa fa-close fa-2x" aria-hidden="true"></i>
+        </button>
+
+        <div class="chatbox-container">
+            <div class="chatbox">
+                <div class="top-bar">
+                    <div class="targetInfo">
+                        <img src="" class="avatar" alt="">
+                        <div class="name">Voldemort</div>
+                    </div>
+                    <div class="icons">
+                        <i class="fas fa-phone"></i>
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="menu">
+                        <div class="dots"></div>
+                    </div>
+                </div>
+                <div class="middle chatting">
+                    <div class="voldemort">
+                        <!-- <div class="typing">
+                        <div class="bubble">
+                            <div class="ellipsis one"></div>
+                            <div class="ellipsis two"></div>
+                            <div class="ellipsis three"></div>
+                        </div>
+                    </div> -->
+                    </div>
+                </div>
+
+                <div class="bottom-bar">
+                    <div class="chat">
+                        <input type="text" class="chat-input" placeholder="Type a message..." />
+                        <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="messages"></div>
+            <div class="profile">
+                <img class="avatar" src="/img/pacman.png">
+                <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
+                </div>
+            </div>
+            <ul class="people">
+                <li class="person">
+                    <span class="title">Voldemort </span>
+                    <span class="time">2:50pm</span><br>
+                    <span class="preview">What are you getting... Oh, oops...</span>
+                </li>
+                <li class="person">
+                    <span class="title">Ron</span>
+                    <span class="time">2:25pm</span><br>
+                    <span class="preview">Meet me at Hogsmeade and bring...</span>
+                </li>
+                <li class="person">
+                    <span class="title">Hermione</span>
+                    <span class="time">2:12pm</span><br>
+                    <span class="preview">Have you and Ron done your hom...</span>
+                </li>
+            </ul>
+            <div class="middle format">
+                <div class="voldemort">
+                    <div class="messageText">
+                        <div class="margin">
+                            <div>
+                                <span class="bubble"></span>
+                            </div>
+                            <span class="chattime"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Start Footer -->
     <footer class="bg-dark" id="tempaltemo_footer">
@@ -296,8 +374,8 @@
                         <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
                         <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                         <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                     </ul>
                 </div>
 
@@ -319,27 +397,13 @@
                     <div class="w-100 my-3 border-top border-light"></div>
                 </div>
                 <div class="col-auto me-auto">
-                    <!-- <ul class="list-inline text-left footer-icons">
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                        </li> 
-                    </ul> -->
+                    <ul class="list-inline text-left footer-icons">
+                      
+                    </ul>
                 </div>
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <!-- <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div> -->
+                    
                 </div>
             </div>
         </div>
@@ -358,7 +422,7 @@
         </div>
 
 
-    </footer>
+    </footer> 
      <!-- End Footer -->
 
     <!-- Start Script -->

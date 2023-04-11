@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anabada.dao.RentalDAO;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Rental_detail;
@@ -108,7 +109,7 @@ public class RentServiceImpl implements RentService {
 		
 	//파는 글 출력
 		@Override
-		public ArrayList<Rental> rentalBoard(int start, int count, String type, String searchWord, String check, String email) {
+		public ArrayList<Rental> rentalBoard(int start, int count, String type, String searchWord, String check, String email, String fsdate, String fedate) {
 			//검색 대상과 검색어
 			HashMap<String, String> map = new HashMap<>();
 			if(type != null) {
@@ -130,9 +131,12 @@ public class RentServiceImpl implements RentService {
 				save.put("searchWord", searchWord);
 				save.put("email", email);
 				dao.addsearchWord(save);
+				dao.deleteWord();
 			}
 			map.put("searchWord", searchWord);
 			map.put("check", check);
+			map.put("fsdate", fsdate);
+			map.put("fedate", fedate);
 			//조회 결과 중 위치, 개수 지정
 			RowBounds rb = new RowBounds(start, count);
 			ArrayList<Rental>rentalList = dao.rentalBoard(map, rb);
@@ -173,7 +177,7 @@ public class RentServiceImpl implements RentService {
 		//검색
 		@Override
 		public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
-				String searchWord, String check) {
+				String searchWord, String check, String fsdate, String fedate) {
 			HashMap<String, String> map = new HashMap<>();
 			map.put("type", type);
 			map.put("searchWord", searchWord);
@@ -240,7 +244,37 @@ public class RentServiceImpl implements RentService {
 			return i;
 		}
 
-		public void rentalStart() {
-			
+		@Override
+		public int addmoney(String email, String money) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("email", email);
+			map.put("money", money);
+			int result = dao.addmoney(map);
+			return result;
+		}
+
+		@Override
+		public ArrayList<Category> maincategory() {
+			ArrayList<Category> category_main = dao.maincategory();
+			for(int i = 1; i < category_main.size(); ++i) {
+				String now = category_main.get(i-1).getCategory_main();
+				if(category_main.get(i).getCategory_main().equals(now)){
+					category_main.remove(i);
+					--i;
+				}
+			}			
+			return category_main;
+		}
+
+		@Override
+		public ArrayList<Category> subcategory(String main) {
+			ArrayList<Category> category_sub = dao.subcategory(main);
+			for(int i = 0; i < category_sub.size(); ++i) {
+				if(category_sub.get(i).getCategory_sub().equals("")){
+					category_sub.remove(i);
+					--i;
+				}
+			}
+			return category_sub;
 		}
 }

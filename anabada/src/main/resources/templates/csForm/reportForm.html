@@ -42,6 +42,10 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
+
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 	<!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
@@ -75,23 +79,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -104,14 +108,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
-
+                    
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -119,10 +116,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -155,7 +153,6 @@
 					</div>
 					<!-- 신고하기 폼 -->
 					<form th:action="@{/csform/report}" method="post" enctype="multipart/form-data" onsubmit="return reportValidation();">
-						<input type="hidden" name="user_email" value="anabada@gmail.com"> <!-- 신고자 이메일 일단 직접 value로 처리-->
 					<!--<input type="hidden" name="board_status" th:value="중고거래"> --> <!-- 일단 value로 직접 테스트 -->
 					<!-- input type="hidden" name="board_no" th:value="3"> -->
 						<div class="row">
@@ -221,8 +218,8 @@
 								</table>
 								<hr width="90%">
 								<div class="reportButtons" >
-									<input type="submit" value="신고하기" th:value="#{doReport}" class="btn btn-success" id="singoButton">
-									<a th:href="@{/mypage/mypage}"><input type="button" value="취소" th:value="#{cancle}" class="btn btn-success"></a>
+									<input type="submit" value="신고하기" th:value="#{doReport}" class="arrow-btn1" id="singoButton">
+									<a th:href="@{/mypage/mypage}"><input type="button" value="취소" th:value="#{cancle}" class="arrow-btn1"></a>
 								</div>
 							</div>					
 						</div>
@@ -314,9 +311,8 @@
         </div>
     </section>
 
-
-     <!-- Start Footer -->
-     <footer class="bg-dark" id="tempaltemo_footer">
+    <!-- Start Footer -->
+    <footer class="bg-dark" id="tempaltemo_footer">
         <div class="container">
             <div class="row">
 
@@ -345,8 +341,8 @@
                         <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
                         <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                         <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                     </ul>
                 </div>
 
@@ -369,26 +365,12 @@
                 </div>
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
-                        <!-- <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                        </li> -->
+                        
                     </ul>
                 </div>
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <!-- <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div> -->
+                    
                 </div>
             </div>
         </div>
@@ -440,15 +422,15 @@
    <script th:src="@{/js/js_usedSellBoard(JPB).js}"></script>
 
 	<script th:src="@{/js/js_csForm.js}"></script>
+	<!-- 채팅 -->
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
+    <script th:src="@{/js/chat/chat.js}"></script>
 
 	 <!-- 제이쿼리 (pyw)-->
 	 <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
 	 <script th:src="@{/js/js_myPage.js}"></script>
 	 <script th:src="@{/js/lanTest.js}"></script>
 	 <!-- End Script -->
-	<!-- 채팅 -->
-    <script th:src="@{/js/chat/chatButton.js}"></script>
-    <script th:src="@{/js/chat/chatRoom.js}"></script>
-    <script th:src="@{/js/chat/chat.js}"></script>
   </body>
   </html>

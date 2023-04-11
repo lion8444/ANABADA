@@ -74,7 +74,9 @@
     	SELECT
     		*
     	FROM
-    		rental LEFT JOIN user ON rental.user_email = user.user_email
+    		rental
+       		LEFT JOIN rental_detail ON rental.rental_id = rental_detail.rental_id
+    		LEFT JOIN user ON rental.user_email = user.user_email
 		<where>
 		<if test="searchWord != null and type != null" >
 				<if test="type =='rental_title'">
@@ -96,6 +98,10 @@
 				</if>
 			</if>
 			and rental.rental_status = '거래 중'
+			and #{fsdate} BETWEEN DATE_FORMAT(rental.rental_sDate, '%Y-%m-%d') AND DATE_FORMAT(rental.rental_eDate, '%Y-%m-%d')
+			and #{fedate} BETWEEN DATE_FORMAT(rental.rental_sDate, '%Y-%m-%d') AND DATE_FORMAT(rental.rental_eDate, '%Y-%m-%d')
+			and #{fsdate} NOT BETWEEN DATE_FORMAT(rental_detail.rDetail_sDate, '%Y-%m-%d') AND DATE_FORMAT(rental_detail.rDetail_eDate, '%Y-%m-%d')
+			and #{fedate} NOT BETWEEN DATE_FORMAT(rental_detail.rDetail_sDate, '%Y-%m-%d') AND DATE_FORMAT(rental_detail.rDetail_eDate, '%Y-%m-%d')
 		</where>
 		<if test="check != null and check !=''">
 			ORDER BY
@@ -310,7 +316,7 @@
 			</if>	
 			<if test="rental_eDate != ''">
 				,bTemp_eDate
-			</if>	
+			</if>
     		    )
     	VALUES(
 	    		func_seq_10('RTEM')
@@ -335,4 +341,25 @@
 		 SELECT func_seq_10('SRCH'), #{email}, #{searchWord}
 		 FROM DUAL WHERE NOT EXISTS(SELECT * FROM search WHERE user_email = #{email} AND search_word = #{searchWord})
     </insert>
+    
+    <delete id="deleteWord">
+    	DELETE FROM search WHERE NOW() > DATE_ADD(date(search_date), INTERVAL 7 DAY)
+    </delete>    
+    
+        <update id="addmoney" parameterType="map">
+    	UPDATE 
+    		user
+    	SET
+    		user_account = user_account + #{money}
+    	WHERE
+            user_email = #{email};
+    </update>
+    
+    <select id="maincategory" resultType="Category">
+    	SELECT category_main FROM category
+    </select>
+    
+    <select id="subcategory" parameterType="String" resultType="Category">
+    	SELECT * FROM category WHERE category_main = #{main}
+    </select>
 </mapper>

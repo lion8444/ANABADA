@@ -265,6 +265,7 @@ $(document).ready(function() {
 
 });
 
+// 중고 거래 취소 alert 확인
 function usedCancleChk() {
     const regex = /[가-힣ぁ-ゔァ-ヴー々〆〤一-龥]/;
     let cancle = $("#cancle-text");
@@ -295,6 +296,7 @@ function usedCancleChk() {
 
 // }
 
+// 렌탈 반납 확인 alert 확인
 function returnCheck() {
     if(confirm('정말로 렌탈 반납을 확인 하시겠습니까?')) {
         return true;
@@ -303,8 +305,22 @@ function returnCheck() {
     return false;
 }
 
+// 다마고치 캐릭터설정 alert 확인
 function damaCheck() {
     if(confirm('대표 다마고치는 최종 레벨에 맞는 다마고치로 적용됩니다.\n변경 하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+
+function charge(user_nick){
+	window.open('charge', '충전 페이지', "width=1000, height=500");
+}
+
+// 중고 거래 완료 alert 확인
+function usedComfirmChk() {
+    if(confirm('거래를 완료 하시겠습니까?')) {
         return true;
     }
 

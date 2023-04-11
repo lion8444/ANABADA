@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	subadd();
+	$('.main').change(subadd);
 	$('#write').submit(submitcheck);
 	$('.tempadd').click(tempadd);
 });	
@@ -54,3 +56,25 @@ function tempadd(){
 			
 		});
 }
+
+function subadd(){
+	 $.ajax({
+                url: 'subcate'
+                , type: 'get'
+                , data: { 'main': $('.main').val() }
+                , dataType: 'json'
+                , success: function (category_sub) {
+					let raw = '';
+					for (let i = 0; i < category_sub.length; ++i){
+						raw += '<option value="';
+						raw += category_sub[i].category_id
+						raw += '">'
+						raw += category_sub[i].category_sub + '</option>';
+						}
+					$('.subcate').html(raw);
+					}
+                , error: function () {
+                    alert("실패");
+                }
+            });
+        }

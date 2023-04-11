@@ -50,16 +50,9 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
-    
+     <!-- 버튼관련 css -->
+     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
-
-<!--
-    
-TemplateMo 559 Zay Shop
-
-https://templatemo.com/tm-559-zay-shop
-
--->
 </head>
 
 <body>
@@ -83,23 +76,23 @@ https://templatemo.com/tm-559-zay-shop
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -112,13 +105,6 @@ https://templatemo.com/tm-559-zay-shop
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
 
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
@@ -127,10 +113,11 @@ https://templatemo.com/tm-559-zay-shop
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -143,8 +130,10 @@ https://templatemo.com/tm-559-zay-shop
 
                     <!-- 언어 선택 버튼 이미지 -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
-                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO"
+                            th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP"
+                            th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>
@@ -153,26 +142,6 @@ https://templatemo.com/tm-559-zay-shop
         </div>
     </nav>
     <!-- Close Header -->
-
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
 
     <!-- Start Content -->
     <!-- 검색 폼 -->
@@ -183,239 +152,209 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="card p-3 py-4">
                     <div class="row g-3 mt-2">
                         <div class="col-md-3">
-	                            <div class="dropdown">
-	                                <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
-	                                    data-toggle="dropdown" aria-expanded="false" name="type">제목</button>
-	                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-	                                    <li><a class="dropdown-item" th:value="rental_title"
-	                                            th:selected="${type} == 'rental_title'" onclick="statuscheck('제목');">제목</a></li>
-	                                    <li><a class="dropdown-item" th:value="rental_content"
-	                                            th:selected="${type} == 'rental_content'" onclick="statuscheck('본문');">본문</a></li>
-	                                    <li><a class="dropdown-item" th:value="user_email"
-	                                            th:selected="${type} == 'user_nick'" onclick="statuscheck('작성자');">작성자</a></li>
-	                                    <li><a class="dropdown-item" th:value="all"
-	                                            th:selected="${type} == 'all'" onclick="statuscheck('전체');">전체</a></li>
-	                                </ul>
-	                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
+                                    data-toggle="dropdown" aria-expanded="false" name="type">제목</button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" th:value="rental_title"
+                                            th:selected="${type} == 'rental_title'" onclick="statuscheck('제목');">제목</a>
+                                    </li>
+                                    <li><a class="dropdown-item" th:value="rental_content"
+                                            th:selected="${type} == 'rental_content'"
+                                            onclick="statuscheck('본문');">본문</a></li>
+                                    <li><a class="dropdown-item" th:value="user_email"
+                                            th:selected="${type} == 'user_nick'" onclick="statuscheck('작성자');">작성자</a>
+                                    </li>
+                                    <li><a class="dropdown-item" th:value="all" th:selected="${type} == 'all'"
+                                            onclick="statuscheck('전체');">전체</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <input type="text" class="form-control" placeholder="찾고 싶은 상품을 검색해보세요!" id="searchWord"
                                 th:value="${searchWord}">
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-secondary btn-block" value="검색" onclick="pagingFormSubmit(1)">검색</button>
+                            <button class="btn btn-secondary btn-block findbutton" value="검색"
+                                onclick="pagingFormSubmit(1)">검색</button>
                         </div>
                     </div>
-                    	<div class="mt-3">
-                        	<div class="row">
-                            	<div class="col-md-3">
-                                	<a href=# class="dcheck" th:text="${check}" hidden></a>
-                                </div>
-                                <div class="col-auto">
-                                    <a href=# onclick="pagingFormSubmit(1, 'rank')"><font size=3>랭킹순</font></a>
-                                </div>
-                                <div class="col-auto">
-                                    <a href=# onclick="pagingFormSubmit(1, 'low')"><font size=3>낮은가격순</font></a>
-                                </div>
-                                <div class="col-auto">
-                                    <a href=# onclick="pagingFormSubmit(1, 'high')"><font size=3>높은가격순</font></a>
-                                </div>
-                                <div class="col-auto">
-                                    <a href=# onclick="pagingFormSubmit(1, 'recent')"><font size=3>최신순</font></a>
-                                </div>
+                    <div class="mt-3">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a href=# class="dcheck" th:text="${check}" hidden></a>
+                            </div>
+                            <div class="col-auto">
+                                <a href=# onclick="pagingFormSubmit(1, 'rank')">
+                                    <font size=3>랭킹순</font>
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <a href=# onclick="pagingFormSubmit(1, 'low')">
+                                    <font size=3>낮은가격순</font>
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <a href=# onclick="pagingFormSubmit(1, 'high')">
+                                    <font size=3>높은가격순</font>
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <a href=# onclick="pagingFormSubmit(1, 'recent')">
+                                    <font size=3>최신순</font>
+                                </a>
+                            </div>
+                            <div class="col-auto">
+                                <input type="date" class="fsdate form-control" th:value="${fsdate}" style="height: 100%;">
+                            </div>
+                            <div class="col-auto">
+                            -
+                            </div>
+                            <div class="col-auto">
+                                <input type="date" class="fedate form-control" th:value="${fedate}" style="height: 100%;">
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <br>
 
-    <!-- <div class="container">
-            <div class="usedhref">
-                <a th:href="@{usedSellWrite}"><button class="btn btn-secondary btn-block" value="판매글 작성">판매글 작성</button></a>
-            </div>
-        </div> -->
-
-    <!-- 검색 폼 -->
-    <!-- <form th:action="@{usedSellList}" method="get" id="pagingForm">
-            <input type="hidden" name="page" id="page"/>
-            <select id="type" name="type">  -->
-    <!--서버에 type이란 이름으로 title값이 전달됨-->
-    <!-- <option value="used_title" th:selected="${type} == 'used_title'">    제목  </option>
-                <option value="used_content" th:selected="${type} == 'used_content'"> 본문  </option>
-                <option value="user_email" th:selected="${type} == 'user_email'"> 작성자</option>
-                <option value="all" th:selected="${type} == 'all'">      전체  </option>
-            </select>
-            <input type="text" name="searchWord" th:value="${searchWord}">
-            <input type="button" value="검색" onclick="pagingformSubmit(1)">
-        </form> -->
-
-
-    <!-- <a th:href="@{usedSellWrite}">중고 파는 글쓰기</a>
-        <br>
-        <a th:href="@{usedBuyWrite}">중고 사는 글쓰기</a>
-        <br>
-        <a th:href="@{usedBuyBoard}">중고 사는 글 목록</a>
-        <br> -->
-    </div>
-    <br>
-
-    <div class="section">
+    <!-- <div class="section">
         <div class="container">
             <div class="row mb-5 align-items-center">
                 <div class="col-lg-6 text-center mx-auto">
                     <h2 class="font-weight-bold text-primary heading" th:text="#{recommendRental}">추천 렌탈</h2>
-                                        <!-- 파파고 버튼 -->
-                    <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-left: 1000px;"> 
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="property-slider-wrap">
-                        <div class="property-slider">
-                <!--item-->
-                <div th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
-                    <div class="property-item mb-30">
-                    <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
-                    	<img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}" alt="Image" class="img-fluid">
-                    </a>
-                    <div class="property-content">
-                        <div class="price mb-2"><span th:text="${rentalList.rental_price}">가격</span></div>
-                        <div>
-                            <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_email}">판매자 이메일</span>
-                            <span class="city d-block mb-3"><span th:text="${rentalList.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글 제목</span></span>
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${rentalList.category_id}">카테고리</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${rentalList.rental_quality}">상품상태</span>
-                                                </span>
-                                            </div>
-                                            <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
-                                                class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- .item -->
-
-                        </div><!--.slider-->
-
-                        <div>
-                            <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
-                                <span class="prev" data-controls="prev" aria-controls="property"
-                                    tabindex="-1">Prev</span>
-                                <span class="next" data-controls="next" aria-controls="property"
-                                    tabindex="+1">Next</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 0320 -->
-                <div class="section">
-                    <div class="container">
-                        <div class="row mb-5 align-items-center">
-                            <div class="col-lg-6 text-center mx-auto">
-                                <h2 class="font-weight-bold text-primary heading">진행 중인 대여</h2>
-                            </div>
-                        </div>
-                        <div class="usedhref">
-                            <a th:href="@{rentalWrite}"><button class="btn btn-secondary btn-block" value="판매글 작성">판매글
-                                    작성</button></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section section-properties">
-                    <div class="container">
-                        <div class="row">
+                        <div class="property-slider"> -->
                             <!--item-->
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" th:each="rentalList, i: ${rentalList}"
-                                method="get" enctype="multipart/form-data">
+                            <!-- <th:block th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
                                 <div class="property-item mb-30">
-                                    <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
-                    					<img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}" alt="Image" class="img-fluid">
+                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id}, fsdate=${fsdate}, fedate=${fedate})}"
+                                        class="img">
+                                        <img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}" alt="Image"
+                                            class="img-fluid">
                                     </a>
-
                                     <div class="property-content">
-                                        <div class="price mb-2"><span th:text="${rentalList.rental_price}">가격</span>
+                                        <span class="city d-block mb-3">
+                                            <span th:text="${rentalList.rental_title}"
+                                                th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}">글
+                                                제목</span></span>
+                                        <div class="price mb-2">
+                                            <span
+                                                th:text="'₩ '+ ${#numbers.formatInteger(rentalList.rental_price, 3, 'COMMA')}">가격</span>
                                         </div>
                                         <div>
                                             <span class="d-block mb-2 text-black-50"
-                                                th:text="${rentalList.user_email}">판매자 이메일</span>
-                                            <span class="city d-block mb-3" th:text="${rentalList.rental_title}">글
-                                                제목</span>
-
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${rentalList.category_id}">카테고리</span>
-                                                </span>
+                                                th:text="'대여시작일: '+ ${rentalList.rental_sDate}">시작일</span> -->
+                                            <!-- <span th:text="${#temporals.format(rentalList.rental_sDate, 'yyyy-MM-dd')}"></span> -->
+                                            <!-- <span class="d-block mb-2 text-black-50"
+                                                th:text="'대여종료일: '+ ${rentalList.rental_eDate}">종료일</span> -->
+                                            <!-- <span th:text="${#temporals.format(rentalList.rental_eDate, 'yyyy-MM-dd')}"></span> -->
+                                            <!-- <div class="specs d-flex mb-4">
+                                                <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저
+                                                    닉네임</span>&nbsp;/&nbsp;
                                                 <span class="d-block d-flex align-items-center">
                                                     <span class="d-block mb-2 text-black-50"
                                                         th:text="${rentalList.rental_quality}">상품상태</span>
                                                 </span>
                                             </div>
-                                            <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}"
-                                                class="btn btn-primary py-2 px-3">See details</a>
+                                            <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id}, fsdate=${fsdate}, fedate=${fedate})}"
+                                                class="underline-btn1">See details</a>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <ul class="pagination pagination-lg justify-content-center">
-                                    <span
-                                        th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
-                                        <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
-                                            <a class="page-link" th:text="${counter}"
-                                                th:href="|javascript:pagingFormSubmit(${counter})|"></a>
-                                        </li>
-                                    </span>
-                                </ul>
-                            </div>
-                            <!-- .item -->
-
-                            <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                                <div class="property-item mb-30">
-            
-                                    <a href="property-single.html" class="img">
-                                        <img src="assets/property_images/img_1.jpg" alt="Image" class="img-fluid">
-                                    </a>
-            
-                                    <div class="property-content">
-                                        <div class="price mb-2"><span>$1,291,000</span></div>
-                                        <div>
-                                            <span class="d-block mb-2 text-black-50">5232 California Fake, Ave. 21BC</span>
-                                            <span class="city d-block mb-3">California, USA</span>
-            
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block d-flex align-items-center me-3">
-                                                    <span class="icon-bed me-2"></span>
-                                                    <span class="caption">2 beds</span>
-                                                </span>
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="icon-bath me-2"></span>
-                                                    <span class="caption">2 baths</span>
-                                                </span>
-                                            </div>
-            
-                                            <a href="property-single.html" class="btn btn-primary py-2 px-3">See details</a>
-                                        </div>
-                                    </div>
-                                </div> .item
-                            </div> -->
+                                </div> -->
+                            <!-- </th:block>
+                        </div>
+                        <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
+                            <span class="prev" data-controls="prev" aria-controls="property" tabindex="-1">Prev</span>
+                            <span class="next" data-controls="next" aria-controls="property" tabindex="+1">Next</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div> -->
 
+
+
+    <div class="section">
+        <div class="container">
+            <div class="row mb-5 align-items-center">
+                <div class="col-lg-6 text-center mx-auto">
+                    <h2 class="font-weight-bold text-primary heading">진행 중인 대여</h2>
+                </div>
+            </div>
+            <div class="usedhref">
+                <a th:href="@{rentalWrite}">
+                    <button class="btn btn-secondary btn-block" value="판매글 작성">판매글작성</button></a>
+            </div>
+        </div>
     </div>
 
+    <div class="section section-properties">
+        <div class="container">
+            <div class="row">
+                <!--item-->
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" th:each="rentalList, i: ${rentalList}" method="get"
+                    enctype="multipart/form-data">
+                    <div class="property-item mb-30">
+                        <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
+                            <img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}" alt="Image"
+                                class="img-fluid">
+                        </a>
+
+                        <div class="property-content">
+                            <span class="city d-block mb-3">
+                                <span th:text="${rentalList.rental_title}"
+                                    th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}">글
+                                    제목</span></span>
+                            <div class="price mb-2">
+                                <span
+                                    th:text="'₩ '+ ${#numbers.formatInteger(rentalList.rental_price, 3, 'COMMA')}">가격</span>
+                            </div>
+                            <div>
+                                <span class="d-block mb-2 text-black-50"
+                                    th:text="'대여시작일: '+ ${rentalList.rental_sDate}">시작일</span>
+                                <!-- <span th:text="${#temporals.format(rentalList.rental_sDate, 'yyyy-MM-dd')}"></span> -->
+                                <span class="d-block mb-2 text-black-50"
+                                    th:text="'대여종료일: '+ ${rentalList.rental_eDate}">종료일</span>
+                                <!-- <span th:text="${#temporals.format(rentalList.rental_eDate, 'yyyy-MM-dd')}"></span> -->
+                                <div class="specs d-flex mb-4">
+                                    <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저
+                                        닉네임</span>&nbsp;/&nbsp;
+                                    <span class="d-block d-flex align-items-center">
+                                        <span class="d-block mb-2 text-black-50"
+                                            th:text="${rentalList.rental_quality}">상품상태</span>
+                                    </span>
+                                </div>
+                                <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
+                                    class="underline-btn1">See details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                <div class="row">
+                    <ul class="pagination pagination-lg justify-content-center">
+                        <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                            <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:text="${counter}"
+                                    th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+                            </li>
+                        </span>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- End Content -->
 
@@ -532,8 +471,8 @@ https://templatemo.com/tm-559-zay-shop
                         <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
                         <li><a class="text-decoration-none" th:href="@{rentalBoard}">렌 탈</a></li>
                         <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                     </ul>
                 </div>
 

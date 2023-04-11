@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
-    
+
     <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
@@ -68,158 +68,11 @@
 
     <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('.myaddr').change(myaddr);
-            $('.newaddr').change(newaddr);
-            $('.post').click(sample6_execDaumPostcode);
-            $('#purchaseform').submit(submitcheck);
-
-        });
-
-        /**
-            숫자 천자리 마다 , 넣기
-        */
-        function comma(str) {
-            str = String(str);
-            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-        }
-
-        /**
-            내 주소 선택시 해당 내용 db에서 불러와서 넣기
-        */
-        function myaddr() {
-            $.ajax({
-                url: 'myaddr'
-                , type: 'get'
-                , dataType: 'json'
-                , success: function (userone) {
-                    $('.name').val(userone.user_name);
-                    $('.phone').val(userone.user_phone);
-                    $('.post').val(userone.user_post);
-                    $('.addr1').val(userone.user_addr1);
-                    $('.addr2').val(userone.user_addr2);
-
-                }
-                , error: function () {
-                    alert("실패");
-                }
-
-            });
-        }
-
-        /**
-            신규 배송지 선택시 해당 내용 자리 비우기
-        */
-        function newaddr() {
-            $('.name').val("");
-            $('.phone').val("");
-            $('.post').val("");
-            $('.addr1').val("");
-            $('.addr2').val("");
-        }
+    <script th:src="@{/js/hsw/usedPurchase(JPBP).js}"></script>
+     <!-- 버튼관련 css -->
+     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 
-        /**
-            submit 클릭 시 데이터 무결성 확인
-        */
-        function submitcheck() {
-            let check = /[0-9]{11,11}$/;
-
-            if ($('.rental_sdate').val() == "" || $('.rental_edate').val() == "" || $('.rental_price').val() <= 0) {
-                $('.rental_sdate ~ div').css("display", "block");
-                return false;
-            } else {
-                $('.rental_sdate ~ div').css("display", "none");
-            }
-
-            if ($('.name').val().trim() == "") {
-                $('.name ~ div').css("display", "block");
-                return false;
-            } else {
-                $('.name ~ div').css("display", "none");
-            }
-
-            if ($('.phone').val() == "" || !check.test($('.phone').val())) {
-                $('.phone ~ div').css("display", "block");
-                return false;
-            } else {
-                $('.phone ~ div').css("display", "none");
-            }
-
-            if ($('.post').val() == "") {
-                $('.post ~ div').css("display", "block");
-                return false;
-            } else {
-                $('.post ~ div').css("display", "none");
-            }
-
-            if (Number($('.money').val()) > Number($('.much').val())) {
-                $('.money ~ div').css("display", "block");
-                return false;
-            } else {
-                $('.money ~ div').css("display", "none");
-            }
-
-
-            if (!$('.agree').is(":checked")) {
-                $('.agree ~ div').css("display", "block");
-                return false;
-            } else {
-                $('.agree ~ div').css("display", "none");
-            }
-
-        }
-
-
-        <!-- 다음 우편번호 검색 -->
-
-        function sample6_execDaumPostcode() {
-            new daum.Postcode({
-                oncomplete: function (data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                    var addr = ''; // 주소 변수
-                    var extraAddr = ''; // 참고항목 변수
-
-                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                        addr = data.roadAddress;
-                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                        addr = data.jibunAddress;
-                    }
-
-                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                    if (data.userSelectedType === 'R') {
-                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-                            extraAddr += data.bname;
-                        }
-                        // 건물명이 있고, 공동주택일 경우 추가한다.
-                        if (data.buildingName !== '' && data.apartment === 'Y') {
-                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                        }
-                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                        if (extraAddr !== '') {
-                            extraAddr = ' (' + extraAddr + ')';
-                        }
-                        // 조합된 참고항목을 해당 필드에 넣는다.
-
-                    }
-
-                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    document.getElementById('sample6_postcode').value = data.zonecode;
-                    document.getElementById("sample6_address").value = addr;
-                    // 커서를 상세주소 필드로 이동한다.
-                    document.getElementById("sample6_detailAddress").focus();
-                }
-            }).open();
-        }
-    </script>
 </head>
 
 <body>
@@ -243,23 +96,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -272,13 +125,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
 
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
@@ -287,10 +133,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -316,25 +163,6 @@
     </nav>
     <!-- Close Header -->
 
-
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- 넣을부분 -->
     <div class="site-mobile-menu site-navbar-target">
         <div class="site-mobile-menu-header">
@@ -347,25 +175,24 @@
 
     <div class="section">
         <div class="container">
-
             <div class="row justify-content-between">
-
-                <div class="col-lg-7">
-                    <div class="img-property-slide-wrap">
-                        <div class="img-property-slide">
-                            <th:block th:each="fileList, i: ${fileList}">
-                                <img th:src="@{/used/imgshowone(used_id=${used.used_id}, index=${i.index})}" alt="Image" class="img-fluid">
-                            </th:block>
+				<div class="col-lg-7">
+                        <div class="img-property-slide-wrap">
+                            <div class="img-property-slide">
+                                <th:block th:each="fileList, i: ${fileList}">
+                                	<img th:src="@{/used/imgshowone(used_id=${used.used_id}, index=${i.index})}" alt="Image" class="img-fluid">
+                                </th:block>  
+                            </div>
                         </div>
                     </div>
-                </div>
                 <div class="col-lg-4">
                     <input type="hidden" name="used_id" id="used_id" th:value="${used.used_id}">
                     <div class="heading text-primary">
                         <h2 th:text="${used.used_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
                     </div>
                     <div class="meta">
-                        <h3 th:text="'가격: '+${#numbers.formatInteger(used.used_price, 3, 'COMMA')} + ' ₩'" id="papago1" class="papago" papagoCount="1">가격</h3>
+                        <h3 th:text="'₩ '+ ${#numbers.formatInteger(used.used_price, 3, 'COMMA')}" id="papago1"
+                            class="papago" papagoCount="1">가격</h3>
                     </div><br>
                     <div class="text-black-50">
                         <p th:text="${used.used_content}" id="papago2" class="papago" papagoCount="2">내용</p>
@@ -378,18 +205,24 @@
                     <div class="d-block agent-box p-5">
                         <div class="img mb-4">
                             <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
-                            다마고치 넣는곳
+                            다마고치 넣는 곳
                         </div>
+                        
+                        <input type="hidden" name="used_id" id="used_id" th:value="${used.used_id}">
                         <div class="text">
-                            <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
-                            <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
+                            
+                            <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
+                            <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
+                            <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
+
                             <h5>
-                                <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
-                                <span th:text="'페널티: '+${user.user_penalty}"></span>
+                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
+                                <span th:text="'페널티: '+${target.user_penalty}"></span>
                             </h5>
 
-                            <div style="text-align: right;"> 
-                                <button type="button" class="btn btn-primary btn-lg">채 팅</button>
+                            <div th:if="${#authentication.name}!=${used.user_email}" style="text-align: right;" >
+                                <a id = goChatting>
+                                <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
                             </div>
                         </div>
                     </div>
@@ -401,11 +234,9 @@
 
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-
                 <form th:action="@{/used/purchase}" method="post" id="purchaseform">
-
+           <div class="row">
+            <div class="col-md-8">
                     <div class="info form-group">
 
                         <h3 class="my-4" th:text="#{transactionInfo}">거래 정보</h3>
@@ -414,10 +245,11 @@
                             <p th:text="#{pdName}">상품명</p>
                             <input type="text" class="form-control" th:value="${used.used_title}" readonly>
                         </div>
+                        <br>
                         <div class="form-group">
                             <p th:text="#{price}">금액</p>
                             <input type="text" class="showused_price form-control"
-                                th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + ' ₩'}" readonly>
+                                th:value="${'₩ '+ #numbers.formatInteger(used.used_price, 3, 'COMMA')}" readonly>
                             <input type="text" class="used_price" name="uDetail_price" th:value="${used.used_price}"
                                 hidden>
                         </div>
@@ -435,10 +267,11 @@
                             <input type="radio" class="myaddr form-check-label" name="addr" value="default"
                                 th:text="#{myAddr}">
                         </div>
+                        <br>
                         <div class="form-group">
 
                             <p th:text="#{reception}">수령인</p>
-                            <input type="text" class="name form-control" name="uDetail_person"
+                            <input type="text" class="inname form-control" name="uDetail_person"
                                 th:placeholder="#{put20}"><br>
                             <div class="hidden" th:text="#{putReception}">
                                 수령인을 입력해 주세요.
@@ -456,13 +289,13 @@
                         <div class="form-group">
 
                             <p th:text="#{shippingAddrInfo}">배송지 주소</p>
-                            
+
                             <input type="text" id="sample6_postcode" name="uDetail_post" class="post form-control"
-                                th:placeholder="#{postCode}"> 
-                                <div class="usedhref">
-                                    <button class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
+                                th:placeholder="#{postCode}">
+                            <div class="usedhref">
+                                <button class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
                                     th:value="#{searchPostCode}" value="우편번호 찾기">우편번호 찾기</button>
-                                </div>
+                            </div>
                             <input id="sample6_address" class="addr1 form-control" name="uDetail_addr1" type="text"
                                 readonly><br>
                             <input id="sample6_detailAddress" class="addr2 form-control" name="uDetail_addr2"
@@ -477,8 +310,11 @@
                             <textarea name="uDetail_memo" class="form-control"
                                 th:placeholder="#{putShippingRequest}"></textarea>
                         </div>
-                        <div><p></p></div>
+                        <div>
+                            <p></p>
+                        </div>
                     </div>
+                    
             </div>
 
             <div class="col-md-4">
@@ -487,10 +323,9 @@
                     <p th:text="#{have}">보유</p>
                     <input type="text" class="showmuch form-control"
                         th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly>
-                        <!-- <input type="button" class="charge" th:value="#{charge}" value="충전"> -->
-                        <div class="usedhref">
-	                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전">충전</button>
-                        </div>
+                    <div class="usedhref">
+                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전" th:onclick="charge()">충전</button>
+                    </div>
                     <input type="text" class="much" th:value="${(user.user_account)}" hidden>
                 </div>
                 <br>
@@ -498,8 +333,7 @@
                 <div class="form-group">
                     <p th:text="#{use}">사용</p>
                     <input type="text" class="showmoney form-control"
-                        th:value="${#numbers.formatInteger(used.used_price, 3, 'COMMA') + ' ₩'}">
-                        
+                        th:value="${'₩ '+ #numbers.formatInteger(used.used_price, 3, 'COMMA')}">
                     <input type="text" class="money" name="user_account" th:value="${used.used_price}" hidden> <br>
                     <div class="hidden" th:text="#{pointLack}">
                         보유 포인트가 부족합니다.
@@ -507,26 +341,28 @@
                 </div>
                 <div class="form-group">
                     <input type="checkbox" class="agree">
-                    <span th:text="#{agree}"> 주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
+                    <span th:text="#{agree}">주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
                     <div class="hidden" th:text="#{aggreChk}">
                         동의란에 체크해 주세요.
                     </div>
                 </div>
 
                 <div>
-                    <!-- <input type="submit" th:value="#{pay}" value="결제하기"> -->
                     <div class="usedhref">
-                        <button type="submit" class="btn btn-secondary btn-block" value="삭제" th:text="#{pay}">결제하기</button>
+                        <button type="submit" class="btn btn-secondary btn-block" value="삭제"
+                            th:text="#{pay}">결제하기</button>
                     </div>
                 </div><br>
             </div>
-            <div><input type="submit" th:value="#{pay}" value="결제하기"></div><br>
-            
-			</form>
+
+
+            </form>
 
         </div>
+    </div>
 
-        <!-- 채팅 -->
+    <!-- 채팅 -->
+    <input type="hidden"  id="board_num" th:value="${used_sell.used_id}">
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">
         <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
         <button class="chatbox-open">
@@ -607,7 +443,7 @@
             </div>
         </div>
     </section>
-       
+
 
 </body>
 
@@ -641,8 +477,8 @@
                     <li><a class="text-decoration-none" th:href="@{usedSellBoard}">중고거래</a></li>
                     <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                     <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                    <li><a class="text-decoration-none" href="#">지 도</a></li>
-                    <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                    <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                    <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                 </ul>
             </div>
 
@@ -665,26 +501,10 @@
             </div>
             <div class="col-auto me-auto">
                 <ul class="list-inline text-left footer-icons">
-                    <!-- <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                    </li>
-                    <li class="list-inline-item border border-light rounded-circle text-center">
-                        <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                    </li> -->
                 </ul>
             </div>
             <div class="col-auto">
                 <label class="sr-only" for="subscribeEmail">Email address</label>
-                <!-- <div class="input-group mb-2">
-                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                    <div class="input-group-text btn-success text-light">Subscribe</div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -731,10 +551,10 @@
 <script th:src="@{/js/js_myPage.js}"></script>
 <script th:src="@{/js/lanTest.js}"></script>
 
-    <!-- 채팅 -->
-    <script th:src="@{/js/chat/chatButton.js}"></script>
-    <script th:src="@{/js/chat/chatRoom.js}"></script>
-    <script th:src="@{/js/chat/chat.js}"></script>
+<!-- 채팅 -->
+<script th:src="@{/js/chat/chatButton.js}"></script>
+<script th:src="@{/js/chat/chatRoom.js}"></script>
+<script th:src="@{/js/chat/chat.js}"></script>
 <!-- End Script -->
 
 

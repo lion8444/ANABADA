@@ -1,17 +1,28 @@
 package com.anabada.controller.mypage;
 
+import java.io.FileInputStream;
+import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
@@ -25,6 +36,7 @@ import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.WishAndFile;
 import com.anabada.service.mypage.MyPageService;
+import com.anabada.util.PageNavigator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +52,18 @@ public class MyPageController {
 
 	@Autowired
 	MyPageService service;
+	
+	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
+	@Value("${spring.servlet.multipart.location}")
+	String uploadPath;
+	
+	// 페이지 당 글 수
+	@Value("${user.board.page}")
+	int countPerPage;
+
+	// 페이지당 이동링크 수
+	@Value("${user.board.group}")
+	int pagePerGroup;
 
 	/**
 	 * 마이페이지 포워딩
@@ -53,13 +77,17 @@ public class MyPageController {
 		// 현재 로그인한 유저의 개인 정보
 		UserDTO userDTO = service.selectUserById(user.getUsername());
 
-		List<CharacterDTO> characterDTO = service.selectUserDama(user.getUsername());
-
+//		List<CharacterDTO> characterDTO = service.selectUserDama(user.getUsername());
+		
+		Damagochi selectDama = service.selectMyDamaInfoById(user.getUsername());
+		
 		log.debug("정보 : {}", userDTO);
-		log.debug("다마정보 : {}", characterDTO);
-
+//		log.debug("다마정보 : {}", characterDTO);
+		log.debug("셀렉트다마 : ", selectDama);
+		
 		model.addAttribute("user", userDTO);
-		model.addAttribute("dama", characterDTO);
+//		model.addAttribute("dama", characterDTO);
+		model.addAttribute("selectDama", selectDama);
 
 		return "mypage/mypage";
 	}
@@ -106,30 +134,7 @@ public class MyPageController {
 
 		return "mypage/my_reportList";
 	}
-	
-	/**
-	 * 나의 거래 내역 페이지 포워딩 (전체)
-	 * @param user 스프링 시큐리티 객체
-	 * @param user_email 유저의 이메일
-	 * @param model 모델
-	 * @return 나의 거래 내역 페이지(전체)
-	 */
-	@GetMapping("/mytransactionlistall")
-	public String myTradeList(
-			@AuthenticationPrincipal UserDetails user
-			, Model model) {
 		
-		log.debug("스프링 user : {}", user.getUsername());
-				
-		List<UsedAndFile> list = service.selectUsedListAllById(user.getUsername());
-		UserDTO us = service.selectUserById(user.getUsername());
-			
-		model.addAttribute("usedListAll", list);
-		model.addAttribute("user", us);
-		
-		return "mypage/my_transaction";
-	}
-	
 	/**
 	 * 나의 거래 내역 페이지 포워딩(구매 내역)
 	 * @param user 스프링 시큐리티 객체
@@ -149,10 +154,6 @@ public class MyPageController {
 		
 		model.addAttribute("usedListBuy", list);
 		model.addAttribute("user", us);
-		
-		log.debug("but: {}", list);
-		log.debug("buy 이즈엠티 : {}", list.isEmpty());
-		log.debug("buy 자체 : {}", list == null);
 		
 		return "mypage/my_transaction";
 	}
@@ -180,26 +181,6 @@ public class MyPageController {
 		log.debug("sell 자체 : {}", list == null);
 		
 		return "mypage/my_transaction";
-	}
-	
-	/**
-	 * 나의 모든 렌탈 내역 포워딩 (전체)
-	 * @param user 스프링 시큐리티
-	 * @param model 모델
-	 * @return 렌탈내역 페이지
-	 */
-	@GetMapping("/myrentallistall")
-	public String myRentalListAll(
-			@AuthenticationPrincipal UserDetails user
-			, Model model) {
-		
-		List<RentalAndFile> list = service.selectRentalListAllById(user.getUsername());
-		UserDTO us = service.selectUserById(user.getUsername());
-		
-		model.addAttribute("user", us);
-		model.addAttribute("rentalListAll", list);
-		
-		return "mypage/my_rental";
 	}
 	
 	/**
@@ -232,36 +213,23 @@ public class MyPageController {
 	public String myRentalListSell(
 			@AuthenticationPrincipal UserDetails user
 			, Model model) {
-		
+			
 		List<RentalAndFile> list = service.selectRentalListSellById(user.getUsername());
+		
 		UserDTO us = service.selectUserById(user.getUsername());
+		
+		
+		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
+		List<RentalAndFile> listAll = service.selectRentalListAll();
+		int result = service.updateRentalStatus();
+		log.debug("렌탈일로 업데이트 된 개수 : {}", result);
+		
+//		int rTradeResult = service.insertRTrade(listAll);
 		
 		model.addAttribute("user", us);
 		model.addAttribute("rentalListSell", list);
 		
 		return "mypage/my_rental";
-	}
-	
-	/**
-	 * 나의 모든 경매 내역 포워딩 (전체)
-	 * @param user 스프링 시큐리티 객체
-	 * @param model 모델
-	 * @return 경매 내역 페이지 (전체)
-	 */
-	@GetMapping("/myauctionlistall")
-	public String myAuctionListAll(
-			@AuthenticationPrincipal UserDetails user
-			, Model model) {
-	
-		List<AuctionAndFile> list = service.selectAuctionListAllById(user.getUsername());
-		UserDTO us = service.selectUserById(user.getUsername());
-		
-		model.addAttribute("auctionListAll", list);
-		model.addAttribute("user", us);
-		
-		log.debug("리스트 : {}", list);
-		
-		return "mypage/my_auction";
 	}
 	
 	/**
@@ -275,8 +243,17 @@ public class MyPageController {
 			@AuthenticationPrincipal UserDetails user
 			, Model model) {
 		
+		List<AuctionAndFile> listAll = service.selectAuctionListAll();
 		List<AuctionAndFile> list = service.selectAuctionListSellById(user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
+		
+		// 페이지 들어갈 때 경매 시간이 지나면 거래 완료로 변경하기 
+		int result = service.updateAuctionStatus();
+		log.debug("경매완료로 업데이트된 개수 : {}", result);
+		
+		// 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
+//		int aDetailResult = service.insertATrade(listAll);
+//		log.debug("aTrade에 추가된 개수 : {}", aDetailResult);
 		
 		model.addAttribute("auctionListSell", list);
 		model.addAttribute("user", us);
@@ -331,7 +308,7 @@ public class MyPageController {
 		
 		service.cancleUsedDetail(usedAndFile);
 			
-		return "redirect:/mypage/mytransactionlistall";
+		return "redirect:/mypage/mytransactionlistsell";
 	}
 	
 	/**
@@ -368,23 +345,37 @@ public class MyPageController {
 		}
 		
 		// 날짜 계산
-		LocalDateTime now = LocalDateTime.now();
+//		LocalDateTime now = LocalDateTime.now();
 		String rDetail_sDate = rentalAndDetailInfo.getRDetail_sDate();
+//		
+//		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate + "T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);	
+//		
+//		log.debug("파싱저장 날짜: {}", rDetailDate);
+//		
+//		// 3일 이상 남았을 때
+//		if (!rDetailDate.isBefore(now.plusDays(3))) {
+//			service.cancleRentalDetail(rentalAndDetailInfo);
+//		} else {
+//			log.debug("3일 이상 남지않음");
+//			return "redirect:/";
+//		}
 		
-		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate + "T00:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME);	
+		// GPT
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime rDetailDate = LocalDateTime.parse(rDetail_sDate, formatter);
+		LocalDateTime now = LocalDateTime.now();
 		
 		log.debug("현재 날짜: {}", now);
-		log.debug("DB 저장 날짜: {}", rDetailDate);
-	
-		// 3일 이상 남았을 때
+		log.debug("파싱저장 날짜: {}", rDetailDate);
+
 		if (!rDetailDate.isBefore(now.plusDays(3))) {
-			service.cancleRentalDetail(rentalAndDetailInfo);
+		    service.cancleRentalDetail(rentalAndDetailInfo);
 		} else {
-			log.debug("3일 이상 남지않음");
-			return "redirect:/";
+		    log.debug("3일 이상 남지않음");
+		    return "redirect:/";
 		}
 			
-		return "redirect:/mypage/mypage";
+		return "redirect:/mypage/myrentallistbuy";
 	}
 	
 	/**
@@ -404,7 +395,7 @@ public class MyPageController {
 				
 		service.cancleAuctionDetail(auctionAndFile);
 			
-		return "redirect:/mypage/myauctionlistall";
+		return "redirect:/mypage/myauctionlistsell";
 		
 	}
 	
@@ -425,7 +416,7 @@ public class MyPageController {
 		
 		service.cancleBidDetail(auctionAndFile);
 			
-		return "redirect:/mypage/myauctionlistall";	
+		return "redirect:/mypage/myauctionlistbid";	
 	}
 	
 	/**
@@ -459,23 +450,7 @@ public class MyPageController {
 		
 		service.returncheck(rentalAndDetailInfo);
 		
-		return "redirect:/mypage/myauctionlistall";
-	}
-	
-	@PostMapping("/extendCheck")
-	public String test(
-			RentalAndFile rentalAndFile
-			, Model model) {
-		
-		log.debug("올라온 데이터 : {}", rentalAndFile);
-		
-		RentalAndFile rs = service.selectRentalAndDetailInfo(rentalAndFile.getRental_id());
-		
-		log.debug("rs : {}", rs);
-		
-		model.addAttribute("rent", rs);
-		
-		return "mypage/extendRental";
+		return "redirect:/mypage/myrentallistsell";
 	}
 	
 	/**
@@ -611,8 +586,6 @@ public class MyPageController {
 		return "mypage/my_faqs";
 	}
 	
-	
-
 	/**
 	 * 마이페이지 -> 회원정보 변경 -> 회원정보 확인 페이지 이동(이메일, 비밀번호 한번 더 입력)
 	 * @param user	스프링 로그인 객체
@@ -659,6 +632,127 @@ public class MyPageController {
 		
 		return "redirect:/";
 	}
-
 	
+	/**
+	 * 이미지 불러오기 - 사진 출력
+	 * @param response
+	 * @param used_id
+	 * @param index
+	 * @return
+	 */
+	@GetMapping({"/imgshowone"})
+	public String download(HttpServletResponse response, String used_id, String rental_id, String auction_id) {
+		//		log.info(index+"");
+
+		if(used_id != null) {
+			ArrayList <File> fileList = service.fileListByid(used_id);
+			String file = uploadPath + "/" + fileList.get(0).getFile_saved();
+
+			FileInputStream in = null;		
+			ServletOutputStream out = null;
+
+			try {	
+				response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(0).getFile_origin(), "UTF-8"));
+				in = new FileInputStream(file);
+				out = response.getOutputStream();
+
+				FileCopyUtils.copy(in, out);
+
+				in.close();
+				out.close();
+			} catch (Exception e) {
+				return "redirect:/";
+			}
+		}
+		
+		if(rental_id != null) {
+			ArrayList <File> fileList = service.fileListByid(rental_id);
+			String file = uploadPath + "/" + fileList.get(0).getFile_saved();
+
+			FileInputStream in = null;		
+			ServletOutputStream out = null;
+
+			try {	
+				response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(0).getFile_origin(), "UTF-8"));
+				in = new FileInputStream(file);
+				out = response.getOutputStream();
+
+				FileCopyUtils.copy(in, out);
+
+				in.close();
+				out.close();
+			} catch (Exception e) {
+				return "redirect:/";
+			}
+		}
+		
+		if(auction_id != null) {
+			ArrayList <File> fileList = service.fileListByid(auction_id);
+			String file = uploadPath + "/" + fileList.get(0).getFile_saved();
+
+			FileInputStream in = null;		
+			ServletOutputStream out = null;
+
+			try {	
+				response.setHeader("Content-Disposition", "attachment;filename="+ URLEncoder.encode(fileList.get(0).getFile_origin(), "UTF-8"));
+				in = new FileInputStream(file);
+				out = response.getOutputStream();
+
+				FileCopyUtils.copy(in, out);
+
+				in.close();
+				out.close();
+			} catch (Exception e) {
+				return "redirect:/";
+			}
+		}
+		return "redirect:/";
+	}
+	
+	/**
+	 * 회원 탈퇴 페이지 진입
+	 * @param user 스프링 시큐리티
+	 * @param model 모델
+	 * @return
+	 */
+	@GetMapping("/goToUnregister")
+	public String goToUnregister(
+			@AuthenticationPrincipal UserDetails user
+			, Model model) {
+		
+		log.debug("진입");
+		
+		UserDTO us = service.selectUserById(user.getUsername());
+		
+		model.addAttribute("user", user.getUsername());
+		model.addAttribute("user", us);
+		
+		return "mypage/my_unregisterForm";
+	}
+
+	@GetMapping("charge")
+	public String charge(String user_nick) {
+		return "mypage/charge.html";
+	}
+	
+	/**
+	 * 중고_거래완료처리 
+	 * @param user
+	 * @param usedData
+	 * @return
+	 */
+	@PostMapping("/comfirmUsed")
+	public String comfirmUsed(
+			@AuthenticationPrincipal UserDetails user
+			, UsedAndFile usedData) {
+		
+		log.debug("거래 확인 진입");
+		log.debug("올라온 데이터 : {}", usedData);
+		
+		int result = service.confirmUsed(usedData);
+		
+		log.debug("거래확인 으로 수정 개수 : {}", result);
+		
+		return "redirect:/mypage/mytransactionlistbuy";
+	}
 }

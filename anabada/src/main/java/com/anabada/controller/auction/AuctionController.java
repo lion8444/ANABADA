@@ -3,6 +3,7 @@ package com.anabada.controller.auction;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -22,14 +23,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.Auction;
+import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Location;
+import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
+import com.anabada.service.login.LoginService;
+import com.anabada.service.mypage.MyPageService;
+import com.anabada.domain.Wish;
 import com.anabada.service.auction.AuctionService;
-import com.anabada.service.map.MapService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -42,6 +49,16 @@ public class AuctionController {
 
 	@Autowired
 	private AuctionService service;
+	
+	@Autowired
+	private LoginService lservice;
+	
+	@Autowired
+	private MyPageService mpservice; 
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
 
 	@Autowired
 	MapService mservice;
@@ -62,13 +79,21 @@ public class AuctionController {
 	public String purchase(String auction_id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		UserDTO user = service.findUser(userDetails.getUsername());
 		model.addAttribute("user", user);
+		
 		Auction auction = service.findOneAuction(auction_id);
 		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
-
-		// Auction_bid auction_bid= service.findOneAuctionbid();
-
+		ArrayList<File> fileList = service.fileListByid(auction_id);
+		
+		//0411
+		Auction auction_sell = service.auctionBoardRead(auction_id);
+		UserDTO target = service.findUser(auction_sell.getUser_email());
+		
+		model.addAttribute("target", target);
+		model.addAttribute("auction_sell", auction_sell);
+		
 		model.addAttribute("auction", auction);
 		model.addAttribute("auction_detail", auction_detail);
+		model.addAttribute("fileList", fileList);
 
 		return "auction/auctionPurchase(GBP).html";
 	}
@@ -88,7 +113,7 @@ public class AuctionController {
 			return "redirect:/auction/purchase?auction_id=" + auction_detail.getAuction_id();
 		}
 
-		return "auction/auctionThanks.html";
+		return "redirect:/mypage/myauctionlistall";
 	}
 
 	/**
@@ -101,31 +126,52 @@ public class AuctionController {
 			, String type
 			, String searchWord
 			, String check
+			, String auction_id
 			, Model model) {
+
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
-
-		UserDTO user = service.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);	
-
-		String email = null;
 		
-		if(userDetails != null) {
-		email = userDetails.getUsername();
+		log.debug("옥션보드진입");
+		
+		// 게시판 들어가면 그 시간에 경매 마감되는 게시물 '거래 완료'로 변경 후 안보이게 
+		List<AuctionAndFile> listAll = mpservice.selectAuctionListAll();
+		mpservice.updateAuctionStatus();
+		log.debug("업데이트 처리");
+		
+		//s 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
+//		List<AuctionAndFile> listDetail = mpservice.selectAuctionListOfDetail();
+//		int aDetailResult = mpservice.insertATrade(listDetail);
+//		log.debug("aTrade에 추가된 개수 : {}", aDetailResult); 
+		
+		ArrayList <Auction> auctionLists = service.auctionBoard(
+				navi.getStartRecord(),countPerPage, type, searchWord, check, userDetails.getUsername());
+		
+		//0408 추가 
+		ArrayList <Auction> auctionList = new ArrayList<>();
+		for (Auction auction : auctionLists) {
+			UserDTO target = lservice.findUser(auction.getUser_email());
+			auction.setUser_nick(target.getUser_nick());
+			auctionList.add(auction);
 		}
 		
-		ArrayList <Auction> auctionList = service.auctionBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
+		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
 		
+		UserDTO user = service.findUser(userDetails.getUsername());
+		
+		model.addAttribute("auction_details", auction_details);
+		model.addAttribute("user", user);
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
+		model.addAttribute("check",check);		
+
 		return "auction/auctionBoard(GB)";
 	}
 
 	/**
-	 * 렌탈 상세 게시판으로 이동
+	 * 렌탈 상세 게시판으로 이동(한개 보여줌)
 	 * 조회수
 	 **/
 	@GetMapping("auctionBoardRead")
@@ -134,26 +180,39 @@ public class AuctionController {
 			,@RequestParam(name="auction_id",defaultValue="0") String auction_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
-			) {
-		UserDTO user = service.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);
-
+			) {			
 		PageNavigator navi = 
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
 		ArrayList <Auction> auctionList = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, null, null, null, null);
+		
 		model.addAttribute("auctionList",auctionList);
 		
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
-
-		Location location = mservice.findBoardLocation(auction_id);
+		
+		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
+		
+		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
 
 		UserDTO target = service.findUser(auction_sell.getUser_email());
-		model.addAttribute("location", location);
+		UserDTO user = service.findUser(userDetails.getUsername());
+		model.addAttribute("user", user);
+		
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(auction_id, userDetails.getUsername());
+		
+		Auction auction = service.findOneAuction(auction_id);
+		
+		
+		model.addAttribute("auction_details", auction_details);
+		model.addAttribute("auction", auction);
+		model.addAttribute("auction_detail", auction_detail);
+		
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("wish", wish);
 		return "auction/auctionBoardRead(GBR)";
 	}
 
@@ -195,6 +254,8 @@ public class AuctionController {
 			Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		UserDTO user = service.findUser(userDetails.getUsername());
 		model.addAttribute("user", user);
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 		return "auction/auctionWrite(GBW)";
 	}
 
@@ -269,7 +330,9 @@ public class AuctionController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("auction", auction);
-		model.addAttribute("location", location);
+		
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 
 		// 수정을 html로 포워딩
 		return "auction/auctionBoardUpdate.html";
@@ -395,5 +458,10 @@ public class AuctionController {
 
 		}
 		return "redirect:/";
+	}
+	
+	@GetMapping("charge")
+	public String charge() {
+		return "/mypage/charge.html";
 	}
 }

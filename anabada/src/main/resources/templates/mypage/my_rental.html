@@ -25,6 +25,11 @@
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
 
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
     <!--           -->
     <meta name="author" content="Untree.co">
     <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
@@ -47,14 +52,17 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 </head>
 
 <body>
    
      <!-- Header -->
-     <nav class="navbar navbar-expand-lg navbar-light shadow">
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
             <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}" id="title_logo">
@@ -73,23 +81,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -102,14 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
-
+                    
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -117,10 +118,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -144,72 +146,64 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
-                <ul class="list-unstyled templatemo-accordion">
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
-                            MY 거래
-                        </p>
-                        <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
-                        <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
+                <div class="container1">
+                    <nav>
+                        <ul class="mcd-menu">
+                            <li>
+                                <a class="aTag" th:href="@{/mypage/mypage}">
+                                    <strong th:text="#{mypage}" >마이페이지</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                            </li>
+            
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mytrade}">MY거래</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mydamagochi}">나의 다마고치</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}" class="aTag">나의 다마고치</a></li>
+                                    <li><a th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}" class="aTag">다마고치 상점</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{customerCenter}" >고객센터</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/csform/inquiry}" th:text="#{inquiry}" class="aTag">문의하기</a></li>
+                                    <li><a th:href="@{/csform/report}" th:text="#{report}" class="aTag">신고</a></li>
+                                    <li><a th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}" class="aTag">나의 문의 내역</a></li>
+                                    <li><a th:href="@{/mypage/faqs}" th:text="#{qnaList}" class="aTag">자주 묻는 질문</a></li>
+                                    <li><a th:href="@{/mypage/myreportlist}" th:text="#{myReportList}" class="aTag">나의 신고 내역</a></li>
+                                </ul>
+                            </li>
+            
                         </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
-                            MY 다마고치
-                        </p>
-                        <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
-                            고객센터
-                        </p>
-                        <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                    </nav>
+                </div>
             </div>
 
             <div class="col-lg-9">
                 <div id="transbox">
-                    <div class="translist">
-                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myrentallistall(user_email=${user.user_email})}'|">
-                    </div>
                     <div class="translist">
                         <input type="button" value="빌려준 내역" th:value="#{rentalSell}" th:onclick="|location.href='@{/mypage/myrentallistsell(user_email=${user.user_email})}'|">
                     </div>
@@ -217,82 +211,9 @@
                         <input type="button" value="빌린 내역" th:value="#{rentalBuy}" th:onclick="|location.href='@{/mypage/myrentallistbuy(user_email=${user.user_email})}'|">
                     </div>
                 </div>
-
+              
                 <!-- 파파고 버튼 -->
                 <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
-
-                <!-- 전체 렌탈 거래 내역 -->
-                <div id="mylistbox" th:each="list, i : ${rentalListAll}" th:if="${rentalListAll} != null">
-                    <table class="mypagebox">
-                        <tr>
-                            <td>
-                                <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
-                                </div>
-                            </td>
-                            <td >   
-                                <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypageTwo">
-                                    <div th:if="${list.rental_status == '거래 전'}">
-                                        <p th:text="#{rentalYet}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.rental_status == '거래 중'}">
-                                        <p th:text="#{rentalIng}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.rental_status == '거래 중지'}">
-                                        <p th:text="#{rentalStop}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.rental_status == '거래 완료'}">
-                                        <p th:text="#{rentalFin}"><span th:text="${list.rDetail_status}">게시글 상태</span></p>
-                                    </div>                                   
-                                    <p th:text="${list.rental_date}">날짜</p>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypagebutton">                                    
-                                    <!-- 렌탈 후기 -->
-                                    <input type="button" class="btn btn-success" value="렌탈후기" th:if="${list.rental_status == '거래 완료'}" th:value="#{rentalReview}" th:onclick="|location.href='@{/csform/review(rental_id=${list.rental_id})}'|"></input>
-                                    <br>
-                                    <!-- 렌탈 취소 -->
-                                    <form th:action="@{/mypage/cancleRental}" method="post">
-                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
-                                        <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
-                                        <input type="hidden" name="used_status" th:value="${list.rental_status}">
-                                        <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
-                                        <input type="submit" class="btn btn-success" value="렌탈취소" th:value="#{rentalCancle}" th:if="${list.rental_status == '거래 중'} and ${#authentication.name} == ${list.buyer_email}"></input>
-                                    </form>
-                                    <br>
-                                    <!-- 렌탈 연장 하기 -->
-                                    <form action="" method="post">
-                                        <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:onclick="|location.href='@{/rental/extension(rental_id=${list.rental_id})}'|" th:if="${#authentication.name} == ${list.buyer_email} and ${list.rental_status == '거래 중'}"></input>
-                                    </form>
-                                    <br>
-                                    <!-- 렌탈 반납 확인-->
-                                    <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
-                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
-                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}"></input>
-                                    </form>
-                                    <br>
-                                    <!-- 렌탈 연장 확인-->
-                                    <form th:action="@{/mypage/extendCheck}" method="post">
-                                        <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="rDetail_sDate" th:value="${list.rDetail_sDate}">
-                                        <input type="hidden" name="rDetail_eDate" th:value="${list.rDetail_eDate}">
-                                        <input type="hidden" name="user_email" th:value="${list.user_email}">
-                                        <input type="submit" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}">
-                                    </form>
-                                    <br>                                
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
 
                 <!-- 렌탈 빌린 내역 -->
                 <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
@@ -300,12 +221,18 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(rental_id=${list.rental_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.rDetail_sDateFormat} != null">
+                                        <span>렌탈기한:</span>
+                                        <span th:text="${list.rDetail_sDateFormat}"></span> ~
+                                        <span th:text="${list.rDetail_eDateFormat}"></span>
+                                    </div>
+                                    <div th:if="${list.rDetail_sDateFormat} == null"><span>아직 거래가 시작되지 않았습니다.</span></div>
                                 </div>
                             </td>
                             <td>
@@ -344,18 +271,12 @@
                                             th:value="#{rentalCancle}">
                                         </input>
                                     </form>
-                                    <!-- 렌탈 연장 하기-->
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" 
-                                        th:if="${list.buyer_email} == ${#authentication.name} and ${list.rDetail_status == '거래 중'}">
-                                    </input>
                                     <!-- 렌탈 반납 확인-->
                                     <!-- <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${list.user_email}">
                                         <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${user.user_email}"></input>
                                     </form> -->
-                                    <!-- 렌탈 연장 확인-->
-                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${user.user_email}"></input>                                 -->
                                 </div>
                             </td>
                         </tr>
@@ -368,12 +289,18 @@
                         <tr>
                             <td>
                                 <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="|@{/img/}${list.file_saved}|" alt="거래 글 대표사진">                                    
+                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(rental_id=${list.rental_id})}" alt="거래 글 대표사진">                                    
                                 </div>
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.rDetail_sDateFormat} != null">
+                                        <span>렌탈기한:</span>
+                                        <span th:text="${list.rDetail_sDateFormat}"></span> ~
+                                        <span th:text="${list.rDetail_eDateFormat}"></span>
+                                    </div>
+                                    <div th:if="${list.rDetail_sDateFormat} == null"><span>아직 거래가 시작되지 않았습니다.</span></div>
                                 </div>
                             </td>
                             <td>
@@ -409,17 +336,13 @@
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
                                         <input type="submit" class="btn btn-success" value="렌탈취소" th:value="#{rentalCancle}" th:if="${list.rental == list.buyer_email}"></input>
                                     </form> -->
-                                    <!-- 렌탈 연장 하기-->
-                                    <!-- <input type="button" class="btn btn-success" value="렌탈 연장 하기" th:value="#{rentalExtend}" th:if="${list.buyer_email} == ${user.user_email}" th:rentalid="${list.rental_id}" th:sDate="${list.rDetail_sDate}" th:eDate="${list.rDetail_eDate}" onclick="extendRental(this.getAttribute('rentalid'), this.getAttribute('sDate'), this.getAttribute('eDate'))"></input> -->
-                                    
+
                                     <!-- 렌탈 반납 확인-->
                                     <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${list.user_email}">
                                         <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}"></input>
-                                    </form>
-                                    <!-- 렌탈 연장 확인-->
-                                    <input type="button" class="btn btn-success" value="렌탈 연장 확인" th:value="#{rentalExtendChk}" th:if="${list.user_email} == ${#authentication.name} and ${list.rental_status == '거래 중'} and ${list.rDetail_status == '거래 중'}"></input>                                
+                                    </form>     
                                 </div>
                             </td>
                         </tr>
@@ -541,8 +464,8 @@
                         <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
                         <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                         <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                     </ul>
                 </div>
 
@@ -565,26 +488,12 @@
                 </div>
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
-                        <!-- <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                        </li> -->
+                        
                     </ul>
                 </div>
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <!-- <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div> -->
+                   
                 </div>
             </div>
         </div>

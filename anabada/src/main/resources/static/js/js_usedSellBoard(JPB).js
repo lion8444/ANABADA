@@ -171,6 +171,15 @@ function statuscheck(vcheck){
 	}
 
 
+/**
+        숫자 천자리 마다 , 넣기
+    */
+  function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+
   
   
   

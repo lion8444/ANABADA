@@ -3,6 +3,7 @@ package com.anabada.controller.rent;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -21,15 +22,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Location;
 import com.anabada.domain.Rental;
+import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
-import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.mypage.MyPageService;
 import com.anabada.service.map.MapService;
 import com.anabada.service.rent.RentService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -44,6 +49,13 @@ public class RentController {
 	private RentService service;
 	@Autowired
 	private LoginService lservice;
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
+	
+	@Autowired
+	MyPageService mpservice;
 	@Autowired
 	private MapService mservice;
 
@@ -60,13 +72,21 @@ public class RentController {
 	int pagePerGroup;
 
 	@GetMapping({ "purchase" })
-	public String purchase(@AuthenticationPrincipal UserDetails user, String rental_id, Model model) {
+	public String purchase(@AuthenticationPrincipal UserDetails user, String rental_id, Model model, String fsdate, String fedate) {
 		Rental rental = service.findOneRental(rental_id);
 		String user_email = user.getUsername();
 		UserDTO userone = service.findUser(user_email);
+		ArrayList<File> fileList = service.fileListByid(rental_id);
+		
+		UserDTO target = service.findUser(rental.getUser_email());
+		
+		model.addAttribute("target", target);
 
 		model.addAttribute("rental", rental);
 		model.addAttribute("user", userone);
+		model.addAttribute("fileList", fileList);
+		model.addAttribute("fsdate",fsdate);
+		model.addAttribute("fedate",fedate);
 
 		return "rental/rentalPurchase(RBRP).html";
 	}
@@ -90,7 +110,7 @@ public class RentController {
 			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 
-		return "rental/rentalThanks.html";
+		return "redirect:/mypage/myrentallistall";
 	}
 
 	/**
@@ -103,29 +123,53 @@ public class RentController {
 			, String type
 			, String searchWord
 			, String check
+			, String fsdate
+			, String fedate
 			, Model model) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);				
+		
 		PageNavigator navi = 
-			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check);
+			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check, fsdate, fedate);
 		
-		String email = null;
 		
-		if(userDetails != null) {
-		email = userDetails.getUsername();
+		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
+		List<RentalAndFile> listAll = mpservice.selectRentalListAll();
+		int result = mpservice.updateRentalStatus();
+		log.debug("렌탈일로 업데이트 된 개수 : {}", result);
+		
+		ArrayList <Rental> rentalLists = service.rentalBoard(
+				navi.getStartRecord(),countPerPage, type, searchWord, check, userDetails.getUsername(), fsdate, fedate);
+		
+		for(int i = 0; i < rentalLists.size(); ++i) {
+			for(int j = i+1; j < rentalLists.size(); ++ j) {
+				if(rentalLists.get(i).getRental_id().equals(rentalLists.get(j).getRental_id())) {
+					rentalLists.remove(i);
+					--i;
+				}
+			}
 		}
-		
-		ArrayList <Rental> rentalList = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 		
 		ArrayList <Rental> recommendList = service.recommendList(
 				navi.getStartRecord(),countPerPage, type, searchWord);
+		
+		//0408 추가 
+		ArrayList <Rental> rentalList = new ArrayList<>();
+		for (Rental rental : rentalLists) {
+			UserDTO target = lservice.findUser(rental.getUser_email());
+			rental.setUser_nick(target.getUser_nick());	
+			rentalList.add(rental);
+		}
+		
+		UserDTO user = lservice.findUser(userDetails.getUsername());
 		
 		model.addAttribute("rentalList",rentalList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
 		model.addAttribute("searchWord",searchWord);
-		
+		model.addAttribute("user", user);
+		model.addAttribute("check",check);
+		model.addAttribute("fsdate",fsdate);
+		model.addAttribute("fedate",fedate);
+
 		return "rental/rentalBoard(RB)";
 	}
 
@@ -139,17 +183,20 @@ public class RentController {
 			,@RequestParam(name="rental_id",defaultValue="0") String rental_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
+			, String fsdate
+			, String fedate
 			) {
-		UserDTO user = lservice.findUser(userDetails.getUsername());
-		model.addAttribute("user", user);
+			
+					
 		PageNavigator navi = 
-				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null);
+				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null, null, null);
 		
 		ArrayList <Rental> rentalList = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, null, null, null, null);
+				navi.getStartRecord(),countPerPage, null, null, null, null, null, null);
 		ArrayList <File> fileList2 = service.fileList();
 		
-		Location location = mservice.findBoardLocation(rental_id);
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(rental_id, userDetails.getUsername());
 		
 		for(int i=0 ; i < fileList2.size(); ++i) {
 			if(!fileList2.get(i).getBoard_status().equals("중고 거래")) {
@@ -163,11 +210,18 @@ public class RentController {
 
 		Rental rental_sell = service.rentalBoardRead(rental_id);
 		ArrayList<File> fileList = service.fileListByid(rental_id);
-		model.addAttribute("location", location);
+		
+		UserDTO user = lservice.findUser(userDetails.getUsername());
+		UserDTO target = lservice.findUser(rental_sell.getUser_email());
+		
+		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
-		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		model.addAttribute("target", target);
+		
+		model.addAttribute("wish", wish);
+		model.addAttribute("fsdate",fsdate);
+		model.addAttribute("fedate",fedate);
 		return "rental/rentalBoardRead(RBR)";
 	}
 
@@ -209,8 +263,9 @@ public class RentController {
 	public String rentalWrite(
 			@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		UserDTO user = lservice.findUser(userDetails.getUsername());
-
+		ArrayList<Category> category_main = service.maincategory();
 		model.addAttribute("user", user);
+		model.addAttribute("category_main", category_main);
 		return "rental/rentalWrite(RBW)";
 	}
 
@@ -286,8 +341,8 @@ public class RentController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("rental", rental);
-		model.addAttribute("location", location);
-
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 		// 수정을 html로 포워딩
 		return "rental/rentalBoardUpdate.html";
 	}
@@ -443,5 +498,10 @@ public class RentController {
 
 		}
 		return "redirect:/";
+	}
+	
+	@GetMapping("charge")
+	public String charge() {
+		return "/mypage/charge.html";
 	}
 }

@@ -22,15 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Location;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
 import com.anabada.service.map.MapService;
 import com.anabada.service.used.UsedService;
+import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
 import com.anabada.util.PageNavigator;
 
@@ -42,9 +45,15 @@ import lombok.extern.slf4j.Slf4j;
 public class UsedController {
 	@Autowired
 	UsedService service;
-	
+
 	@Autowired
 	LoginService lservice;
+	
+	// 위시리스트 관련 서비스
+	@Autowired
+	WishService wservice;
+
+	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 
 	@Autowired
 	MapService mservice;
@@ -81,21 +90,17 @@ public class UsedController {
 		if(userDetails != null) {
 		email = userDetails.getUsername();
 		}
-		ArrayList <Used> usedSellList = service.usedSellBoard(
+		ArrayList <Used> usedList = service.usedSellBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
 
-		if(searchWord != null) {
-			Cookie cookie = new Cookie("useremail","blueskii");
-			cookie.setDomain("localhost");
-			cookie.setPath("/");
-			// 30초간 저장
-			cookie.setMaxAge(30*60);
-			cookie.setSecure(true);
-			response.addCookie(cookie);
+		ArrayList <Used> usedSellList = new ArrayList<>();
+		for (Used used : usedList) {
+			UserDTO target = lservice.findUser(used.getUser_email());
+			used.setUser_nick(target.getUser_nick());
+			usedSellList.add(used);
 		}
-		
 		UserDTO user = lservice.findUser(userDetails.getUsername());
-			
+		
 		model.addAttribute("usedSellList",usedSellList);
 		model.addAttribute("navi",navi);
 		model.addAttribute("type",type);
@@ -127,18 +132,21 @@ public class UsedController {
 		// used_sell 정보 가져오기
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList<File> fileList = service.fileListByid(used_id);
-		Location location = mservice.findBoardLocation(used_id);
 
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		
-		model.addAttribute("location", location);
+		// 위시리스트 유무 정보 가져오기
+		Wish wish = wservice.selectWish(used_id, userDetails.getUsername());
+		
 		model.addAttribute("user", user);
 		model.addAttribute("target", targetUser);
 
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
-		log.info(fileList+"");
+		
+		model.addAttribute("wish", wish);
+
 		return "used/usedSellBoardRead(JPBR)";
 	}
 
@@ -183,6 +191,8 @@ public class UsedController {
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		// UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		model.addAttribute("user", user);
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 		// model.addAttribute("target", targetUser);
 		return "used/usedSellWrite(JPBW)";
 	}
@@ -201,20 +211,17 @@ public class UsedController {
 		// 로그인한 아이디 읽어서 board객체에 추가
 		used.setUser_email(userDetails.getUsername());
 
-		String used_id = service.usedSellWrite(used, uploadOne);
-		
-		location.setBoard_no(used_id);
-		mservice.insertLocation(location);
-
-		if (used_id.equals("0")) {
-			return "redirect:/";
-		}
-
 		if (uploadOne.isEmpty()) {
 			log.debug("이미지 X");
 			return "redirect:/";
 		}
-
+		
+		String used_id = service.usedSellWrite(used, uploadOne);
+		
+		if (used_id.equals("0")) {
+			return "redirect:/";
+		}
+		
 		// 추가된 사진 처리
 		if (!uploadOne.isEmpty()) {
 			String filename = FileService.saveFile(uploadOne, uploadPath);
@@ -260,7 +267,9 @@ public class UsedController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("used", used);
-		model.addAttribute("location", location);
+		
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 
 		// 수정을 html로 포워딩
 		return "used/usedSellBoardUpdate.html";
@@ -460,10 +469,16 @@ public class UsedController {
 		// Used_detail used_detail= service.findOneUseddetail(used_id);
 		UserDTO user = service.findUser(userDetails.getUsername());
 		// //Auction_bid auction_bid= service.findOneAuctionbid();
+			ArrayList<File> fileList = service.fileListByid(used_id);
+			
+		UserDTO target = service.findUser(used.getUser_email());
+		
+		model.addAttribute("target", target);
 
 		model.addAttribute("used", used);
 		// model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("user", user);
+		model.addAttribute("fileList", fileList);
 
 		return "used/usedPurchase(JPBP).html";
 	}
@@ -552,5 +567,8 @@ public class UsedController {
 		return "redirect:/";
 	}
 	
-	
+	@GetMapping("charge")
+	public String charge() {
+		return "/mypage/charge.html";
+	}
 }

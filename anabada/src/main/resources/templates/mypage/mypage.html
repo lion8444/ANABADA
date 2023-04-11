@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>ANABADA - My Page</title>
@@ -39,6 +37,29 @@
     <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+    <!-- 제이쿼리 -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
+
+    <!--           -->
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
+
+    <!-- 채팅 css -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
@@ -46,13 +67,15 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
-
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 </head>
 
 <body>
 
-   
+
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -73,23 +96,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -102,13 +125,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a> -->
-                    <!-- <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a> -->
 
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
@@ -117,10 +133,11 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <!-- 이 부분은 나중에 시큐리티 처리 해야할듯 -->
-                        <a class="dropdown-item" th:href="@{/login}">로그인</a>
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" href="#">로그아웃</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <div sec:authorize="isAuthenticated()">
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        </div>
                     </div>
 
                     <a class="nav-icon position-relative text-decoration-none" href="#" id="dropdownMenuButton-lang">
@@ -133,8 +150,10 @@
 
                     <!-- 언어 선택 버튼 이미지 -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO" th:href="|javascript:springLanguage('ko')|">한국어</a>
-                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP" th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
+                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO"
+                            th:href="|javascript:springLanguage('ko')|">한국어</a>
+                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP"
+                            th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
                     </div>
 
                 </div>
@@ -143,113 +162,123 @@
         </div>
     </nav>
     <!-- Close Header -->
-    
-
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 
 
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
-                <ul class="list-unstyled templatemo-accordion">
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
-                            MY 거래
-                        </p>
-                        <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
-                        <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
+                <div class="container1">
+                    <nav>
+                        <ul class="mcd-menu">
+                            <li>
+                                <a class="aTag" th:href="@{/mypage/mypage}">
+                                    <strong th:text="#{mypage}" >마이페이지</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                            </li>
+            
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mytrade}">MY거래</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mydamagochi}">나의 다마고치</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}" class="aTag">나의 다마고치</a></li>
+                                    <li><a th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}" class="aTag">다마고치 상점</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{customerCenter}" >고객센터</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/csform/inquiry}" th:text="#{inquiry}" class="aTag">문의하기</a></li>
+                                    <li><a th:href="@{/csform/report}" th:text="#{report}" class="aTag">신고</a></li>
+                                    <li><a th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}" class="aTag">나의 문의 내역</a></li>
+                                    <li><a th:href="@{/mypage/faqs}" th:text="#{qnaList}" class="aTag">자주 묻는 질문</a></li>
+                                    <li><a th:href="@{/mypage/myreportlist}" th:text="#{myReportList}" class="aTag">나의 신고 내역</a></li>
+                                </ul>
+                            </li>
+            
                         </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
-                            MY 다마고치
-                        </p>
-                        <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
-                            고객센터
-                        </p>
-                        <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                    </nav>
+                </div>
+
             </div>
 
             <div class="col-lg-9">
-                <p th:text="${user.user_email}"></p>
-                <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:value="#{memberInfoModify}" th:onclick="|location.href='@{/mypage/checkPw(user_email=${user.user_email})}'|">
+                <!-- <p th:text="${user.user_email}"></p> -->
+                <input type="button" value="회원정보변경" id="modify" class="btn btn-secondary btn-block" th:value="#{memberInfoModify}"
+                    th:onclick="|location.href='@{/mypage/checkPw(user_email=${user.user_email})}'|">
                 <br>
                 <div class="row">
                     <span class="col-md-4">
                         <span class="card mb-4 product-wap rounded-0">
-                            <span class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid" th:src="@{/assets/img/pikachu.png}">
-                            </span> 
-                            <span class="card-body">
+                            <img class="card-img rounded-0 img-fluid" th:src="@{/assets/img/pikachu.png}">
+                            <!-- <div th:if="${selectDama.char_selected} == 1">
+                                <span class="card rounded-0">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 1 and ${selectDama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${selectDama.char_one}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 4 and ${selectDama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${selectDama.char_two}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${selectDama.char_three}">
+                                </span> 
+                            </div> 
+                             --><span class="card-body">
                                 <b>Lv.&nbsp;<span th:text="${user.user_level}">레벨</span></b>
                             </span>
                         </span>
                     </span>
-                    <table id="usertest">
+                    <table id="usertest" class="table" 
+                    style="vertical-align:middle; height:auto;  width:80%;">
                         <tr>
                             <th th:text="#{nickname}">닉네임</th>
-                            <td th:text="${user.user_nick}">빡용</td>
+                            <td th:text="${user.user_nick}"></td>
                         </tr>
                         <tr>
                             <th th:text="#{email}">이메일</th>
-                            <td th:text="${user.user_email}">111@gmail.com</td>
+                            <td th:text="${user.user_email}"></td>
                         </tr>
                         <tr>
                             <th th:text="#{phone}">연락처</th>
-                            <td th:text="${user.user_phone}">010-1111-1111</td>
+                            <td th:text="${user.user_phone}"</td>
                         </tr>
                         <tr>
                             <th th:text="#{address}">주소</th>
-                            <td th:text="${user.user_addr1 + user.user_addr2}">(11111) 서울시 강남구 역삼동 279-12</td>
+                            <td th:text="${user.user_addr1 + user.user_addr2}"></td>
                         </tr>
-                    </table>      
+                        <tr>
+                            <th>현재 보유 페이</th>
+                            <td th:text="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}+' PAY'"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td> 
+                                <button type="submit" class="arrow-btn1" value="충전"
+                                        th:onclick="charge([[${user.user_nick}]])">충전하러가기
+                                        <!-- th:text="#{charge}" -->
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div id="anabox">
-                    <span id="anapay">ABABADA PAY</span>
-                    <span id="anamoney" th:text="${user.user_account}"></span>
-                    <br>
-                    <br>
-                    <input type="button" value="충전" th:value="#{charge}" id="anacharge">
-                    <input type="button" value="&#8361;계좌송금" th:value="#{sendMoney}" id="anatransfer">
-                </div>
+               <br>
+
                 <div id="singo">
-                    <span>if) 신고 누적으로 제제내역 있을 시</span>
+                    <span>※ 신고 누적으로 제제내역 있을 시</span>
                     <p>※ 현재 회원님은 신고 누적으로 사이트 제한됩니다.</p>
                     <p>※ 사이트 모든 기능 1주일 이용 정지</p>
                 </div>
@@ -370,8 +399,8 @@
                         <li><a class="text-decoration-none" th:href="@{/used/usedSellBoard}">중고거래</a></li>
                         <li><a class="text-decoration-none" th:href="@{/rental/rentalBoard}">렌 탈</a></li>
                         <li><a class="text-decoration-none" th:href="@{/auction/auctionBoard}">경 매</a></li>
-                        <li><a class="text-decoration-none" href="#">지 도</a></li>
-                        <li><a class="text-decoration-none" href="#">프로젝트 소개</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/map}">지 도</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/info}">프로젝트 소개</a></li>
                     </ul>
                 </div>
 
@@ -394,26 +423,12 @@
                 </div>
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
-                        <!-- <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                        </li> -->
+
                     </ul>
                 </div>
                 <div class="col-auto">
                     <label class="sr-only" for="subscribeEmail">Email address</label>
-                    <!-- <div class="input-group mb-2">
-                        <input type="text" class="form-control bg-dark border-light" id="subscribeEmail" placeholder="Email address">
-                        <div class="input-group-text btn-success text-light">Subscribe</div>
-                    </div> -->
+
                 </div>
             </div>
         </div>
@@ -433,7 +448,7 @@
 
 
     </footer>
-     <!-- End Footer -->
+    <!-- End Footer -->
 
     <!-- Start Script -->
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
@@ -443,17 +458,17 @@
     <script th:src="@{/assets/js/custom.js}"></script>
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
     <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script> 
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
     <script th:src="@{/assets/property_js/aos.js}"></script>
     <script th:src="@{/assets/property_js/navbar.js}"></script>
-    <script th:src="@{/assets/property_js/counter.js}"></script>  
+    <script th:src="@{/assets/property_js/counter.js}"></script>
     <script th:src="@{/assets/js/templatemo.js}"></script>
-    <script th:src="@{/assets/property_js/custom.js}"></script> 
+    <script th:src="@{/assets/property_js/custom.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_usedSellBoard(JPB).js}"></script>
-    
+
     <!-- 제이쿼리 (pyw)-->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
@@ -462,6 +477,7 @@
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
+
     <!-- End Script -->
 </body>
 

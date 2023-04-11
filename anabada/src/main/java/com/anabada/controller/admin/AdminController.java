@@ -25,11 +25,6 @@ public class AdminController {
 	@Autowired
 	private AdminService service;
 		
-	@GetMapping({"","/"})
-	public String adminPage() {
-		return "admin/admin_index";
-	}
-
 	@GetMapping({"user"})
 	public String user(Model model) {
 		ArrayList<UserDTO> user = service.findalluser();
@@ -61,7 +56,6 @@ public class AdminController {
 		
 		return "admin/admin_details.html";
 	}
-	
 	
 	@GetMapping("ask")
 	public String ask(Model model) {

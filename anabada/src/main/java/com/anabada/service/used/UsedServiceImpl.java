@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.dao.UsedDAO;
+import com.anabada.domain.Category;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
@@ -73,6 +74,15 @@ public class UsedServiceImpl implements UsedService {
 		}
 		
 		int k = dao.purchase(used_detail);
+		if (k == 1 ) {
+			Used_detail d_id = dao.findOneUseddetail(used_detail.getUsed_id());
+			dao.purchaseupdate(used_detail.getUsed_id());
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("used_id", used_detail.getUsed_id());
+			map.put("uDetail_id", d_id.getUDetail_id());
+			dao.uTradeinsert(map);
+		}
+		
 		return k;
 	}
 
@@ -139,14 +149,13 @@ public class UsedServiceImpl implements UsedService {
 					save.put("searchWord", searchWord);
 					save.put("email", email);
 					dao.addsearchWord(save);
+					dao.deleteWord();
 				}
-				
 				map.put("searchWord", searchWord);
 				map.put("check", check);
 				//조회 결과 중 위치, 개수 지정
 				RowBounds rb = new RowBounds(start, count);
 		ArrayList<Used>usedSellList = dao.usedSellBoard(map, rb);
-		log.info(usedSellList+"");
 		return usedSellList;
 	}
 
@@ -180,9 +189,6 @@ public class UsedServiceImpl implements UsedService {
 //		return result;
 //	}
 	
-	
-	
-
 	//검색
 	@Override
 	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
@@ -198,9 +204,6 @@ public class UsedServiceImpl implements UsedService {
 		
 		return navi;
 	}
-	
-	
-
 
 	//사진 출력
 	@Override
@@ -291,7 +294,6 @@ public class UsedServiceImpl implements UsedService {
 		return list;
 	}
 
-
 	@Override
 	public ArrayList<Used> recommendList(int startRecord, int countPerPage, String type, String searchWord) {
 		// TODO Auto-generated method stub
@@ -312,31 +314,38 @@ public class UsedServiceImpl implements UsedService {
 		return i;
 	}
 	
-	
-	
-	
+	@Override
+	public int addmoney(String email, String money) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("money", money);
+		int result = dao.addmoney(map);
+		return result;
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public ArrayList<Category> maincategory() {
+		ArrayList<Category> category_main = dao.maincategory();
+		for(int i = 1; i < category_main.size(); ++i) {
+			String now = category_main.get(i-1).getCategory_main();
+			if(category_main.get(i).getCategory_main().equals(now)){
+				category_main.remove(i);
+				--i;
+			}
+		}			
+		return category_main;
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public ArrayList<Category> subcategory(String main) {
+		ArrayList<Category> category_sub = dao.subcategory(main);
+		for(int i = 0; i < category_sub.size(); ++i) {
+			if(category_sub.get(i).getCategory_sub().equals("")){
+				category_sub.remove(i);
+				--i;
+			}
+		}
+		return category_sub;
+	}
 
 }

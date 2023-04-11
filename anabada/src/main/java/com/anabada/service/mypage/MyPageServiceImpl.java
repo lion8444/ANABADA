@@ -1,9 +1,10 @@
 package com.anabada.service.mypage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,10 @@ import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Report;
-import com.anabada.domain.Used;
 import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.WishAndFile;
+import com.anabada.util.PageNavigator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -92,8 +93,10 @@ public class MyPageServiceImpl implements MyPageService {
 
 	// 유저의 모든 중고 거래내역 리스트 검색 (중고 + 사진까지)
 	@Override
-	public List<UsedAndFile> selectUsedListAllById(String user_email) {
-		List<UsedAndFile> list = dao.selectUsedListAllById(user_email);
+	public List<UsedAndFile> selectUsedListAllById(int start, int count, String user_email) {
+
+		RowBounds rb = new RowBounds(start, count);
+		List<UsedAndFile> list = dao.selectUsedListAllById(user_email, rb);
 		return list;
 	}
 
@@ -277,9 +280,91 @@ public class MyPageServiceImpl implements MyPageService {
 		int result = dao.updateCharSelectedOne(damagochi);
 		return result;
 	}
-	
-	
-	
+
+	@Override
+	public ArrayList<File> fileListByid(String used_id) {
+		ArrayList<File> list = dao.fileListByid(used_id);
+		return list;
+	}
+
+	@Override
+	public PageNavigator getPageNavigator(int pagePerGroup
+			, int countPerPage
+			, int page
+			, String email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", email);
+		//검색 결과 개수
+		int t = dao.total(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public int addmoney(String email, String money) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("email", email);
+		map.put("money", money);
+		int result = dao.addmoney(map);
+		return result;
+	}
+
+	@Override
+	public int updateAuctionStatus() {
+		int result = dao.updateAuctionStatus();
+		return result;
+	}
+
+	@Override
+	public int insertATrade(List<AuctionAndFile> list) {
+		
+		AuctionAndFile check = new AuctionAndFile();
+		
+		int result = 0;
+		
+//		for(int i = 0; i < list.size(); ++i) {
+//			if (list.get(i).getADetail_id() != null && list.get(i).getAuction_id() != null) {
+//				check = list.get(i);
+//			}
+//			
+			result = dao.insertATrade(list);
+//		}
+ 		
+		return result;
+	}
+
+	@Override
+	public int updateRentalStatus() {
+		int result = dao.updateRentalStatus();
+		return result;
+	}
+
+	@Override
+	public List<AuctionAndFile> selectAuctionListOfDetail() {
+		List<AuctionAndFile> list = dao.selectAuctionListOfDetail();
+		return list;
+	}
+
+	@Override
+	public List<RentalAndFile> selectRentalListAll() {
+		List<RentalAndFile> list = dao.selectRentalListAll();
+		return list;
+	}
+
+	@Override
+	public List<AuctionAndFile> selectAuctionListAll() {
+		List<AuctionAndFile> list = dao.selectAuctionListAll();
+		return list;
+	}
+
+	@Override
+	public int confirmUsed(UsedAndFile usedData) {
+		int result = dao.confirmUsed(usedData);
+		return result;
+	}
 	
 	
 }

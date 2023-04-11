@@ -1184,7 +1184,7 @@ function hasOption (item) {
         fragmentAfter.insertBefore(cloneFirst, fragmentAfter.firstChild);
 
         papagoActive.each(function(i, e) {
-          console.log("e : " + e + " i : " + i);
+          // console.log("e : " + e + " i : " + i);
           e.removeAttr("id");
         });
         if (carousel) {
@@ -2385,7 +2385,7 @@ function getImageArray (start, end, imgSelector) {
       // show slides
       if (i >= start && i <= end) {
         // console.log(slideItems);
-        console.log(item);
+        // console.log(item);
         if (hasAttr(item, 'aria-hidden')) {
           removeAttrs(item, ['aria-hidden', 'tabindex']);
           removeClass(item, slideClonedClass);

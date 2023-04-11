@@ -106,11 +106,7 @@ public class CSController {
 			, ArrayList<MultipartFile> upload) {
 		log.debug("신고하기로 올라온 데이터 : {}", report);
 		
-		// id가 다를 시 처리 X
-//		if(!report.getUser_email().equals(user.getUsername())) {
-//			log.debug("신고하기 - ID일치 X");
-//			return "redirect:/";
-//		}
+		report.setUser_email(user.getUsername());
 				
 		// 첨부파일 없을 때 - 신고하기만 처리
 		if(upload.get(0).isEmpty()) {
@@ -119,7 +115,7 @@ public class CSController {
 			
 			service.insertReport(report);
 			
-			return "redirect:/mypage/mypage";
+			return "redirect:/csform/report";
 		}
 								
 		// 첨부파일 있을 때 - 파일 저장 후 신고하기 처리
@@ -138,7 +134,7 @@ public class CSController {
 		
 		log.debug("첨부파일과 신고하기 처리");
 			
-		return "redirect:/mypage/mypage";
+		return "redirect:/csform/report";
 	}
 	
 	/**
@@ -171,22 +167,17 @@ public class CSController {
 			, File file
 			, ArrayList<MultipartFile> upload) {
 		
+		inquiry.setUser_email(user.getUsername());
+		
 		log.debug("문의하기로 올라온 데이터 : {}", inquiry);
 		
-		// ID가 로그인 한 ID와 다르면 처리X
-		if(!inquiry.getUser_email().equals(user.getUsername())) {
-			log.debug("문의하기 - ID가 다름");
-			
-			return "redirect:/";
-		}
-						
 		// 첨부파일 없을 때 - 문의하기만 처리
 		if(upload.get(0).isEmpty()) {
 			log.debug("문의하기 - 첨부파일 X");
 			
 			service.insertInquiry(inquiry);
 			
-			return "redirect:/mypage/mypage";
+			return "redirect:/csform/inquiry";
 		}
 		
 		// board_status가 문의하기가 아니면 처리 X
@@ -212,7 +203,7 @@ public class CSController {
 		
 		log.debug("첨부파일과 문의하기 처리");
 		
-		return "redirect:/mypage/mypage";
+		return "redirect:/csform/inquiry";
 	}
 	
 	// ★★리뷰 하기★★ - 리뷰 폼 포워딩
