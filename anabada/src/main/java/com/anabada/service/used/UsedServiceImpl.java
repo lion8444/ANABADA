@@ -74,7 +74,7 @@ public class UsedServiceImpl implements UsedService {
 		}
 		
 		int k = dao.purchase(used_detail);
-		if (k == 1 ) {
+		if (k == 1) {
 			Used_detail d_id = dao.findOneUseddetail(used_detail.getUsed_id());
 			dao.purchaseupdate(used_detail.getUsed_id());
 			HashMap<String, Object> map = new HashMap<>();

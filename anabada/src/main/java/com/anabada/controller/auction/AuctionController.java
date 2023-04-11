@@ -109,7 +109,7 @@ public class AuctionController {
 			return "redirect:/auction/purchase?auction_id=" + auction_detail.getAuction_id();
 		}
 
-		return "redirect:/mypage/myauctionlistall";
+		return "redirect:/mypage/myauctionlistbid";
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class AuctionController {
 		log.debug("업데이트 처리");
 		
 		//s 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
-//		List<AuctionAndFile> listDetail = mservice.selectAuctionListOfDetail();
+		int aDetailResult = mservice.insertATrade(listAll);
 //		int aDetailResult = mservice.insertATrade(listDetail);
 //		log.debug("aTrade에 추가된 개수 : {}", aDetailResult); 
 		

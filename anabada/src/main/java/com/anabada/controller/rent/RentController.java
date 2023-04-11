@@ -134,9 +134,13 @@ public class RentController {
 		
 		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
 		List<RentalAndFile> listAll = mservice.selectRentalListAll();
+		if(listAll.isEmpty()) {
+			return "redirect:/";
+		}
 		int result = mservice.updateRentalStatus();
-		log.debug("렌탈일로 업데이트 된 개수 : {}", result);
 		
+		int rTradeResult = mservice.insertRTrade(listAll);
+
 		ArrayList <Rental> rentalLists = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email, fsdate, fedate);
 		

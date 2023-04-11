@@ -201,4 +201,6 @@ public interface MyPageService {
 	public List<AuctionAndFile> selectAuctionListAll();
 
 	public int confirmUsed(UsedAndFile usedData);
+
+	public int insertRTrade(List<RentalAndFile> listAll);
 }

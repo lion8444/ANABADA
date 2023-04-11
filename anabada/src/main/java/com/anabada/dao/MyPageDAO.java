@@ -218,7 +218,7 @@ public interface MyPageDAO {
 
 	public int updateAuctionStatus();
 
-	public int insertATrade(List<AuctionAndFile> list);
+	public int insertATrade(AuctionAndFile auctionAndFile);
 
 	public int updateRentalStatus();
 
@@ -229,5 +229,9 @@ public interface MyPageDAO {
 	public List<AuctionAndFile> selectAuctionListAll();
 
 	public int confirmUsed(UsedAndFile usedData);
+
+	public int insertRTrade(RentalAndFile rentalAndFile);
+
+	public int expup(String buyer_email);
 
 }

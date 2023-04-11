@@ -103,7 +103,7 @@
                     $('.inname').val(userone.user_name);
                     $('.phone').val(userone.user_phone);
                     $('.post').val(userone.user_post);
-                    $('.addr1').val(userone.user_addr1);
+                    $('.addr1').val(userone.user_addr1);	
                     $('.addr2').val(userone.user_addr2);
 
                 }

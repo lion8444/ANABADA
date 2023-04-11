@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class RentalAndFile {
 	String rental_id;
 	String user_email;
+	String rDetail_id;
 	String buyer_email;
 	String category_id;
 	String rental_title;

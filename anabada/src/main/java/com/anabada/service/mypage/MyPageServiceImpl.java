@@ -321,19 +321,27 @@ public class MyPageServiceImpl implements MyPageService {
 	@Override
 	public int insertATrade(List<AuctionAndFile> list) {
 		
-		AuctionAndFile check = new AuctionAndFile();
-		
-		int result = 0;
-		
-//		for(int i = 0; i < list.size(); ++i) {
-//			if (list.get(i).getADetail_id() != null && list.get(i).getAuction_id() != null) {
-//				check = list.get(i);
-//			}
-//			
-			result = dao.insertATrade(list);
-//		}
+		for(int i = 0; i < list.size(); ++i) {
+			if(list.get(i).getADetail_id() == null) {
+				list.remove(i);
+				--i;
+			}
+		}
+		for(int i = 0; i < list.size(); ++i) {
+			if(!list.get(i).getAuction_status().equals("거래 완료") || !list.get(i).getADetail_status().equals("거래 완료")) {
+				list.remove(i);
+				--i;
+			}
+		}		
+		for(int i = 0; i < list.size(); ++i) {
+			int result = dao.insertATrade(list.get(i));
+			int upb = dao.expup(list.get(i).getBuyer_email());
+			int upu = dao.expup(list.get(i).getUser_email());
+		}
  		
-		return result;
+		
+		
+		return 0;
 	}
 
 	@Override
@@ -364,6 +372,27 @@ public class MyPageServiceImpl implements MyPageService {
 	public int confirmUsed(UsedAndFile usedData) {
 		int result = dao.confirmUsed(usedData);
 		return result;
+	}
+
+	@Override
+	public int insertRTrade(List<RentalAndFile> listAll) {
+		for(int i = 0; i < listAll.size(); ++i) {
+			if(listAll.get(i).getRDetail_id() == null) {
+				listAll.remove(i);
+				--i;
+			}
+		}
+		
+		for(int i = 0; i < listAll.size(); ++i) {
+			if(!listAll.get(i).getRDetail_status().equals("거래 완료")) {
+				listAll.remove(i);
+				--i;
+			}
+		}	
+		for(int i = 0; i < listAll.size(); ++i) {
+			int rTradeResult = dao.insertRTrade(listAll.get(i));
+		}
+		return 0;
 	}
 	
 	
