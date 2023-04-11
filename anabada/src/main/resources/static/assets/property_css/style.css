@@ -488,9 +488,11 @@ progress {
 
 .img-fluid {
   max-width: 100%;
-  height: 450px; 
+  height: 600px; 
   object-fit: contain;
-  object-position: center;}
+  object-position: center;
+  margin-top: 55px;
+}
 
 .img-thumbnail {
   padding: 0.25rem;
@@ -6588,7 +6590,7 @@ textarea.form-control-lg {
   margin-bottom: 1rem !important; }
 
 .mb-4 {
-  margin-bottom: 1.5rem !important; }
+  margin-bottom: 1.0rem !important; }
 
 .mb-5 {
   margin-bottom: 3rem !important; }
@@ -9900,7 +9902,7 @@ textarea {
   /* 이 부분이 추천 거래사진 크기 조절하는 부분이야 */
   .property-item .img img {
     width: 100%;
-    height: 200px;
+    height: 250px;
     object-fit: contain;
     object-position: center;
   }

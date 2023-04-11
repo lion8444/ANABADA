@@ -66,9 +66,8 @@
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
     <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
-     
-
-
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 </head>
 
 <body>
@@ -221,7 +220,7 @@
 
             <div class="col-lg-9">
                 <!-- <p th:text="${user.user_email}"></p> -->
-                <input type="button" value="회원정보변경" id="modify" class="btn btn-success" th:value="#{memberInfoModify}"
+                <input type="button" value="회원정보변경" id="modify" class="btn btn-secondary btn-block" th:value="#{memberInfoModify}"
                     th:onclick="|location.href='@{/mypage/checkPw(user_email=${user.user_email})}'|">
                 <br>
                 <div class="row">
@@ -240,39 +239,40 @@
                             </span>
                         </span>
                     </span>
-                    <table id="usertest">
+                    <table id="usertest" class="table" 
+                    style="vertical-align:middle; height:auto;  width:80%;">
                         <tr>
                             <th th:text="#{nickname}">닉네임</th>
-                            <td th:text="${user.user_nick}">빡용</td>
+                            <td th:text="${user.user_nick}"></td>
                         </tr>
                         <tr>
                             <th th:text="#{email}">이메일</th>
-                            <td th:text="${user.user_email}">111@gmail.com</td>
+                            <td th:text="${user.user_email}"></td>
                         </tr>
                         <tr>
                             <th th:text="#{phone}">연락처</th>
-                            <td th:text="${user.user_phone}">010-1111-1111</td>
+                            <td th:text="${user.user_phone}"</td>
                         </tr>
                         <tr>
                             <th th:text="#{address}">주소</th>
-                            <td th:text="${user.user_addr1 + user.user_addr2}">(11111) 서울시 강남구 역삼동 279-12</td>
+                            <td th:text="${user.user_addr1 + user.user_addr2}"></td>
+                        </tr>
+                        <tr>
+                            <th>현재 보유 페이</th>
+                            <td th:text="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}+' PAY'"></td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td> 
+                                <button type="submit" class="btn btn-secondary btn-block" value="충전"
+                                        th:text="#{charge}" th:onclick="charge([[${user.user_nick}]])">충전하기
+                                </button>
+                            </td>
                         </tr>
                     </table>
                 </div>
-                <div id="anabox">
-                    <span id="anapay">ABABADA PAY</span>
-                    <span id="anamoney" th:text="${user.user_account}"></span>
-                    <br>
-                    <br>
-                    <!-- <input type="button" value="충전" th:value="#{charge}" id="anacharge"
-                    class="underline-btn" th:onclick="charge([[${user.user_nick}]])"> -->
+               <br>
 
-                    <div class="usedhref" style="margin-left: -100px;">
-                        <button type="submit" class="btn btn-secondary btn-block" value="충전"
-                        th:value="#{charge}" th:onclick="charge([[${user.user_nick}]])">충전하기</button>
-                    </div>
-                    
-                </div>
                 <div id="singo">
                     <span>※ 신고 누적으로 제제내역 있을 시</span>
                     <p>※ 현재 회원님은 신고 누적으로 사이트 제한됩니다.</p>

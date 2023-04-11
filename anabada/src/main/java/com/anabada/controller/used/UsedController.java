@@ -457,6 +457,10 @@ public class UsedController {
 		UserDTO user = service.findUser(userDetails.getUsername());
 		// //Auction_bid auction_bid= service.findOneAuctionbid();
 			ArrayList<File> fileList = service.fileListByid(used_id);
+			
+		UserDTO target = service.findUser(used.getUser_email());
+		
+		model.addAttribute("target", target);
 
 		model.addAttribute("used", used);
 		// model.addAttribute("auction_detail", auction_detail);

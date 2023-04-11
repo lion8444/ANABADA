@@ -69,6 +69,8 @@
     <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script th:src="@{/js/hsw/usedPurchase(JPBP).js}"></script>
+     <!-- 버튼관련 css -->
+     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 
 </head>
@@ -94,23 +96,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">USED</a>
+                                aria-haspopup="true" aria-expanded="false">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
                                 <a class="dropdown-item" th:href="@{usedSellBoard}">중고판매</a>
                                 <a class="dropdown-item" th:href="@{usedBuyBoard}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">RENTAL</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">AUCTION</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/map}">MAP</a>
+                            <a class="nav-link" th:href="@{/map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/info}">INTRODUCTION</a>
+                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -123,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
                     <a class="nav-icon position-relative text-decoration-none" id="dropdownMenuLink"
                         aria-expanded="false">
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
@@ -160,25 +162,6 @@
         </div>
     </nav>
     <!-- Close Header -->
-
-
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <!-- 넣을부분 -->
     <div class="site-mobile-menu site-navbar-target">
@@ -222,20 +205,24 @@
                     <div class="d-block agent-box p-5">
                         <div class="img mb-4">
                             <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
-                            다마고치 넣는곳
+                            다마고치 넣는 곳
                         </div>
+                        
+                        <input type="hidden" name="used_id" id="used_id" th:value="${used.used_id}">
                         <div class="text">
-                            <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
-                            <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
-                            <h5 th:text="'국적: '+${user.user_nation}">국적</h5>
+                            
+                            <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
+                            <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
+                            <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
 
                             <h5>
-                                <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
-                                <span th:text="'페널티: '+${user.user_penalty}"></span>
+                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
+                                <span th:text="'페널티: '+${target.user_penalty}"></span>
                             </h5>
 
-                            <div style="text-align: right;">
-                                <button type="button" class="btn btn-primary btn-lg">채 팅</button>
+                            <div th:if="${#authentication.name}!=${used.user_email}" style="text-align: right;" >
+                                <a id = goChatting>
+                                <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
                             </div>
                         </div>
                     </div>

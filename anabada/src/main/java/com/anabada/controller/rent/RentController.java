@@ -67,6 +67,10 @@ public class RentController {
 		String user_email = user.getUsername();
 		UserDTO userone = service.findUser(user_email);
 		ArrayList<File> fileList = service.fileListByid(rental_id);
+		
+		UserDTO target = service.findUser(rental.getUser_email());
+		
+		model.addAttribute("target", target);
 
 		model.addAttribute("rental", rental);
 		model.addAttribute("user", userone);

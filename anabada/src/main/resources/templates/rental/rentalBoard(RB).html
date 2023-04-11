@@ -50,6 +50,8 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
+     <!-- 버튼관련 css -->
+     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 </head>
 
@@ -282,7 +284,7 @@
                                                 </span>
                                             </div>
                                             <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id}, fsdate=${fsdate}, fedate=${fedate})}"
-                                                class="btn btn-primary py-2 px-3">See details</a>
+                                                class="underline-btn1">See details</a>
                                         </div>
                                     </div>
                                 </div>
@@ -351,7 +353,7 @@
                                     </span>
                                 </div>
                                 <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
-                                    class="btn btn-primary py-2 px-3">See details</a>
+                                    class="underline-btn1">See details</a>
                             </div>
                         </div>
                     </div>

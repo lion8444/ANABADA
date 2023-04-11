@@ -52,6 +52,10 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_usedSellBoard(JPB).css}">
+    <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
+
+    <!-- 버튼관련 css -->
+    <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
 </head>
 
@@ -210,9 +214,9 @@
                         <span  id="damaMainImg" class="card mb-4 product-wap rounded-0">
                             <div th:if="${dama.char_selected} == 1">
                                 <span class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                                    <!-- <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
                                     <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
-                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}"> -->
                                 </span> 
                             </div>
                             <span class="card-body">
