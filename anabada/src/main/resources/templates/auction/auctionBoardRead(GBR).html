@@ -61,7 +61,8 @@
 </head>
 
 <body>
-     <!-- Header -->
+    <div id="auction_finish" th:attr="data-time=${auction_sell.auction_finish}"></div>
+    <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
@@ -147,7 +148,18 @@
         </div>
     </nav>
     <!-- Close Header -->
+    <!-- 넣을부분 -->
 
+    <div class="site-mobile-menu site-navbar-target">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close">
+                <span class="icofont-close js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+<!-- 글 상세 정보 번역 버튼 파파고 -->
+    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
     <!-- 넣을부분 -->
     <div class="section">
         <div class="container">
@@ -509,6 +521,8 @@
     <script th:src="@{/js/wish/wish.js}"></script>
     <script th:src="@{/js/hsw/auctionPurchase(GBP).js}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/wish/wish.js}"></script>
+    <script th:src="@{/js/auctionReadLimit.js}"></script>
     <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>

@@ -115,7 +115,7 @@ public class CSController {
 			
 			service.insertReport(report);
 			
-			return "redirect:/mypage/mypage";
+			return "redirect:/csform/report";
 		}
 								
 		// 첨부파일 있을 때 - 파일 저장 후 신고하기 처리
@@ -134,7 +134,7 @@ public class CSController {
 		
 		log.debug("첨부파일과 신고하기 처리");
 			
-		return "redirect:/mypage/mypage";
+		return "redirect:/csform/report";
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class CSController {
 			
 			service.insertInquiry(inquiry);
 			
-			return "redirect:/mypage/mypage";
+			return "redirect:/csform/inquiry";
 		}
 		
 		// board_status가 문의하기가 아니면 처리 X
@@ -203,7 +203,7 @@ public class CSController {
 		
 		log.debug("첨부파일과 문의하기 처리");
 		
-		return "redirect:/mypage/mypage";
+		return "redirect:/csform/inquiry";
 	}
 	
 	// ★★리뷰 하기★★ - 리뷰 폼 포워딩

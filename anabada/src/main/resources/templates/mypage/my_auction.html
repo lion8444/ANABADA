@@ -200,9 +200,6 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="전체" th:value="#{all}" th:onclick="|location.href='@{/mypage/myauctionlistall(user_email=${us.user_email})}'|">
-                    </div>
-                    <div class="translist">
                         <input type="button" value="경매 내역" th:value="#{auctionlist}" th:onclick="|location.href='@{/mypage/myauctionlistsell(user_email=${us.user_email})}'|">
                     </div>
                     <div class="translist">
@@ -216,57 +213,6 @@
                 <!-- alert 문구 관련 -->
                 <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
 
-                <!-- 전체 경매 거래 내역 -->
-                <div id="mylistbox" th:each="list, i : ${auctionListAll}" th:if="${auctionListAll} != null">
-                    <table class="mypagebox">
-                        <tr>
-                            <td>
-                                <div class="mypageImg">
-                                    <img class="myauctionpic" th:src="@{/mypage/imgshowone(auction_id=${list.auction_id})}" alt="거래 글 대표사진">                                    
-                                </div>
-                            </td>
-                            <td >   
-                                <div class="mypageTitle">
-                                    <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypageTwo">                                
-                                    <div th:if="${list.auction_status == '거래 중'}">
-                                        <p th:text="#{tradeIng}"><span th:text="${list.auction_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.auction_status == '거래 중지'}">
-                                        <p th:text="#{tradeStop}"><span th:text="#{list.auction_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.auction_status == '거래 정지'}">
-                                        <p th:text="#{tradeOut}"><span th:text="#{list.auction_status}">게시글 상태</span></p>
-                                    </div>
-                                    <div th:if="${list.auction_status == '거래 완료'}">
-                                        <p th:text="#{tradeFin}"><span th:text="#{list.auction_status}">게시글 상태</span></p>
-                                    </div>
-                                    <p th:text="${list.auction_date}">날짜</p>                                                                      
-                                </div>
-                            </td>
-                            <td>
-                                <div class="mypagebutton">
-                                    <!-- 경매 취소 -->
-                                    <form th:action="@{/mypage/cancleAuction}" method="post">
-                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" th:value="#{auctionCancle}" value="경매 취소" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
-                                    </form>
-                                    <!-- 입찰 취소 -->
-                                    <form th:action="@{/mypage/cancleBid}" method="post">
-                                        <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="buyer_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" value="입찰 취소" th:value="#{bidCancle}" th:if="${list.buyer_email} == ${#authentication.name} and ${list.aDetail_status == '입찰 중'}">                            
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
                 <!-- 경매 내역 리스트 -->
                 <div id="mylistbox" th:each="list, i : ${auctionListSell}" th:if="${auctionListSell} != null">
                     <table class="mypagebox">
@@ -278,7 +224,11 @@
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.auction_finish} != null">
+                                        <span>경매종료일:</span>
+                                        <span th:text="${list.auction_finish}"></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -323,7 +273,11 @@
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/auction/auctionBoardRead(auction_id=${list.auction_id})}"><span th:text="${list.auction_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <div th:if="${list.auction_finish} != null">
+                                        <span>경매종료일:</span>
+                                        <span th:text="${list.auction_finish}"></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -343,6 +297,7 @@
                                             <p th:text="#{tradeFin}"><span th:text="${list.aDetail_status}">게시글 상태</span></p>
                                         </div>                                                                      
                                     <p th:text="${list.aDetail_Date}">날짜</p>
+                                    <!-- 모달 -->
                                 </div>
                             </td>
                             <td>

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AuctionAndFile {
 	String auction_id;
+	String aDetail_id;
 	String user_email;
 	String buyer_email;
 	String category_id;

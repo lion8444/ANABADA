@@ -26,4 +26,6 @@ public class RentalAndFile {
 	String rDetail_Date;
 	String rDetail_sDate;
 	String rDetail_eDate;
+	String rDetail_sDateFormat;
+	String rDetail_eDateFormat;
 }

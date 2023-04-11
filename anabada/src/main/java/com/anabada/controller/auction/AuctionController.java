@@ -3,6 +3,7 @@ package com.anabada.controller.auction;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.Auction;
+import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.Category;
@@ -30,6 +32,7 @@ import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.mypage.MyPageService;
 import com.anabada.domain.Wish;
 import com.anabada.service.auction.AuctionService;
 import com.anabada.service.wish.WishService;
@@ -48,6 +51,9 @@ public class AuctionController {
 	
 	@Autowired
 	private LoginService lservice;
+	
+	@Autowired
+	private MyPageService mservice; 
 	
 	// 위시리스트 관련 서비스
 	@Autowired
@@ -127,6 +133,18 @@ public class AuctionController {
 		if(userDetails != null) {
 		email = userDetails.getUsername();
 		}
+		
+		log.debug("옥션보드진입");
+		
+		// 게시판 들어가면 그 시간에 경매 마감되는 게시물 '거래 완료'로 변경 후 안보이게 
+		List<AuctionAndFile> listAll = mservice.selectAuctionListAll();
+		mservice.updateAuctionStatus();
+		log.debug("업데이트 처리");
+		
+		//s 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
+//		List<AuctionAndFile> listDetail = mservice.selectAuctionListOfDetail();
+//		int aDetailResult = mservice.insertATrade(listDetail);
+//		log.debug("aTrade에 추가된 개수 : {}", aDetailResult); 
 		
 		ArrayList <Auction> auctionLists = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, email);
