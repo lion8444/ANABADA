@@ -13,6 +13,10 @@
     <select id="findOneAuctiondetail" parameterType="String" resultType="Auction_detail">
     	SELECT * FROM auction_detail WHERE auction_id = #{auction_id} ORDER BY aDetail_price DESC LIMIT 1
     </select>
+    
+   <select id="findAllAuctionDetail" parameterType="String" resultType="Auction_detail">
+    SELECT * FROM auction_detail WHERE auction_id = #{auction_id} AND aDetail_price = (SELECT MAX(aDetail_price) FROM auction_detail WHERE auction_id = #{auction_id})
+	</select>
 
 	<insert id="bid" parameterType="Auction_detail">
 		INSERT INTO auction_detail

@@ -275,5 +275,13 @@ public class AuctionServiceImpl implements AuctionService {
 					}
 				}
 				return category_sub;
-			}			
+			}
+
+			@Override
+			public ArrayList<Auction_detail> findAllAuctionDetail() {
+				ArrayList<Auction_detail> auction_details = dao.findAllAuctionDetail();
+				return auction_details;
+			}		
+			
+			
 }
