@@ -15,7 +15,7 @@
     </select>
     
    <select id="findAllAuctionDetail" parameterType="String" resultType="Auction_detail">
-    SELECT * FROM auction_detail WHERE auction_id = #{auction_id} AND aDetail_price = (SELECT MAX(aDetail_price) FROM auction_detail WHERE auction_id = #{auction_id})
+    	SELECT auction_id, MAX(aDetail_price) AS aDetail_price FROM auction_detail GROUP BY auction_id
 	</select>
 
 	<insert id="bid" parameterType="Auction_detail">

@@ -139,14 +139,11 @@ public class AuctionController {
 			auctionList.add(auction);
 		}
 		
-		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
-		
 		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
 		
 		UserDTO user = service.findUser(userDetails.getUsername());
 		
 		model.addAttribute("auction_details", auction_details);
-		model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("user", user);
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
