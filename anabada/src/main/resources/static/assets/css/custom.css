@@ -54,7 +54,7 @@ Custom Css
  }
 
  #singo {
-  margin-left: -90px;
+  /* margin-right: 30px; */
     text-align: center;
     color: red;
     font-size: 1em;
@@ -143,7 +143,7 @@ Custom Css
 
  .mypageTitle {
   text-align: center;
-  width: 300px;
+  width: 350px;
  }
 
  .mypageTwo {

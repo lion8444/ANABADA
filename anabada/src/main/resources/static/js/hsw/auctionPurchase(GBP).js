@@ -15,21 +15,43 @@
         /**
             현재 최고 입찰금액 가져와서 해당 자리에 넣기
         */
+        // function nowprice() {
+        //     $.ajax({
+        //         url: 'nowprice'
+        //         , type: 'get'
+        //         , data: { 'auction_id': $('.auction_id').val() }
+        //         , success: function (price) {
+        //             $('.nowprice').html('₩ '+ comma(price));
+        //             $('.renowprice').val(price);
+                    
+        //         }
+        //         , error: function () {
+        //             alert("입찰금액?");
+        //         }
+        //     });
+        // }
+
         function nowprice() {
             $.ajax({
-                url: 'nowprice'
-                , type: 'get'
-                , data: { 'auction_id': $('.auction_id').val() }
-                , success: function (price) {
-                    $('.nowprice').val('₩ '+ comma(price));
-                    $('.renowprice').val(price);
-                }
-                , error: function () {
-                    alert("입찰금액?");
-                }
+              url: 'nowprice',
+              type: 'get',
+              data: { 'auction_id': $('.auction_id').val() },
+              success: function (price) {
+                // H3 태그에 현재 가격을 출력합니다.
+                $('.nowprice').html('₩ '+ comma(price));
+                
+                // INPUT 태그에 현재 가격을 출력합니다.
+                $('.nowprice-input').val('₩ '+ comma(price));
+                // Span 태그에 현재 가격을 출력합니다.
+                $('.nowprice-span').html('₩ ' + comma(price));
+                // 현재 가격을 저장합니다.
+                $('.renowprice').val(price);
+              },
+            //   error: function () {
+            //     alert("입찰금액?");
+            //   }
             });
-        }
-
+          }
 
         /**
             입찰 남은 기간 계산해서 해당 자리에 넣기

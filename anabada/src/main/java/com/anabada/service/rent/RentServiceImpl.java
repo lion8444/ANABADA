@@ -109,7 +109,7 @@ public class RentServiceImpl implements RentService {
 		
 	//파는 글 출력
 		@Override
-		public ArrayList<Rental> rentalBoard(int start, int count, String type, String searchWord, String check, String email) {
+		public ArrayList<Rental> rentalBoard(int start, int count, String type, String searchWord, String check, String email, String fsdate, String fedate) {
 			//검색 대상과 검색어
 			HashMap<String, String> map = new HashMap<>();
 			if(type != null) {
@@ -135,6 +135,8 @@ public class RentServiceImpl implements RentService {
 			}
 			map.put("searchWord", searchWord);
 			map.put("check", check);
+			map.put("fsdate", fsdate);
+			map.put("fedate", fedate);
 			//조회 결과 중 위치, 개수 지정
 			RowBounds rb = new RowBounds(start, count);
 			ArrayList<Rental>rentalList = dao.rentalBoard(map, rb);
@@ -175,7 +177,7 @@ public class RentServiceImpl implements RentService {
 		//검색
 		@Override
 		public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String type,
-				String searchWord, String check) {
+				String searchWord, String check, String fsdate, String fedate) {
 			HashMap<String, String> map = new HashMap<>();
 			map.put("type", type);
 			map.put("searchWord", searchWord);

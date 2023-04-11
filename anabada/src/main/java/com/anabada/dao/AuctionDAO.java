@@ -79,5 +79,6 @@ public interface AuctionDAO {
 
 	ArrayList<Category> maincategory();
 	
+	ArrayList<Auction_detail> findAllAuctionDetail();
 
 }

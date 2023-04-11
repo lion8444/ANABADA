@@ -75,10 +75,18 @@ public class AuctionController {
 	public String purchase(String auction_id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
 		UserDTO user = service.findUser(userDetails.getUsername());
 		model.addAttribute("user", user);
+		
 		Auction auction = service.findOneAuction(auction_id);
 		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
-
+		
+		//0411
+		Auction auction_sell = service.auctionBoardRead(auction_id);
+		UserDTO target = service.findUser(auction_sell.getUser_email());
+		
+		model.addAttribute("target", target);
+		model.addAttribute("auction_sell", auction_sell);
+		
 		model.addAttribute("auction", auction);
 		model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("fileList", fileList);
@@ -114,6 +122,7 @@ public class AuctionController {
 			, String type
 			, String searchWord
 			, String check
+			, String auction_id
 			, Model model) {
 
 		PageNavigator navi = 
@@ -148,8 +157,11 @@ public class AuctionController {
 			auctionList.add(auction);
 		}
 		
+		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
+		
 		UserDTO user = service.findUser(userDetails.getUsername());
 		
+		model.addAttribute("auction_details", auction_details);
 		model.addAttribute("user", user);
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
@@ -180,6 +192,10 @@ public class AuctionController {
 		
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
+		
+		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
+		
+		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
 
 		UserDTO target = service.findUser(auction_sell.getUser_email());
 		UserDTO user = service.findUser(userDetails.getUsername());
@@ -187,7 +203,14 @@ public class AuctionController {
 		
 		// 위시리스트 유무 정보 가져오기
 		Wish wish = wservice.selectWish(auction_id, userDetails.getUsername());
-				
+		
+		Auction auction = service.findOneAuction(auction_id);
+		
+		
+		model.addAttribute("auction_details", auction_details);
+		model.addAttribute("auction", auction);
+		model.addAttribute("auction_detail", auction_detail);
+		
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
@@ -303,6 +326,9 @@ public class AuctionController {
 
 		// 글정보를 모델에 저장
 		model.addAttribute("auction", auction);
+		
+		ArrayList<Category> category_main = service.maincategory();
+		model.addAttribute("category_main", category_main);
 
 		// 수정을 html로 포워딩
 		return "auction/auctionBoardUpdate.html";

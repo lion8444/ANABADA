@@ -62,4 +62,6 @@ public interface AuctionService {
 	ArrayList<Category> maincategory();
 
 	ArrayList<Category> subcategory(String main);
+
+	ArrayList<Auction_detail> findAllAuctionDetail();
 }

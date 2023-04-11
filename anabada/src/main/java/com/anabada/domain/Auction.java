@@ -21,4 +21,5 @@ public class Auction {
 	String auction_status;
 	String uloc_id;
 	String sloc_id;
+	
 }

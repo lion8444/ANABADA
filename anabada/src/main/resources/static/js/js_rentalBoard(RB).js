@@ -95,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 //세개의 드랍다운이 다 되게 해놓은것
 window.onload = function() {
+	insertdate();
     const usedDropdown = document.getElementById('usedDropdown');
     const usedMenu = document.querySelector('#usedDropdown + .dropdown-menu');
     const langDropdown = document.getElementById('dropdownMenuButton-lang');
@@ -158,19 +159,40 @@ function pagingFormSubmit(currentPage, check) {
 		let type = $('.sstatus').html();
 		let searchWord = document.getElementById('searchWord').value;
 		let page = document.getElementById('page');
+		let fsdate = $('.fsdate').val();
+		let fedate = $('.fedate').val();
+		if(fsdate == "" || fedate == ""){
+			alert("렌탈 날짜를 입력해 주세요.");
+	    	return false;
+		}
 		page.value = currentPage;
 		if(check == null){
 			check = $('.dcheck').html();
 		}  		
-  		location.href = "rentalBoard?type=" + type + "&searchWord=" + searchWord +"&page=" + currentPage +"&check=" + check;
+  		location.href = "rentalBoard?type=" + type + "&searchWord=" + searchWord +"&page=" 
+  						+ currentPage +"&check=" + check + "&fsdate=" + fsdate + "&fedate=" + fedate;
 	}
 	
 function statuscheck(vcheck){
 	$('.sstatus').html(vcheck);
 	}
 
+function insertdate(){
+	var today = new Date();
+	var endday = new Date(today);
+	endday.setDate(today.getDate() + 6);
 
+	var year = today.getFullYear();
+	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+	var day = ('0' + today.getDate()).slice(-2);
+	var lastday = ('0' + endday.getDate()).slice(-2);
 
-  
-  
-  
+	var dateString = year + '-' + month  + '-' + day;
+	var enddateString = year + '-' + month  + '-' + lastday;
+
+	if($('.fsdate').val() =="" | $('.fedate').val() ==""){
+			$('.fsdate').val(dateString);
+			$('.fedate').val(enddateString);
+			$(".findbutton").trigger('click');
+	}
+}

@@ -12,17 +12,51 @@
 
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
-    
+    <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
     <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+    
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/custom.css}">
+
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
+ 
+    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+ 
+	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/hsw/usedSellWrite(JPBW).js}"></script>
+
+     <!-- 개인 css-->
+     <link rel="stylesheet" th:href="@{/css/css_usedBuyWrite(JSBW).css}">
+
+    <!-- 제이쿼리 (pyw) -->
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/js_myPage.js}"></script>
+    <script th:src="@{/js/lanTest.js}"></script>
 	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
 	<script th:src="@{/js/hsw/rentalWrite(RBW).js}"></script>
+     <!-- 버튼관련 css -->
+     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
     <style>
       .hidden {
       display:none;
@@ -32,22 +66,7 @@
 </head>
 
 <body>
-    <!-- Start Top Nav -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:anabada@anabada.com">anabada@anabada.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-1111-2222">010-1111-2222</a>
-                </div>
-            </div>
-        </div>
-    </nav> -->
-    <!-- Close Top Nav -->
-
-
+   
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
@@ -155,7 +174,7 @@
       
         <div class="container" role="main">
       
-            <h2>대여 글 쓰기</h2>
+            <h2>대여 글 수정</h2>
       
             <form th:action="@{rentalWrite}" method="post" id="write"
                     enctype="multipart/form-data">
@@ -166,14 +185,19 @@
                 <div class="mb-3">
                     <label for="rental_title">제목</label>
                     <input type="text" class="form-control" id="rental_title" name="rental_title" placeholder="제목을 입력해 주세요">
+                            <div class="hidden">
+ 								상품명을 입력해 주세요.
+							</div>                    
                 </div>
       
                 <div class="mb-3">
                     <label for="category">카테고리</label><br>
-                    <select id="category_id" name="category_id" class="select_categories">
-                        <option value="CATE000001">피규어/완구/취미</option>
-                        <option value="2">피규어/완구/취미</option>
-                        <option value="3">피규어/완구/취미</option>
+                    <select class="select_categories main">
+                    	<th:block th:each="main, i: ${category_main}">
+                        	<option th:text="${main.category_main}"></option>
+                        </th:block>
+                    </select>
+                    <select id="category_id" name="category_id" class="select_categories subcate">
                     </select>
                 </div> 
       
@@ -187,6 +211,9 @@
                 <div class="mb-3">
                     <label for="rental_price">판매가격</label>
                     <input type="text" class="form-control" id="rental_price" name="rental_price" placeholder="가격을 입력해 주세요">
+                        <div class="hidden">
+ 								가격을 입력해 주세요.
+						</div>
                 </div>
 
                 <div class="mb-3">
@@ -195,6 +222,9 @@
                     <br>
                     <label for="rental_eDate">대여 종료 날짜:</label>
                     <input type="date" id="rental_eDate" name="rental_eDate">
+                        <div class="hidden">
+ 							대여기간을 정확하게 입력해주세요.
+						</div>
                 </div>
 
                 <div class="mb-3">
@@ -225,16 +255,18 @@
                 <div class="mb-3">
                     <label for="content">내용</label>
                     <textarea class="form-control" rows="5" name="rental_content" id="rental_content" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
+                     	<div class="hidden">
+							상세설명을 50자 이상 입력해 주세요.
+                        </div>                    
                 </div>
                 
                 <div>
-                    <button  class="btn btn-sm btn-primary" onclick="saveDraft()">임시저장</button>
+                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
                     <input type="submit"  class="btn btn-sm btn-primary" value="저장">
                 </div>
             </form>
         </div>
         </article>
-    
     <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">
         <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
@@ -426,13 +458,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script th:src="@{/js/js_rentalWrite(RBW).js}"></script>
+
     <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- End Script -->
+<!--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ -->    <!-- End Script -->
    
 </body>
 

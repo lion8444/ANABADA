@@ -70,11 +70,15 @@
 	</select>
 	
 	<select id="salesamount" parameterType="int" resultType="int">
-		SELECT sum(u.uDetail_price) + sum(r.rDetail_price) + sum(a.aDetail_price)
+		SELECT sum(u.uDetail_price) + sum(r.rDetail_price) + sum(a.aDetail_price) AS sum
 		FROM used_detail AS u
 		JOIN rental_detail AS r
-		JOIN auction_detail AS a
-		WHERE MONTH(u.uDetail_Date) = #{month} OR MONTH(r.rDetail_Date) = #{month} OR MONTH(a.aDetail_Date) = #{month}
+		JOIN (SELECT max(aDetail_price) AS aDetail_price
+			FROM auction_detail
+			WHERE MONTH(aDetail_Date) = #{month}
+            GROUP BY auction_id
+            ) AS a
+		WHERE MONTH(u.uDetail_Date) = #{month} OR MONTH(r.rDetail_Date) = #{month}
 	</select>
 	
 	<select id="joinamount" parameterType="int" resultType="int">

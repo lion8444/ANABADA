@@ -50,6 +50,8 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
+     <!-- 버튼관련 css -->
+     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 </head>
 
 <body>
@@ -140,36 +142,8 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- 넣을부분 -->
-
-        <div class="site-mobile-menu site-navbar-target">
-            <div class="site-mobile-menu-header">
-                <div class="site-mobile-menu-close">
-                    <span class="icofont-close js-menu-toggle"></span>
-                </div>
-            </div>
-            <div class="site-mobile-menu-body"></div>
-        </div>
-                    <!-- 글 상세 정보 번역 버튼 파파고 -->
-                    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
+    <!-- 글 상세 정보 번역 버튼 파파고 -->
+    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
 
         <!-- 넣을부분 -->
         <div class="section">
@@ -186,6 +160,10 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
+
+                        <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.rental_id}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                        <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${rental_sell.rental_id}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+
                         <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
                         <div class="heading text-primary">
                             <h2 th:text="${rental_sell.rental_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
@@ -202,36 +180,44 @@
                         </div>
                         <p class="text-black-30" th:text="${'대여시작일: '+ rental_sell.rental_sDate}">대여시작일</p>
                         <p class="text-black-30" th:text="${'대여마감일: '+ rental_sell.rental_eDate}">대여마감일</p>
-                        <input type="date" id="currentDate"><span id="papago4" class="papago" papagoCount="4">원하는 대여 시작일
-                            설정</span><br>
-                        <input type="date" id="endDate"><span id="papago5" class="papago" papagoCount="5">원하는 대여 마감일
-                            설정</span>
+                        <p id="papago4" class="papago" papagoCount="4">대여 기간: </p>
+                        <input type="date" id="currentDate" class="fsdate form-control" th:value="${fsdate}" style="width: 45%; display: inline-block;" readonly>
+                        <span id="papago5" class="papago" papagoCount="5"> - </span>
+                        <input type="date" id="endDate" class="fedate form-control" th:value="${fedate}" style="width: 45%; display: inline-block;" readonly>
                         <div class="text-black-30">
+                        <br>
                             <p id="papago6" class="papago" papagoCount="6">* 배송시 배송료 별도</p>
                         </div>
-                        <div class="usedhref">
-                            <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id})}'|"><button
-                                    class="btn btn-secondary btn-block" value="바로구매">바로구매</button></a>
-                            <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
-                            <input type="image" id="insertWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                 
+                        <div th:if="${#authentication.name}!=${rental_sell.user_email}">
+                            <div class="usedhref">
+                                <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id}, fsdate=${fsdate}, fedate=${fedate})}'|">
+                                    <button class="btn btn-secondary btn-block" value="렌탈하기">렌탈하기</button></a>
+                            </div>
                         </div>
+
                         <br>
                         <div class="d-block agent-box p-5">
                             <div class="img mb-4">
-                                다마고치 넣는곳
+                                <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
+                                다마고치 넣는 곳
                             </div>
+                            
+                            <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
                             <div class="text">
-                                <h5 th:text="'닉네임: '+${user.user_nick}">닉네임</h5>
-                                <h5 th:text="'레벨: '+${user.user_level}">레벨</h5>
-                                <h5 th:text="'국적: '+${user.user_nation}">국적</h5>
-
+                                
+                                <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
+                                <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
+                                <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
+    
                                 <h5>
-                                    <span th:text="'거래 갯수: '+${user.user_trade}+' /' "></span>
-                                    <span th:text="'페널티: '+${user.user_penalty}"></span>
+                                    <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
+                                    <span th:text="'페널티: '+${target.user_penalty}"></span>
                                 </h5>
-
-                                <div style="text-align: right;">
-                                    <button type="button" class="btn btn-primary btn-lg">채 팅</button>
+    
+                                <div th:if="${#authentication.name}!=${rental_sell.user_email}" style="text-align: right;" >
+                                    <a id = goChatting>
+                                    <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
                                 </div>
                             </div>
                         </div>
@@ -267,7 +253,7 @@
         <!-- 지도넣는 부분 -->
 
         <!-- 추천상품 -->
-        <div class="section">
+        <!-- <div class="section">
             <div class="container">
                 <div class="row mb-5 align-items-center">
                     <div class="col-lg-6 text-center mx-auto">
@@ -281,10 +267,10 @@
                     <div class="col-12">
                         <div class="property-slider-wrap">
 
-                            <div class="property-slider">
+                            <div class="property-slider"> -->
 
                                 <!--item-->
-                                <div th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
+                                <!-- <div th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
                                     <div class="property-item mb-30">
                                         <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
                                             <img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}"
@@ -312,13 +298,13 @@
                                                     </span>
                                                 </div>
                                                 <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}"
-                                                    class="btn btn-primary py-2 px-3">See details</a>
+                                                    class="underline-btn1">See details</a>
                                             </div>
                                         </div>
                                     </div>
-                                </div><!-- .item -->
+                                </div>
 
-                            </div><!--.slider-->
+                            </div>
 
                             <div>
                                 <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
@@ -332,7 +318,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
         <!-- 채팅 -->

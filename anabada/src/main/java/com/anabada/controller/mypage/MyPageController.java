@@ -155,10 +155,6 @@ public class MyPageController {
 		model.addAttribute("usedListBuy", list);
 		model.addAttribute("us", us);
 		
-		log.debug("but: {}", list);
-		log.debug("buy 이즈엠티 : {}", list.isEmpty());
-		log.debug("buy 자체 : {}", list == null);
-		
 		return "mypage/my_transaction";
 	}
 	
