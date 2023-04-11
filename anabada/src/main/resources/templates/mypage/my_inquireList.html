@@ -183,9 +183,9 @@
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}">경매내역</a></li>
                             <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
@@ -215,14 +215,14 @@
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
                 <div id="inquiretop">
-                    <div class="inquiretext" th:text="#{myInqList}">나의 문의 내역</div>
+                    <div class="inquiretext" th:text="#{myInqList}" style="color: black;">나의 문의 내역</div>
                 </div>
-                <hr width="80%">
+                <hr width="85%">
                 <div class="row" th:each="inquiry, i : ${inquiry}" style="width: 75%;">                  
                     <div class="accordion accordion-flush open" th:id="|accordionFlushExample${i.index}|">
                         <div class="accordion-item">
-                            <div class="inquirereply" th:if="${inquiry.inq_answer} == null">처리 중</div>
-                            <div class="inquirereply" th:if="${inquiry.inq_answer} != null">처리 완료</div>
+                            <div class="inquirereply" th:if="${inquiry.inq_answer} == null" style="color: black;">처리 중</div>
+                            <div class="inquirereply" th:if="${inquiry.inq_answer} != null" style="color: black;">처리 완료</div>
                             <h2 class="accordion-header" th:id="|flush-heading${i.index}|">
                             <button class="accordion-button collapsed" type="button" th:text="${inquiry.inq_title}" data-bs-toggle="collapse" th:data-bs-target="|#flush-collapse${i.index}|" aria-expanded="false" th:aria-controls="|flush-collapse${i.index}|">
                                 문의 제목

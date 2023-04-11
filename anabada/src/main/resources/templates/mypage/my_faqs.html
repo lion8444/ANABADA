@@ -185,9 +185,9 @@
                         </p>
                         <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
                         <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}">경매내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}">거래내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}">렌탈내역</a></li>
+                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}">경매내역</a></li>
                             <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
                         </ul>
                     </li>
@@ -217,11 +217,11 @@
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
                 <div id="inquiretop">
-                    <div class="inquiretext" th:text="#{qnaList}">자주 묻는 질문</div>
+                    <div class="inquiretext" th:text="#{qnaList}" style="color: black;">자주 묻는 질문</div>
                 </div>
                 <br>
-                <div class="accordion accordion-flush open" id="accordionFlushExample">
-                    <div class="accordion-item">
+                <div class="accordion accordion-flush open" id="accordionFlushExample" >
+                    <div class="accordion-item" style="width: 85%;">
                       <h2 class="accordion-header" id="flush-headingOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                             [결제] 결제가 안되면 어떻게 하나요??
@@ -235,7 +235,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="accordion-item">
+                    <div class="accordion-item" style="width: 85%;">
                       <h2 class="accordion-header" id="flush-headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                           [채팅] 채팅을 보냈는데 상대방이 메시지를 읽지 않아요. (답장이 안와요)
@@ -252,7 +252,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="accordion-item">
+                    <div class="accordion-item" style="width: 85%;">
                       <h2 class="accordion-header" id="flush-headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
                         [일반] 기본매너
@@ -278,7 +278,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="accordion-item">
+                    <div class="accordion-item" style="width: 85%;">
                         <h2 class="accordion-header" id="flush-headingFour">
                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
                             [사기] 판매자에게 사기를 당한 것 같아요.
@@ -290,7 +290,7 @@
                           </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
+                    <div class="accordion-item" style="width: 85%;">
                         <h2 class="accordion-header" id="flush-headingFive">
                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
                             [회원탈퇴] 회원 탈퇴는 어떻게 하나요?
@@ -307,7 +307,7 @@
                           </div>
                         </div>
                     </div>
-                    <div class="accordion-item">
+                    <div class="accordion-item" style="width: 85%;">
                         <h2 class="accordion-header" id="flush-headingSix">
                           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
                             [회원정보] 회원정보 수정은 어떻게 하나요?

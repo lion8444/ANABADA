@@ -311,4 +311,60 @@ public class MyPageServiceImpl implements MyPageService {
 		int result = dao.addmoney(map);
 		return result;
 	}
+
+	@Override
+	public int updateAuctionStatus() {
+		int result = dao.updateAuctionStatus();
+		return result;
+	}
+
+	@Override
+	public int insertATrade(List<AuctionAndFile> list) {
+		
+		AuctionAndFile check = new AuctionAndFile();
+		
+		int result = 0;
+		
+//		for(int i = 0; i < list.size(); ++i) {
+//			if (list.get(i).getADetail_id() != null && list.get(i).getAuction_id() != null) {
+//				check = list.get(i);
+//			}
+//			
+			result = dao.insertATrade(list);
+//		}
+ 		
+		return result;
+	}
+
+	@Override
+	public int updateRentalStatus() {
+		int result = dao.updateRentalStatus();
+		return result;
+	}
+
+	@Override
+	public List<AuctionAndFile> selectAuctionListOfDetail() {
+		List<AuctionAndFile> list = dao.selectAuctionListOfDetail();
+		return list;
+	}
+
+	@Override
+	public List<RentalAndFile> selectRentalListAll() {
+		List<RentalAndFile> list = dao.selectRentalListAll();
+		return list;
+	}
+
+	@Override
+	public List<AuctionAndFile> selectAuctionListAll() {
+		List<AuctionAndFile> list = dao.selectAuctionListAll();
+		return list;
+	}
+
+	@Override
+	public int confirmUsed(UsedAndFile usedData) {
+		int result = dao.confirmUsed(usedData);
+		return result;
+	}
+	
+	
 }

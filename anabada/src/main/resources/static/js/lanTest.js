@@ -32,7 +32,7 @@ $(document).ready(function () {
     $("#locales").on('click', springLauguageTest);  // 스프링 다국어 처리 셀렉트박스
 
     // 파파고 api실행 - 반복문에 하나씩 넣기
-    $("#papagoSubmit").on("click", papagoTrans);
+    // $("#papagoSubmit").on("click", papagoTrans);
     $("#papagoSubmit").on("click", papagoTrans2);
 
     // 파파고 api실행 - 전체 한번에
@@ -130,40 +130,40 @@ function springLanguage(data) {
 }
 
 // 파파고 api실행 - 반복문에 하나씩 넣기
-function papagoTrans() {
+// function papagoTrans() {
 
-    let str = $(".tns-slide-active .papago");
+//     let str = $(".tns-slide-active .papago");
 
-    console.log("papagoTrans 진입");
+//     console.log("papagoTrans 진입");
 
-    str.each(function (e) {
-        let test = $("#papago" + e);
-        console.log("처음 찍는 거 : " + test.text() + "e : " + e + "length : " + str.length);
-        if (test.text() != '') {
+//     str.each(function (e) {
+//         let test = $("#papago" + e);
+//         console.log("처음 찍는 거 : " + test.text() + "e : " + e + "length : " + str.length);
+//         if (test.text() != '') {
 
-            $.ajax({
-                type: "post",
-                url: "/api/translate",
-                data: { listid: e, source: "ko", target: "ja", text: $(".papagoTrans" + e).text() },
-                dataType: "json",
-                success: function (data) {
-                    // for(var i = 0; i < str.length; i++) {
-                    // console.log("i : " + i);
-                    // console.log("length : " + str.length);
-                    // console.log("ajax안에서 " + data.transmsg);
-                    if ($("#papago" + e).attr('papagoCount') == data.listid) {
-                        console.log("papago 번역 테스트 데이터 삽입전 " + $("#papago" + e).text())
-                        // $(".papagoTrans"+e).text('');
-                        $("#papago" + e).text(data.transmsg);
-                        // console.log("papago 번역 테스트 삽입 데이터 " + ".tns-slide-active .papagoTrans"+e)
-                        console.log("papago 번역 테스트 삽입 후 " + $("#papago" + e).text())
-                    }
-                    // }
-                },
-            });
-        }
-    });
-}
+//             $.ajax({
+//                 type: "post",
+//                 url: "/api/translate",
+//                 data: { listid: e, source: "ko", target: "ja", text: $(".papagoTrans" + e).text() },
+//                 dataType: "json",
+//                 success: function (data) {
+//                     // for(var i = 0; i < str.length; i++) {
+//                     // console.log("i : " + i);
+//                     // console.log("length : " + str.length);
+//                     // console.log("ajax안에서 " + data.transmsg);
+//                     if ($("#papago" + e).attr('papagoCount') == data.listid) {
+//                         console.log("papago 번역 테스트 데이터 삽입전 " + $("#papago" + e).text())
+//                         // $(".papagoTrans"+e).text('');
+//                         $("#papago" + e).text(data.transmsg);
+//                         // console.log("papago 번역 테스트 삽입 데이터 " + ".tns-slide-active .papagoTrans"+e)
+//                         console.log("papago 번역 테스트 삽입 후 " + $("#papago" + e).text())
+//                     }
+//                     // }
+//                 },
+//             });
+//         }
+//     });
+// }
 
 // 파파고 api실행 - 전체 한번에
 function papagoTransAll() {

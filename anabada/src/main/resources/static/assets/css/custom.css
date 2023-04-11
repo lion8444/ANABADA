@@ -75,7 +75,7 @@ Custom Css
  }
 
  #inquiretop {
-    width: 80%;
+    width: 85%;
     height: 40px;
     border : 1px solid grey;
     border-radius : 5px;
@@ -120,7 +120,7 @@ Custom Css
  #mylistbox {
     margin-top: 20px;
     border : 1px solid grey;
-    width: 80%;
+    width: 100%;
     padding: 10px;
  }
 

@@ -186,7 +186,20 @@ public interface MyPageService {
 	
 	public ArrayList<File> fileListByid(String used_id);
 
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String email);
-	
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);
 
+	public int updateAuctionStatus();
+
+	public int insertATrade(List<AuctionAndFile> list);
+
+	public int updateRentalStatus();
+
+	public List<AuctionAndFile> selectAuctionListOfDetail();
+
+	public List<RentalAndFile> selectRentalListAll();
+
+	public List<AuctionAndFile> selectAuctionListAll();
+
+	public int confirmUsed(UsedAndFile usedData);
+	
 }
