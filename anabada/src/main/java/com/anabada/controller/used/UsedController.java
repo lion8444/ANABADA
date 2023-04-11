@@ -155,12 +155,13 @@ public class UsedController {
 
 		Used used = service.usedSellBoardRead(used_id);
 		// 해당번호의 글이 있는지 확인. 없으면 글목록으로
-		if (used == null)
+		if (used == null) {
 			return "redirect:/";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!used.getUser_email().equals(userDetails.getUsername()))
+		if (!used.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 첨부된 파일이 있으면 파일삭제
 		if (!file_saved.isEmpty()) {
 			FileService.deleteFile(uploadPath + "/" + file_saved);
@@ -173,7 +174,6 @@ public class UsedController {
 		service.usedSellBoardDelete(used);
 		// 글 목록으로 리다이렉트
 		return "redirect:/";
-
 	}
 
 	/**
@@ -204,7 +204,6 @@ public class UsedController {
 		used.setUser_email(userDetails.getUsername());
 
 		if (uploadOne.isEmpty()) {
-			log.debug("이미지 X");
 			return "redirect:/";
 		}
 		
@@ -253,9 +252,9 @@ public class UsedController {
 		Used used = service.usedSellBoardRead(used_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!used.getUser_email().equals(userDetails.getUsername()))
+		if (!used.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("used", used);
 		
@@ -393,12 +392,13 @@ public class UsedController {
 		model.addAttribute("user", user);
 		// model.addAttribute("target", targetUser);
 		Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
-		if (used_buy == null)
+		if (used_buy == null) {
 			return "redirect:list";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!used_buy.getUser_email().equals(userDetails.getUsername()))
+		if (!used_buy.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		int result = service.usedBuyBoardDelete(used_buy);
 
 		return "redirect:/";
@@ -419,9 +419,9 @@ public class UsedController {
 		log.info(used_buy + "");
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!used_buy.getUser_email().equals(userDetails.getUsername()))
+		if (!used_buy.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("used_buy", used_buy);
 

@@ -141,9 +141,17 @@ public class AuctionController {
 		
 		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
 		
+		for(int i = 0; i < auctionList.size(); ++i) {
+			for(int j = 0; j < auction_details.size(); ++j) {
+				log.info(auction_details.get(j).getADetail_price()+"");
+				if (auctionList.get(i).getAuction_id().equals(auction_details.get(j).getAuction_id())) {
+					auctionList.get(i).setAuction_price(auction_details.get(j).getADetail_price());
+				}
+			}
+		}
+		
 		UserDTO user = service.findUser(userDetails.getUsername());
 		
-		model.addAttribute("auction_details", auction_details);
 		model.addAttribute("user", user);
 		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("navi",navi);
@@ -170,15 +178,21 @@ public class AuctionController {
 		ArrayList <Auction> auctionList = service.auctionBoard(
 				navi.getStartRecord(),countPerPage, null, null, null, null);
 		
-		model.addAttribute("auctionList",auctionList);
-		
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		ArrayList<File> fileList = service.fileListByid(auction_id);
 		
-		Auction_detail auction_detail = service.findOneAuctiondetail(auction_id);
-		
 		ArrayList <Auction_detail> auction_details = service.findAllAuctionDetail();
-
+		
+		for(int i = 0; i < auctionList.size(); ++i) {
+			for(int j = 0; j < auction_details.size(); ++j) {
+				log.info(auction_details.get(j).getADetail_price()+"");
+				if (auctionList.get(i).getAuction_id().equals(auction_details.get(j).getAuction_id())) {
+					auctionList.get(i).setAuction_price(auction_details.get(j).getADetail_price());
+					break;
+				}
+			}
+		}
+		
 		UserDTO target = service.findUser(auction_sell.getUser_email());
 		UserDTO user = service.findUser(userDetails.getUsername());
 		model.addAttribute("user", user);
@@ -188,11 +202,8 @@ public class AuctionController {
 		
 		Auction auction = service.findOneAuction(auction_id);
 		
-		
-		model.addAttribute("auction_details", auction_details);
+		model.addAttribute("auctionList",auctionList);
 		model.addAttribute("auction", auction);
-		model.addAttribute("auction_detail", auction_detail);
-		
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
@@ -214,12 +225,13 @@ public class AuctionController {
 
 		Auction auction = service.auctionBoardRead(auction_id);
 		// 해당번호의 글이 있는지 확인. 없으면 글목록으로
-		if (auction == null)
+		if (auction == null) {
 			return "redirect:/";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!auction.getUser_email().equals(userDetails.getUsername()))
+		if (!auction.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 첨부된 파일이 있으면 파일삭제
 		if (!file_saved.isEmpty()) {
 			FileService.deleteFile(uploadPath + "/" + file_saved);
@@ -259,7 +271,6 @@ public class AuctionController {
 		String auction_id = service.auctionWrite(auction);
 
 		if (uploadOne.isEmpty()) {
-			log.debug("이미지 X");
 			return "redirect:/";
 		}
 
@@ -303,9 +314,9 @@ public class AuctionController {
 		Auction auction = service.auctionBoardRead(auction_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!auction.getUser_email().equals(userDetails.getUsername()))
+		if (!auction.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("auction", auction);
 		
@@ -401,7 +412,6 @@ public class AuctionController {
 			out.close();
 		} catch (Exception e) {
 			return "redirect:/";
-
 		}
 		return "redirect:/";
 	}
@@ -428,7 +438,6 @@ public class AuctionController {
 			out.close();
 		} catch (Exception e) {
 			return "redirect:/";
-
 		}
 		return "redirect:/";
 	}

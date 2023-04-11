@@ -230,11 +230,13 @@ public class RentController {
 
 		Rental rental = service.rentalBoardRead(rental_id);
 		// 해당번호의 글이 있는지 확인. 없으면 글목록으로
-		if (rental == null)
+		if (rental == null) {
 			return "redirect:/";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!rental.getUser_email().equals(userDetails.getUsername()))
+		if (!rental.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
+		}
 
 		// 첨부된 파일이 있으면 파일삭제
 		if (!file_saved.isEmpty()) {
@@ -275,7 +277,6 @@ public class RentController {
 		String rental_id = service.rentalWrite(rental);
 
 		if (uploadOne.isEmpty()) {
-			log.debug("이미지 X");
 			return "redirect:/";
 		}
 
@@ -321,9 +322,9 @@ public class RentController {
 		Rental rental = service.rentalBoardRead(rental_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!rental.getUser_email().equals(userDetails.getUsername()))
+		if (!rental.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("rental", rental);
 		ArrayList<Category> category_main = service.maincategory();
@@ -400,17 +401,7 @@ public class RentController {
 			int rDetail_price, int user_account, String rDetail_id) {
 
 		String user_email = user.getUsername();
-
-		// Rental_detail rd = new Rental_detail(null, rental_id, user_email, null,
-		// rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1,
-		// rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
-		// int j = service.purchase(rd);
-
 		int i = service.usemoney(user_email, user_account);
-
-		// if(j == 0 || i ==0) {
-		// return "redirect:/rental/purchase?rental_id=" + rental_id;
-		// }
 
 		return "rental/rentalThanks.html";
 	}
@@ -477,7 +468,6 @@ public class RentController {
 			out.close();
 		} catch (Exception e) {
 			return "redirect:/";
-
 		}
 		return "redirect:/";
 	}
