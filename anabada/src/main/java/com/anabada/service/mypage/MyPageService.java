@@ -186,7 +186,7 @@ public interface MyPageService {
 	
 	public ArrayList<File> fileListByid(String used_id);
 
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page);
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String email);
 
 	public int updateAuctionStatus();
 
@@ -201,5 +201,4 @@ public interface MyPageService {
 	public List<AuctionAndFile> selectAuctionListAll();
 
 	public int confirmUsed(UsedAndFile usedData);
-	
 }
