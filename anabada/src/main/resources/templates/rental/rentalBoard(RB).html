@@ -143,25 +143,6 @@
     </nav>
     <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
     <!-- Start Content -->
     <!-- 검색 폼 -->
     <div class="container mt-5" th:action="@{rentalList}" method="get" id="pagingForm">
@@ -240,7 +221,7 @@
     </div>
     <br>
 
-    <div class="section">
+    <!-- <div class="section">
         <div class="container">
             <div class="row mb-5 align-items-center">
                 <div class="col-lg-6 text-center mx-auto">
@@ -250,9 +231,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="property-slider-wrap">
-                        <div class="property-slider">
+                        <div class="property-slider"> -->
                             <!--item-->
-                            <th:block th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
+                            <!-- <th:block th:each="rentalList, i: ${rentalList}" method="get" enctype="multipart/form-data">
                                 <div class="property-item mb-30">
                                     <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id}, fsdate=${fsdate}, fedate=${fedate})}"
                                         class="img">
@@ -270,12 +251,12 @@
                                         </div>
                                         <div>
                                             <span class="d-block mb-2 text-black-50"
-                                                th:text="'대여시작일: '+ ${rentalList.rental_sDate}">시작일</span>
+                                                th:text="'대여시작일: '+ ${rentalList.rental_sDate}">시작일</span> -->
                                             <!-- <span th:text="${#temporals.format(rentalList.rental_sDate, 'yyyy-MM-dd')}"></span> -->
-                                            <span class="d-block mb-2 text-black-50"
-                                                th:text="'대여종료일: '+ ${rentalList.rental_eDate}">종료일</span>
+                                            <!-- <span class="d-block mb-2 text-black-50"
+                                                th:text="'대여종료일: '+ ${rentalList.rental_eDate}">종료일</span> -->
                                             <!-- <span th:text="${#temporals.format(rentalList.rental_eDate, 'yyyy-MM-dd')}"></span> -->
-                                            <div class="specs d-flex mb-4">
+                                            <!-- <div class="specs d-flex mb-4">
                                                 <span class="d-block mb-2 text-black-50" th:text="${rentalList.user_nick}">유저
                                                     닉네임</span>&nbsp;/&nbsp;
                                                 <span class="d-block d-flex align-items-center">
@@ -287,8 +268,8 @@
                                                 class="underline-btn1">See details</a>
                                         </div>
                                     </div>
-                                </div>
-                            </th:block><!-- .item -->
+                                </div> -->
+                            <!-- </th:block>
                         </div>
                         <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
                             <span class="prev" data-controls="prev" aria-controls="property" tabindex="-1">Prev</span>
@@ -296,9 +277,9 @@
                         </div>
                     </div>
                 </div>
-            </div><!--.slider-->
+            </div>
         </div>
-    </div>
+    </div> -->
 
 
 
