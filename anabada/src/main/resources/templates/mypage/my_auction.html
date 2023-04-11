@@ -161,9 +161,9 @@
                                     <small>ANABADA</small>
                                 </a>
                                 <ul>
-                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
-                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
-                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
                                     <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
                                 </ul>
                             </li>
@@ -254,7 +254,7 @@
                                     <form th:action="@{/mypage/cancleAuction}" method="post">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="user_email" th:value="${us.user_email}">
-                                        <input type="submit" class="btn btn-success" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
+                                        <input type="submit" class="btn btn-secondary btn-block" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
                                     </form>                    
                                 </div>
                             </td>
