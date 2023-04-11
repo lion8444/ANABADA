@@ -217,9 +217,8 @@
         </div>
     </div>
     <br>
-    <!-- 글 상세 정보 번역 버튼 파파고 -->
-    <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
-    <div class="section">
+
+    <!-- <div class="section">
         <div class="container">
             <div class="row mb-5 align-items-center">
                 <div class="col-lg-6 text-center mx-auto">
@@ -231,7 +230,7 @@
                     <div class="property-slider-wrap">
                         <div class="property-slider">
 
-                            <!--item-->
+                            
                             <th:block th:each="auctionList, i: ${auctionList}">
                                 <div class="property-item mb-30">
                                     <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}"
@@ -267,8 +266,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </th:block><!-- .item -->
-                        </div><!--.slider-->
+                            </th:block>
+                        </div>
                         <div>
                             <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
                                 <span class="prev" data-controls="prev" aria-controls="property"
@@ -282,7 +281,7 @@
             </div>
         </div>
     </div>
-    </div>
+    </div> -->
 
     <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">

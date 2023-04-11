@@ -152,65 +152,60 @@
 </nav>
 <!-- Close Header -->
 
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-
-
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-3">
-                <a th:href="@{/mypage/mypage}"><h1 class="h2 pb-4" th:text="#{mypage}">마이페이지</h1></a>
-                <ul class="list-unstyled templatemo-accordion">
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mytrade}">
-                            MY 거래
-                        </p>
-                        <!-- <i class="fa fa-fw fa-chevron-circle-down mt-1"></i> -->
-                        <ul class="">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}">거래내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}">렌탈내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}">경매내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}">찜 목록</a></li>
+                <div class="container1">
+                    <nav>
+                        <ul class="mcd-menu">
+                            <li>
+                                <a class="aTag" th:href="@{/mypage/mypage}">
+                                    <strong th:text="#{mypage}" >마이페이지</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                            </li>
+            
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mytrade}">MY거래</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{mydamagochi}">나의 다마고치</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}" class="aTag">나의 다마고치</a></li>
+                                    <li><a th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}" class="aTag">다마고치 상점</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="aTag">
+                                    <strong th:text="#{customerCenter}" >고객센터</strong>
+                                    <small>ANABADA</small>
+                                </a>
+                                <ul>
+                                    <li><a th:href="@{/csform/inquiry}" th:text="#{inquiry}" class="aTag">문의하기</a></li>
+                                    <li><a th:href="@{/csform/report}" th:text="#{report}" class="aTag">신고</a></li>
+                                    <li><a th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}" class="aTag">나의 문의 내역</a></li>
+                                    <li><a th:href="@{/mypage/faqs}" th:text="#{qnaList}" class="aTag">자주 묻는 질문</a></li>
+                                    <li><a th:href="@{/mypage/myreportlist}" th:text="#{myReportList}" class="aTag">나의 신고 내역</a></li>
+                                </ul>
+                            </li>
+            
                         </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{mydamagochi}">
-                            MY 다마고치
-                        </p>
-                        <ul id="collapseTwo" class="collapse show-unstyled pl-3">
-                            <li><a class="text-decoration-none" th:href="@{/mypage/mydamagochi}" th:text="#{mydamagochi}">나의 다마고치</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/damagochishop}" th:text="#{damagochishop}">다마고치 상점</a></li>
-                        </ul>
-                    </li>
-                    <li class="pb-3">
-                        <p class="collapsed d-flex justify-content-between h3 text-decoration-none" th:text="#{customerCenter}">
-                            고객센터
-                        </p>
-                        <ul id="collapseThree" class="">
-                            <li><a class="text-decoration-none" th:href="@{/csform/inquiry}" th:text="#{inquiry}">문의하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/csform/report}" th:text="#{report}">신고하기</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myinquirelist}" th:text="#{myInqList}">나의 문의 내역</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/faqs}" th:text="#{qnaList}">자주 묻는 질문</a></li>
-                            <li><a class="text-decoration-none" th:href="@{/mypage/myreportlist}" th:text="#{myReportList}">나의 신고 내역</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                    </nav>
+                </div>
             </div>
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
@@ -241,6 +236,7 @@
                 </div>
             </div>
         </div>
+    </div>
         <!-- End Content -->
 
     <!-- 채팅 -->
