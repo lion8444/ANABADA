@@ -40,5 +40,10 @@ function auction_quality(chk){
 
   document.getElementById('currentDate').value = new Date().toISOString().substring(0, 10);;
 
+
+  //결제 완료 안내 멘트
+  function showPurchase() {
+    alert('결제가 완료되었습니다.');
+}
     
 
