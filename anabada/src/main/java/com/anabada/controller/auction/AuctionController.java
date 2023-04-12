@@ -91,7 +91,7 @@ public class AuctionController {
 		UserDTO target = service.findUser(auction_sell.getUser_email());
 		
 		// 글쓴이의 다마고치 정보
-		Damagochi dama = mservice.selectMyDamaInfoById(auction_sell.getUser_email());
+		Damagochi dama = mpservice.selectMyDamaInfoById(auction_sell.getUser_email());
 		
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
@@ -146,7 +146,7 @@ public class AuctionController {
 		log.debug("업데이트 처리");
 		
 		//s 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
-		int aDetailResult = mservice.insertATrade(listAll);
+		int aDetailResult = mpservice.insertATrade(listAll);
 //		int aDetailResult = mservice.insertATrade(listDetail);
 //		log.debug("aTrade에 추가된 개수 : {}", aDetailResult); 
 		
@@ -226,7 +226,7 @@ public class AuctionController {
 		Location location = mservice.findBoardLocation(auction_id);
 		
 		// 글쓴이의 다마고치 정보
-		Damagochi dama = mservice.selectMyDamaInfoById(auction_sell.getUser_email()); 
+		Damagochi dama = mpservice.selectMyDamaInfoById(auction_sell.getUser_email()); 
 		
 		model.addAttribute("location", location);
 		model.addAttribute("auction_details", auction_details);

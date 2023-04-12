@@ -82,7 +82,7 @@ public class RentController {
 		UserDTO target = service.findUser(rental.getUser_email());
 		
 		// 글쓴이의 다마고치 정보
-		Damagochi dama = mservice.selectMyDamaInfoById(rental.getUser_email());
+		Damagochi dama = mpservice.selectMyDamaInfoById(rental.getUser_email());
 		
 		model.addAttribute("target", target);
 
@@ -137,13 +137,13 @@ public class RentController {
 		
 		
 		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
-		List<RentalAndFile> listAll = mservice.selectRentalListAll();
+		List<RentalAndFile> listAll = mpservice.selectRentalListAll();
 		if(listAll.isEmpty()) {
 			return "redirect:/";
 		}
-		int result = mservice.updateRentalStatus();
+		int result = mpservice.updateRentalStatus();
 		
-		int rTradeResult = mservice.insertRTrade(listAll);
+		int rTradeResult = mpservice.insertRTrade(listAll);
 
 		ArrayList <Rental> rentalLists = service.rentalBoard(
 				navi.getStartRecord(),countPerPage, type, searchWord, check, userDetails.getUsername(), fsdate, fedate);
@@ -224,7 +224,7 @@ public class RentController {
 		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		
 		// 글쓴이의 다마고치 정보
-		Damagochi dama = mservice.selectMyDamaInfoById(rental_sell.getUser_email());
+		Damagochi dama = mpservice.selectMyDamaInfoById(rental_sell.getUser_email());
 		
 		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
