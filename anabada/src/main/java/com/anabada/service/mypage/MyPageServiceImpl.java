@@ -365,6 +365,4 @@ public class MyPageServiceImpl implements MyPageService {
 		int result = dao.confirmUsed(usedData);
 		return result;
 	}
-	
-	
 }

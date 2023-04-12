@@ -4,21 +4,7 @@ let map, infoWindow_contents = [], markers = [];
 let info_cnt = 0;
 let infoWindow;
 
-function customInfowindow(place) {
-    return "<div><div id='info_title'>" +
-        place.name +
-        "</div><br>" +
-        place.vicinity +
-        "</div>";
-}
-
-
 function initMap() {
-    // const autocomplete = new google.maps.places.Autocomplete(
-    //     document.getElementById('search'),
-    //     { types: ['geocode'] }
-    // );
-
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 37.574187, lng: 126.976882 },
         zoom: 17,
@@ -35,15 +21,6 @@ function initMap() {
         addMarker(event.latLng);
         codeCoordinate(event.latLng);
     });
-
-    for (let i = 0; i < markers.length; i++) {
-        google.maps.event.addListener(markers[i], 'click', function () {
-
-            console.log(this.getPosition());
-            map.setCenter(this.getPosition());
-            codeCoordinate(this.getPosition());
-        });
-    }
     $("#search-button").on("click", searchMap);
 
 }
@@ -63,7 +40,6 @@ function autocomplete() {
         if (places.length == 0) {
             return;
         }
-        deleteMaker(null);
         // For each place, get the icon, name and location.
         const bounds = new google.maps.LatLngBounds();
         places.forEach((place) => {
@@ -71,29 +47,6 @@ function autocomplete() {
                 console.log("Returned place contains no geometry");
                 return;
             }
-            customInfowindow(place);
-            let geocoder = new google.maps.Geocoder();
-            // 좌표를 받아 reverse geocoding(좌표를 주소로 바꾸기)를 실행
-            geocoder.geocode({ 'latLng': place.geometry.location }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[1]) {
-                        console.log(results[1]);
-                        // infoWindow.setContent(infoWindow_contents[i]);
-                        // // infoWindow.setContent(results[1].formatted_address);     //infowindow로 주소를 표시
-                        // infoWindow.open(map, markers[0]);
-                        // latLngSubmitReady(place.geometry.location, results[1].formatted_address);
-                    }
-                }
-            });
-
-
-            // var marker = new google.maps.Marker({
-            //     map,
-            //     title: place.name,
-            //     position: place.geometry.location,
-            // });
-            // markers.push(marker);
-            // codeCoordinate(marker.position)
 
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
@@ -120,7 +73,7 @@ function searchMap() {
             if (place) {
                 createMarker(place);
             } else {
-                alert('일치하는 검색결과가 없습니다.');
+                alert("일치하는 검색 결과가 없습니다. 검색창에서 Enter키를 입력하여 비슷한 위치 결과를 찾아주세요.");
             }
         }
     });
@@ -140,10 +93,10 @@ function createMarker(place) {
     infoWindow.open(map, marker);
     let geocoder = new google.maps.Geocoder();
     // 좌표를 받아 reverse geocoding(좌표를 주소로 바꾸기)를 실행
-    geocoder.geocode({ 'latLng': latLng }, function (results, status) {
+    geocoder.geocode({ 'latLng': place.geometry.location }, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
-                latLngSubmitReady(latLng, results[1].formatted_address);
+                latLngSubmitReady(place.geometry.location, results[1].formatted_address);
             }
         }
     });
@@ -160,11 +113,10 @@ function geolocation() {
                     lng: position.coords.longitude,
                 };
 
-
-                addMarker(pos);
-                infoWindow.setContent("현재 위치");
-                infoWindow.open(map, markers[0]);
                 map.setCenter(pos);
+                addMarker(pos);
+                codeCoordinate(pos);
+
             },
             () => {
                 handleLocationError(true, infoWindow, map.getCenter());
@@ -217,7 +169,6 @@ function codeCoordinate(latLng) {
             }
         }
     });
-
 }
 
 function latLngSubmitReady(latLng, addr) {

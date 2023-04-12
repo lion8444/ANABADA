@@ -33,6 +33,7 @@ import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.map.MapService;
 import com.anabada.service.mypage.MyPageService;
 import com.anabada.domain.Wish;
 import com.anabada.service.auction.AuctionService;
@@ -203,8 +204,9 @@ public class AuctionController {
 		Wish wish = wservice.selectWish(auction_id, userDetails.getUsername());
 		
 		Auction auction = service.findOneAuction(auction_id);
+		Location location = mservice.findBoardLocation(auction_id);
 		
-		
+		model.addAttribute("location", location);
 		model.addAttribute("auction_details", auction_details);
 		model.addAttribute("auction", auction);
 		model.addAttribute("auction_detail", auction_detail);

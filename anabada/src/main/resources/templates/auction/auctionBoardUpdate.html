@@ -182,7 +182,7 @@
             <h2>경매 글 수정</h2>
       
             <form th:action="@{auctionWrite}" method="post" id="write"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" onclick="viewMapRoad((this).getAttribute('loc_id'))">
                     <!-- <input type="hidden" name="user_email" th:value="">  -->
                     <input type="hidden" name="uloc_id" value="uloc000001">
                     <input type="hidden" name="sloc_id" value="sloc000001">
@@ -214,7 +214,7 @@
                 </div>
       
                 <div class="mb-3">
-                    <label for="auction_price">판매가격</label>
+                    <label for="auction_price">경매 시작가</label>
                     <input type="text" class="form-control" id="auction_price" name="auction_price" placeholder="가격을 입력해 주세요">
                         <div class="hidden">
  								가격을 입력해 주세요.
@@ -264,7 +264,7 @@
                 <!-- 지도 -->
                 <div id="map-wrapper">
                     <input type="text" id="search">
-                    <button id="search-button" onclick="search()">검색</button>
+                    <button id="search-button" th:text="#{search}">검색</button>
                     <div id="map"></div>
                 </div>
                 <!-- 전달할 location 값 -->
@@ -276,7 +276,7 @@
                 
                 <div>
                     <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
-                    <input type="submit"  class="btn btn-sm btn-primary" value="저장">
+                    <input type="submit" class="btn btn-sm btn-primary" value="저장">
                 </div>
             </form>
         </div>

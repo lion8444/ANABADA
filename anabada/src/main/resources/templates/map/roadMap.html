@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>거래장소 길 찾기</title>
+
+        <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+        <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
+
+        <!-- 지도 -->
+        <link rel="stylesheet" th:href="@{/css/map/roadMap.css}">
+
+        
+    </head>
+    <body>
+    <div class="search-filter">
+        <div class="search-filed">
+            <div class="search-bar">
+            <input type="text" id="search">
+            </div>
+            <button type="button" id="search-button">검색</button>
+        </div>
+        <div class="filter-filed">
+            <div><h4>지도의 원하는 위치를 클릭해 출발 위치를 선택해주세요.</h3></div>
+        </div>
+    </div>
+    <div class="map-menu-product">
+        <div class="menu-panel">
+            <div class="directions-panel" id="directions-panel">
+                <p>출발지 : <span type="text" id="startPoint" readonly></span></p>
+                <p>도착지 : <span type="text" id="endPoint" readonly></span></p>
+                <p>거리 : <span type="text" id="distance" readonly></span></p>
+                <p>예상 시간 : <span type="text" id="duration" readonly></span></p>
+            </div>
+            <div id="instructions">
+
+            </div>
+        </div>
+        <div id="map-wrapper">
+            <div id="map"></div>
+        </div>
+    </div>
+    <div th:if="${location} != null">
+        <input type="hidden" name="lat" id="latitude" th:value="${location.lat}">
+        <input type="hidden" name="lng" id="longitude" th:value="${location.lng}">
+        <input type="hidden" name="loc_name" id="loc_name" th:value="${location.loc_name}">
+    </div>
+
+        <!-- Start Script -->
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/property_js/navbar.js}"></script>
+    <script th:src="@{/assets/property_js/counter.js}"></script>
+    <script th:src="@{/assets/property_js/templatemo.js}"></script>
+    <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <!-- 지도 -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>    
+    <script th:src="@{/js/map/roadMap.js}"></script>
+    <!-- <script th:src="@{/js/map/mapSearch.js}"></script> -->
+    </body>
+</html>

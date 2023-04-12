@@ -21,6 +21,10 @@ function initMap() {
     infoWindow.open(map, marker);
 }
 
+function viewMapRoad(loc_id) {
+    window.open("/roadMap?loc_id=" + loc_id, 'win', 'top=100,left=100,width=1300,height=800,location=no,scrollbar=no');
+}
+
 function handleMapError(error) {
     // 구글 맵 로드 에러를 처리하는 함수입니다.
     var mapDiv = document.getElementById('map');

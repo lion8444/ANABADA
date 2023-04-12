@@ -61,19 +61,19 @@
      <!-- 버튼관련 css -->
      <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
     <style>
-      .hidden {
-      display:none;
-      color: red;
-      }
-    #map-wrapper {
-        display: block;
-        margin: 30px 0 30px 0;
-        width: 1110px;
-        height: 500px;
-      }
-      #map {
-        height: 100%;
-      }
+        .hidden {
+            display:none;
+            color: red;
+        }
+        #map-wrapper {
+            display: block;
+            margin: 30px 0 30px 0;
+            width: 1110px;
+            height: 500px;
+        }
+        #map {
+            height: 100%;
+        }
     </style>
 </head>
 
@@ -210,7 +210,7 @@
                 </div>
       
                 <div class="mb-3">
-                    <label for="rental_price">판매가격</label>
+                    <label for="rental_price" th:text="#{rental_price_day}">대여금액(일)</label>
                     <input type="text" class="form-control" id="rental_price" name="rental_price" placeholder="가격을 입력해 주세요">
                         <div class="hidden">
  								가격을 입력해 주세요.
