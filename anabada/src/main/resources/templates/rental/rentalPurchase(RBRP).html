@@ -206,11 +206,12 @@
                             <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
                       
                             <div class="d-block agent-box p-5">
-                                <div class="img mb-4">
-                                    <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
-                                    다마고치 넣는 곳
+                                <div class="img mb-4" th:if="${dama.char_selected} == 1">
+                                    <img th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                                    <img th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
+                                    <img th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
                                 </div>
-                                
+               
                                 <input type="hidden" name="rental_id" id="rental_id" th:value="${rental.rental_id}">
                                 <div class="text">
                                     

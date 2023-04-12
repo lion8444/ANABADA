@@ -27,6 +27,7 @@ import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.Auction_bid;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.Category;
+import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
@@ -84,12 +85,16 @@ public class AuctionController {
 		Auction auction_sell = service.auctionBoardRead(auction_id);
 		UserDTO target = service.findUser(auction_sell.getUser_email());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(auction_sell.getUser_email());
+		
 		model.addAttribute("target", target);
 		model.addAttribute("auction_sell", auction_sell);
 		
 		model.addAttribute("auction", auction);
 		model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("dama", dama);
 
 		return "auction/auctionPurchase(GBP).html";
 	}
@@ -206,6 +211,9 @@ public class AuctionController {
 		
 		Auction auction = service.findOneAuction(auction_id);
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(auction_sell.getUser_email()); 
+		
 		
 		model.addAttribute("auction_details", auction_details);
 		model.addAttribute("auction", auction);
@@ -215,6 +223,7 @@ public class AuctionController {
 		model.addAttribute("auction_sell", auction_sell);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("wish", wish);
+		model.addAttribute("dama", dama);
 		return "auction/auctionBoardRead(GBR)";
 	}
 

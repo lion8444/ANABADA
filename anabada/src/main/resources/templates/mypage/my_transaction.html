@@ -164,9 +164,9 @@
                                     <small>ANABADA</small>
                                 </a>
                                 <ul>
-                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
-                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
-                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
                                     <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
                                 </ul>
                             </li>
@@ -204,10 +204,10 @@
 
                 <!-- <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="판매 내역" id="selectUsedSell" th:value="#{sellList}" th:onclick="|location.href='@{/mypage/mytransactionlistsell(user_email=${us.user_email})}'|">
+                        <input type="button" value="판매 내역" id="selectUsedSell" th:value="#{sellList}" th:onclick="|location.href='@{/mypage/mytransactionlistsell(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="구매 내역" id="selectUsedBuy" th:value="#{buyList}" th:onclick="|location.href='@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}'|">
+                        <input type="button" value="구매 내역" id="selectUsedBuy" th:value="#{buyList}" th:onclick="|location.href='@{/mypage/mytransactionlistbuy(user_email=${user.user_email})}'|">
                     </div>
                 </div> -->
 
@@ -215,10 +215,10 @@
                     <div class="container-fluid">                  
                       <ul class="navbar-nav">                  
                         <li class="nav-item">                  
-                          <a class="nav-link" th:href="@{/mypage/mytransactionlistsell(user_email=${us.user_email})}" style="font-weight: bolder;">판매내역</a>
+                          <a class="nav-link" th:href="@{/mypage/mytransactionlistsell(user_email=${user.user_email})}" style="font-weight: bolder;">판매내역</a>
                         </li>         
                         <li class="nav-item">    
-                          <a class="nav-link" th:href="@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}" style="font-weight: bolder;">구매내역</a>          
+                          <a class="nav-link" th:href="@{/mypage/mytransactionlistbuy(user_email=${user.user_email})}" style="font-weight: bolder;">구매내역</a>          
                         </li>         
                       </ul>
                     </div>
@@ -231,12 +231,12 @@
                 <div style='width:120%;margin:0 auto;margin-top:50px; color: black;'>
                     <ul class="nav nav-tabs">
                         <li class='active'>
-                            <a th:href="@{/mypage/mytransactionlistsell(user_email=${us.user_email})}" data-toggle="tab">
+                            <a th:href="@{/mypage/mytransactionlistsell(user_email=${user.user_email})}" data-toggle="tab">
                                 판매 내역
                             </a>
                         </li>
                         <li>
-                            <a th:href="@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}" data-toggle="tab">
+                            <a th:href="@{/mypage/mytransactionlistbuy(user_email=${user.user_email})}" data-toggle="tab">
                                 구매 내역
                             </a>
                         </li>
@@ -285,7 +285,7 @@
                                     <!-- <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
                                         <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.uDetail_id}">
                                         <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
-                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
                                         <input type="hidden" name="used_price" class="cancle_used_price" th:value="${list.used_price}">
@@ -343,7 +343,7 @@
                                     <!-- <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
                                         <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.uDetail_id}">
                                         <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
-                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
                                         <input type="hidden" name="used_price" class="cancle_used_price" th:value="${list.used_price}">
@@ -398,7 +398,7 @@
                                     <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">
                                         <input type="hidden" name="uDetail_id" class="cancle_usedId" th:value="${list.uDetail_id}">
                                         <input type="hidden" name="used_id" class="cancle_usedId" th:value="${list.used_id}">
-                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" class="cancle_user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" class="cancle_buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" class="cancle_used_status" th:value="${list.used_status}">
                                         <input type="hidden" name="used_price" class="cancle_used_price" th:value="${list.used_price}">

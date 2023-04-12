@@ -166,9 +166,9 @@
                                     <small>ANABADA</small>
                                 </a>
                                 <ul>
-                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
-                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
-                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
                                     <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
                                 </ul>
                             </li>
@@ -209,9 +209,9 @@
                         <span  id="damaMainImg" class="card mb-4 product-wap rounded-0">
                             <div th:if="${dama.char_selected} == 1">
                                 <span class="card rounded-0">
-                                    <!-- <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
                                     <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
-                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}"> -->
+                                    <img class="card-img rounded-0 img-fluid" th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
                                 </span> 
                             </div>
                             <span class="card-body">

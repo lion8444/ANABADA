@@ -69,7 +69,7 @@
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
                 id="templatemo_main_nav">
                 <div class="flex-fill">
@@ -177,7 +177,11 @@
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-secondary btn-block" value="검색"
-                                onclick="pagingFormSubmit(1)" th:text="#{search}">검색</button>
+                                onclick="pagingFormSubmit(1)" th:text="#{search}">
+                                검색
+                            </button>
+                            <!-- 게시판 글 번역 버튼 파파고 -->
+                            <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-top: 0;margin-left: 10px;">
                         </div>
                     </div>
                     <div class="mt-3">
@@ -369,7 +373,6 @@
         </div>
     </section>
 
-
     <div class="section">
         <div class="container">
             <div class="row mb-5 align-items-center">
@@ -379,7 +382,7 @@
             </div>
             <div class="usedhref">
                 <a th:href="@{auctionWrite}">
-                    <button class="btn btn-secondary btn-block" value="판매글 작성" th:text="#{writeSell}">판매글작성</button></a>
+                    <button class="btn btn-secondary btn-block" value="판매글 작성" th:text="#{writeSell}" style="right: 90px;">판매글작성</button></a>
             </div>
         </div>
     </div>
@@ -407,16 +410,28 @@
                             </div>
                             <div>
                                 <span class="d-block d-flex align-items-center me-3">
-                                    <span class="d-block mb-2 text-black-50"
-                                        th:text="'종료일: '+ ${auctionList.auction_finish}">끝나는 날짜</span>
+                                    <span class="d-block mb-2 text-black-50" th:text="#{endDate}">종료일: </span>  
+                                    <span class="d-block mb-2 text-black-50 papago2"
+                                        th:text="${auctionList.auction_finish}" th:id="|papagoD${i.index}|" th:papagoCount="${i.index}">
+                                        끝나는 날짜    
+                                    </span>
                                 </span>
                                 <div class="specs d-flex mb-4">
                                     <span class="d-block mb-2 text-black-50"
-                                        th:text="${auctionList.user_nick}">유저
-                                        닉네임</span>&nbsp;/&nbsp;
+                                        th:text="${auctionList.user_nick}">유저 닉네임</span>&nbsp;/&nbsp;
                                     <span class="d-block d-flex align-items-center">
-                                        <span class="d-block mb-2 text-black-50"
-                                            th:text="${auctionList.auction_quality}">상품상태</span>
+                                        <span class="d-block mb-2 text-black-50 papago2"
+                                            th:if="${auctionList.auction_quality =='미개봉'}" th:text="#{notOpened}">
+                                            상품상태
+                                        </span>
+                                        <span class="d-block mb-2 text-black-50 papago2"
+                                            th:if="${auctionList.auction_quality =='사용감 있음'}" th:text="#{littleUsed}">
+                                            상품상태
+                                        </span>
+                                        <span class="d-block mb-2 text-black-50 papago2"
+                                            th:if="${auctionList.auction_quality =='파손 있음'}" th:text="#{littleBreak}">
+                                            상품상태
+                                        </span>
                                     </span>
                                 </div>
                                 <a th:href="@{auctionBoardRead(auction_id=${auctionList.auction_id})}"

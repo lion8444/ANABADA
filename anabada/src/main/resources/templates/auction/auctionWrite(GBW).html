@@ -96,23 +96,23 @@
                 <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false">중고거래</a>
+                            aria-haspopup="true" aria-expanded="false" th:text="#{used}">중고거래</a>
                         <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                            <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
-                            <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
+                            <a class="dropdown-item" th:href="@{/used/usedSellBoard}" th:text="#{sellUsed}">중고판매</a>
+                            <a class="dropdown-item" th:href="@{/used/usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
+                        <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈거래</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{auctionBoard}">경매거래</a>
+                        <a class="nav-link" th:href="@{auctionBoard}" th:text="#{auction}">경매거래</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/map}">지도</a>
+                        <a class="nav-link" th:href="@{/map}" th:text="#{map}">지도</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
+                        <a class="nav-link" th:href="@{/info}" th:text="#{introduce}">프로젝트 소개</a>
                     </li>
                 </ul>
             </div>
@@ -133,10 +133,10 @@
                         class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
                 <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                    <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                    <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}" th:text="#{login}">로그인</a>
                     <div sec:authorize="isAuthenticated()">
-                        <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                        <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                        <a class="dropdown-item" th:href="@{/mypage/mypage}" th:text="#{mypage}">마이페이지</a>
+                        <a class="dropdown-item" th:href="@{/logout}" th:text="#{logout}">로그아웃</a>
                     </div>
                 </div>
 
@@ -168,20 +168,20 @@
       
         <div class="container" role="main">
       
-            <h2>경매 글 쓰기</h2>
+            <h2 th:text="#{auctionWrite}">경매 글 쓰기</h2>
       
             <form th:action="@{auctionWrite}" method="post" id="write"
                     enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="auction_title">제목</label>
-                    <input type="text" class="form-control" id="auction_title" name="auction_title" placeholder="제목을 입력해 주세요">
-                            <div class="hidden">
+                    <label for="auction_title" th:text="#{title}">제목</label>
+                    <input type="text" class="form-control" id="auction_title" name="auction_title" th:placeholder="#{putTitle}" placeholder="제목을 입력해 주세요">
+                            <div class="hidden" th:text="#{putPdName}">
  								상품명을 입력해 주세요.
 							</div>
                 </div>
       
                 <div class="mb-3">
-                    <label for="category">카테고리</label><br>
+                    <label for="category" th:text="#{category}">카테고리</label><br>
                           <select class="select_categories main">
                     	<th:block th:each="main, i: ${category_main}">
                         	<option th:text="${main.category_main}"></option>
@@ -192,45 +192,45 @@
                 </div> 
       
                 <div class="mb-3">
-                    <label for="auction_quality">상품상태</label><br>
-                    <input type="radio" id="auction_quality" name="auction_quality" value="미개봉"> 미개봉
-                    <input type="radio" id="auction_quality" name="auction_quality" value="사용감 있음" checked> 사용감 있음
-                    <input type="radio" id="auction_quality" name="auction_quality" value="파손 있음"> 파손 있음
+                    <label for="auction_quality" th:text="#{pdStatus}">상품상태</label><br>
+                    <input type="radio" id="auction_quality" name="auction_quality" value="미개봉" th:text="#{notOpened}"> 
+                    <input type="radio" id="auction_quality" name="auction_quality" value="사용감 있음" th:text="#{littleUsed}" checked> 
+                    <input type="radio" id="auction_quality" name="auction_quality" value="파손 있음" th:text="#{littleBreak}"> 
                 </div>
       
                 <div class="mb-3">
-                    <label for="auction_price">판매가격</label>
-                    <input type="text" class="form-control" id="auction_price" name="auction_price" placeholder="가격을 입력해 주세요">
-                        <div class="hidden">
+                    <label for="auction_price" th:text="#{sellPrice}">판매가격</label>
+                    <input type="text" class="form-control" id="auction_price" name="auction_price" th:placeholder="#{putPrice}" placeholder="가격을 입력해 주세요">
+                        <div class="hidden" th:text="#{putPrice}">
  								가격을 입력해 주세요.
 						</div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="auction_finish">경매기간 설정:</label>
-                    <input type="date" id="auction_finish" name="auction_finish">
+                    <label for="auction_finish" th:text="#{setAuctionTime}">경매기간 설정:</label>
+                    <input type="date" id="auction_finish" name="auction_finish" value="">
                 <div class="hidden">
-                    <p>경매 마감 일자를 정확하게 입력해 주세요.</p>
+                    <p th:text="#{putAuctionEndDate}">경매 마감 일자를 정확하게 입력해 주세요.</p>
                 </div>	                      
                 </div>
 
                 <div class="mb-3">
-                    <label for="caution">*등록시 주의사항<br> 
+                    <label for="caution" th:text="#{registerNotice}">*등록시 주의사항<br> 
                         주의사항주의사항주의사항주의사항주의사항주의사항주의사항
                         주의사항주의사항주의사항주의사항주의사항주의사항주의사항</label>
                     <!-- <input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요"> -->
                 </div>
                 
                 <div class="mb-3">
-                <label for="uploadOne">대표 사진첨부(1장만 가능합니다)</label>
+                <label for="uploadOne" th:text="#{reprePhoto}">대표 사진첨부(1장만 가능합니다)</label>
                     <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
-                    <div class="hidden">
+                    <div class="hidden" th:text="#{plsUpPhoto}">
                         사진을 업로드해 주세요.
                     </div>
                 </div>
       
                 <div class="mb-3">
-                    <label for="upload">사진첨부(10장까지 가능)</label>
+                    <label for="upload" th:text="#{can10Photo}">사진첨부(10장까지 가능)</label>
                     <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
                 </div>
                 
@@ -240,16 +240,16 @@
                 </div>
       
                 <div class="mb-3">
-                    <label for="content">내용</label>
-                    <textarea class="form-control" rows="5" name="auction_content" id="auction_content" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
-                    <div class="hidden">
+                    <label for="content" th:text="#{content}">내용</label>
+                    <textarea class="form-control" rows="5" name="auction_content" id="auction_content" th:placeholder="#{putContent50}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
+                    <div class="hidden" th:text="#{plsPutDetail50}">
                         상세설명을 50자 이상 입력해 주세요.
                     </div>
                 </div>
                 
                 <div>
-                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
-                    <input type="submit"  class="btn btn-sm btn-primary" value="저장">
+                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장" th:value="#{tempSave}">
+                    <input type="submit"  class="btn btn-sm btn-primary" value="저장" th:value="#{save}">
                 </div>
             </form>
         </div>

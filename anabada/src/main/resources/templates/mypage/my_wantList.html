@@ -161,9 +161,9 @@
                                     <small>ANABADA</small>
                                 </a>
                                 <ul>
-                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
-                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
-                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
                                     <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
                                 </ul>
                             </li>
@@ -200,13 +200,13 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="중고 거래 찜" th:value="#{usedWish}" th:onclick="|location.href='@{/mypage/mywantlistused(user_email=${us.user_email})}'|">
+                        <input type="button" value="중고 거래 찜" th:value="#{usedWish}" th:onclick="|location.href='@{/mypage/mywantlistused(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="렌탈 찜" th:value="#{rentalWish}" th:onclick="|location.href='@{/mypage/mywantlistrental(user_email=${us.user_email})}'|">
+                        <input type="button" value="렌탈 찜" th:value="#{rentalWish}" th:onclick="|location.href='@{/mypage/mywantlistrental(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="경매 찜" th:value="#{auctionWish}" th:onclick="|location.href='@{/mypage/mywantlistauction(user_email=${us.user_email})}'|">
+                        <input type="button" value="경매 찜" th:value="#{auctionWish}" th:onclick="|location.href='@{/mypage/mywantlistauction(user_email=${user.user_email})}'|">
                     </div>
                 </div>
 

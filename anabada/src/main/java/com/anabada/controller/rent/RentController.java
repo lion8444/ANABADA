@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.Category;
+import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Rental;
 import com.anabada.domain.RentalAndFile;
@@ -76,6 +77,9 @@ public class RentController {
 		
 		UserDTO target = service.findUser(rental.getUser_email());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(rental.getUser_email());
+		
 		model.addAttribute("target", target);
 
 		model.addAttribute("rental", rental);
@@ -83,6 +87,7 @@ public class RentController {
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("fsdate",fsdate);
 		model.addAttribute("fedate",fedate);
+		model.addAttribute("dama",dama);
 
 		return "rental/rentalPurchase(RBRP).html";
 	}
@@ -215,6 +220,9 @@ public class RentController {
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(rental_sell.getUser_email());
+		
 		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
@@ -223,6 +231,7 @@ public class RentController {
 		model.addAttribute("wish", wish);
 		model.addAttribute("fsdate",fsdate);
 		model.addAttribute("fedate",fedate);
+		model.addAttribute("dama",dama);
 		return "rental/rentalBoardRead(RBR)";
 	}
 
