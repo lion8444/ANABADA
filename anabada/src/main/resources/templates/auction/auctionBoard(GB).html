@@ -222,75 +222,6 @@
     </div>
     <br>
 
-    <!-- <div class="section">
-        <div class="container">
-            <div class="row mb-5 align-items-center">
-                <div class="col-lg-6 text-center mx-auto">
-                    <h2 class="font-weight-bold text-primary heading" th:text="#{recommendAuction}">추천 경매</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="property-slider-wrap">
-                        <div class="property-slider">
-
-                            
-                            <th:block th:each="auctionList, i: ${auctionList}">
-                                <div class="property-item mb-30">
-                                    <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}"
-                                        class="img">
-                                        <img th:src="@{/auction/imgshow(auction_id=${auctionList.auction_id})}"
-                                            alt="Image" class="img-fluid">
-                                    </a>
-                                    <div class="property-content">
-                                        <span class="city d-block mb-3">
-                                            <span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${auctionList.auction_title}">글제목</span>
-                                        </span>
-                                        <div class="price mb-2">
-                                            <span
-                                                th:text="'₩ '+ ${#numbers.formatInteger(auctionList.auction_price, 3, 'COMMA')}">가격</span>
-                                           
-                                        </div>
-                                        <div>
-                                            <span class="d-block d-flex align-items-center me-3">
-                                                <span class="d-block mb-2 text-black-50"
-                                                    th:text="'종료일: '+ ${auctionList.auction_finish}">끝나는 날짜</span>
-                                            </span>
-                                            <div class="specs d-flex mb-4">
-                                                <span class="d-block mb-2 text-black-50"
-                                                    th:text="${auctionList.user_nick}">유저
-                                                    닉네임</span>&nbsp;/&nbsp;
-                                                <span class="d-block d-flex align-items-center">
-                                                    <span class="d-block mb-2 text-black-50" th:if="${auctionList.auction_quality == '사용감 있음'}"
-                                                        th:text="#{littleUsed}">상품상태</span>
-                                                    <span class="d-block mb-2 text-black-50" th:if="${auctionList.auction_quality == '미개봉'}"
-                                                        th:text="#{notOpened}">상품상태</span>
-                                                    <span class="d-block mb-2 text-black-50" th:if="${auctionList.auction_quality == '파손 있음'}"
-                                                        th:text="#{littleBreak}">상품상태</span>
-                                                </span>
-                                            </div>
-                                            <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}"
-                                                class="underline-btn1">See details</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </th:block>
-                        </div>
-                        <div>
-                            <div id="property-nav" class="controls" tabindex="0" aria-label="Carousel Navigation">
-                                <span class="prev" data-controls="prev" aria-controls="property"
-                                    tabindex="-1">Prev</span>
-                                <span class="next" data-controls="next" aria-controls="property"
-                                    tabindex="+1">Next</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div> -->
-
     <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">
         <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
@@ -451,9 +382,6 @@
                 </li>
             </span>
         </ul>
-    </div>
-    </div>
-    </div>
     </div>
 
     <!-- End Content -->

@@ -69,11 +69,13 @@ public interface MyPageService {
 
 	/**
 	 * 유저의 중고 거래 - 구매내역 리스트 검색 (중고 + 사진까지)
+	 * @param countPerPage 
+	 * @param i 
 	 * 
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 중고 거래 - 구매내역 리스트
 	 */
-	public List<UsedAndFile> selectUsedBuyListById(String user_email);
+	public List<UsedAndFile> selectUsedBuyListById(int start, int count, String user_email);
 
 	/**
 	 * 유저의 중고 거래 - 판매내역 리스트 검색 (중고 + 사진까지)
@@ -81,7 +83,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 중고 거래 - 판매내역 리스트
 	 */
-	public List<UsedAndFile> selectUsedSellListById(String user_email);
+	public List<UsedAndFile> selectUsedSellListById(int start, int count, String user_email);
 
 	/**
 	 * 나의 모든 렌탈 내역 리스트 (전체)
@@ -97,7 +99,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 렌탈내역 리스트 (빌린)
 	 */
-	public List<RentalAndFile> selectRentalListBuyById(String user_email);
+	public List<RentalAndFile> selectRentalListBuyById(int start, int count, String user_email);
 
 	/**
 	 * 나의 모든 렌탈 빌린 내역 리스트 (빌려준 내역)
@@ -105,7 +107,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 렌탈내역 리스트 (빌려준)
 	 */
-	public List<RentalAndFile> selectRentalListSellById(String user_email);
+	public List<RentalAndFile> selectRentalListSellById(int start, int count, String user_email);
 
 	/**
 	 * 나의 모든 경매 내역 리스트 (전체)
@@ -121,7 +123,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 경매내역 리스트 (경매 내역)
 	 */
-	public List<AuctionAndFile> selectAuctionListSellById(String user_email);
+	public List<AuctionAndFile> selectAuctionListSellById(int start, int count, String user_email);
 
 	/**
 	 * 나의 경매 내역 포워딩 (입찰 내역)
@@ -129,7 +131,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 경매내역 리스트 (입찰 내역)
 	 */
-	public List<AuctionAndFile> selectAuctionListBidById(String user_email);
+	public List<AuctionAndFile> selectAuctionListBidById(int start, int count, String user_email);
 
 	// 중고 거래 글 정보 및 디테일 정보 검색
 	public UsedAndFile selectUsedAndDetailInfo(String used_id);
@@ -161,7 +163,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 찜 목록 리스트 (중고 거래 찜)
 	 */
-	public List<WishAndFile> selectWishListUsedById(String user_email);
+	public List<WishAndFile> selectWishListUsedById(int start, int count, String user_email);
 
 	/**
 	 * 찜 목록 - 렌탈 거래 찜 리스트
@@ -169,7 +171,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 찜 목록 리스트 (렌탈 거래 찜)
 	 */
-	public List<WishAndFile> selectWishListRentalById(String user_email);
+	public List<WishAndFile> selectWishListRentalById(int start, int count, String user_email);
 
 	/**
 	 * 찜 목록 - 경매 거래 찜 리스트
@@ -177,7 +179,7 @@ public interface MyPageService {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 찜 목록 리스트 (경매 거래 찜)
 	 */
-	public List<WishAndFile> selectWishListAuctionById(String user_email);
+	public List<WishAndFile> selectWishListAuctionById(int start, int count, String user_email);
 
 	/**
 	 * 나의 다마고치 정보 검색
@@ -205,7 +207,7 @@ public interface MyPageService {
 
 	public ArrayList<File> fileListByid(String used_id);
 
-	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String email);
+	public PageNavigator getPageNavigator(int pagePerGroup, int countPerPage, int page, String user_email);
 
 	public int updateAuctionStatus();
 
@@ -221,4 +223,20 @@ public interface MyPageService {
 
 	public int confirmUsed(UsedAndFile usedData);
 	public int insertRTrade(List<RentalAndFile> listAll);
+
+	public PageNavigator getPageNavigatortransactionbuy(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorrentalbuy(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorrentalsell(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorauctionlistsell(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorauctionbuy(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorwishused(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorwishrental(int pagePerGroup, int countPerPage, int page, String user_email);
+
+	public PageNavigator getPageNavigatorwishauction(int pagePerGroup, int countPerPage, int page, String user_email);
 }

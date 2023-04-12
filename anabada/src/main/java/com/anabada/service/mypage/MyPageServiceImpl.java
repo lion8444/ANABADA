@@ -105,15 +105,17 @@ public class MyPageServiceImpl implements MyPageService {
 
 	// 유저의 중고 거래 - 구매내역 리스트 검색 (중고 + 사진까지)
 	@Override
-	public List<UsedAndFile> selectUsedBuyListById(String user_email) {
-		List<UsedAndFile> list = dao.selectUsedBuyListById(user_email);
+	public List<UsedAndFile> selectUsedBuyListById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<UsedAndFile> list = dao.selectUsedBuyListById(user_email, rb);
 		return list;
 	}
 
 	// 유저의 중고 거래 - 판매내역 리스트 검색 (중고 + 사진까지)
 	@Override
-	public List<UsedAndFile> selectUsedSellListById(String user_email) {
-		List<UsedAndFile> list = dao.selectUsedSellListById(user_email);
+	public List<UsedAndFile> selectUsedSellListById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<UsedAndFile> list = dao.selectUsedSellListById(user_email, rb);
 		return list;
 	}
 
@@ -126,15 +128,17 @@ public class MyPageServiceImpl implements MyPageService {
 
 	// 나의 모든 렌탈 빌린 내역 리스트 (빌린 내역)
 	@Override
-	public List<RentalAndFile> selectRentalListBuyById(String user_email) {
-		List<RentalAndFile> list = dao.selectRentalListBuyById(user_email);
+	public List<RentalAndFile> selectRentalListBuyById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<RentalAndFile> list = dao.selectRentalListBuyById(user_email, rb);
 		return list;
 	}
 
 	// 나의 모든 렌탈 빌린 내역 리스트 (빌려준 내역)
 	@Override
-	public List<RentalAndFile> selectRentalListSellById(String user_email) {
-		List<RentalAndFile> list = dao.selectRentalListSellById(user_email);
+	public List<RentalAndFile> selectRentalListSellById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<RentalAndFile> list = dao.selectRentalListSellById(user_email, rb);
 		return list;
 	}
 
@@ -147,15 +151,17 @@ public class MyPageServiceImpl implements MyPageService {
 
 	// 나의 경매 리스트 조회 (경매)
 	@Override
-	public List<AuctionAndFile> selectAuctionListSellById(String user_email) {
-		List<AuctionAndFile> list = dao.selectAuctionListSellById(user_email);
+	public List<AuctionAndFile> selectAuctionListSellById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<AuctionAndFile> list = dao.selectAuctionListSellById(user_email, rb);
 		return list;
 	}
 
 	// 나의 경매 리스트 조회 (입찰)
 	@Override
-	public List<AuctionAndFile> selectAuctionListBidById(String user_email) {
-		List<AuctionAndFile> list = dao.selectAuctionListBidById(user_email);
+	public List<AuctionAndFile> selectAuctionListBidById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<AuctionAndFile> list = dao.selectAuctionListBidById(user_email, rb);
 		return list;
 	}
 	
@@ -233,22 +239,25 @@ public class MyPageServiceImpl implements MyPageService {
 
 	// 찜 목록 - 중고 거래 찜 리스트
 	@Override
-	public List<WishAndFile> selectWishListUsedById(String user_email) {
-		List<WishAndFile> list = dao.selectWishListUsedById(user_email);
+	public List<WishAndFile> selectWishListUsedById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<WishAndFile> list = dao.selectWishListUsedById(user_email, rb);
 		return list;
 	}
 	
 	// 찜 목록 - 렌탈 거래 찜 리스트
 	@Override
-	public List<WishAndFile> selectWishListRentalById(String user_email) {
-		List<WishAndFile> list = dao.selectWishListRentalById(user_email);
+	public List<WishAndFile> selectWishListRentalById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<WishAndFile> list = dao.selectWishListRentalById(user_email, rb);
 		return list;
 	}
 	
 	// 찜 목록 - 경매 거래 찜 리스트
 	@Override
-	public List<WishAndFile> selectWishListAuctionById(String user_email) {
-		List<WishAndFile> list =  dao.selectWishListAuctionById(user_email);
+	public List<WishAndFile> selectWishListAuctionById(int start, int count, String user_email) {
+		RowBounds rb = new RowBounds(start, count);
+		List<WishAndFile> list =  dao.selectWishListAuctionById(user_email, rb);
 		return list;
 	}
 
@@ -296,7 +305,7 @@ public class MyPageServiceImpl implements MyPageService {
 			, int page
 			, String email) {
 		HashMap<String, String> map = new HashMap<>();
-//		map.put("user_email", email);
+		map.put("user_email", email);
 		//검색 결과 개수
 		int t = dao.total(map);
 		
@@ -439,6 +448,111 @@ public class MyPageServiceImpl implements MyPageService {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatortransactionbuy(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totaltb(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorrentalbuy(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalrb(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorrentalsell(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalrs(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorauctionlistsell(int pagePerGroup, int countPerPage, int page,
+			String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalas(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorauctionbuy(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalab(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorwishused(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalwu(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorwishrental(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalwr(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
+	}
+
+	@Override
+	public PageNavigator getPageNavigatorwishauction(int pagePerGroup, int countPerPage, int page, String user_email) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("user_email", user_email);
+		//검색 결과 개수
+		int t = dao.totalwa(map);
+		
+		//페이지 이동 링크수, 페이지당 글수, 현재페이지, 전체 글수를 전달하여 객체 생성
+		PageNavigator navi = new PageNavigator(pagePerGroup, countPerPage, page, t);
+		
+		return navi;
 	}
 	
 	

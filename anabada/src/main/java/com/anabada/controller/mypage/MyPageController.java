@@ -144,14 +144,17 @@ public class MyPageController {
 	@GetMapping("/mytransactionlistbuy")
 	public String myTradeListBuy(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
 		
 		log.debug("스프링 user : {}", user.getUsername());
 		
+		PageNavigator navi = 
+				service.getPageNavigatortransactionbuy(pagePerGroup, countPerPage, page, user.getUsername());
 		
-		List<UsedAndFile> list = service.selectUsedBuyListById(user.getUsername());
+		List<UsedAndFile> list = service.selectUsedBuyListById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
-		
+		model.addAttribute("navi", navi);
 		model.addAttribute("usedListBuy", list);
 		model.addAttribute("user", us);
 		
@@ -167,16 +170,21 @@ public class MyPageController {
 	@GetMapping("/mytransactionlistsell")
 	public String myTradeListSell(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
 		
 		log.debug("스프링 user : {}", user.getUsername());
 		
-		List<UsedAndFile> list = service.selectUsedSellListById(user.getUsername());
+		PageNavigator navi = 
+				service.getPageNavigator(pagePerGroup, countPerPage, page, user.getUsername());
+		
+		List<UsedAndFile> list = service.selectUsedSellListById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
-			
+		
+		model.addAttribute("navi", navi);
 		model.addAttribute("usedListSell", list);
 		model.addAttribute("user", us);
-
+		
 		log.debug("sell 이즈엠티 : {}", list.isEmpty());
 		log.debug("sell 자체 : {}", list == null);
 		
@@ -192,14 +200,18 @@ public class MyPageController {
 	@GetMapping("/myrentallistbuy")
 	public String myRentalListBuy(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
 		
-		List<RentalAndFile> list = service.selectRentalListBuyById(user.getUsername());
+		PageNavigator navi = 
+				service.getPageNavigatorrentalbuy(pagePerGroup, countPerPage, page, user.getUsername());
+		List<RentalAndFile> list = service.selectRentalListBuyById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("user", us);
 		model.addAttribute("rentalListBuy", list);
-		
+		model.addAttribute("navi", navi);
+
 		return "mypage/my_rental";
 	}
 	
@@ -212,9 +224,12 @@ public class MyPageController {
 	@GetMapping("/myrentallistsell")
 	public String myRentalListSell(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
 			
-		List<RentalAndFile> list = service.selectRentalListSellById(user.getUsername());
+		PageNavigator navi = 
+				service.getPageNavigatorrentalsell(pagePerGroup, countPerPage, page, user.getUsername());
+		List<RentalAndFile> list = service.selectRentalListSellById(navi.getStartRecord(), countPerPage, user.getUsername());
 		
 		UserDTO us = service.selectUserById(user.getUsername());
 		
@@ -228,7 +243,8 @@ public class MyPageController {
 		
 		model.addAttribute("user", us);
 		model.addAttribute("rentalListSell", list);
-		
+		model.addAttribute("navi", navi);
+
 		return "mypage/my_rental";
 	}
 	
@@ -241,10 +257,13 @@ public class MyPageController {
 	@GetMapping("/myauctionlistsell")
 	public String myAuctionListSell(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
 		
+		PageNavigator navi = 
+				service.getPageNavigatorauctionlistsell(pagePerGroup, countPerPage, page, user.getUsername());
 		List<AuctionAndFile> listAll = service.selectAuctionListAll();
-		List<AuctionAndFile> list = service.selectAuctionListSellById(user.getUsername());
+		List<AuctionAndFile> list = service.selectAuctionListSellById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		// 페이지 들어갈 때 경매 시간이 지나면 거래 완료로 변경하기 
@@ -257,7 +276,8 @@ public class MyPageController {
 		
 		model.addAttribute("auctionListSell", list);
 		model.addAttribute("user", us);
-		
+		model.addAttribute("navi", navi);
+
 		log.debug("리스트 : {}", list);
 		
 		return "mypage/my_auction";
@@ -272,14 +292,18 @@ public class MyPageController {
 	@GetMapping("/myauctionlistbid")
 	public String myAuctionListBid(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page			
 			, Model model) {
-			
-		List<AuctionAndFile> list = service.selectAuctionListBidById(user.getUsername());
+		
+		PageNavigator navi = 
+				service.getPageNavigatorauctionbuy(pagePerGroup, countPerPage, page, user.getUsername());			
+		List<AuctionAndFile> list = service.selectAuctionListBidById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("auctionListBid", list);
 		model.addAttribute("user", us);
-		
+		model.addAttribute("navi", navi);
+
 		log.debug("리스트 : {}", list);
 		
 		return "mypage/my_auction";
@@ -463,14 +487,18 @@ public class MyPageController {
 	@GetMapping("/mywantlistused")
 	public String myWantListUsed(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
-				
-		List<WishAndFile> list = service.selectWishListUsedById(user.getUsername());
+		
+		PageNavigator navi = 
+				service.getPageNavigatorwishused(pagePerGroup, countPerPage, page, user.getUsername());			
+		List<WishAndFile> list = service.selectWishListUsedById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListUsed", list);
 		model.addAttribute("user", us);
-		
+		model.addAttribute("navi", navi);
+
 		return "mypage/my_wantList";
 	}
 	
@@ -483,14 +511,18 @@ public class MyPageController {
 	@GetMapping("/mywantlistrental")
 	public String myWantListRental(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
-			
-		List<WishAndFile> list = service.selectWishListRentalById(user.getUsername());
+		
+		PageNavigator navi = 
+				service.getPageNavigatorwishrental(pagePerGroup, countPerPage, page, user.getUsername());			
+		List<WishAndFile> list = service.selectWishListRentalById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListRental", list);
 		model.addAttribute("user", us);
-		
+		model.addAttribute("navi", navi);
+
 		return "mypage/my_wantList";
 	}
 	
@@ -503,14 +535,18 @@ public class MyPageController {
 	@GetMapping("/mywantlistauction")
 	public String myWantListAuction(
 			@AuthenticationPrincipal UserDetails user
+			,@RequestParam(name="page", defaultValue="1") int page
 			, Model model) {
-			
-		List<WishAndFile> list = service.selectWishListAuctionById(user.getUsername());
+		
+		PageNavigator navi = 
+				service.getPageNavigatorwishauction(pagePerGroup, countPerPage, page, user.getUsername());			
+		List<WishAndFile> list = service.selectWishListAuctionById(navi.getStartRecord(), countPerPage, user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListAuction", list);
 		model.addAttribute("user", us);
-		
+		model.addAttribute("navi", navi);
+
 		return "mypage/my_wantList";
 	}
 	

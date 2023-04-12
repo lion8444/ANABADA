@@ -650,21 +650,18 @@
     
     <!-- 전체 글 수 -->
     <select id="total" parameterType="map" resultType="int">
-    	SELECT 
-    		count(*)
+    	SELECT count(*)
     	FROM
-    		used u
-		    LEFT OUTER JOIN used_detail ud ON u.used_id = ud.used_id
-		    LEFT OUTER JOIN (
-		        SELECT board_no, MIN(file_id) AS file_id
-		        FROM file
-		        GROUP BY board_no
-		    ) f_min ON u.used_id = f_min.board_no
-		    INNER JOIN file f ON f_min.board_no = f.board_no AND f_min.file_id = f.file_id
-		WHERE
-		    (u.user_email = #{user_email} OR ud.user_email = #{user_email})	
-		ORDER BY
-			u.used_date DESC
+    		used u, file f
+    	WHERE
+    		u.user_email = #{user_email}
+            AND
+            u.used_id = f.board_no
+            AND
+    		(board_no, file_id) in (
+          	SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+        ORDER BY
+        	u.used_date DESC
     </select>
     
     <update id="addmoney" parameterType="map">
@@ -855,4 +852,164 @@
     	WHERE	
     		user_email = #{user_email} AND char_selected = 1
     </update>
+    
+        <select id="totaltb" parameterType="map" resultType="int">
+    	SELECT
+			count(*)
+    	FROM
+    		used u, used_detail ud, file f
+    	WHERE
+            ud.user_email = #{user_email}
+            AND
+            u.used_id = ud.used_id
+            AND
+            ud.used_id = f.board_no
+            AND
+            u.used_id = f.board_no
+            AND
+    		(board_no, file_id) in (
+          	SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+         ORDER BY
+         	ud.uDetail_Date DESC
+    </select>
+    
+        <select id="totalrb" parameterType="map" resultType="int">
+    	SELECT
+			count(*)
+		FROM
+			rental r, rental_detail rd, file f
+		WHERE
+			rd.user_email = #{user_email}
+			AND
+			r.rental_id = rd.rental_id
+			AND
+			rd.rental_id = f.board_no
+			AND
+			r.rental_id = f.board_no
+			AND
+			(board_no, file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+			ORDER BY
+				rd.rDetail_Date DESC
+    </select>
+    
+        <select id="totalrs" parameterType="map" resultType="int">
+		 SELECT
+			count(*)
+		FROM
+		    rental r
+		    JOIN file f ON r.rental_id = f.board_no
+		    LEFT JOIN rental_detail rd ON r.rental_id = rd.rental_id
+		WHERE
+		    r.user_email = #{user_email}
+		    AND (board_no, file_id) IN (
+		        SELECT board_no, MIN(file_id)
+		        FROM file
+		        GROUP BY board_no
+		    )
+		ORDER BY r.rental_date DESC
+    </select>
+    
+        <select id="totalas" parameterType="map" resultType="int">
+    	SELECT
+			count(*)
+		FROM 
+		    auction a
+		WHERE
+		    a.user_email = #{user_email}
+		    AND
+		    a.auction_finish &gt;= NOW()
+		ORDER BY
+			a.auction_date DESC
+    </select>
+    
+        <select id="totalab" parameterType="map" resultType="int">
+    	SELECT
+			count(*)
+		FROM 
+			auction a
+		    , auction_detail ad
+		WHERE
+			a.user_email != #{user_email}
+			AND
+			ad.user_email = #{user_email}
+			AND
+			a.auction_id = ad.auction_id
+			AND
+			a.auction_finish &gt;= now()
+		ORDER BY
+			aDetail_Date DESC
+    </select>
+    
+    <select id="totalwu" parameterType="map" resultType="int">
+   		SELECT 
+			count(*)
+		FROM
+			wish w
+		    , file f
+		    , used u
+		WHERE
+			w.board_no = u.used_id
+		    AND
+		    w.board_no = f.board_no
+		    AND
+		    u.used_id = f.board_no
+		    AND
+			w.board_status = '중고 거래'
+		    AND
+		    w.user_email = #{user_email}
+		    AND
+		    (f.board_no, f.file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+			ORDER BY
+				u.used_date DESC
+    </select>
+    
+    <select id="totalwr" parameterType="map" resultType="int">
+        SELECT 
+            count(*)
+		FROM
+			wish w
+		    , file f
+		    , rental r
+		WHERE
+			w.board_no = r.rental_id
+		    AND
+		    w.board_no = f.board_no
+		    AND
+		    r.rental_id = f.board_no
+		    AND
+			w.board_status = '렌탈 거래'
+		    AND
+		    w.user_email = #{user_email}
+		    AND
+		    (f.board_no, f.file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+			ORDER BY
+				r.rental_date DESC
+    </select>
+    
+    <select id="totalwa" parameterType="map" resultType="int">
+        SELECT 
+			count(*)
+		FROM
+			wish w
+		    , file f
+		    , auction a
+		WHERE
+			w.board_no = a.auction_id
+		    AND
+		    w.board_no = f.board_no
+		    AND
+		    a.auction_id = f.board_no
+		    AND
+			w.board_status = '경매 거래'
+		    AND
+		    w.user_email = #{user_email}
+		    AND
+		    (f.board_no, f.file_id) in (
+			SELECT board_no, min(file_id) FROM file GROUP BY board_no)
+			ORDER BY
+				a.auction_date DESC
+    </select>
 </mapper>
