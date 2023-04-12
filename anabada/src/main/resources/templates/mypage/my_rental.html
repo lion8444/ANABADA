@@ -213,7 +213,6 @@
                 </div>
               
                 <!-- 파파고 버튼 -->
-                <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}">
 
                 <!-- 렌탈 빌린 내역 -->
                 <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
@@ -350,6 +349,15 @@
                 </div>
             </div>
         </div>
+    </div>
+            <div class="row">
+        <ul class="pagination pagination-lg justify-content-center">
+            <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+                </li>
+            </span>
+        </ul>
     </div>
     <!-- End Content -->
     <!-- 채팅 -->

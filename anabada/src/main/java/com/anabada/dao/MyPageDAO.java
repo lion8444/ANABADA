@@ -63,16 +63,17 @@ public interface MyPageDAO {
 	/**
 	 * 유저의 중고 거래 - 구매내역 리스트 검색 (중고 + 사진까지)
 	 * @param user_email 로그인한 유저의 이메일
+	 * @param rb 
 	 * @return 중고 거래 - 구매내역 리스트
 	 */
-	public List<UsedAndFile> selectUsedBuyListById(String user_email);
+	public List<UsedAndFile> selectUsedBuyListById(String user_email, RowBounds rb);
 
 	/**
 	 * 유저의 중고 거래 - 판매내역 리스트 검색 (중고 + 사진까지)
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 중고 거래 - 판매내역 리스트
 	 */
-	public List<UsedAndFile> selectUsedSellListById(String user_email);
+	public List<UsedAndFile> selectUsedSellListById(String user_email, RowBounds rb);
 
 	/**
 	 * 나의 모든 렌탈 내역 리스트 (전체)
@@ -84,16 +85,18 @@ public interface MyPageDAO {
 	/**
 	 * 나의 모든 렌탈 빌린 내역 리스트 (빌린 내역)
 	 * @param user_email 로그인한 유저의 이메일
+	 * @param rb 
 	 * @return 렌탈내역 리스트 (빌린)
 	 */
-	public List<RentalAndFile> selectRentalListBuyById(String user_email);
+	public List<RentalAndFile> selectRentalListBuyById(String user_email, RowBounds rb);
 
 	/**
 	 * 나의 모든 렌탈 빌린 내역 리스트 (빌려준 내역)
 	 * @param user_email 로그인한 유저의 이메일
+	 * @param rb 
 	 * @return 렌탈내역 리스트 (빌려준)
 	 */
-	public List<RentalAndFile> selectRentalListSellById(String user_email);
+	public List<RentalAndFile> selectRentalListSellById(String user_email, RowBounds rb);
 
 	/**
 	 * 나의 모든 경매 내역 리스트 (전체)
@@ -105,16 +108,18 @@ public interface MyPageDAO {
 	/**
 	 * 나의 경매 내역 포워딩 (경매 내역)
 	 * @param user_email 로그인한 유저의 이메일
+	 * @param rb 
 	 * @return 경매내역 리스트 (경매 내역)
 	 */
-	public List<AuctionAndFile> selectAuctionListSellById(String user_email);
+	public List<AuctionAndFile> selectAuctionListSellById(String user_email, RowBounds rb);
 
 	/**
 	 * 나의 경매 내역 포워딩 (입찰 내역)
 	 * @param user_email 로그인한 유저의 이메일
+	 * @param rb 
 	 * @return 경매내역 리스트 (입찰 내역)
 	 */
-	public List<AuctionAndFile> selectAuctionListBidById(String user_email);
+	public List<AuctionAndFile> selectAuctionListBidById(String user_email, RowBounds rb);
 	
 	/**
 	 * 중고 거래 글 정보와 디테일 정보
@@ -177,21 +182,21 @@ public interface MyPageDAO {
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 찜 목록 리스트 (중고 거래 찜)
 	 */
-	public List<WishAndFile> selectWishListUsedById(String user_email);
+	public List<WishAndFile> selectWishListUsedById(String user_email, RowBounds rb);
 
 	/**
 	 * 찜 목록 - 렌탈 거래 찜 리스트
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 찜 목록 리스트 (렌탈 거래 찜)
 	 */
-	public List<WishAndFile> selectWishListRentalById(String user_email);
+	public List<WishAndFile> selectWishListRentalById(String user_email, RowBounds rb);
 
 	/**
 	 * 찜 목록 - 경매 거래 찜 리스트
 	 * @param user_email 로그인한 유저의 이메일
 	 * @return 찜 목록 리스트 (경매 거래 찜)
 	 */
-	public List<WishAndFile> selectWishListAuctionById(String user_email);
+	public List<WishAndFile> selectWishListAuctionById(String user_email, RowBounds rb);
 
 	/**
 	 * 나의 다마고치 정보 검색
@@ -244,5 +249,21 @@ public interface MyPageDAO {
 	public ArrayList<RTrade> allrtrade();
 
 	public ArrayList<ATrade> allatrade();
+
+	public int totaltb(HashMap<String, String> map);
+
+	public int totalrb(HashMap<String, String> map);
+
+	public int totalrs(HashMap<String, String> map);
+
+	public int totalas(HashMap<String, String> map);
+
+	public int totalab(HashMap<String, String> map);
+
+	public int totalwu(HashMap<String, String> map);
+
+	public int totalwr(HashMap<String, String> map);
+
+	public int totalwa(HashMap<String, String> map);
 
 }

@@ -251,7 +251,6 @@
                 </div>
 
                 <!-- 파파고 버튼 -->
-                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
 
                 <!-- alert 문구 관련 -->
                 <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
@@ -296,7 +295,7 @@
                                     <!-- 경매 취소 -->
                                     <form th:action="@{/mypage/cancleAuction}" method="post" onsubmit="return cancleAuctionChk();">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-secondary btn-block" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
                                     </form>                    
                                 </div>
@@ -358,6 +357,15 @@
                 </div>
             </div>
         </div>
+    </div>
+            <div class="row">
+        <ul class="pagination pagination-lg justify-content-center">
+            <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+                </li>
+            </span>
+        </ul>
     </div>
     <!-- End Content -->
     <!-- 채팅 -->

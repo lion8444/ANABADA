@@ -254,10 +254,10 @@
                  <nav class="navbar navbar-expand-sm tab ">
                       <ul class="navbar-nav w-100">                  
                         <li class="nav-item tabbox w-50 text-center">                  
-                          <a class="nav-link bg-white tabboxa sell px-5" th:href="@{/mypage/mytransactionlistsell(user_email=${us.user_email})}" style="font-weight: bolder;">판매내역</a>
+                          <a class="nav-link bg-white tabboxa sell px-5" th:href="@{/mypage/mytransactionlistsell(user_email=${user.user_email})}" style="font-weight: bolder;">판매내역</a>
                         </li>         
                         <li class="nav-item tabbox w-50 text-center">    
-                          <a class="nav-link bg-white tabboxa buy px-5" th:href="@{/mypage/mytransactionlistbuy(user_email=${us.user_email})}" style="font-weight: bolder;">구매내역</a>          
+                          <a class="nav-link bg-white tabboxa buy px-5" th:href="@{/mypage/mytransactionlistbuy(user_email=${user.user_email})}" style="font-weight: bolder;">구매내역</a>          
                         </li>         
                       </ul>
                   </nav>
@@ -428,6 +428,15 @@
                 </div>
             </div>
         </div>
+    </div>
+        <div class="row">
+        <ul class="pagination pagination-lg justify-content-center">
+            <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                    <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+                </li>
+            </span>
+        </ul>
     </div>
     <!-- End Content -->
 
