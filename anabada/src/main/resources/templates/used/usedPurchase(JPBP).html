@@ -188,36 +188,37 @@
                 <div class="col-lg-4">
                     <input type="hidden" name="used_id" id="used_id" th:value="${used.used_id}">
                     <div class="heading text-primary">
-                        <h2 th:text="${used.used_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
+                        <h2 th:text="${used.used_title}" id="papago0" class="papago" papagoCount="0" style="display: inline-block;">제목</h2>
+                        <!-- 글 상세 정보 번역 버튼 파파고 -->
+                        <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-left: 5px;bottom: 5px;">
                     </div>
                     <div class="meta">
-                        <h3 th:text="'₩ '+ ${#numbers.formatInteger(used.used_price, 3, 'COMMA')}" id="papago1"
-                            class="papago" papagoCount="1">가격</h3>
+                        <h3 th:text="'₩ '+ ${#numbers.formatInteger(used.used_price, 3, 'COMMA')}">가격</h3>
                     </div><br>
                     <div class="text-black-50">
-                        <p th:text="${used.used_content}" id="papago2" class="papago" papagoCount="2">내용</p>
+                        <p th:text="${used.used_content}" id="papago1" class="papago" papagoCount="1">내용</p>
                     </div>
                     <div class="text-black-30">
-                        <p th:text="${'상품상태: '+ used.used_quality}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
+                        <p th:text="${'상품상태: '+ used.used_quality}" id="papago2" class="papago" papagoCount="2">퀄리티</p>
                     </div>
-                    <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
+                    <p class="text-black-30"><span id="papago3" class="papago" papagoCount="3">* 배송시 배송료 별도</span></p>
 
                     <div class="d-block agent-box p-5">
-                        <div class="img mb-4">
-                            <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
-                            다마고치 넣는 곳
-                        </div>
-                        
+                        <div class="img mb-4" th:if="${dama.char_selected} == 1">
+                            <img th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                            <img th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
+                            <img th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
+                        </div>                
                         <input type="hidden" name="used_id" id="used_id" th:value="${used.used_id}">
                         <div class="text">
                             
-                            <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
-                            <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
-                            <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
+                            <h5 th:text="'닉네임: '+${target.user_nick}" id="papago4" class="papago" papagoCount="4">닉네임</h5>
+                            <h5 th:text="'레벨: '+${target.user_level}" id="papago5" class="papago" papagoCount="5">레벨</h5>
+                            <h5 th:text="'국적: '+${target.user_nation}" id="papago6" class="papago" papagoCount="6">국적</h5>
 
                             <h5>
-                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
-                                <span th:text="'페널티: '+${target.user_penalty}"></span>
+                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' " id="papago7" class="papago" papagoCount="7"></span>
+                                <span th:text="'페널티: '+${target.user_penalty}" id="papago8" class="papago" papagoCount="8"></span>
                             </h5>
 
                             <div th:if="${#authentication.name}!=${used.user_email}" style="text-align: right;" >
@@ -350,7 +351,7 @@
                 <div>
                     <div class="usedhref">
                         <button type="submit" class="btn btn-secondary btn-block" value="삭제"
-                            th:text="#{pay}">결제하기</button>
+                            th:text="#{pay}" onclick="showPurchase()">결제하기</button>
                     </div>
                 </div><br>
             </div>
@@ -362,7 +363,7 @@
     </div>
 
     <!-- 채팅 -->
-    <input type="hidden"  id="board_num" th:value="${used_sell.used_id}">
+    <input type="hidden"  id="board_no" th:value="${used.used_id}">
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">
         <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
         <button class="chatbox-open">

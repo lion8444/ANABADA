@@ -14,4 +14,5 @@ public class Used_buy {
 	String uBuy_title;
 	String uBuy_content;
 	String uBuy_status;
+	String user_nick;
 }

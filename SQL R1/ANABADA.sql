@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `anabada`.`report` (
   `report_reported` VARCHAR(45) NOT NULL,
   `report_category` VARCHAR(45) NOT NULL,
   `report_url` VARCHAR(255) NULL,
-  `report_comment` VARCHAR(2000) NOT NULL,
+  `report_comment` VARCHAR(45) NOT NULL,
   `report_answer` VARCHAR(45) NULL,
   `report_status` VARCHAR(45) NULL DEFAULT '접수 완료',
   `report_date` DATETIME NULL DEFAULT now(),
@@ -253,8 +253,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `anabada`.`chatRoom`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `anabada`.`chatroom`;
-
+DROP TABLE IF EXISTS `anabada`.`chatroom` ;
 create table `anabada`.`chatroom` (
 	`roomId` varchar(100) primary key
     ,`name` varchar(100)
@@ -281,6 +280,7 @@ create table `anabada`.`chatroom` (
 -- -----------------------------------------------------
 -- Table `anabada`.`chat`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `anabada`.`chat` ;
 DROP TABLE IF EXISTS `anabada`.`chatmessage` ;
 
 create table `anabada`.`chatmessage` (

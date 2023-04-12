@@ -291,9 +291,9 @@ public class MyPageServiceImpl implements MyPageService {
 	public PageNavigator getPageNavigator(int pagePerGroup
 			, int countPerPage
 			, int page
-			, String email) {
+			) {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("user_email", email);
+//		map.put("user_email", email);
 		//검색 결과 개수
 		int t = dao.total(map);
 		
@@ -365,4 +365,7 @@ public class MyPageServiceImpl implements MyPageService {
 		int result = dao.confirmUsed(usedData);
 		return result;
 	}
+
+	
+	
 }

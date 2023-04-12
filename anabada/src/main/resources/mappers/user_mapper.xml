@@ -40,6 +40,24 @@
 			, #{user_nick}
 			, #{user_nation}
 		);
+		
+		insert INTO
+			user_character
+		(
+			uChar_id
+			, user_email
+			, char_id
+			, char_level
+			, char_selected
+		)
+		VALUES
+		(
+			func_seq_10('UCHA')
+			, #{user_email}
+			, 'CHAR000000'
+			, 1
+			, 1
+		);
 	</insert>
 
 	

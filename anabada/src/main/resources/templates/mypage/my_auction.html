@@ -161,9 +161,9 @@
                                     <small>ANABADA</small>
                                 </a>
                                 <ul>
-                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
-                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
-                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
                                     <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
                                 </ul>
                             </li>
@@ -251,10 +251,10 @@
                             <td>
                                 <div class="mypagebutton">
                                     <!-- 경매 취소 -->
-                                    <form th:action="@{/mypage/cancleAuction}" method="post">
+                                    <form th:action="@{/mypage/cancleAuction}" method="post" onsubmit="return cancleAuctionChk();">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
-                                        <input type="submit" class="btn btn-success" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
+                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="submit" class="btn btn-secondary btn-block" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
                                     </form>                    
                                 </div>
                             </td>
@@ -303,7 +303,7 @@
                             <td>
                                 <!-- 입찰 취소 -->
                                 <div class="mypagebutton">
-                                    <form th:action="@{/mypage/cancleBid}" method="post">
+                                    <form th:action="@{/mypage/cancleBid}" method="post" onsubmit="return cancleBidChk();">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
                                         <input type="hidden" name="buyer_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-success" value="입찰 취소" th:value="#{bidCancle}" th:if="${list.buyer_email} == ${#authentication.name} and ${list.aDetail_status == '입찰 중'}">                            

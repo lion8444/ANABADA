@@ -166,9 +166,9 @@
                                     <small>ANABADA</small>
                                 </a>
                                 <ul>
-                                    <li><a th:href="@{/mypage/mytransactionlistall}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
-                                    <li><a th:href="@{/mypage/myrentallistall}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
-                                    <li><a th:href="@{/mypage/myauctionlistall}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
+                                    <li><a th:href="@{/mypage/mytransactionlistsell}" th:text="#{tradelist}" class="aTag">거래내역</a></li>
+                                    <li><a th:href="@{/mypage/myrentallistsell}" th:text="#{rentallist}" class="aTag">렌탈내역</a></li>
+                                    <li><a th:href="@{/mypage/myauctionlistsell}" th:text="#{auctionlist}" class="aTag">경매내역</a></li>
                                     <li><a th:href="@{/mypage/mywantlistused}" th:text="#{wishlist}" class="aTag">찜 목록</a></li>
                                 </ul>
                             </li>
@@ -213,7 +213,7 @@
                 </div>
               
                 <!-- 파파고 버튼 -->
-                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
+                <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}">
 
                 <!-- 렌탈 빌린 내역 -->
                 <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
@@ -260,7 +260,7 @@
                                         th:if="${list.rDetail_status == '거래 완료'} and ${list.rental_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}">
                                     </input>
                                     <!-- 렌탈 취소 -->
-                                    <form th:action="@{/mypage/cancleRental}" method="post">
+                                    <form th:action="@{/mypage/cancleRental}" method="post" onsubmit="return cancleRentalChk();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">

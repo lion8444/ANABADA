@@ -177,10 +177,7 @@
       
             <form th:action="@{rentalWrite}" method="post" id="write"
                     enctype="multipart/form-data">
-                    <!-- <input type="hidden" name="user_email" th:value="">  -->
-                    <input type="hidden" name="uloc_id" value="uloc000001">
-                    <input type="hidden" name="sloc_id" value="sloc000001">
-                
+                    <!-- <input type="hidden" name="user_email" th:value="">  -->                
                 <div class="mb-3">
                     <label for="rental_title">제목</label>
                     <input type="text" class="form-control" id="rental_title" name="rental_title" placeholder="제목을 입력해 주세요">
@@ -198,6 +195,13 @@
                     </select>
                     <select id="category_id" name="category_id" class="select_categories subcate">
                     </select>
+
+                    <!-- <select id="category_id" name="category_id" class="select_categories main">
+                        <option value="CATE000001">피규어/완구/취미</option>
+                        <select id="category_id" name="category_id" class="select_categories subcate">
+                        <option value="CATE000002">피규어/완구/취미</option>
+                    </select> -->
+
                 </div> 
       
                 <div class="mb-3">

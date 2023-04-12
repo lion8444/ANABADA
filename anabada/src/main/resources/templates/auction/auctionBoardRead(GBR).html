@@ -106,23 +106,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">중고거래</a>
+                                aria-haspopup="true" aria-expanded="false" th:text="#{used}">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
-                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}" th:text="#{sellUsed}">중고판매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{auctionBoard}">경매거래</a>
+                            <a class="nav-link" th:href="@{auctionBoard}" th:text="#{auction}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/map}">지도</a>
+                            <a class="nav-link" th:href="@{/map}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -143,10 +143,10 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}" th:text="#{login}">로그인</a>
                         <div sec:authorize="isAuthenticated()">
-                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}" th:text="#{mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}" th:text="#{logout}">로그아웃</a>
                         </div>
                     </div>
 
@@ -157,18 +157,8 @@
                                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z" />
                         </svg>
                     </a>
-
-                    <!-- 언어 선택 버튼 이미지 -->
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-lang">
-                        <a class="dropdown-item" th:text="#{lang.ko}" id="langKO"
-                            th:href="|javascript:springLanguage('ko')|">한국어</a>
-                        <a class="dropdown-item" th:text="#{lang.jp}" id="langJP"
-                            th:href="|javascript:springLanguage('ja-JP')|">日本語</a>
-                    </div>
-
                 </div>
             </div>
-
         </div>
     </nav>
     <!-- Close Header -->
@@ -182,8 +172,7 @@
         </div>
         <div class="site-mobile-menu-body"></div>
     </div>
-<!-- 글 상세 정보 번역 버튼 파파고 -->
-    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
+
     <!-- 넣을부분 -->
     <div class="section">
         <div class="container">
@@ -200,9 +189,12 @@
                 </div>
                 <div class="col-lg-4">
 
-                    <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${auction_sell.auction_id}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${auction_sell.auction_id}" th:email="${#authentication.name}">
-                    <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${auction_sell.auction_id}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${auction_sell.auction_id}" th:email="${#authentication.name}">
+                    <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${auction_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${auction_sell.auction_id}" th:email="${#authentication.name}">
+                    <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${auction_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${auction_sell.auction_id}" th:email="${#authentication.name}">
                     
+                    <!-- 글 상세 정보 번역 버튼 파파고 -->
+                    <input type="button" class="arrow-btn1" id="papagoSubmit3" value="번역" th:value="#{translate}" style="margin-top: 0;margin-left: 10px; bottom: 15px;">
+
                     <input type="hidden" name="auction_id" id="auction_id" th:value="${auction_sell.auction_id}">
                     <div class="heading text-primary">
                         <h2 th:text="${auction_sell.auction_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
@@ -214,46 +206,47 @@
 
                     <br>
                     <div class="text-black-50">
-                        <p th:text="${auction_sell.auction_content}" id="papago2" class="papago" papagoCount="2">내용</p>
+                        <p th:text="${auction_sell.auction_content}" id="papago1" class="papago" papagoCount="1">내용</p>
                     </div>
                     <div class="text-black-30">
-                        <p th:text="${'상품상태: '+ auction_sell.auction_quality}" id="papago3" class="papago"
-                            papagoCount="3">퀄리티
+                        <p th:text="${'상품상태: '+ auction_sell.auction_quality}" id="papago2" class="papago"
+                            papagoCount="2">퀄리티
                         </p>
                     </div>
-                    <p class="text-black-50" th:text="${'경매종료일: '+auction_sell.auction_finish}">경매종료일</p>
+                    <p class="text-black-50 papago" th:text="${'경매종료일: '+auction_sell.auction_finish}" id="papago3" papagoCount="3">경매종료일</p>
                     <div class="text-black-30">
-                        <p id="papago6" class="papago" papagoCount="6">* 배송시 배송료 별도</p>
+                        <p id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</p>
                     </div>
 
                     <div th:if="${#authentication.name}!=${auction_sell.user_email}">
                         <div class="usedhref">
                             <a th:onclick="|location.href='@{/auction/purchase(auction_id=${auction_sell.auction_id})}'|">
-                                <button class="btn btn-secondary btn-block" value="입찰하기">입찰하기</button></a>
+                                <button class="btn btn-secondary btn-block" value="입찰하기" th:text="#{doBid}">입찰하기</button></a>
                         </div>
                     </div>
                     <br>
                     <div class="d-block agent-box p-5">
-                        <div class="img mb-4">
-                            <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
-                            다마고치 넣는 곳
+                        <div class="img mb-4" th:if="${dama.char_selected} == 1">
+                            <img th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                            <img th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
+                            <img th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
                         </div>
                         
                         <input type="hidden" name="auction_id" id="auction_id" th:value="${auction_sell.auction_id}">
                         <div class="text">
                             
-                            <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
-                            <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
-                            <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
+                            <h5 th:text="'닉네임: '+${target.user_nick}" id="papago5" class="papago" papagoCount="5">닉네임</h5>
+                            <h5 th:text="'레벨: '+${target.user_level}" id="papago6" class="papago" papagoCount="6">레벨</h5>
+                            <h5 th:text="'국적: '+${target.user_nation}" id="papago7" class="papago" papagoCount="7">국적</h5>
 
                             <h5>
-                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
-                                <span th:text="'페널티: '+${target.user_penalty}"></span>
+                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' " id="papago8" class="papago" papagoCount="8"></span>
+                                <span th:text="'페널티: '+${target.user_penalty}" id="papago9" class="papago" papagoCount="9"></span>
                             </h5>
 
                             <div th:if="${#authentication.name}!=${auction_sell.user_email}" style="text-align: right;" >
                                 <a id="goChatting">
-                                <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
+                                <button type="button" class="arrow-btn1" value="채팅">채팅하러가기</button></a>
                             </div>
                         </div>
                     </div>

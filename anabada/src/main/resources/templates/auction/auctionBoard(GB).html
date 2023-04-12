@@ -69,30 +69,30 @@
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            
             <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
                 id="templatemo_main_nav">
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">중고거래</a>
+                                aria-haspopup="true" aria-expanded="false" th:text="#{used}">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
-                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}" th:text="#{sellUsed}">중고판매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{auctionBoard}">경매거래</a>
+                            <a class="nav-link" th:href="@{auctionBoard}" th:text="#{auction}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/map}">지도</a>
+                            <a class="nav-link" th:href="@{/map}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -113,10 +113,10 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}" th:text="#{login}">로그인</a>
                         <div sec:authorize="isAuthenticated()">
-                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}" th:text="#{mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}" th:text="#{logout}">로그아웃</a>
                         </div>
                     </div>
 
@@ -155,29 +155,33 @@
                         <div class="col-md-3">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle sstatus" id="dropdownMenuButton type"
-                                    data-toggle="dropdown" aria-expanded="false" name="type">제목</button>
+                                    data-toggle="dropdown" aria-expanded="false" name="type" th:text="#{title}">제목</button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" th:value="auction_title"
-                                            th:selected="${type} == 'auction_title'" onclick="statuscheck('제목');">제목</a>
+                                            th:selected="${type} == 'auction_title'" onclick="statuscheck('제목');" th:text="#{title}">제목</a>
                                     </li>
                                     <li><a class="dropdown-item" th:value="auction_content"
                                             th:selected="${type} == 'auction_content'"
-                                            onclick="statuscheck('본문');">본문</a></li>
+                                            onclick="statuscheck('본문');" th:text="#{mainContent}">본문</a></li>
                                     <li><a class="dropdown-item" th:value="user_email"
-                                            th:selected="${type} == 'user_nick'" onclick="statuscheck('작성자');">작성자</a>
+                                            th:selected="${type} == 'user_nick'" onclick="statuscheck('작성자');" th:text="#{writer}">작성자</a>
                                     </li>
                                     <li><a class="dropdown-item" th:value="all" th:selected="${type} == 'all'"
-                                            onclick="statuscheck('전체');">전체</a></li>
+                                            onclick="statuscheck('전체');" th:text="#{all}">전체</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="찾고 싶은 상품을 검색해보세요!" id="searchWord"
+                            <input type="text" class="form-control" th:placeholder="#{letsSearch}" placeholder="찾고 싶은 상품을 검색해보세요!" id="searchWord"
                                 th:value="${searchWord}">
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-secondary btn-block" value="검색"
-                                onclick="pagingFormSubmit(1)">검색</button>
+                                onclick="pagingFormSubmit(1)" th:text="#{search}">
+                                검색
+                            </button>
+                            <!-- 게시판 글 번역 버튼 파파고 -->
+                            <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-top: 0;margin-left: 10px;">
                         </div>
                     </div>
                     <div class="mt-3">
@@ -187,27 +191,27 @@
                             </div>
                             <div class="col-auto">
                                 <a href=# onclick="pagingFormSubmit(1, 'rank')">
-                                    <font size=3>랭킹순</font>
+                                    <font size=3 th:text="#{rankZun}">랭킹순</font>
                                 </a>
                             </div>
                             <div class="col-auto">
                                 <a href=# onclick="pagingFormSubmit(1, 'low')">
-                                    <font size=3>낮은가격순</font>
+                                    <font size=3 th:text="#{rowPriceZun}">낮은가격순</font>
                                 </a>
                             </div>
                             <div class="col-auto">
                                 <a href=# onclick="pagingFormSubmit(1, 'high')">
-                                    <font size=3>높은가격순</font>
+                                    <font size=3 th:text="#{highPriceZun}">높은가격순</font>
                                 </a>
                             </div>
                             <div class="col-auto">
                                 <a href=# onclick="pagingFormSubmit(1, 'finish')">
-                                    <font size=3>마감임박순</font>
+                                    <font size=3 th:text="#{endTimeZun}">마감임박순</font>
                                 </a>
                             </div>
                             <div class="col-auto">
                                 <a href=# onclick="pagingFormSubmit(1, 'recent')">
-                                    <font size=3>최신순</font>
+                                    <font size=3 th:text="#{newerZun}">최신순</font>
                                 </a>
                             </div>
                         </div>
@@ -240,8 +244,8 @@
                                     </a>
                                     <div class="property-content">
                                         <span class="city d-block mb-3">
-                                            <span class="city d-block mb-3"
-                                                th:text="${auctionList.auction_title}">글제목</span></span>
+                                            <span th:id="|papago${i.index}|" class="papago" th:papagoCount="${i.index}" th:text="${auctionList.auction_title}">글제목</span>
+                                        </span>
                                         <div class="price mb-2">
                                             <span
                                                 th:text="'₩ '+ ${#numbers.formatInteger(auctionList.auction_price, 3, 'COMMA')}">가격</span>
@@ -257,8 +261,12 @@
                                                     th:text="${auctionList.user_nick}">유저
                                                     닉네임</span>&nbsp;/&nbsp;
                                                 <span class="d-block d-flex align-items-center">
-                                                    <span class="d-block mb-2 text-black-50"
-                                                        th:text="${auctionList.auction_quality}">상품상태</span>
+                                                    <span class="d-block mb-2 text-black-50" th:if="${auctionList.auction_quality == '사용감 있음'}"
+                                                        th:text="#{littleUsed}">상품상태</span>
+                                                    <span class="d-block mb-2 text-black-50" th:if="${auctionList.auction_quality == '미개봉'}"
+                                                        th:text="#{notOpened}">상품상태</span>
+                                                    <span class="d-block mb-2 text-black-50" th:if="${auctionList.auction_quality == '파손 있음'}"
+                                                        th:text="#{littleBreak}">상품상태</span>
                                                 </span>
                                             </div>
                                             <a th:href="@{/auction/auctionBoardRead(auction_id=${auctionList.auction_id})}"
@@ -365,7 +373,6 @@
         </div>
     </section>
 
-
     <div class="section">
         <div class="container">
             <div class="row mb-5 align-items-center">
@@ -375,7 +382,7 @@
             </div>
             <div class="usedhref">
                 <a th:href="@{auctionWrite}">
-                    <button class="btn btn-secondary btn-block" value="판매글 작성">판매글작성</button></a>
+                    <button class="btn btn-secondary btn-block" value="판매글 작성" th:text="#{writeSell}" style="right: 90px;">판매글작성</button></a>
             </div>
         </div>
     </div>
@@ -403,16 +410,28 @@
                             </div>
                             <div>
                                 <span class="d-block d-flex align-items-center me-3">
-                                    <span class="d-block mb-2 text-black-50"
-                                        th:text="'종료일: '+ ${auctionList.auction_finish}">끝나는 날짜</span>
+                                    <span class="d-block mb-2 text-black-50" th:text="#{endDate}">종료일: </span>  
+                                    <span class="d-block mb-2 text-black-50 papago2"
+                                        th:text="${auctionList.auction_finish}" th:id="|papagoD${i.index}|" th:papagoCount="${i.index}">
+                                        끝나는 날짜    
+                                    </span>
                                 </span>
                                 <div class="specs d-flex mb-4">
                                     <span class="d-block mb-2 text-black-50"
-                                        th:text="${auctionList.user_nick}">유저
-                                        닉네임</span>&nbsp;/&nbsp;
+                                        th:text="${auctionList.user_nick}">유저 닉네임</span>&nbsp;/&nbsp;
                                     <span class="d-block d-flex align-items-center">
-                                        <span class="d-block mb-2 text-black-50"
-                                            th:text="${auctionList.auction_quality}">상품상태</span>
+                                        <span class="d-block mb-2 text-black-50 papago2"
+                                            th:if="${auctionList.auction_quality =='미개봉'}" th:text="#{notOpened}">
+                                            상품상태
+                                        </span>
+                                        <span class="d-block mb-2 text-black-50 papago2"
+                                            th:if="${auctionList.auction_quality =='사용감 있음'}" th:text="#{littleUsed}">
+                                            상품상태
+                                        </span>
+                                        <span class="d-block mb-2 text-black-50 papago2"
+                                            th:if="${auctionList.auction_quality =='파손 있음'}" th:text="#{littleBreak}">
+                                            상품상태
+                                        </span>
                                     </span>
                                 </div>
                                 <a th:href="@{auctionBoardRead(auction_id=${auctionList.auction_id})}"

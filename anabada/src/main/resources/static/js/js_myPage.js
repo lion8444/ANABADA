@@ -327,3 +327,30 @@ function usedComfirmChk() {
     return false;
 }
 
+// 렌탈 취소 alert 확인
+function cancleRentalChk() {
+    if(confirm('정말로 렌탈을 취소 하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+
+// 경매 취소 alert 확인
+function cancleAuctionChk() {
+    if(confirm('정말로 경매를 취소 하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+
+// 입찰 취소 alert 확인
+function cancleBidChk() {
+    if(confirm('정말로 입찰을 취소 하시겠습니까?')) {
+        return true;
+    }
+
+    return false;
+}
+

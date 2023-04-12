@@ -145,54 +145,43 @@
 
     <!-- 넣을부분 -->
 
-    <!-- 검색 폼 -->
-    <!-- <form th:action="@{usedSellList}" method="get" id="pagingForm">
-        <input type="hidden" name="page" id="page"/>
-        <select id="type" name="type"> 서버에 type이란 이름으로 title값이 전달됨 -->
-            <!-- <option value="used_title" th:selected="${type} == 'used_title'">    제목  </option>
-            <option value="used_content" th:selected="${type} == 'used_content'"> 본문  </option>
-            <option value="user_email" th:selected="${type} == 'user_email'"> 작성자</option>
-            <option value="all" th:selected="${type} == 'all'">      전체  </option>
-        </select>
-        <input type="text" name="searchWord" th:value="${searchWord}">
-        <input type="button" value="검색" onclick="pagingformSubmit(1)">
-    </form> -->
 
-
-    <h1 th:text="#{usedBuyBoard}">[ 중고 거래 구입 게시판 ]</h1>
+    <h3 th:text="#{usedBuyBoard}" style="text-align: center; margin-top: 20px;">[ 중고 구매 게시판 ]</h3>
     <!-- 파파고 버튼 -->
     <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
-    <a th:href="@{/used/usedBuyWrite}">글쓰기</a>
-
-
-    <div>
+    
+    
         <!-- 글목록 출력 영역 -->
-        <table>
-            <tr>
-                <td class="white">
-                    <!-- 전체 <span th:text="${navi.totalRecordsCount}"></span> -->
-                </td>
-                <td class="white" colspan="3"></td>
-                <td class="head">
-                    <a sec:authorize="isAuthenticated()" th:href="@{/used/usedBuyWrite}">글쓰기</a>
-                </td>
-            </tr>
-            <tr>
-                <th th:text="#{boardNum}">글 번호</th>
-                <th th:text="#{title}">글 제목</th>
-                <th th:text="#{email}">유저 이메일</th>
-                <th th:text="#{category}">카테고리</th>
-               
-            </tr>
-            <tr th:each="Used_buy, i : ${bboardlist}">
-                <td th:text="${Used_buy.uBuy_id}" class="center"></td>
-                <td>
-                    <a th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"><span th:id="|papago${i.index}|" th:text="${Used_buy.uBuy_title}" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
-                </td>
-                <td th:text="${Used_buy.user_email}" class="center"></td>
-                <td th:text="${Used_buy.category_id}" class="center"></td>
-            </tr>
-        </table>
+    <div id="board-list">
+        <div class="container">
+            <table class="board-table">
+                <tr>
+                    <td colspan="3"></td>
+                    <td>
+                        <div sec:authorize="isAuthenticated()" class="usedhref">
+                            <a th:href="@{usedBuyWrite}"><button class="arrow-btn1" style="margin-top: 0;">구매글
+                                    작성</button></a>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="thead">
+                    <th scope="col" class="th-num">글 번호</th>
+                    <th scope="col" class="th-title" th:text="#{title}">글 제목</th>
+                    <th scope="col" class="th-id" >닉네임</th>
+                    <th scope="col" class="th-date">카테고리</th>
+                
+                </tr>
+                <tr th:each="Used_buy, i : ${bboardlist}">
+                    <td th:text="${Used_buy.uBuy_id}" class="center">글번호</td>
+                    <td>
+                        <a th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"><span th:id="|papago${i.index}|" th:text="${Used_buy.uBuy_title}" class="papago" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                    </td>
+                    <td th:text="${user.user_nick}" class="center">닉네임</td>
+                    <td th:text="${Used_buy.category_id}" class="center">카테고리</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
     <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">
