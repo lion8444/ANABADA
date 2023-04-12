@@ -392,7 +392,12 @@
                             <td>
                                 <div class="mypagebutton"> 
                                     <!-- 거래 후기 -->             
-                                    <input class="arrow-btn1" type="button" value="거래후기" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">
+                                    <!-- <button type="submit" class="arrow-btn1" value="거래후기" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">후기남기기</button> -->
+                                    <button type="button" class="arrow-btn1" value="거래후기" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="window.open('@{/csform/review(used_id=${list.used_id})}', '_blank', 'width=500, height=500')">후기남기기</button>
+
+
+                                    <!-- <button type="submit" class="arrow-btn1" style="margin-top: 0rem" th:onclick="charge([[${user.user_nick}]])">충전하러가기</button> -->
+                                    
                                     <br>
                                     <!-- 거래 취소 -->
                                     <form th:action="@{/mypage/cancleUsed}" method="post" onsubmit="return usedCancleChk();">

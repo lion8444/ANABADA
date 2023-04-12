@@ -355,9 +355,11 @@ public class UsedController {
 		// UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		model.addAttribute("user", user);
 		// model.addAttribute("target", targetUser);
+
 		ArrayList<Used_buy> bboardlist = service.usedBuyBoard();
-		// log.debug("db에서 넘어오나?:{}",bboardlist);
+		
 		model.addAttribute("bboardlist", bboardlist);
+		
 		return "used/usedBuyBoard(JSB)";
 	}
 
@@ -369,7 +371,7 @@ public class UsedController {
 			@RequestParam(name = "uBuy_id", defaultValue = "0") String uBuy_id,
 			@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
-		// log.debug("넘어오는 값: {}",used_buy);
+		 log.debug("넘어오는 값: {}",uBuy_id);
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_buy.getUser_email());
 
