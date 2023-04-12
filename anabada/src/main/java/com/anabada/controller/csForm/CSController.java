@@ -30,6 +30,7 @@ import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.service.csForm.CSFormService;
+import com.anabada.service.used.UsedService;
 import com.anabada.util.FileService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,9 @@ public class CSController {
 	
 	@Autowired
 	CSFormService service;
+	
+	@Autowired
+	UsedService uservice;
 	
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입
 	@Value("${spring.servlet.multipart.location}")
@@ -239,7 +243,7 @@ public class CSController {
 //				return "redirect:/";
 //			}
 			
-			model.addAttribute("used_detail", ud); 
+			model.addAttribute("used_detail", ud);
 		}
 		
 		// rental_id를 받아올 때

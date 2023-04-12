@@ -200,13 +200,13 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="중고 거래 찜" th:value="#{usedWish}" th:onclick="|location.href='@{/mypage/mywantlistused(user_email=${us.user_email})}'|">
+                        <input type="button" value="중고 거래 찜" th:value="#{usedWish}" th:onclick="|location.href='@{/mypage/mywantlistused(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="렌탈 찜" th:value="#{rentalWish}" th:onclick="|location.href='@{/mypage/mywantlistrental(user_email=${us.user_email})}'|">
+                        <input type="button" value="렌탈 찜" th:value="#{rentalWish}" th:onclick="|location.href='@{/mypage/mywantlistrental(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="경매 찜" th:value="#{auctionWish}" th:onclick="|location.href='@{/mypage/mywantlistauction(user_email=${us.user_email})}'|">
+                        <input type="button" value="경매 찜" th:value="#{auctionWish}" th:onclick="|location.href='@{/mypage/mywantlistauction(user_email=${user.user_email})}'|">
                     </div>
                 </div>
 

@@ -10214,8 +10214,9 @@ textarea {
     -ms-flex: 0 0 100px;
     flex: 0 0 100px; }
     .agent-box .img img {
-      width: 80px;
-      border-radius: 50%; }
+      width: 120px;
+      /* border-radius: 50%;  */
+    }
   .agent-box .text h3, .agent-box .text .h3 {
     font-size: 16px; }
 

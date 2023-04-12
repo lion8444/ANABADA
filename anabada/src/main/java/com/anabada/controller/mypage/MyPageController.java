@@ -153,7 +153,7 @@ public class MyPageController {
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("usedListBuy", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		
 		return "mypage/my_transaction";
 	}
@@ -175,7 +175,7 @@ public class MyPageController {
 		UserDTO us = service.selectUserById(user.getUsername());
 			
 		model.addAttribute("usedListSell", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 
 		log.debug("sell 이즈엠티 : {}", list.isEmpty());
 		log.debug("sell 자체 : {}", list == null);
@@ -197,7 +197,7 @@ public class MyPageController {
 		List<RentalAndFile> list = service.selectRentalListBuyById(user.getUsername());
 		UserDTO us = service.selectUserById(user.getUsername());
 		
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		model.addAttribute("rentalListBuy", list);
 		
 		return "mypage/my_rental";
@@ -225,7 +225,7 @@ public class MyPageController {
 		
 //		int rTradeResult = service.insertRTrade(listAll);
 		
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		model.addAttribute("rentalListSell", list);
 		
 		return "mypage/my_rental";
@@ -255,7 +255,7 @@ public class MyPageController {
 //		log.debug("aTrade에 추가된 개수 : {}", aDetailResult);
 		
 		model.addAttribute("auctionListSell", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		
 		log.debug("리스트 : {}", list);
 		
@@ -277,7 +277,7 @@ public class MyPageController {
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("auctionListBid", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		
 		log.debug("리스트 : {}", list);
 		
@@ -468,7 +468,7 @@ public class MyPageController {
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListUsed", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		
 		return "mypage/my_wantList";
 	}
@@ -488,7 +488,7 @@ public class MyPageController {
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListRental", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		
 		return "mypage/my_wantList";
 	}
@@ -508,7 +508,7 @@ public class MyPageController {
 		UserDTO us = service.selectUserById(user.getUsername());
 		
 		model.addAttribute("myWantListAuction", list);
-		model.addAttribute("us", us);
+		model.addAttribute("user", us);
 		
 		return "mypage/my_wantList";
 	}

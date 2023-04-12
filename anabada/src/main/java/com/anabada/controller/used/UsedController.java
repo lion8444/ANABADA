@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.Category;
+import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
@@ -30,6 +31,7 @@ import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.mypage.MyPageService;
 import com.anabada.service.used.UsedService;
 import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
@@ -50,6 +52,10 @@ public class UsedController {
 	// 위시리스트 관련 서비스
 	@Autowired
 	WishService wservice;
+	
+	// 마이페이지 관련 서비스
+	@Autowired
+	MyPageService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -132,6 +138,9 @@ public class UsedController {
 		// 위시리스트 유무 정보 가져오기
 		Wish wish = wservice.selectWish(used_id, userDetails.getUsername());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(used_sell.getUser_email());
+		
 		model.addAttribute("user", user);
 		model.addAttribute("target", targetUser);
 
@@ -139,6 +148,7 @@ public class UsedController {
 		model.addAttribute("fileList", fileList);
 		
 		model.addAttribute("wish", wish);
+		model.addAttribute("dama", dama);
 
 		return "used/usedSellBoardRead(JPBR)";
 	}
@@ -462,12 +472,16 @@ public class UsedController {
 			
 		UserDTO target = service.findUser(used.getUser_email());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(used.getUser_email());
+		
 		model.addAttribute("target", target);
 
 		model.addAttribute("used", used);
 		// model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("dama", dama);
 
 		return "used/usedPurchase(JPBP).html";
 	}

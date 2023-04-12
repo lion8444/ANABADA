@@ -114,11 +114,11 @@
 								<input type="range" name="review_star" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
 							</span>
 							<div class="starMent" th:text="#{putStar}">별점을 입력해 주세요!</div>
-							<textarea name="review_comment" id="review_comment" cols="150" rows="10" style="resize: none;" th:placeholder="#{putReviewSincerely}"></textarea>
+							<textarea name="review_comment" id="review_comment" cols="120" rows="10" style="resize: none;" th:placeholder="#{putReviewSincerely}"></textarea>
 							<hr>
 							<div class="reviewButtons">
 								<input class="btn btn-success" type="submit" value="후기 작성" th:value="#{writeReview}">
-								<a th:href="@{/}"><input type="button" value="취소" th:value="#{cancle}" class="btn btn-success"></a>
+								<a th:href="@{/mypage/mypage}"><input type="button" value="취소" th:value="#{cancle}" class="btn btn-success"></a>
 							</div>
 						</form>
 					</div>
