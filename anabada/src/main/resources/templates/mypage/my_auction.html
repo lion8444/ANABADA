@@ -51,6 +51,8 @@
 
     <!-- 버튼관련 css -->
     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
 	<style>
@@ -87,9 +89,9 @@
 			$('.buy').removeClass("active");
 			$('.sell').addClass("active");
 		}
-		if(window.location.pathname.includes('buy')){
+		if(window.location.pathname.includes('bid')){
 			$('.sell').removeClass("active");
-			$('.buy').addClass("active");
+			$('.bid').addClass("active");
 		}
 	});
 	</script>
@@ -241,23 +243,35 @@
             </div>
             <!-- 컨텐츠 시작-->
             <div class="col-lg-9">
-                <div id="transbox">
+                <!-- <div id="transbox">
                     <div class="translist">
                         <input type="button" value="경매 내역" th:value="#{auctionlist}" th:onclick="|location.href='@{/mypage/myauctionlistsell(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
                         <input type="button" value="입찰 내역" th:value="#{bidList}" th:onclick="|location.href='@{/mypage/myauctionlistbid(user_email=${user.user_email})}'|">
                     </div>
-                </div>
+                </div> -->
 
                 <!-- 파파고 버튼 -->
-                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
+                <!-- <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}"> -->
+
+                <nav class="navbar navbar-expand-sm tab ">
+                    <ul class="navbar-nav w-100">                  
+                      <li class="nav-item tabbox w-50 text-center">                  
+                        <a class="nav-link bg-white tabboxa sell px-5" th:href="@{/mypage/myauctionlistsell(user_email=${user.user_email})}" style="font-weight: bolder;">빌린내역</a>
+                      </li>         
+                      <li class="nav-item tabbox w-50 text-center">    
+                        <a class="nav-link bg-white tabboxa bid px-5" th:href="@{/mypage/myauctionlistbid(user_email=${user.user_email})}" style="font-weight: bolder;">빌려준내역</a>          
+                      </li>         
+                    </ul>
+                </nav>
 
                 <!-- alert 문구 관련 -->
                 <input type="hidden" id="cancle-text" th:value="#{cancle.alertText}" alertText="정말로 취소하시겠습니까?">
 
                 <!-- 경매 내역 리스트 -->
                 <div id="mylistbox" th:each="list, i : ${auctionListSell}" th:if="${auctionListSell} != null">
+                    <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -296,7 +310,7 @@
                                     <!-- 경매 취소 -->
                                     <form th:action="@{/mypage/cancleAuction}" method="post" onsubmit="return cancleAuctionChk();">
                                         <input type="hidden" name="auction_id" th:value="${list.auction_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="submit" class="btn btn-secondary btn-block" value="경매 취소" th:value="#{auctionCancle}" th:if="${list.user_email} == ${#authentication.name} and ${list.auction_status == '거래 중'}">
                                     </form>                    
                                 </div>

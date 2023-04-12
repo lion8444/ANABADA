@@ -50,6 +50,56 @@
 
     <!-- 버튼관련 css -->
     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<style>
+		.tab{
+			width : 100%;
+		  height: 44px;
+		  margin: 0 8px -1px 0;
+
+		  transition: all .25s;
+		}
+		
+		.tabbox{
+		border-bottom: none;
+		
+		}
+		
+		.tabboxa{
+		display: block;
+		border : 2px solid #00838f!important;
+		
+		}
+		
+		.active{
+		color: #59ab6e!important;
+		border-bottom: 1px solid #fff!important;
+		}
+		
+		#mylistbox{margin : 0px!important;
+		margin-bottom : 25px!important;}
+	</style>
+	<script>
+	$(document).ready(function(){		
+		if(window.location.pathname.includes('used')){
+			$('.rental').removeClass("active");
+            $('.auction').removeClass("active");
+			$('.used').addClass("active");
+		}
+		if(window.location.pathname.includes('rental')){
+			$('.used').removeClass("active");
+            $('.auction').removeClass("active");
+			$('.rental').addClass("active");
+		}
+        if(window.location.pathname.includes('auction')){
+			$('.used').removeClass("active");
+            $('.rental').removeClass("active");
+			$('.auction').addClass("active");
+		}
+	});
+	</script>
 
 
 </head>
@@ -198,7 +248,7 @@
             </div>
             <!-- 컨텐츠 시작 -->
             <div class="col-lg-9">
-                <div id="transbox">
+                <!-- <div id="transbox">
                     <div class="translist">
                         <input type="button" value="중고 거래 찜" th:value="#{usedWish}" th:onclick="|location.href='@{/mypage/mywantlistused(user_email=${user.user_email})}'|">
                     </div>
@@ -208,10 +258,25 @@
                     <div class="translist">
                         <input type="button" value="경매 찜" th:value="#{auctionWish}" th:onclick="|location.href='@{/mypage/mywantlistauction(user_email=${user.user_email})}'|">
                     </div>
-                </div>
+                </div> -->
+
+                <nav class="navbar navbar-expand-sm tab ">
+                    <ul class="navbar-nav w-100">                  
+                      <li class="nav-item tabbox w-50 text-center">                  
+                        <a class="nav-link bg-white tabboxa used px-5" th:href="@{/mypage/mywantlistused(user_email=${user.user_email})}" style="font-weight: bolder;">중고 찜 내역</a>
+                      </li>         
+                      <li class="nav-item tabbox w-50 text-center">    
+                        <a class="nav-link bg-white tabboxa rental px-5" th:href="@{/mypage/mywantlistrental(user_email=${user.user_email})}" style="font-weight: bolder;">렌탈 찜 내역</a>          
+                      </li>
+                      <li class="nav-item tabbox w-50 text-center">    
+                        <a class="nav-link bg-white tabboxa auction px-5" th:href="@{/mypage/mywantlistauction(user_email=${user.user_email})}" style="font-weight: bolder;">경매 찜 내역</a>          
+                      </li>           
+                    </ul>
+                </nav>
 
                 <!-- 중고 거래 찜 목록 -->
                 <div id="mylistbox" th:each="list : ${myWantListUsed}" th:if="${myWantListUsed} != null">
+                    <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
                     <table class="mypagebox">
                         <tr>
                             <td>
