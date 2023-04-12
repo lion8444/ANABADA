@@ -212,8 +212,8 @@
                 <div class="row" th:each="list, i : ${report}" style="width: 75%;">   
                     <div class="accordion accordion-flush open" th:id="|accordionFlushExample${i.index}|">
                         <div class="accordion-item">
-                            <div class="inquirereply" th:if="${list.report_answer} == null" style="color: black;">처리 중</div>
-                            <div class="inquirereply" th:if="${list.report_answer} != null" style="color: black;">처리 완료</div>
+                            <div class="inquirereply" th:if="${list.report_answer} == null" style="color: black;right:340px;width:7%;">처리 중</div>
+                            <div class="inquirereply" th:if="${list.report_answer} != null" style="color: black;right:340px;width:7%;">처리 완료</div>
                             <h2 class="accordion-header" th:id="|flush-heading${i.index}|">
                             <button class="accordion-button collapsed" type="button" th:text="${list.report_comment}" data-bs-toggle="collapse" th:data-bs-target="|#flush-collapse${i.index}|" aria-expanded="false" th:aria-controls="|flush-collapse${i.index}|">
                                 신고 내용
