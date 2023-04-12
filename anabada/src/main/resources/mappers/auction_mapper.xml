@@ -359,5 +359,20 @@
     
     <select id="subcategory" parameterType="String" resultType="Category">
     	SELECT * FROM category WHERE category_main = #{main}
-    </select> 
+    </select>
+	<select id="auctionEmail" parameterType="String" resultType="AuctionEndEmail">
+		SELECT 
+			a.auction_id as auction_id
+			,a.user_email as seller
+			,ad.user_email as buyer
+			,a.auction_title as title
+			,a.auction_content as content
+			,a.auction_finish as finish
+		FROM 
+			auction a, auction_detail ad
+		where
+			a.auction_id = ad.auction_id
+			and
+			auction_date &lt;= DATE_ADD(NOW(), INTERVAL +1 DAY)
+	</select>
 </mapper>

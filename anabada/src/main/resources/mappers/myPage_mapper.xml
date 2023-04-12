@@ -809,6 +809,7 @@
 			r.rental_date DESC
     </select>
     
+    <!-- 중고거래 완료 처리 -->
     <update id="confirmUsed" parameterType="UsedANdFile">
     	UPDATE
     		used u

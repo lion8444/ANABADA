@@ -205,15 +205,15 @@
             <div class="col-lg-9">
                 <div id="transbox">
                     <div class="translist">
-                        <input type="button" value="빌려준 내역" th:value="#{rentalSell}" th:onclick="|location.href='@{/mypage/myrentallistsell(user_email=${us.user_email})}'|">
+                        <input type="button" value="빌려준 내역" th:value="#{rentalSell}" th:onclick="|location.href='@{/mypage/myrentallistsell(user_email=${user.user_email})}'|">
                     </div>
                     <div class="translist">
-                        <input type="button" value="빌린 내역" th:value="#{rentalBuy}" th:onclick="|location.href='@{/mypage/myrentallistbuy(user_email=${us.user_email})}'|">
+                        <input type="button" value="빌린 내역" th:value="#{rentalBuy}" th:onclick="|location.href='@{/mypage/myrentallistbuy(user_email=${user.user_email})}'|">
                     </div>
                 </div>
               
                 <!-- 파파고 버튼 -->
-                <input type="button" id="papagoSubmit" value="번역" th:value="#{translate}">
+                <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}">
 
                 <!-- 렌탈 빌린 내역 -->
                 <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
@@ -260,9 +260,9 @@
                                         th:if="${list.rDetail_status == '거래 완료'} and ${list.rental_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}">
                                     </input>
                                     <!-- 렌탈 취소 -->
-                                    <form th:action="@{/mypage/cancleRental}" method="post">
+                                    <form th:action="@{/mypage/cancleRental}" method="post" onsubmit="return cancleRentalChk();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" th:value="${list.rental_status}">
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
@@ -275,7 +275,7 @@
                                     <!-- <form th:action="@{/mypage/returnCheck}" method="post" onsubmit="return returnCheck();">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
                                         <input type="hidden" name="user_email" th:value="${list.user_email}">
-                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${us.user_email}"></input>
+                                        <input type="submit" class="btn btn-success" value="렌탈 반납 확인" th:value="#{rentalRefundChk}" th:if="${list.user_email} == ${user.user_email}"></input>
                                     </form> -->
                                 </div>
                             </td>
@@ -330,7 +330,7 @@
                                     <!-- 렌탈 취소 -->
                                     <!-- <form th:action="@{/mypage/cancleRental}" method="post">
                                         <input type="hidden" name="rental_id" th:value="${list.rental_id}">
-                                        <input type="hidden" name="user_email" th:value="${us.user_email}">
+                                        <input type="hidden" name="user_email" th:value="${user.user_email}">
                                         <input type="hidden" name="buyer_email" th:value="${list.buyer_email}">
                                         <input type="hidden" name="used_status" th:value="${list.rental_status}">
                                         <input type="hidden" name="rDetail_status" th:value="${list.rDetail_status}">
@@ -521,8 +521,6 @@
     <script th:src="@{/assets/js/templatemo.js}"></script>
     <script th:src="@{/assets/js/custom.js}"></script>
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script> 
     <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
     <script th:src="@{/assets/property_js/aos.js}"></script>
     <script th:src="@{/assets/property_js/navbar.js}"></script>

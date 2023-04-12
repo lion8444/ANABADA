@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.anabada.domain.Auction;
+import com.anabada.domain.AuctionEndEmail;
 import com.anabada.domain.Auction_detail;
 import com.anabada.domain.Category;
 import com.anabada.domain.File;
@@ -80,5 +81,7 @@ public interface AuctionDAO {
 	ArrayList<Category> maincategory();
 	
 	ArrayList<Auction_detail> findAllAuctionDetail();
+
+    List<AuctionEndEmail> auctionEmail();
 
 }

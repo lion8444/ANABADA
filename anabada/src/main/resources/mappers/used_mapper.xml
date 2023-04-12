@@ -369,7 +369,7 @@
     			,#{used_title}
     			,#{used_price}
     			,#{used_content}    			
-    			,#{used_quality}    						
+    			,#{used_quality}    					
     			)    	
     </insert>
     

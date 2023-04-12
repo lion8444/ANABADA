@@ -173,7 +173,7 @@
 									<tr>
 										<th th:text="#{reported}">신고대상</th>
 										<td>
-											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.used_id != null}" th:value="${us.user_email}">
+											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.used_id != null}" th:value="${user.user_email}">
 											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.rental_id != null}" th:value="${rt.user_email}">
 											<input type="text" name="report_reported" id="report_reported" placeholder="신고 대상의 이메일을 입력해 주세요." th:if="${param.used_id == null}">
 											<div class="reported_ok"></div>

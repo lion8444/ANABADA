@@ -19,8 +19,6 @@ public class UsedAndFile {
 	String used_content;
 	String used_quality;
 	String used_status;
-	String uloc_id;
-	String sloc_id;
 	String file_origin;
 	String file_saved;
 	String uDetail_status;

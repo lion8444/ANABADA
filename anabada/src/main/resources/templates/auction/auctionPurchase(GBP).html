@@ -33,7 +33,7 @@
     <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
     <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
 
-    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <!-- <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}"> -->
     <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -106,23 +106,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">중고거래</a>
+                                aria-haspopup="true" aria-expanded="false" th:text="#{used}">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
-                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}" th:text="#{sellUsed}">중고판매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{auctionBoard}">경매거래</a>
+                            <a class="nav-link" th:href="@{auctionBoard}" th:text="#{auction}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/map}">지도</a>
+                            <a class="nav-link" th:href="@{/map}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -143,10 +143,10 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}" th:text="#{login}">로그인</a>
                         <div sec:authorize="isAuthenticated()">
-                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}" th:text="#{mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}" th:text="#{logout}">로그아웃</a>
                         </div>
                     </div>
 
@@ -174,7 +174,6 @@
     <!-- Close Header -->
 
     <!-- 넣을부분 -->
-
     <div class="section">
         <div class="container">
             <div class="row justify-content-between">
@@ -189,41 +188,44 @@
                 </div>
                 <div class="col-lg-4">
                     <input type="hidden" name="auction_id" id="auction_id" th:value="${auction.auction_id}">
-                    <div class="heading text-primary">
-                        <h2 th:text="${auction.auction_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
+                    <div class="heading text-primary" >
+                        <h2 th:text="${auction.auction_title}" id="papago0" class="papago" papagoCount="0" style="display: inline-block;">제목</h2>
+                        <!-- 글 상세 정보 번역 버튼 파파고 -->
+                        <input type="button" class="arrow-btn1" id="papagoSubmit3" value="번역" th:value="#{translate}" style="margin-left: 5px;bottom: 5px;">
                     </div>
                     <div class="meta">
                         <h3 class="nowprice"></h3>
                     </div><br>
                     <div class="text-black-50">
-                        <p th:text="${auction.auction_content}" id="papago2" class="papago" papagoCount="2">내용</p>
+                        <p th:text="${auction.auction_content}" id="papago1" class="papago" papagoCount="1">내용</p>
                     </div>
                     <div class="text-black-30">
-                        <p th:text="${auction.auction_quality}" id="papago3" class="papago" papagoCount="3">퀄리티</p>
+                        <p th:text="${auction.auction_quality}" id="papago2" class="papago" papagoCount="2">퀄리티</p>
                     </div>
-                    <p class="text-black-30"><span id="papago4" class="papago" papagoCount="4">* 배송시 배송료 별도</span></p>
+                    <p class="text-black-30"><span id="papago3" class="papago" papagoCount="3">* 배송시 배송료 별도</span></p>
 
                     <div class="d-block agent-box p-5">
-                        <div class="img mb-4">
-                            <!-- <img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid"> -->
-                            다마고치 넣는 곳
+                        <div class="img mb-4" th:if="${dama.char_selected} == 1">
+                            <img th:if="${dama.char_level} >= 1 and ${dama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${dama.char_one}">
+                            <img th:if="${dama.char_level} >= 4 and ${dama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${dama.char_two}">
+                            <img th:if="${dama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${dama.char_three}">
                         </div>
                        
                         <input type="hidden" name="auction_id" id="auction_id" th:value="${auction_sell.auction_id}">
                         <div class="text">
                             
-                            <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
-                            <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
-                            <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
+                            <h5 th:text="'닉네임: '+${target.user_nick}" id="papago4" class="papago" papagoCount="4">닉네임</h5>
+                            <h5 th:text="'레벨: '+${target.user_level}" id="papago5" class="papago" papagoCount="5">레벨</h5>
+                            <h5 th:text="'국적: '+${target.user_nation}" id="papago6" class="papago" papagoCount="6">국적</h5>
 
                             <h5>
-                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' "></span>
-                                <span th:text="'페널티: '+${target.user_penalty}"></span>
+                                <span th:text="'거래 갯수: '+${target.user_trade}+' /' " id="papago7" class="papago" papagoCount="7"></span>
+                                <span th:text="'페널티: '+${target.user_penalty}" id="papago8" class="papago" papagoCount="8"></span>
                             </h5>
 
                             <div th:if="${#authentication.name}!=${auction_sell.user_email}" style="text-align: right;" >
                                 <a id = goChatting>
-                                <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
+                                <button class="arrow-btn1" value="채팅" th:text="#{doChat}">채팅하러가기</button></a>
                             </div>
                         </div>
                     </div>
@@ -241,98 +243,98 @@
 
                     <div class="info form-group">
 
-                        <h3 class="my-4">경매 정보</h3>
+                        <h3 class="my-4" th:text="#{auctionInfo}">경매 정보</h3>
                         <input type="text" name="auction_id" class="auction_id" th:value="${auction.auction_id}" hidden>
                         <div class="form-group">
-                            <p>상품명</p>
+                            <p th:text="#{pdName}">상품명</p>
                             <input type="text" class="title form-control" th:value="${auction.auction_title}" readonly>
                         </div>
                         <br>
                         <div class="form-group">
-                            <p>경매기간</p>
+                            <p th:text="#{auctionTime}">경매기간</p>
                             <input type="text" class="auction_date form-control" name="auction_date">
                             ~ <input type="text" class="auction_finish form-control" name="auction_finish"
                                 th:value="${auction.auction_finish}">
                         </div>
                         <br>
                         <div class="form-group">
-                            <p>남은 기간</p>
+                            <p th:text="#{leftTime}">남은 기간</p>
                             <input type="text" class="restdate form-control" readonly>
                         </div>
                         <br>
                         <div class="form-group">
-                            <p>경매 시작가</p>
+                            <p th:text="#{auctionStartPrice}">경매 시작가</p>
                             <input type="text" class="startprice form-control"
                                 th:value="|₩ ${#numbers.formatInteger(auction.auction_price, 3, 'COMMA')}|" readonly>
                         </div>
                         <br>
                         <div class="form-group">
-                            <p>현재 입찰가</p>
+                            <p th:text="#{nowAuctionBidPrice}">현재 입찰가</p>
                             <!-- <input type="text" class="nowprice form-control" readonly>
                             <input type="text" class="renowprice" hidden> -->
                             <input type="text" class="nowprice-input form-control" readonly>
                         </div>
                         <br>
                         <div class="form-group">
-                            <p>입찰금액</p>
+                            <p th:text="#{putBidPrice}">입찰금액</p>
                             <input type="text" class="showbid_price form-control">
                             <input type="text" class="bid_price form-control" name="aDetail_price" hidden>
 
-                            <div class="hidden">
+                            <div class="hidden" th:text="#{putBidmoreHigher}">
                                 현재 입찰가 보다 높은 가격으로 숫자만 입력해 주세요.
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <h3 class="my-4">배송지 정보</h3>
+                        <h3 class="my-4" th:text="#{shippingInfo}">배송지 정보</h3>
                         <div class="form-group">
 
-                            <p>배송지 선택</p>
+                            <p th:text="#{shippingAddrSelect}">배송지 선택</p>
 
-                            <input type="radio" class="newaddr form-check-label" name="addr" value="new" checked>신규배송지
-                            <input type="radio" class="myaddr form-check-label" name="addr" value="default">내 주소
+                            <input type="radio" class="newaddr form-check-label" name="addr" value="new" th:text="#{newShippingAddr}" checked>
+                            <input type="radio" class="myaddr form-check-label" name="addr" value="default" th:text="#{myAddr}">
                         </div>
                         <br>
                         <div class="form-group">
 
-                            <p>수령인</p>
+                            <p th:text="#{reception}">수령인</p>
                             <input type="text" class="inname form-control" name="aDetail_person"
-                                placeholder="20자 이내로 입력하세요."><br>
-                            <div class="hidden">
+                                placeholder="20자 이내로 입력하세요." th:placeholder="#{put20}"><br>
+                            <div class="hidden" th:text="#{putReception}">
                                 수령인을 입력해 주세요.
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <p>연락처</p>
+                            <p th:text="#{phone}">연락처</p>
                             <input type="text" class="phone form-control" name="aDetail_phone"
-                                placeholder="-없이 입력해주세요."><br>
-                            <div class="hidden">
+                                placeholder="-없이 입력해주세요." th:placeholder="#{putNo-}"><br>
+                            <div class="hidden" th:text="#{putCorrectPhoneNum}">
                                 정확한 핸드폰 번호를 입력해주세요.
                             </div>
                         </div>
                         <div class="form-group">
 
-                            <p>배송지 주소</p>
-                            <input type="text" id="sample6_postcode" name="aDetail_post" class="post form-control" placeholder="우편번호"> 
+                            <p th:text="#{shippingAddrInfo}">배송지 주소</p>
+                            <input type="text" id="sample6_postcode" name="aDetail_post" class="post form-control" placeholder="우편번호" th:placeholder="#{postCode}"> 
                                 <!-- <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br> -->
                                 <div class="usedhref">
                                     <button class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
-                                        th:value="#{searchPostCode}" value="우편번호 찾기">우편번호 찾기</button>
+                                        th:text="#{searchPostCode}" value="우편번호 찾기">우편번호 찾기</button>
                                 </div>
                             <input id="sample6_address" class="addr1 form-control" name="aDetail_addr1" type="text"
                                 readonly><br>
                             <input id="sample6_detailAddress" class="addr2 form-control" name="aDetail_addr2"
                                 type="text"><br>
-                            <div class="hidden">
+                            <div class="hidden" th:text="#{putAddr}">
                                 주소를 입력해 주세요.
                             </div>
                         </div>
                         <div class="form-group">
 
-                            <p>배송메모</p>
-                            <textarea name="aDetail_memo" class="form-control" placeholder="요청사항을 직접 입력합니다"></textarea>
+                            <p th:text="#{shippingMemo}">배송메모</p>
+                            <textarea name="aDetail_memo" class="form-control" th:placeholder="#{putShippingRequest}" placeholder="요청사항을 직접 입력합니다"></textarea>
                         </div>
                     </div>
                     <div><p></p></div>
@@ -341,29 +343,29 @@
             <br>
 
             <div class="col-md-4">
-                <h3 class="my-4">아나바다 포인트 </h3>
+                <h3 class="my-4" th:text="#{anaPoint}">아나바다 포인트</h3>
                 <div class="form-group">
-                    <p>보유</p>
+                    <p th:text="#{have}">보유</p>
                     <input type="text" class="showmuch form-control" th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly>
                     <div class="usedhref">
-                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전" th:onclick="charge()">충전</button>
+                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" th:text="#{charge}" value="충전" th:onclick="charge()">충전</button>
                     </div>
                     <input type="text" class="much" th:value="${(user.user_account)}" hidden>
                 </div>
                 <br>
                 <br>
                 <div class="form-group">
-                    <p>사용</p>
+                    <p th:text="#{use}">사용</p>
                     <input type="text" class="showmoney form-control">
                     <input type="text" class="money" name="user_account" hidden> <br>
-                    <div class="hidden">
+                    <div class="hidden" th:text="#{pointLack}">
                         보유 포인트가 부족합니다.
                     </div>
                 </div>
                 <div class="form-group">
                     <input type="checkbox" class="agree">
-                    <span>주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
-                    <div class="hidden">
+                    <span th:text="#{agree}">주문내용에 동의 하였으며 정보 제공 등에 동의합니다. </span><br>
+                    <div class="hidden" th:text="#{aggreChk}">
                         동의란에 체크해 주세요.
                     </div>
                 </div>
@@ -549,10 +551,11 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
-<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/assets/property_js/tiny-slider.js}"></script>
+    <!-- 채팅 -->
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
+    <script th:src="@{/js/chat/chat.js}"></script>
+<!-- <script th:src="@{/assets/property_js/tiny-slider.js}"></script> -->
 <script th:src="@{/assets/property_js/aos.js}"></script>
 <script th:src="@{/assets/property_js/navbar.js}"></script>
 <script th:src="@{/assets/property_js/counter.js}"></script>

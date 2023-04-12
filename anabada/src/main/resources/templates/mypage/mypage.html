@@ -57,6 +57,9 @@
     <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
     <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
 
+    <!-- 채팅 css -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
     <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
@@ -261,19 +264,13 @@
                             <th>현재 보유 페이</th>
                             <td th:text="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}+' PAY'" style="text-align: center;"></td>
                             <td>
-                                <button type="submit" class="arrow-btn1" style="margin-top: 0rem" th:onclick="charge([[${user.user_nick}]])">충전하러가기</button>
+                                <button type="submit" class="arrow-btn1" style="margin-top: 0rem" th:onclick="charge([[${user.user_nick}]])" th:text="#{goToCharge}">충전하러가기</button>
                             </td>
                         </tr>
                         
                     </table>
                 </div>
                <br>
-
-                <div id="singo">
-                    <span>※ 신고 누적으로 제제내역 있을 시</span>
-                    <p>※ 현재 회원님은 신고 누적으로 사이트 제한됩니다.</p>
-                    <p>※ 사이트 모든 기능 1주일 이용 정지</p>
-                </div>
             </div>
         </div>
     </div>

@@ -23,13 +23,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.anabada.domain.Category;
+import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
+import com.anabada.domain.Location;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.map.MapService;
+import com.anabada.service.mypage.MyPageService;
 import com.anabada.service.used.UsedService;
 import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
@@ -50,8 +54,17 @@ public class UsedController {
 	// 위시리스트 관련 서비스
 	@Autowired
 	WishService wservice;
+	
+	// 마이페이지 관련 서비스
+	@Autowired
+	MyPageService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
+
+	@Autowired
+	MapService mapservice;
+	
+	//설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
 	String uploadPath;
 
@@ -132,6 +145,9 @@ public class UsedController {
 		// 위시리스트 유무 정보 가져오기
 		Wish wish = wservice.selectWish(used_id, userDetails.getUsername());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(used_sell.getUser_email());
+		
 		model.addAttribute("user", user);
 		model.addAttribute("target", targetUser);
 
@@ -139,6 +155,7 @@ public class UsedController {
 		model.addAttribute("fileList", fileList);
 		
 		model.addAttribute("wish", wish);
+		model.addAttribute("dama", dama);
 
 		return "used/usedSellBoardRead(JPBR)";
 	}
@@ -197,6 +214,7 @@ public class UsedController {
 	public String usedSellWrite(
 			@AuthenticationPrincipal UserDetails userDetails,
 			@ModelAttribute Used used,
+			Location location,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
 
@@ -250,6 +268,7 @@ public class UsedController {
 
 		// 전달된 아이디의 글정보 읽기
 		Used used = service.usedSellBoardRead(used_id);
+		Location location = mapservice.findBoardLocation(used_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
 		if (!used.getUser_email().equals(userDetails.getUsername())) {
@@ -269,12 +288,16 @@ public class UsedController {
 	@PostMapping("usedSellBoardUpdate")
 	public String usedSellBoardUpdate(
 			@ModelAttribute Used used, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
+			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne,
 			@AuthenticationPrincipal UserDetails userDetails) {
 		String used_id = service.usedSellBoardUpdate(used);
+		
+		
 
-		// 로그인한 사용자의 아이디를 읽음
-		String id = userDetails.getUsername();
+		Location updateLoc = mapservice.findBoardLocation(used_id);
+		location.setLoc_id(updateLoc.getLoc_id());
+		mapservice.updateLocation(location);
 
 		if (used_id == null) {
 			return "redirect:/";
@@ -354,9 +377,11 @@ public class UsedController {
 		// UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		model.addAttribute("user", user);
 		// model.addAttribute("target", targetUser);
+
 		ArrayList<Used_buy> bboardlist = service.usedBuyBoard();
-		// log.debug("db에서 넘어오나?:{}",bboardlist);
+		
 		model.addAttribute("bboardlist", bboardlist);
+		
 		return "used/usedBuyBoard(JSB)";
 	}
 
@@ -368,7 +393,7 @@ public class UsedController {
 			@RequestParam(name = "uBuy_id", defaultValue = "0") String uBuy_id,
 			@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
-		// log.debug("넘어오는 값: {}",used_buy);
+		 log.debug("넘어오는 값: {}",uBuy_id);
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_buy.getUser_email());
 
@@ -460,12 +485,16 @@ public class UsedController {
 			
 		UserDTO target = service.findUser(used.getUser_email());
 		
+		// 글쓴이의 다마고치 정보
+		Damagochi dama = mservice.selectMyDamaInfoById(used.getUser_email());
+		
 		model.addAttribute("target", target);
 
 		model.addAttribute("used", used);
 		// model.addAttribute("auction_detail", auction_detail);
 		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
+		model.addAttribute("dama", dama);
 
 		return "used/usedPurchase(JPBP).html";
 	}

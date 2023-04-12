@@ -250,7 +250,8 @@ public class UsedServiceImpl implements UsedService {
 		ArrayList<Used_buy>bboardlist= dao.usedBuyBoard();
 		return bboardlist;
 	}
-	
+
+
 	//사는 글 한개 출력
 	@Override
 	public Used_buy usedBuyBoardRead(String num) {

@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-                >
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>ANABADA</title>
@@ -17,6 +15,7 @@
 
     <!-- Load fonts style after rendering the layout styles -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
 
@@ -56,23 +55,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{/used/usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">중고거래</a>
+                                aria-haspopup="true" aria-expanded="false" th:text="#{used}">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}">중고판매</a>
-                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}">중고구매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedSellBoard}" th:text="#{sellUsed}">중고판매</a>
+                                <a class="dropdown-item" th:href="@{/used/usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/map}">지도</a>
+                            <a class="nav-link" th:href="@{/map}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -93,10 +92,10 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}" th:text="#{login}">로그인</a>
                         <div sec:authorize="isAuthenticated()">
-                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}" th:text="#{mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}" th:text="#{logout}">로그아웃</a>
                         </div>
                     </div>
 
@@ -256,8 +255,8 @@
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
                                 <h1 class="h1 text-success"><b>USED</b> USED TRADING SITE</h1>
-                                <h3 class="h2">중고거래 하러가기 → </h3>
-                                <p>
+                                <h3 class="h2" th:text="#{gotoUsed}">중고거래 하러가기 → </h3>
+                                <p th:text="#{mainPhraseOne}">
                                     동네의 주민들과 중고물품을 자유롭게 거래해요
                                     <!-- Zay Shop is an eCommerce HTML5 CSS template with latest version of Bootstrap 5 (beta 1). 
                                     This template is 100% free provided by <a rel="sponsored" class="text-success" href="https://templatemo.com" target="_blank">TemplateMo</a> website. 
@@ -280,8 +279,8 @@
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
                                 <h1 class="h1 text-success"><b>RENTAL</b> RENTAL SITE</h1>
-                                <h3 class="h2">렌탈 하러가기 →</h3>
-                                <p>
+                                <h3 class="h2" th:text="#{gotoRental}">렌탈 하러가기 →</h3>
+                                <p th:text="#{mainPhraseThree}">
                                     이웃과 함께 써요 렌탈 서비스
                                 </p>
                             </div>
@@ -299,8 +298,8 @@
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
                                 <h1 class="h1 text-success"><b>AUCTION</b> AUCTION SITE</h1>
-                                <h3 class="h2">경매 하러가기 → </h3>
-                                <p>
+                                <h3 class="h2" th:text="#{gotoAuction}">경매 하러가기 → </h3>
+                                <p th:text="#{mainPhraseFour}">
                                     좋은 물건이 있다면? 경매에 참여해 보세요!
                                 </p>
                             </div>
@@ -446,7 +445,6 @@
     <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
     <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
     <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
     <script th:src="@{/assets/property_js/aos.js}"></script>
     <script th:src="@{/assets/property_js/navbar.js}"></script>
     <script th:src="@{/assets/property_js/counter.js}"></script>

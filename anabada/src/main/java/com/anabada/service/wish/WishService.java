@@ -1,5 +1,7 @@
 package com.anabada.service.wish;
 
+import org.springframework.stereotype.Service;
+
 import com.anabada.domain.Wish;
 
 /**
@@ -7,6 +9,7 @@ import com.anabada.domain.Wish;
  * @author user
  *
  */
+@Service
 public interface WishService {
 
 	public int insertWish(String boardno, String email);

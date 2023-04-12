@@ -1,9 +1,4 @@
-<!-- /*
-* Template Name: Property
-* Template Author: Untree.co
-* Template URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
-*/ -->
+
 <!doctype html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
@@ -46,137 +41,36 @@
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
 
-	<!-- 제이쿼리 -->
-	<script th:src="@{/js/jquery-3.6.3.min.js}"></script>
-	<script th:src="@{/js/js_csForm.js}"></script>
-	<script th:src="@{/js/lanTest.js}"></script>
-
     <link rel="stylesheet" th:href="@{/css/css_sidebar.css}">
 
     <!-- 버튼관련 css -->
     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
+    
+	<script>
+		function saveReview() {
+        var form = document.querySelector('form');
+        var formData = new FormData(form);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/csform/review');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // 후기 작성이 성공한 경우
+                alert('후기가 작성되었습니다!');
+                window.close(); // 창 닫기
+            } else {
+                alert('후기 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
+            }
+        };
+    xhr.send(formData);
+}
+    </script>
+
 	<title>리뷰 작성</title>
 </head>
 <body>
-	<!-- Start Top Nav -->
-    <nav class="navbar navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-        <div class="container text-light">
-            <div class="w-100 d-flex justify-content-between">
-                <div>
-                    <i class="fa fa-envelope mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="mailto:info@company.com">info@company.com</a>
-                    <i class="fa fa-phone mx-2"></i>
-                    <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">010-020-0340</a>
-                </div>
-                <div>
-                    <a class="text-light" href="https://fb.com/templatemo" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- Close Top Nav -->
 
-
-    <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-light shadow">
-        <div class="container d-flex justify-content-between align-items-center">
-
-            <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/}">
-                ANABADA
-            </a>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between" id="templatemo_main_nav">
-                <div class="flex-fill">
-                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/used/usedSellBoard}" th:text="#{used}">중고</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@{/}" th:text="#{map}">지도</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="@{/}" th:text="#{introduce}">프로젝트 소개</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
-                    </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </nav>
-    <!-- Close Header -->
-	<!-- 메인 컨텐츠 시작 -->
-	<div class="section">
-		<div class="container">
-			<div class="row justify-content-between">
-				<div class="col-lg-7">
-					<div class="img-property-slide-wrap">
-						<div class="img-property-slide">
-							<img th:src="@{/assets/property_images/img_1.jpg}" alt="Image" class="img-fluid">
-							<img th:src="@{/assets/property_images/img_2.jpg}" alt="Image" class="img-fluid">
-							<img th:src="@{/assets/property_images/img_3.jpg}" alt="Image" class="img-fluid">
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="papago">
-						<h2 class="heading text-primary">테스트하는 글 입니다.</h2>
-						<p class="meta">안녕하세요 반갑습니다</p>
-						<p class="text-black-50">일본에 가고 싶습니다.</p>
-						<p class="text-black-50">노래를 부르며</p>
-					</div>
-					<input type="button" id="">
-					<div class="d-block agent-box p-5">
-						<div class="img mb-4">
-							<img th:src="@{/assets/property_images/person_2-min.jpg}" alt="Image" class="img-fluid">
-						</div>
-						<div class="text">
-							<h3 class="mb-0">Alicia Huston</h3>
-							<div class="meta mb-3">Real Estate</div>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione laborum quo quos omnis sed magnam id ducimus saepe</p>
-							<ul class="list-unstyled social dark-hover d-flex">
-								<li class="me-1"><a href="#"><span class="icon-instagram"></span></a></li>
-								<li class="me-1"><a href="#"><span class="icon-twitter"></span></a></li>
-								<li class="me-1"><a href="#"><span class="icon-facebook"></span></a></li>
-								<li class="me-1"><a href="#"><span class="icon-linkedin"></span></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
 				<!-- 후기 작성 폼 -->
 				<div class="d-block agent-box p-5">
 					<div class="reviewbox">
@@ -220,11 +114,11 @@
 								<input type="range" name="review_star" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
 							</span>
 							<div class="starMent" th:text="#{putStar}">별점을 입력해 주세요!</div>
-							<textarea name="review_comment" id="review_comment" cols="150" rows="10" style="resize: none;" th:placeholder="#{putReviewSincerely}"></textarea>
+							<textarea name="review_comment" id="review_comment" cols="120" rows="10" style="resize: none;" th:placeholder="#{putReviewSincerely}"></textarea>
 							<hr>
 							<div class="reviewButtons">
 								<input class="btn btn-success" type="submit" value="후기 작성" th:value="#{writeReview}">
-								<a th:href="@{/}"><input type="button" value="취소" th:value="#{cancle}" class="btn btn-success"></a>
+								<a th:href="@{/mypage/mypage}"><input type="button" value="취소" th:value="#{cancle}" class="btn btn-success"></a>
 							</div>
 						</form>
 					</div>
@@ -232,170 +126,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 채팅 -->
-    <section sec:authorize="isAuthenticated()" th:if="${user != null}">
-        <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
-        <button class="chatbox-open">
-            <i class="fa fa-comment fa-2x" aria-hidden="true"></i>
-        </button>
-        <button class="chatbox-close">
-            <i class="fa fa-close fa-2x" aria-hidden="true"></i>
-        </button>
-
-        <div class="chatbox-container">
-            <div class="chatbox">
-                <div class="top-bar">
-                    <div class="targetInfo">
-                        <img src="" class="avatar" alt="">
-                        <div class="name">Voldemort</div>
-                    </div>
-                    <div class="icons">
-                        <i class="fas fa-phone"></i>
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <div class="menu">
-                        <div class="dots"></div>
-                    </div>
-                </div>
-                <div class="middle chatting">
-                    <div class="voldemort">
-                        <!-- <div class="typing">
-                        <div class="bubble">
-                            <div class="ellipsis one"></div>
-                            <div class="ellipsis two"></div>
-                            <div class="ellipsis three"></div>
-                        </div>
-                    </div> -->
-                    </div>
-                </div>
-
-                <div class="bottom-bar">
-                    <div class="chat">
-                        <input type="text" class="chat-input" placeholder="Type a message..." />
-                        <button class="send-btn" type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="messages"></div>
-            <div class="profile">
-                <img class="avatar" src="/img/pacman.png">
-                <div class="name2" th:text="${user.user_nick}">Harry<p class="email">Harry@potter.com</p>
-                </div>
-            </div>
-            <ul class="people">
-                <li class="person">
-                    <span class="title">Voldemort </span>
-                    <span class="time">2:50pm</span><br>
-                    <span class="preview">What are you getting... Oh, oops...</span>
-                </li>
-                <li class="person">
-                    <span class="title">Ron</span>
-                    <span class="time">2:25pm</span><br>
-                    <span class="preview">Meet me at Hogsmeade and bring...</span>
-                </li>
-                <li class="person">
-                    <span class="title">Hermione</span>
-                    <span class="time">2:12pm</span><br>
-                    <span class="preview">Have you and Ron done your hom...</span>
-                </li>
-            </ul>
-            <div class="middle format">
-                <div class="voldemort">
-                    <div class="messageText">
-                        <div class="margin">
-                            <div>
-                                <span class="bubble"></span>
-                            </div>
-                            <span class="chattime"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-	<div class="site-footer">
-		<div class="container">
-
-			<div class="row">
-				<div class="col-lg-4">
-					<div class="widget">
-						<h3>Contact</h3>
-						<address>43 Raymouth Rd. Baltemoer, London 3910</address>
-						<ul class="list-unstyled links">
-							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-							<li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-							<li><a href="mailto:info@mydomain.com">info@mydomain.com</a></li>
-						</ul>
-					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
-				<div class="col-lg-4">
-					<div class="widget">
-						<h3>Sources</h3>
-						<ul class="list-unstyled float-start links">
-							<li><a href="#">About us</a></li>
-							<li><a href="#">Services</a></li>
-							<li><a href="#">Vision</a></li>
-							<li><a href="#">Mission</a></li>
-							<li><a href="#">Terms</a></li>
-							<li><a href="#">Privacy</a></li>
-						</ul>
-						<ul class="list-unstyled float-start links">
-							<li><a href="#">Partners</a></li>
-							<li><a href="#">Business</a></li>
-							<li><a href="#">Careers</a></li>
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Creative</a></li>
-						</ul>
-					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
-				<div class="col-lg-4">
-					<div class="widget">
-						<h3>Links</h3>
-						<ul class="list-unstyled links">
-							<li><a href="#">Our Vision</a></li>
-							<li><a href="#">About us</a></li>
-							<li><a href="#">Contact us</a></li>
-						</ul>
-
-						<ul class="list-unstyled social">
-							<li><a href="#"><span class="icon-instagram"></span></a></li>
-							<li><a href="#"><span class="icon-twitter"></span></a></li>
-							<li><a href="#"><span class="icon-facebook"></span></a></li>
-							<li><a href="#"><span class="icon-linkedin"></span></a></li>
-							<li><a href="#"><span class="icon-pinterest"></span></a></li>
-							<li><a href="#"><span class="icon-dribbble"></span></a></li>
-						</ul>
-					</div> <!-- /.widget -->
-				</div> <!-- /.col-lg-4 -->
-			</div> <!-- /.row -->
-
-			<div class="row mt-5">
-				<div class="col-12 text-center">
-					<!-- 
-              **==========
-              NOTE: 
-              Please don't remove this copyright link unless you buy the license here https://untree.co/license/  
-              **==========
-            -->
-
-            <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a> <!-- License information: https://untree.co/license/ -->
-            </p>
-
-          </div>
-        </div>
-      </div> <!-- /.container -->
-    </div> <!-- /.site-footer -->
-
-
-    <!-- Preloader -->
-    <div id="overlayer"></div>
-    <div class="loader">
-    	<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-    	</div>
-    </div>
+	
 
 
     <script th:src="@{/assets/property_js/bootstrap.bundle.min.js}"></script>
@@ -408,5 +139,10 @@
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
+
+    <!-- 제이쿼리 -->
+	<script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/js_csForm.js}"></script>
+	<script th:src="@{/js/lanTest.js}"></script>
   </body>
   </html>

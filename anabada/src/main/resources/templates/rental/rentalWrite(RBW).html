@@ -50,6 +50,8 @@
 
      <!-- 개인 css-->
      <link rel="stylesheet" th:href="@{/css/css_usedBuyWrite(JSBW).css}">
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
 
     <!-- 제이쿼리 (pyw) -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
@@ -61,6 +63,15 @@
       .hidden {
       display:none;
       color: red;
+      }
+    #map-wrapper {
+        display: block;
+        margin: 30px 0 30px 0;
+        width: 1110px;
+        height: 500px;
+      }
+      #map {
+        height: 100%;
       }
     </style>
 </head>
@@ -166,10 +177,7 @@
       
             <form th:action="@{rentalWrite}" method="post" id="write"
                     enctype="multipart/form-data">
-                    <!-- <input type="hidden" name="user_email" th:value="">  -->
-                    <!-- <input type="hidden" name="uloc_id" value="uloc000001">
-                    <input type="hidden" name="sloc_id" value="sloc000001"> -->
-                
+                    <!-- <input type="hidden" name="user_email" th:value="">  -->                
                 <div class="mb-3">
                     <label for="rental_title">제목</label>
                     <input type="text" class="form-control" id="rental_title" name="rental_title" placeholder="제목을 입력해 주세요">
@@ -239,6 +247,19 @@
                      	<div class="hidden">
 							상세설명을 50자 이상 입력해 주세요.
                         </div>                    
+                </div>
+
+                <!-- 지도 -->
+                <div id="map-wrapper">
+                    <input type="text" id="search">
+                    <button id="search-button" onclick="search()">검색</button>
+                    <div id="map"></div>
+                </div>
+                <!-- 전달할 location 값 -->
+                <div>
+                    <input type="hidden" name="lat" id="latitude">
+                    <input type="hidden" name="lng" id="longitude">
+                    <input type="hidden" name="loc_name" id="loc_name">
                 </div>
                 
                 <div>
@@ -445,6 +466,9 @@
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
+    <!-- 지도 -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>    
+    <script th:src="@{/js/map/boardMap.js}"></script>
     <!-- jQuery -->
 <!--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
  -->    <!-- End Script -->

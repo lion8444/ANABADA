@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Anabada</title>
@@ -13,10 +12,11 @@
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/templatemo.css}">
     <link rel="stylesheet" th:href="@{/assets/css/custom.css}">
-    
+
 
     <!-- Load fonts style after rendering the layout styles -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     <link rel="stylesheet" th:href="@{assets/css/fontawesome.min.css}">
     <link rel="stylesheet" th:href="@{assets/css/custom.css}">
     <!-- 채팅 css -->
@@ -28,37 +28,49 @@
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
 
-     <meta name="author" content="Untree.co">
-     <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
- 
-     <meta name="description" content="" />
-     <meta name="keywords" content="bootstrap, bootstrap5" />
-     
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
- 
- 
-     <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
-     <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
- 
-     <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
-     <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
-     <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">	
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
- 
-	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
-	<script th:src="@{/js/hsw/usedSellWrite(JPBW).js}"></script>
-     <!-- 개인 css-->
-     <link rel="stylesheet" th:href="@{/css/css_usedBuyWrite(JSBW).css}">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" th:href="@{/assets/img/favicon.png}">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="bootstrap, bootstrap5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
+
+    <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+    <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/js/hsw/usedSellWrite(JPBW).js}"></script>
+    <!-- 개인 css-->
+    <link rel="stylesheet" th:href="@{/css/css_usedBuyWrite(JSBW).css}">
       <!-- 버튼관련 css -->
     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
 
     <style>
-      .hidden {
-      display:none;
-      color: red;
+        .hidden {
+            display: none;
+            color: red;
+        }
+      #map-wrapper {
+        display: block;
+        margin: 30px 0 30px 0;
+        width: 1110px;
+        height: 500px;
+      }
+      #map {
+        height: 100%;
       }
     </style>
 </head>
@@ -85,23 +97,23 @@
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link" th:href="@{usedSellBoard}" id="usedDropdown" role="button"
-                                aria-haspopup="true" aria-expanded="false">중고거래</a>
+                                aria-haspopup="true" aria-expanded="false" th:text="#{used}">중고거래</a>
                             <div class="dropdown-menu" aria-labelledby="usedDropdown">
-                                <a class="dropdown-item" th:href="@{usedSellBoard}">중고판매</a>
-                                <a class="dropdown-item" th:href="@{usedBuyBoard}">중고구매</a>
+                                <a class="dropdown-item" th:href="@{usedSellBoard}" th:text="#{sellUsed}">중고판매</a>
+                                <a class="dropdown-item" th:href="@{usedBuyBoard}" th:text="#{buyUsed}">중고구매</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/rental/rentalBoard}">렌탈거래</a>
+                            <a class="nav-link" th:href="@{/rental/rentalBoard}" th:text="#{rental}">렌탈거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/auction/auctionBoard}">경매거래</a>
+                            <a class="nav-link" th:href="@{/auction/auctionBoard}" th:text="#{auction}">경매거래</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/map}">지도</a>
+                            <a class="nav-link" th:href="@{/map}" th:text="#{map}">지도</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/info}">프로젝트 소개</a>
+                            <a class="nav-link" th:href="@{/info}" th:text="#{introduce}">프로젝트 소개</a>
                         </li>
                     </ul>
                 </div>
@@ -122,10 +134,10 @@
                             class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu" style="display:none;">
-                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}">로그인</a>
+                        <a sec:authorize="!isAuthenticated()" class="dropdown-item" th:href="@{/login}" th:text="#{login}">로그인</a>
                         <div sec:authorize="isAuthenticated()">
-                            <a class="dropdown-item" th:href="@{/mypage/mypage}">마이페이지</a>
-                            <a class="dropdown-item" th:href="@{/logout}">로그아웃</a>
+                            <a class="dropdown-item" th:href="@{/mypage/mypage}" th:text="#{mypage}">마이페이지</a>
+                            <a class="dropdown-item" th:href="@{/logout}" th:text="#{logout}">로그아웃</a>
                         </div>
                     </div>
 
@@ -153,86 +165,81 @@
     <!-- Close Header -->
 
     <!-- 글 쓰는 폼 -->          
-<article>
-          
-            <div class="container" role="main">
-          
-                <h2>중고 거래 판매 글 쓰기</h2>
-          
-                <form th:action="@{usedSellWrite}" method="post" id="write"
-                        enctype="multipart/form-data">
-                        <!-- <input type="hidden" name="user_email" th:value="">  -->
-                        <!-- <input type="hidden" name="uloc_id" value="uloc000001">
-                        <input type="hidden" name="sloc_id" value="sloc000001"> -->
-                    
-                    <div class="mb-3">
-                        <label for="used_title">제목</label>
-                        <input type="text" class="form-control" id="used_title" name="used_title" placeholder="제목을 입력해 주세요">
-                            <div class="hidden">
- 								상품명을 입력해 주세요.
-							</div>
-                    </div>
-          
-                    <div class="mb-3">
-                        <label for="category">카테고리</label><br>
-                    <select class="select_categories main">
-                    	<th:block th:each="main, i: ${category_main}">
-                        	<option th:text="${main.category_main}"></option>
-                        </th:block>
-                    </select>
-                   
-                    <select id="category_id" name="category_id" class="select_categories subcate"></select>
+    <article>
+        <div class="container" role="main">
 
-                    </div> 
-          
-                    <div class="mb-3">
-                        <label for="used_quality">상품상태</label><br>
-                        <input type="radio" id="used_quality" name="used_quality" value="미개봉"> 미개봉
-                        <input type="radio" id="used_quality" name="used_quality" value="사용감 있음" checked> 사용감 있음
-                        <input type="radio" id="used_quality" name="used_quality" value="파손 있음"> 파손 있음
-                    </div>
-          
-                    <div class="mb-3">
-                        <label for="used_price">판매가격</label>
-                        <input type="text" class="form-control" id="used_price" name="used_price" placeholder="가격을 입력해 주세요">
-                        <div class="hidden">
- 								가격을 입력해 주세요.
-						</div>
-                    </div>
-                    
-                    <div class="mb-3">
-                    <label for="uploadOne">대표 사진첨부(1장만 가능합니다)</label>
-                        <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
-                        <div class="hidden">
-                            사진을 업로드해 주세요.
+            <h2 th:text="#{GoUsedSellWrite}">중고 거래 판매 글 쓰기</h2>
+        
+            <form th:action="@{usedSellWrite}" method="post" id="write"
+                    enctype="multipart/form-data">
+                    <!-- <input type="hidden" name="user_email" th:value="">  -->                    
+                <div class="mb-3">
+                    <label for="used_title" th:text="#{title}">제목</label>
+                    <input type="text" class="form-control" id="used_title" name="used_title" th:placeholder="#{putTitle}" placeholder="제목을 입력해 주세요">
+                        <div class="hidden" th:text="#{putPdName}">
+                            상품명을 입력해 주세요.
                         </div>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="category" th:text="#{category}">카테고리</label><br>
+                <select class="select_categories main">
+                    <th:block th:each="main, i: ${category_main}">
+                        <option th:text="${main.category_main}"></option>
+                    </th:block>
+                </select>
+                <select id="category_id" name="category_id" class="select_categories subcate">
+                </select>
+                </div> 
+        
+                <div class="mb-3">
+                    <label for="used_quality" th:text="#{pdStatus}">상품상태</label><br>
+                    <input type="radio" id="used_quality" name="used_quality" value="미개봉" th:text="#{notOpened}">
+                    <input type="radio" id="used_quality" name="used_quality" value="사용감 있음" th:text="#{littleUsed}" checked>
+                    <input type="radio" id="used_quality" name="used_quality" value="파손 있음" th:text="#{littleBreak}"> 
+                </div>
+        
+                <div class="mb-3">
+                    <label for="used_price" th:text="#{sellPrice}">판매가격</label>
+                    <input type="text" class="form-control" id="used_price" name="used_price" th:placeholder="#{putPrice}" placeholder="가격을 입력해 주세요">
+                    <div class="hidden" th:text="#{putPrice}">
+                            가격을 입력해 주세요.
                     </div>
-          
-                    <div class="mb-3">
-                        <label for="upload">사진첨부(10장까지 가능)</label>
-                        <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
+                </div>
+                
+                <div class="mb-3">
+                <label for="uploadOne" th:text="#{reprePhoto}">대표 사진첨부(1장만 가능합니다)</label>
+                    <input type="file" id="uploadOne" name="uploadOne" value="1장만 가능합니다">
+                    <div class="hidden" th:text="#{plsUpPhoto}">
+                        사진을 업로드해 주세요.
                     </div>
-                    
-                    
-                    <div class="mb-3">
-                        *글 편집하는 기능 넣는 부분
+                </div>
+        
+                <div class="mb-3">
+                    <label for="upload" th:text="#{can10Photo}">사진첨부(10장까지 가능)</label>
+                    <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
+                </div>
+                
+                
+                <div class="mb-3">
+                    *글 편집하는 기능 넣는 부분
+                </div>
+        
+                <div class="mb-3">
+                    <label for="content" th:text="#{content}">내용</label>
+                    <textarea class="form-control" rows="5" name="used_content" id="used_content" th:placeholder="#{putContent50}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
+                    <div class="hidden" th:text="#{plsPutDetail50}">
+                        상세설명을 50자 이상 입력해 주세요.
                     </div>
-          
-                    <div class="mb-3">
-                        <label for="content">내용</label>
-                        <textarea class="form-control" rows="5" name="used_content" id="used_content" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
-                     	<div class="hidden">
-							상세설명을 50자 이상 입력해 주세요.
-                        </div>
-                    </div>
-                    
-                    <div>
-                    	<input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
-                        <input type="submit"  class="btn btn-sm btn-primary submit" value="저장">
-                    </div>
-                </form>
-            </div>
-            </article>
+                </div>
+                
+                <div>
+                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장" th:value="#{tempSave}">
+                    <input type="submit"  class="btn btn-sm btn-primary" value="저장" th:value="#{save}">
+                </div>
+            </form>
+        </div>
+    </article>
         
             <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">
@@ -411,27 +418,31 @@
     </footer>
     <!-- End Footer -->
 
-        <!-- Start Script -->
-        <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-        <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-        <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
-        <script th:src="@{/assets/property_js/aos.js}"></script>
-        <script th:src="@{/assets/property_js/navbar.js}"></script>
-        <script th:src="@{/assets/property_js/counter.js}"></script>
-        <script th:src="@{/assets/js/templatemo.js}"></script>
-        <script th:src="@{/assets/property_js/custom.js}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script th:src="@{/js/js_usedSellWrite(JPBW).js}"></script>
-        <!-- 채팅 -->
-        <script th:src="@{/js/chat/chatButton.js}"></script>
-        <script th:src="@{/js/chat/chatRoom.js}"></script>
-        <script th:src="@{/js/chat/chat.js}"></script>
-        <!-- jQuery -->
-<!--         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
- -->        <!-- End Script -->
-       
-    </body>
-    
-    </html>
+    <!-- Start Script -->
+    <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+    <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+    <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/assets/property_js/tiny-slider.js}"></script>
+    <script th:src="@{/assets/property_js/aos.js}"></script>
+    <script th:src="@{/assets/property_js/navbar.js}"></script>
+    <script th:src="@{/assets/property_js/counter.js}"></script>
+    <script th:src="@{/assets/js/templatemo.js}"></script>
+    <script th:src="@{/assets/property_js/custom.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script th:src="@{/js/js_usedSellWrite(JPBW).js}"></script>
+    <!-- 채팅 -->
+    <script th:src="@{/js/chat/chatButton.js}"></script>
+    <script th:src="@{/js/chat/chatRoom.js}"></script>
+    <script th:src="@{/js/chat/chat.js}"></script>
+    <!-- 지도 -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
+    <script th:src="@{/js/map/boardMap.js}"></script>
+    <!-- jQuery -->
+    <!--         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+ --> <!-- End Script -->
+
+</body>
+
+</html>
