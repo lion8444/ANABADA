@@ -252,8 +252,8 @@
     <select id="selectAuctionListAllById" parameterType="String" resultType="AuctionAndFile">
 		SELECT
 		    a.auction_id
-		    , a.user_email
-		    , ad.user_email buyer_email
+		    , a.user_email AS user_email
+		    , ad.user_email AS buyer_email
 		    , a.category_id
 		    , a.auction_title
 		    , a.auction_date
@@ -830,6 +830,28 @@
     	SET
     		char_exp = (char_exp + 10)
     	WHERE	
-    		user_character.user_email = #{email}
+    		user_email = #{email}
+    </update>
+    
+    <select id="finduserchar" parameterType="String" resultType="User_character">
+    	SELECT * FROM user_character WHERE user_email = #{user_email}  AND char_selected = 1
+    </select>
+    
+    <select id="allrtrade" resultType="RTrade">
+    	SELECT * FROM rTrade
+    </select>
+ 
+     <select id="allatrade" resultType="ATrade">
+    	SELECT * FROM aTrade
+    </select>
+    
+    <update id="levelup" parameterType="String">
+    	UPDATE
+    		user_character
+    	SET
+    		char_level = (char_level + 1),
+    		char_exp = (char_exp - 100)
+    	WHERE	
+    		user_email = #{user_email} AND char_selected = 1
     </update>
 </mapper>

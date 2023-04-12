@@ -10,15 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.anabada.dao.MyPageDAO;
+import com.anabada.domain.ATrade;
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.RTrade;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Report;
 import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.User_character;
 import com.anabada.domain.WishAndFile;
 import com.anabada.util.PageNavigator;
 
@@ -291,7 +294,7 @@ public class MyPageServiceImpl implements MyPageService {
 	public PageNavigator getPageNavigator(int pagePerGroup
 			, int countPerPage
 			, int page
-			) {
+			, String email) {
 		HashMap<String, String> map = new HashMap<>();
 //		map.put("user_email", email);
 		//검색 결과 개수
@@ -320,7 +323,7 @@ public class MyPageServiceImpl implements MyPageService {
 
 	@Override
 	public int insertATrade(List<AuctionAndFile> list) {
-		
+		log.debug("@MyPageServiceImpl insertATrade List<AuctionAndFile> list : {}", list);
 		for(int i = 0; i < list.size(); ++i) {
 			if(list.get(i).getADetail_id() == null) {
 				list.remove(i);
@@ -333,13 +336,34 @@ public class MyPageServiceImpl implements MyPageService {
 				--i;
 			}
 		}		
+		
+		ArrayList<ATrade> atrade = dao.allatrade();
+		for(int i = 0; i < atrade.size(); ++i) {
+			for(int j = 0; j < list.size(); ++j) {
+			if(list.get(j).getAuction_id().equals(atrade.get(i).getAuction_id())) {
+				list.remove(j);
+				--j;
+			}
+			}
+		}
+		
 		for(int i = 0; i < list.size(); ++i) {
 			int result = dao.insertATrade(list.get(i));
-			int upb = dao.expup(list.get(i).getBuyer_email());
-			int upu = dao.expup(list.get(i).getUser_email());
+			if(result == 1) {
+				int upb = dao.expup(list.get(i).getBuyer_email());
+				int upu = dao.expup(list.get(i).getUser_email());
+				log.debug("@MyPageServiceImpl insertATrade List<AuctionAndFile> list.get : {}, i : {}", list.get(i), i);
+				
+				User_character buyer_character = dao.finduserchar(list.get(i).getBuyer_email());
+					if(buyer_character.getChar_exp() >= 100) {
+						int lresult = dao.levelup(buyer_character.getUser_email());
+					}
+				User_character user_character = dao.finduserchar(list.get(i).getUser_email());
+					if(user_character.getChar_exp() >= 100) {
+						int lresult = dao.levelup(user_character.getUser_email());
+					}
+			}
 		}
- 		
-		
 		
 		return 0;
 	}
@@ -389,8 +413,30 @@ public class MyPageServiceImpl implements MyPageService {
 				--i;
 			}
 		}	
+		ArrayList<RTrade> rtrade = dao.allrtrade();
+		for(int i = 0; i < rtrade.size(); ++i) {
+			for(int j = 0; j < listAll.size(); ++j) {
+			if(listAll.get(j).getRDetail_id().equals(rtrade.get(i).getRDetail_id())) {
+				listAll.remove(j);
+				--j;
+			}
+			}
+		}
+		
 		for(int i = 0; i < listAll.size(); ++i) {
 			int rTradeResult = dao.insertRTrade(listAll.get(i));
+			if(rTradeResult == 1) {
+				int upb = dao.expup(listAll.get(i).getBuyer_email());
+				int upu = dao.expup(listAll.get(i).getUser_email());
+				User_character buyer_character = dao.finduserchar(listAll.get(i).getBuyer_email());
+				if(buyer_character.getChar_exp() >= 100) {
+					int lresult = dao.levelup(buyer_character.getUser_email());
+				}
+				User_character user_character = dao.finduserchar(listAll.get(i).getUser_email());
+				if(user_character.getChar_exp() >= 100) {
+					int lresult = dao.levelup(user_character.getUser_email());
+				}
+			}
 		}
 		return 0;
 	}

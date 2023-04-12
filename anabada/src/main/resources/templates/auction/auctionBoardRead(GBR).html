@@ -187,7 +187,11 @@
                     <div class="meta">
                         <h3 class="nowprice"></h3>
                     </div>
-
+					<div><br>
+					        <input type="text" class="auction_date form-control" name="auction_date" hidden>
+                            <input type="text" class="auction_finish form-control" name="auction_finish" th:value="${auction.auction_finish}" hidden>
+                    	<input type="text" class="restdate" readonly style="color:red; font-size: 25px; border:none; border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;">
+					</div>
                     <br>
                     <div class="text-black-50">
                         <p th:text="${auction_sell.auction_content}" id="papago2" class="papago" papagoCount="2">내용</p>
@@ -197,7 +201,6 @@
                             papagoCount="3">퀄리티
                         </p>
                     </div>
-                    <p class="text-black-50" th:text="${'경매종료일: '+auction_sell.auction_finish}">경매종료일</p>
                     <div class="text-black-30">
                         <p id="papago6" class="papago" papagoCount="6">* 배송시 배송료 별도</p>
                     </div>

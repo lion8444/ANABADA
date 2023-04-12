@@ -7,15 +7,18 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.anabada.domain.ATrade;
 import com.anabada.domain.AuctionAndFile;
 import com.anabada.domain.CharacterDTO;
 import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
 import com.anabada.domain.Inquiry;
+import com.anabada.domain.RTrade;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Report;
 import com.anabada.domain.UsedAndFile;
 import com.anabada.domain.UserDTO;
+import com.anabada.domain.User_character;
 import com.anabada.domain.WishAndFile;
 
 @Mapper
@@ -232,6 +235,14 @@ public interface MyPageDAO {
 
 	public int insertRTrade(RentalAndFile rentalAndFile);
 
-	public int expup(String buyer_email);
+	public int expup(String user_email);
+
+	public User_character finduserchar(String user_email);
+
+	public int levelup(String user_email);
+
+	public ArrayList<RTrade> allrtrade();
+
+	public ArrayList<ATrade> allatrade();
 
 }
