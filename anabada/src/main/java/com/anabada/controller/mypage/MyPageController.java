@@ -218,12 +218,13 @@ public class MyPageController {
 		
 		UserDTO us = service.selectUserById(user.getUsername());
 		
+		
 		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
 		List<RentalAndFile> listAll = service.selectRentalListAll();
 		int result = service.updateRentalStatus();
 		log.debug("렌탈일로 업데이트 된 개수 : {}", result);
 		
-//		int rTradeResult = service.insertRTrade(listAll);
+		int rTradeResult = service.insertRTrade(listAll);
 		
 		model.addAttribute("user", us);
 		model.addAttribute("rentalListSell", list);
@@ -251,7 +252,7 @@ public class MyPageController {
 		log.debug("경매완료로 업데이트된 개수 : {}", result);
 		
 		// 페이지 들어갈 때 거래 완료인거 aTrade에 넣기
-//		int aDetailResult = service.insertATrade(listAll);
+		int aDetailResult = service.insertATrade(listAll);
 //		log.debug("aTrade에 추가된 개수 : {}", aDetailResult);
 		
 		model.addAttribute("auctionListSell", list);

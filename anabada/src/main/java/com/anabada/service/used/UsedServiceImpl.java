@@ -2,6 +2,7 @@ package com.anabada.service.used;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.dao.UsedDAO;
 import com.anabada.domain.Category;
 import com.anabada.domain.File;
+import com.anabada.domain.RentalAndFile;
+import com.anabada.domain.User_character;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
@@ -74,14 +77,28 @@ public class UsedServiceImpl implements UsedService {
 		}
 		
 		int k = dao.purchase(used_detail);
-		if (k == 1 ) {
+		if (k == 1) {
 			Used_detail d_id = dao.findOneUseddetail(used_detail.getUsed_id());
 			dao.purchaseupdate(used_detail.getUsed_id());
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("used_id", used_detail.getUsed_id());
 			map.put("uDetail_id", d_id.getUDetail_id());
 			dao.uTradeinsert(map);
+			Used used = dao.usedSellBoardRead(used_detail.getUsed_id());
+			
+			int upb = dao.expup(used_detail.getUser_email());
+			int upu = dao.expup(used.getUser_email());
+			
+			User_character buyer_character = dao.finduserchar(used_detail.getUser_email());
+			if(buyer_character.getChar_exp() == 100) {
+				int lresult = dao.levelup(buyer_character.getUser_email());
+			}
+			User_character user_character = dao.finduserchar(used.getUser_email());
+			if(user_character.getChar_exp() == 100) {
+				int lresult = dao.levelup(user_character.getUser_email());
+			}
 		}
+		
 		
 		return k;
 	}
@@ -233,7 +250,8 @@ public class UsedServiceImpl implements UsedService {
 		ArrayList<Used_buy>bboardlist= dao.usedBuyBoard();
 		return bboardlist;
 	}
-	
+
+
 	//사는 글 한개 출력
 	@Override
 	public Used_buy usedBuyBoardRead(String num) {

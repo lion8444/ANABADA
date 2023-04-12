@@ -45,6 +45,8 @@
 
     <!-- 개인 css-->
     <link rel="stylesheet" th:href="@{/css/css_rentalBoard(RB).css}">
+        <!-- 지도 -->
+        <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
 
     <!-- 제이쿼리 (pyw) -->
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
@@ -242,6 +244,19 @@
     <br>
 
         <!-- 지도넣는 부분 -->
+            <!-- 지도넣는 부분 -->
+            <br><br>
+            <div id="map-wrapper">
+                <span><strong>직거래 선호 위치</strong><a class="gomap" th:href="@{/map(loc_id=${location.loc_id})}">지도
+                        바로가기</a></span>
+                <div id="map"></div>
+            </div>
+            <div>
+                <input type="hidden" id="latitude" th:value="${location.lat}">
+                <input type="hidden" id="longitude" th:value="${location.lng}">
+                <input type="hidden" id="loc_name" th:value="${location.loc_name}">
+            </div>
+        </div>
 
         <!-- 추천상품 -->
         <!-- <div class="section">
@@ -507,6 +522,10 @@
         <script th:src="@{/js/chat/chatButton.js}"></script>
         <script th:src="@{/js/chat/chatRoom.js}"></script>
         <script th:src="@{/js/chat/chat.js}"></script>
+    <!-- 지도 -->
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
+<script th:src="@{/js/map/boardViewMap.js}"></script>
         <!-- End Script -->
     </body>
 

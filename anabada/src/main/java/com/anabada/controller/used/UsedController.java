@@ -25,12 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.domain.Category;
 import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
+import com.anabada.domain.Location;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
 import com.anabada.domain.UserDTO;
 import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.map.MapService;
 import com.anabada.service.mypage.MyPageService;
 import com.anabada.service.used.UsedService;
 import com.anabada.service.wish.WishService;
@@ -58,6 +60,11 @@ public class UsedController {
 	MyPageService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
+
+	@Autowired
+	MapService mapservice;
+	
+	//설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
 	String uploadPath;
 
@@ -165,12 +172,13 @@ public class UsedController {
 
 		Used used = service.usedSellBoardRead(used_id);
 		// 해당번호의 글이 있는지 확인. 없으면 글목록으로
-		if (used == null)
+		if (used == null) {
 			return "redirect:/";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!used.getUser_email().equals(userDetails.getUsername()))
+		if (!used.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 첨부된 파일이 있으면 파일삭제
 		if (!file_saved.isEmpty()) {
 			FileService.deleteFile(uploadPath + "/" + file_saved);
@@ -183,7 +191,6 @@ public class UsedController {
 		service.usedSellBoardDelete(used);
 		// 글 목록으로 리다이렉트
 		return "redirect:/";
-
 	}
 
 	/**
@@ -207,6 +214,7 @@ public class UsedController {
 	public String usedSellWrite(
 			@AuthenticationPrincipal UserDetails userDetails,
 			@ModelAttribute Used used,
+			Location location,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
 
@@ -214,7 +222,6 @@ public class UsedController {
 		used.setUser_email(userDetails.getUsername());
 
 		if (uploadOne.isEmpty()) {
-			log.debug("이미지 X");
 			return "redirect:/";
 		}
 		
@@ -261,11 +268,12 @@ public class UsedController {
 
 		// 전달된 아이디의 글정보 읽기
 		Used used = service.usedSellBoardRead(used_id);
+		Location location = mapservice.findBoardLocation(used_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!used.getUser_email().equals(userDetails.getUsername()))
+		if (!used.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("used", used);
 		
@@ -280,12 +288,16 @@ public class UsedController {
 	@PostMapping("usedSellBoardUpdate")
 	public String usedSellBoardUpdate(
 			@ModelAttribute Used used, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
+			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne,
 			@AuthenticationPrincipal UserDetails userDetails) {
 		String used_id = service.usedSellBoardUpdate(used);
+		
+		
 
-		// 로그인한 사용자의 아이디를 읽음
-		String id = userDetails.getUsername();
+		Location updateLoc = mapservice.findBoardLocation(used_id);
+		location.setLoc_id(updateLoc.getLoc_id());
+		mapservice.updateLocation(location);
 
 		if (used_id == null) {
 			return "redirect:/";
@@ -365,9 +377,11 @@ public class UsedController {
 		// UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		model.addAttribute("user", user);
 		// model.addAttribute("target", targetUser);
+
 		ArrayList<Used_buy> bboardlist = service.usedBuyBoard();
-		// log.debug("db에서 넘어오나?:{}",bboardlist);
+		
 		model.addAttribute("bboardlist", bboardlist);
+		
 		return "used/usedBuyBoard(JSB)";
 	}
 
@@ -379,7 +393,7 @@ public class UsedController {
 			@RequestParam(name = "uBuy_id", defaultValue = "0") String uBuy_id,
 			@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
-		// log.debug("넘어오는 값: {}",used_buy);
+		 log.debug("넘어오는 값: {}",uBuy_id);
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_buy.getUser_email());
 
@@ -403,12 +417,13 @@ public class UsedController {
 		model.addAttribute("user", user);
 		// model.addAttribute("target", targetUser);
 		Used_buy used_buy = service.usedBuyBoardRead(uBuy_id);
-		if (used_buy == null)
+		if (used_buy == null) {
 			return "redirect:list";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!used_buy.getUser_email().equals(userDetails.getUsername()))
+		if (!used_buy.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		int result = service.usedBuyBoardDelete(used_buy);
 
 		return "redirect:/";
@@ -429,9 +444,9 @@ public class UsedController {
 		log.info(used_buy + "");
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!used_buy.getUser_email().equals(userDetails.getUsername()))
+		if (!used_buy.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("used_buy", used_buy);
 

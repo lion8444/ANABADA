@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User_location {
-	String uloc_id;
+public class Location {
 	String loc_id;
-	String user_email;
+	String loc_name;
+	String board_no;
+	double lat;
+	double lng;
 }

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anabada.dao.MapDAO">
+	<insert id="insertLocation" parameterType="Location">
+        insert into
+			location
+		(
+			loc_id
+			,board_no
+			,loc_name
+			,lat
+			,lng
+		)
+		values
+		(
+			func_seq_10('LOCA')
+			,#{board_no}
+			,#{loc_name}
+			,#{lat}
+			,#{lng}
+		)
+    </insert>
+
+    <select id="findLocation" parameterType="String" resultType="Location">
+        select
+			*
+		from
+			location
+		where
+			loc_id = #{loc_id}
+    </select>
+
+
+    <select id="findBoardLocation" parameterType="String" resultType="Location">
+        select
+			*
+		from
+			location
+		where
+			board_no = #{board_no}
+    </select>
+
+
+    <update id="updateLocation" parameterType="Location">
+		update
+			location
+		SET
+			loc_name = #{loc_name}
+			,lat = #{lat}
+			,lng = #{lng}
+		where
+			loc_id = #{loc_id}
+    </update>
+
+
+    <select id="allLocation" resultType="Location">
+		select
+			*
+		from
+			location
+    </select>
+
+	<select id="findBoardTypeLocation" parameterType="map" resultType="Location">
+		select
+			*
+		from
+			location 
+		where
+			board_no LIKE concat(#{type}, '%')
+		
+    </select>
+
+	<select id="findboard" parameterType="string" resultType="Board">
+		SELECT u.used_id AS board_no, u.used_title AS title, user.user_nick as seller, u.used_price as price, null as high_price, u.used_content as info, '중고' as board_type FROM used u, user user
+		WHERE 
+			user.user_email = u.user_email
+			and
+			u.used_status = '거래 중'
+			and
+			u.used_id = #{board_no}
+		UNION
+		SELECT r.rental_id AS board_no, r.rental_title AS title, user.user_nick as seller, r.rental_price as price, null as high_price, r.rental_content as info, '렌탈' as board_type FROM rental r, user user
+		WHERE
+			user.user_email = r.user_email
+			and
+			r.rental_status = '거래 중'
+			and
+			r.rental_id = #{board_no}
+		UNION
+		SELECT a.auction_id AS board_no, a.auction_title AS title, user.user_nick as seller, a.auction_price as price, 
+		ad.aDetail_price as high_price, a.auction_content as info, '경매' as board_type FROM user user, auction a left join auction_detail ad on a.auction_id = ad.auction_id
+		WHERE
+			user.user_email = a.user_email
+			and
+			a.auction_status = '거래 중'
+			and
+			a.auction_id = #{board_no}
+    </select>
+
+	<!-- <select id="searchBoard" parameterType="string" resultType="Board">
+		SELECT
+    		*
+    	FROM
+    		used
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='used_title'">
+					upper(used_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				<if test = "type =='used_content'">
+					upper(used_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				<if test ="type == 'all'">
+					upper(used_title) like '%' || #{searchWord} || '%'
+					or upper(used_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+		UNION
+		SELECT
+    		*
+    	FROM
+    		used
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='used_title'">
+					upper(used_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				<if test = "type =='used_content'">
+					upper(used_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				<if test ="type == 'all'">
+					upper(used_title) like '%' || #{searchWord} || '%'
+					or upper(used_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+		UNION
+		SELECT
+    		*
+    	FROM
+    		used
+	
+		<if test="searchWord != null and type != null" >
+			<where>
+				<if test="type =='used_title'">
+					upper(used_title) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				<if test = "type =='used_content'">
+					upper(used_content) like '%' || upper(#{searchWord}) || '%'
+				</if>
+				<if test = "type == 'user_email'">
+					user_email = #{searchWord}
+				</if>
+				<if test ="type == 'all'">
+					upper(used_title) like '%' || #{searchWord} || '%'
+					or upper(used_content) like '%' || #{searchWord} || '%'
+					or user_email = #{searchWord}
+				</if>
+			</where>
+		</if>
+	</select> -->
+
+	<!-- findSearchBoard --> 
+
+	<select id="findSearchBoard" parameterType="String" resultType="String">
+		select
+			used_id as board_no
+		from
+			used
+		where
+			used_title LIKE concat('%',#{str},'%')
+			or
+			used_content LIKE concat('%',#{str},'%')
+		UNION
+		select
+			rental_id as board_no
+		from
+			rental
+		where
+			rental_title LIKE concat('%',#{str},'%')
+			or
+			rental_content LIKE concat('%',#{str},'%')
+		UNION
+		select
+			auction_id as board_no
+		from
+			auction
+		where
+			auction_title LIKE concat('%',#{str},'%')
+			or
+			auction_content LIKE concat('%',#{str},'%')
+	</select>
+
+	<!-- findBoardLocations --> 
+
+	<select id="findBoardLocations" resultType="Location">
+		SELECT * FROM location
+  			WHERE board_no IN
+  		<foreach item="board_no" collection="list" open="(" separator="," close=")">
+    		#{board_no}
+  		</foreach>
+	</select>
+</mapper>

@@ -20,6 +20,4 @@ public class Rental {
 	String rental_sDate;
 	String rental_eDate;
 	String rental_status;
-	String uloc_id;
-	String sloc_id;
 }

@@ -252,8 +252,8 @@
     <select id="selectAuctionListAllById" parameterType="String" resultType="AuctionAndFile">
 		SELECT
 		    a.auction_id
-		    , a.user_email
-		    , ad.user_email buyer_email
+		    , a.user_email AS user_email
+		    , ad.user_email AS buyer_email
 		    , a.category_id
 		    , a.auction_title
 		    , a.auction_date
@@ -695,17 +695,8 @@
     <!-- (경매) 거래 완료인거 aTrade에 넣기 -->
  <insert id="insertATrade" parameterType="AuctionAndFile">
     INSERT INTO aTrade (aTrade_id, auction_id, aDetail_id)
-    SELECT func_seq_10('ATRA'), item.auction_id, item.aDetail_id
-    FROM (
-        SELECT a.auction_id, ad.aDetail_id
-        FROM auction a, auction_detail ad
-        WHERE a.auction_status = '거래 완료'
-            AND ad.aDetail_status = '거래 완료'
-            AND a.auction_id = ad.auction_id
-    ) AS item
-    <foreach collection="list" item="item" index="index" separator="UNION ALL">
-        SELECT NULL, #{item.auction_id}, #{item.aDetail_id}
-    </foreach>
+    VALUES
+    (func_seq_10('ATRA'), #{auction_id}, #{aDetail_id})
 </insert>
     
     <!-- 렌탈 시작 시간이 되면 rental_detail테이블 거래 완료로 변경 -->
@@ -722,27 +713,9 @@
     
         <!-- (경매) 거래 완료인거 aTrade에 넣기 -->
     <insert id="insertRTrade" parameterType="RentalAndFile">
-			INSERT INTO
-				 rTrade 
-            (
-            	rTrade_id
-            	, rental_id
-            	, rDetail_id
-            )  
-			SELECT 
-				func_seq_10('RTRA')
-				, #{rental_id}
-				, #{rDetail_id}
-			FROM DUAL 
-			WHERE EXISTS
-			(
-				SELECT 
-					* 
-				FROM 
-					rental_detail rd 
-				WHERE 
-				rd.rDetail_status = '거래 완료'
-			)
+	    INSERT INTO rTrade
+	    VALUES
+	    (func_seq_10('RTRA'), #{rental_id}, #{rDetail_id})
     </insert>
     
     <!-- 모든 경매 디테일 가져오기 -->
@@ -804,8 +777,9 @@
     <!-- 모든 렌탈 거래 가져오기 -->
     <select id="selectRentalListAll" resultType="RentalAndFile">
     	SELECT
-		    r.rental_id,
+		    r.rental_id as rental_id,
 		    r.user_email,
+		    rd.rDetail_id as rDetail_id,
 		    rd.user_email AS buyer_email,
 		    r.category_id,
 		    r.rental_title,
@@ -849,5 +823,36 @@
     		ud.uDetail_id = #{uDetail_id}
     		AND
     		ud.user_email = #{buyer_email}
+    </update>
+    
+    <update id="expup" parameterType="String">
+    	UPDATE
+    		user_character
+    	SET
+    		char_exp = (char_exp + 10)
+    	WHERE	
+    		user_email = #{email}
+    </update>
+    
+    <select id="finduserchar" parameterType="String" resultType="User_character">
+    	SELECT * FROM user_character WHERE user_email = #{user_email}  AND char_selected = 1
+    </select>
+    
+    <select id="allrtrade" resultType="RTrade">
+    	SELECT * FROM rTrade
+    </select>
+ 
+     <select id="allatrade" resultType="ATrade">
+    	SELECT * FROM aTrade
+    </select>
+    
+    <update id="levelup" parameterType="String">
+    	UPDATE
+    		user_character
+    	SET
+    		char_level = (char_level + 1),
+    		char_exp = (char_exp - 100)
+    	WHERE	
+    		user_email = #{user_email} AND char_selected = 1
     </update>
 </mapper>

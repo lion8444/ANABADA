@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sale_location {
-	String sloc_id;
-	String loc_id;
+public class User_character {
+	String uChar_id;
 	String user_email;
+	String char_id;
+	int char_level;
+	int char_exp;
+	int char_selected;
 }

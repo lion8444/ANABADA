@@ -19,6 +19,4 @@ public class Board_temp {
 	String bTemp_sDate;
 	String bTemp_eDate;
 	String bTemp_finish;
-	String uloc_id;
-	String sloc_id;
 }

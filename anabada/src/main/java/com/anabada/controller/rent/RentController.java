@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.anabada.domain.Category;
 import com.anabada.domain.Damagochi;
 import com.anabada.domain.File;
+import com.anabada.domain.Location;
 import com.anabada.domain.Rental;
 import com.anabada.domain.RentalAndFile;
 import com.anabada.domain.Rental_detail;
@@ -32,6 +33,7 @@ import com.anabada.domain.UserDTO;
 import com.anabada.domain.Wish;
 import com.anabada.service.login.LoginService;
 import com.anabada.service.mypage.MyPageService;
+import com.anabada.service.map.MapService;
 import com.anabada.service.rent.RentService;
 import com.anabada.service.wish.WishService;
 import com.anabada.util.FileService;
@@ -54,7 +56,9 @@ public class RentController {
 	WishService wservice;
 	
 	@Autowired
-	MyPageService mservice;
+	MyPageService mpservice;
+	@Autowired
+	private MapService mservice;
 
 	// 설정파일에 정의된 업로드할 경로를 읽어서 아래 변수에 대입(from application.properites)
 	@Value("${spring.servlet.multipart.location}")
@@ -78,7 +82,7 @@ public class RentController {
 		UserDTO target = service.findUser(rental.getUser_email());
 		
 		// 글쓴이의 다마고치 정보
-		Damagochi dama = mservice.selectMyDamaInfoById(rental.getUser_email());
+		Damagochi dama = mpservice.selectMyDamaInfoById(rental.getUser_email());
 		
 		model.addAttribute("target", target);
 
@@ -131,19 +135,18 @@ public class RentController {
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check, fsdate, fedate);
 		
-		String email = null;
-		
-		if(userDetails != null) {
-		email = userDetails.getUsername();
-		}
 		
 		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
-		List<RentalAndFile> listAll = mservice.selectRentalListAll();
-		int result = mservice.updateRentalStatus();
-		log.debug("렌탈일로 업데이트 된 개수 : {}", result);
+		List<RentalAndFile> listAll = mpservice.selectRentalListAll();
+		if(listAll.isEmpty()) {
+			return "redirect:/";
+		}
+		int result = mpservice.updateRentalStatus();
 		
+		int rTradeResult = mpservice.insertRTrade(listAll);
+
 		ArrayList <Rental> rentalLists = service.rentalBoard(
-				navi.getStartRecord(),countPerPage, type, searchWord, check, email, fsdate, fedate);
+				navi.getStartRecord(),countPerPage, type, searchWord, check, userDetails.getUsername(), fsdate, fedate);
 		
 		for(int i = 0; i < rentalLists.size(); ++i) {
 			for(int j = i+1; j < rentalLists.size(); ++ j) {
@@ -221,7 +224,7 @@ public class RentController {
 		UserDTO target = lservice.findUser(rental_sell.getUser_email());
 		
 		// 글쓴이의 다마고치 정보
-		Damagochi dama = mservice.selectMyDamaInfoById(rental_sell.getUser_email());
+		Damagochi dama = mpservice.selectMyDamaInfoById(rental_sell.getUser_email());
 		
 		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
@@ -250,11 +253,13 @@ public class RentController {
 
 		Rental rental = service.rentalBoardRead(rental_id);
 		// 해당번호의 글이 있는지 확인. 없으면 글목록으로
-		if (rental == null)
+		if (rental == null) {
 			return "redirect:/";
+		}
 		// 로그인한 본인의 글이 맞는지 확인. 아니면 글목록으로
-		if (!rental.getUser_email().equals(userDetails.getUsername()))
+		if (!rental.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
+		}
 
 		// 첨부된 파일이 있으면 파일삭제
 		if (!file_saved.isEmpty()) {
@@ -286,6 +291,7 @@ public class RentController {
 	public String rentalWrite(
 			@AuthenticationPrincipal UserDetails user,
 			@ModelAttribute Rental rental,
+			Location location,
 			@RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne) {
 
@@ -294,8 +300,10 @@ public class RentController {
 
 		String rental_id = service.rentalWrite(rental);
 
+		location.setBoard_no(rental_id);
+		mservice.insertLocation(location);
+
 		if (uploadOne.isEmpty()) {
-			log.debug("이미지 X");
 			return "redirect:/";
 		}
 
@@ -339,11 +347,12 @@ public class RentController {
 
 		// 전달된 아이디의 글정보 읽기
 		Rental rental = service.rentalBoardRead(rental_id);
+		Location location = mservice.findBoardLocation(rental_id);
 
 		// 본인 글인지 확인, 아니면 글목록으로 이동
-		if (!rental.getUser_email().equals(userDetails.getUsername()))
+		if (!rental.getUser_email().equals(userDetails.getUsername())) {
 			return "redirect:/";
-
+		}
 		// 글정보를 모델에 저장
 		model.addAttribute("rental", rental);
 		ArrayList<Category> category_main = service.maincategory();
@@ -356,15 +365,18 @@ public class RentController {
 	@PostMapping("rentalBoardUpdate")
 	public String rentalBoardUpdate(
 			@ModelAttribute Rental rental, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
+			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne, @AuthenticationPrincipal UserDetails user) {
 		String rental_id = service.rentalBoardUpdate(rental);
-
-		// 로그인한 사용자의 아이디를 읽음
-		String id = user.getUsername();
 
 		if (rental_id == null) {
 			return "redirect:/";
 		}
+
+		Location updateLoc = mservice.findBoardLocation(rental_id);
+		location.setLoc_id(updateLoc.getLoc_id());
+		mservice.updateLocation(location);
+
 		// 처음에 해당 글에 file있는지 여부 확인해서 isempty 그래서 있으면
 		// 걍 싹 다 지우고 다시 저장하는데 순서가 맨 처음에 uploadOne 을 넣고 그다음에
 		// 배열 돌리기
@@ -420,17 +432,7 @@ public class RentController {
 			int rDetail_price, int user_account, String rDetail_id) {
 
 		String user_email = user.getUsername();
-
-		// Rental_detail rd = new Rental_detail(null, rental_id, user_email, null,
-		// rDetail_person, rDetail_phone, rDetail_memo, rDetail_post, rDetail_addr1,
-		// rDetail_addr2, rDetail_price, null, rDetail_sDate, rDetail_eDate);
-		// int j = service.purchase(rd);
-
 		int i = service.usemoney(user_email, user_account);
-
-		// if(j == 0 || i ==0) {
-		// return "redirect:/rental/purchase?rental_id=" + rental_id;
-		// }
 
 		return "rental/rentalThanks.html";
 	}
@@ -497,7 +499,6 @@ public class RentController {
 			out.close();
 		} catch (Exception e) {
 			return "redirect:/";
-
 		}
 		return "redirect:/";
 	}

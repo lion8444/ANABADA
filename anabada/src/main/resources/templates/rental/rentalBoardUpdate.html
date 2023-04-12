@@ -53,15 +53,27 @@
     <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
+
 	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
 	<script th:src="@{/js/hsw/rentalWrite(RBW).js}"></script>
      <!-- 버튼관련 css -->
      <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
     <style>
-      .hidden {
-      display:none;
-      color: red;
-      }
+        .hidden {
+            display:none;
+            color: red;
+        }
+        #map-wrapper {
+            display: block;
+            margin: 30px 0 30px 0;
+            width: 1110px;
+            height: 500px;
+        }
+        #map {
+            height: 100%;
+        }
     </style>
 </head>
 
@@ -198,7 +210,7 @@
                 </div>
       
                 <div class="mb-3">
-                    <label for="rental_price">판매가격</label>
+                    <label for="rental_price" th:text="#{rental_price_day}">대여금액(일)</label>
                     <input type="text" class="form-control" id="rental_price" name="rental_price" placeholder="가격을 입력해 주세요">
                         <div class="hidden">
  								가격을 입력해 주세요.
@@ -216,12 +228,6 @@
 						</div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="caution">*등록시 주의사항<br> 
-                        주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-                        주의사항주의사항주의사항주의사항주의사항주의사항주의사항</label>
-                    <!-- <input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요"> -->
-                </div>
                 
                 <div class="mb-3">
                 <label for="uploadOne">대표 사진첨부(1장만 가능합니다)</label>
@@ -238,15 +244,35 @@
                 
                 
                 <div class="mb-3">
-                    *글 편집하는 기능 넣는 부분
-                </div>
-      
-                <div class="mb-3">
                     <label for="content">내용</label>
                     <textarea class="form-control" rows="5" name="rental_content" id="rental_content" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
                      	<div class="hidden">
 							상세설명을 50자 이상 입력해 주세요.
                         </div>                    
+                </div>
+                <!-- 지도 -->
+                <div id="map-wrapper">
+                    <input type="text" id="search">
+                    <button id="search-button" onclick="search()">검색</button>
+                    <div id="map"></div>
+                </div>
+                <!-- 전달할 location 값 -->
+                <div>
+                    <input type="hidden" name="lat" id="latitude" th:value="${location.lat}">
+                    <input type="hidden" name="lng" id="longitude" th:value="${location.lng}">
+                    <input type="hidden" name="loc_name" id="loc_name" th:value="${location.loc_name}">
+                </div>
+                <!-- 지도 -->
+                <div id="map-wrapper">
+                    <input type="text" id="search">
+                    <button id="search-button" onclick="search()">검색</button>
+                    <div id="map"></div>
+                </div>
+                <!-- 전달할 location 값 -->
+                <div>
+                    <input type="hidden" name="lat" id="latitude" th:value="${location.lat}">
+                    <input type="hidden" name="lng" id="longitude" th:value="${location.lng}">
+                    <input type="hidden" name="loc_name" id="loc_name" th:value="${location.loc_name}">
                 </div>
                 
                 <div>
@@ -454,8 +480,11 @@
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
     <!-- jQuery -->
-<!--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
- -->    <!-- End Script -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- 지도 -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>    
+    <script th:src="@{/js/map/boardMap.js}"></script>
+    <!-- End Script -->
    
 </body>
 

@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.anabada.domain.Category;
 import com.anabada.domain.File;
+import com.anabada.domain.User_character;
 import com.anabada.domain.Used;
 import com.anabada.domain.Used_buy;
 import com.anabada.domain.Used_detail;
@@ -106,5 +107,10 @@ public interface UsedDAO {
 
 	void uTradeinsert(HashMap<String, Object> map);
 
-	
+	int expup(String user_email);
+
+	User_character finduserchar(String user_email);
+
+	int levelup(String user_email);
+
 }

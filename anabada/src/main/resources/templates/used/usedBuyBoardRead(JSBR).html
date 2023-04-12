@@ -29,16 +29,6 @@
     <script th:src="@{/js/js_myPage.js}"></script>
     <script th:src="@{/js/lanTest.js}"></script>
 
-    <!-- 페이지 이동 스크립트  -->
-    <!-- <script>
-        function pagingFormSubmit(currentPage) {
-            var form = document.getElementById('pagingForm');
-            var page = document.getElementById('page');
-            page.value = currentPage;
-            form.submit();
-        }
-    </script> -->
-
 </head>
 
 <body>
@@ -134,18 +124,23 @@
     <!-- 넣을부분 -->
 
     <header>
-        <h1>[ 게시글 읽기 ]</h1>
+        <h3 th:text="#{usedBuyBoard}" style="text-align: center; margin-top: 20px;">[ 중고 구매 게시판 ]</h3>
         <!-- 파파고 버튼 -->
         <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
         
     </header>
-        <section>
+    <br>
+    <br>
+        <section style="text-align: center; display: flex;
+                        justify-content: center;">
             <form th:action="@{usedBuyBoardRead}" method="get" 
-            enctype="multipart/form-data">
-                <table>
+                enctype="multipart/form-data" style="width:1000px;
+                height:auto;
+                font-size:20px; ">
+                <table class="table">
                     <tr>
-                        <th style="width: 100px;" th:text="#{email}">작성자 이메일</th>
-                        <td th:text="${used_buy.user_email}" style="width: 600px;"></td>
+                        <th style="width: 100px;">닉네임</th>
+                        <td th:text="${user.user_nick}" style="width: 600px;"></td>
                     </tr>
                     <tr>
                         <th th:text="#{title}">제목</th>
@@ -159,22 +154,32 @@
                         <th th:text="#{content}">내용</th>
                         <td th:text="${used_buy.uBuy_content}" id="papago1" class="papago" papagoCount="1"></td>
                     </tr>
-                  
+                    
+                    <div th:if="${#authentication.name}==${used_buy.user_email}">
+
+                        <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
+                        <div class="usedhref">
+                            <a th:href="@{/used/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}" style="z-index: 1;">
+                                <button type="button" disabled class="btn btn-secondary btn-block" value="삭제" th:text="#{delete}">삭제</button></a>
+                        </div>
+        
+                        <div class="usedhref">
+                            <a th:href="@{/used/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}" style="z-index: 1;"><button type="button"
+                                    class="btn btn-secondary btn-block" disabled value="수정" th:text="#{modify}">수정</button></a>
+                        </div>
+                    </div>
                 </table>
                 <br>
-               <!-- <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}"></input> -->
-                <!-- <div th:if="${#authentication.name}==${used_buy.user_email}"> -->
-                <!-- <a th:href="@{/usedBuyBoardDelete(used_id=${board.boardnum})}">수정</a>-->
-                    <!-- <a th:href="@{/usedBuyBoardDelete(${used_buy.uBuy_id})}">삭제</a>    -->
-                <!-- </div> -->
-                <div th:if="${#authentication.name}==${used_buy.user_email}">
+                
+
+                <!-- <div th:if="${#authentication.name}==${used_buy.user_email}">
                 <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
                 <a th:href="@{/used/usedBuyBoardUpdate(uBuy_id=${used_buy.uBuy_id})}" th:text="#{modify}">수정</a>
-                <!-- <a th:text="${Used_buy.uBuy_title}" th:href="@{usedBuyBoardRead(uBuy_id=${Used_buy.uBuy_id})}"></a> -->
+               
 
                 <input type="hidden" name="uBuy_id" th:value="${used_buy.uBuy_id}">
                 <a th:href="@{/used/usedBuyBoardDelete(uBuy_id=${used_buy.uBuy_id})}" th:text="#{delete}">삭제</a>
-                </div>   
+                </div>    -->
             </form>
         </section>
 

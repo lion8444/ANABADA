@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class RentalAndFile {
 	String rental_id;
 	String user_email;
+	String rDetail_id;
 	String buyer_email;
 	String category_id;
 	String rental_title;
@@ -18,8 +19,6 @@ public class RentalAndFile {
 	String rental_content;
 	String rental_quality;
 	String rental_status;
-	String uloc_id;
-	String sloc_id;
 	String file_origin;
 	String file_saved;
 	String rDetail_status;

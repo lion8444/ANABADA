@@ -58,6 +58,9 @@
     <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
+
 	<script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
 	<script th:src="@{/js/hsw/auctionWrite(GBW).js}"></script>
      <!-- 버튼관련 css -->
@@ -67,6 +70,15 @@
       .hidden {
       display:none;
       color: red;
+      }
+      #map-wrapper {
+        display: block;
+        margin: 30px 0 30px 0;
+        width: 1110px;
+        height: 500px;
+      }
+      #map {
+        height: 100%;
       }
     </style>
 
@@ -170,8 +182,9 @@
             <h2 th:text="#{auctionModify}">경매 글 수정</h2>
             
             <form th:action="@{auctionWrite}" method="post" id="write"
-                    enctype="multipart/form-data">
-                    <!-- <input type="hidden" name="user_email" th:value="">  -->                
+                    enctype="multipart/form-data" onclick="viewMapRoad((this).getAttribute('loc_id'))">
+
+                
                 <div class="mb-3">
                     <label for="auction_title" th:text="#{title}">제목</label>
                     <input type="text" class="form-control" id="auction_title" name="auction_title" th:placeholder="#{putTitle}" placeholder="제목을 입력해 주세요">
@@ -199,7 +212,7 @@
                 </div>
       
                 <div class="mb-3">
-                    <label for="auction_price" th:text="#{sellPrice}">판매가격</label>
+                    <label for="auction_price" th:text="#{auctionWritePrice}">판매가격</label>
                     <input type="text" class="form-control" id="auction_price" name="auction_price" th:placeholder="#{putPrice}" placeholder="가격을 입력해 주세요">
                         <div class="hidden" th:text="#{putPrice}">
  								가격을 입력해 주세요.
@@ -212,13 +225,6 @@
                 <div class="hidden" th:text="#{putAuctionEndDate}">
                     <p>경매 마감 일자를 정확하게 입력해 주세요.</p>
                 </div>	                      
-                </div>
-
-                <div class="mb-3">
-                    <label for="caution" th:text="#{registerNotice}">*등록시 주의사항<br> 
-                        주의사항주의사항주의사항주의사항주의사항주의사항주의사항
-                        주의사항주의사항주의사항주의사항주의사항주의사항주의사항</label>
-                    <!-- <input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요"> -->
                 </div>
                 
                 <div class="mb-3">
@@ -240,6 +246,18 @@
                     <div class="hidden" th:text="#{plsPutDetail50}">
                         상세설명을 50자 이상 입력해 주세요.
                     </div>
+                </div>
+                <!-- 지도 -->
+                <div id="map-wrapper">
+                    <input type="text" id="search">
+                    <button id="search-button" th:text="#{search}">검색</button>
+                    <div id="map"></div>
+                </div>
+                <!-- 전달할 location 값 -->
+                <div>
+                    <input type="hidden" name="lat" id="latitude" th:value="${location.lat}">
+                    <input type="hidden" name="lng" id="longitude" th:value="${location.lng}">
+                    <input type="hidden" name="loc_name" id="loc_name" th:value="${location.loc_name}">
                 </div>
                 
                 <div>
@@ -427,9 +445,10 @@
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
-    <!-- jQuery -->
-<!--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
- -->    <!-- End Script -->
+    <!-- 지도 -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>    
+    <script th:src="@{/js/map/boardMap.js}"></script>
+    <!-- End Script -->
    
 </body>
 

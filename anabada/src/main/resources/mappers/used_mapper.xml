@@ -369,7 +369,7 @@
     			,#{used_title}
     			,#{used_price}
     			,#{used_content}    			
-    			,#{used_quality}    						
+    			,#{used_quality}    					
     			)    	
     </insert>
     
@@ -420,5 +420,28 @@
     	SELECT *
     	FROM used_detail WHERE used_id = #{used_id}
     </select>
+    
+    <update id="expup" parameterType="String">
+    	UPDATE
+    		user_character
+    	SET
+    		char_exp = (char_exp + 10)
+    	WHERE	
+    		user_character.user_email = #{email}
+    </update>
+    
+    <select id="finduserchar" parameterType="String" resultType="User_character">
+    	SELECT * FROM user_character WHERE user_email = #{user_email} AND char_selected = 1
+    </select>
+    
+    <update id="levelup" parameterType="String">
+    	UPDATE
+    		user_character
+    	SET
+    		char_level = char_level + 1,
+    		char_exp = 0
+    	WHERE
+    		user_email = #{user_email} AND char_selected = 1
+    </update>
 </mapper>
 	

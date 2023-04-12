@@ -33,7 +33,6 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
 		log.debug("사용자 이메일 : {}", user.getUser_email());
 		log.debug("사용자 권한 : {}", user.getAuthorities());
 		
-		
 	}
 
 }
