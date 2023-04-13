@@ -79,7 +79,7 @@ public class CSController {
 			Used us = service.selectUsedByID(used_id);
 			
 			model.addAttribute("url", url);
-			model.addAttribute("us", us);
+			model.addAttribute("user", us);
 		}
 		
 		
@@ -119,7 +119,7 @@ public class CSController {
 			
 			service.insertReport(report);
 			
-			return "redirect:/csform/report";
+			return "redirect:/mypage/myreportlist";
 		}
 								
 		// 첨부파일 있을 때 - 파일 저장 후 신고하기 처리
@@ -138,7 +138,7 @@ public class CSController {
 		
 		log.debug("첨부파일과 신고하기 처리");
 			
-		return "redirect:/csform/report";
+		return "redirect:/mypage/myreportlist";
 	}
 	
 	/**

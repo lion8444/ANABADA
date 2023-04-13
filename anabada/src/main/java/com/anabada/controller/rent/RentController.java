@@ -83,7 +83,7 @@ public class RentController {
 		
 		// 글쓴이의 다마고치 정보
 		Damagochi dama = mpservice.selectMyDamaInfoById(rental.getUser_email());
-		
+		log.debug("!!!!!!!!!!!!! : {}, {}", user, rental);
 		model.addAttribute("target", target);
 
 		model.addAttribute("rental", rental);
@@ -115,7 +115,7 @@ public class RentController {
 			return "redirect:/rental/purchase?rental_id=" + rental_id;
 		}
 
-		return "redirect:/mypage/myrentallistall";
+		return "redirect:/mypage/myrentallistbuy";
 	}
 
 	/**
@@ -125,13 +125,13 @@ public class RentController {
 	public String rentalBoard(
 			@AuthenticationPrincipal UserDetails userDetails
 			,@RequestParam(name="page", defaultValue="1") int page
-			, String type
-			, String searchWord
-			, String check
-			, String fsdate
-			, String fedate
+			,@RequestParam(required = false) String type
+			,@RequestParam(required = false) String searchWord
+			,@RequestParam(required = false) String check
+			,@RequestParam(required = false) String fsdate
+			,@RequestParam(required = false) String fedate
 			, Model model) {
-		
+		log.debug("rentalBoard fsdate, fedate : {}, {}", fsdate, fedate);
 		PageNavigator navi = 
 			service.getPageNavigator(pagePerGroup, countPerPage, page, type, searchWord, check, fsdate, fedate);
 		
@@ -192,11 +192,11 @@ public class RentController {
 			,@RequestParam(name="rental_id",defaultValue="0") String rental_id
 			,Model model
 			,@RequestParam(name="page", defaultValue="1") int page
-			, String fsdate
-			, String fedate
+			,@RequestParam String fsdate
+			,@RequestParam String fedate
 			) {
 			
-					
+				log.debug("rentalBoardRead : {}, {}", fsdate, fedate);
 		PageNavigator navi = 
 				service.getPageNavigator(pagePerGroup, countPerPage, page, null, null, null, null, null);
 		
@@ -222,10 +222,13 @@ public class RentController {
 		
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO target = lservice.findUser(rental_sell.getUser_email());
+
+		Location location = mservice.findBoardLocation(rental_id);
 		
 		// 글쓴이의 다마고치 정보
 		Damagochi dama = mpservice.selectMyDamaInfoById(rental_sell.getUser_email());
 		
+		model.addAttribute("location", location);
 		model.addAttribute("user", user);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("rental_sell", rental_sell);
@@ -355,6 +358,7 @@ public class RentController {
 		}
 		// 글정보를 모델에 저장
 		model.addAttribute("rental", rental);
+		model.addAttribute("location", location);
 		ArrayList<Category> category_main = service.maincategory();
 		model.addAttribute("category_main", category_main);
 		// 수정을 html로 포워딩
@@ -367,8 +371,13 @@ public class RentController {
 			@ModelAttribute Rental rental, @RequestParam(name = "upload") ArrayList<MultipartFile> upload,
 			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne, @AuthenticationPrincipal UserDetails user) {
-		String rental_id = service.rentalBoardUpdate(rental);
 
+		Rental originRental = service.findOneRental(rental.getRental_id());
+		
+		rental.setRental_date(originRental.getRental_date());
+		rental.setRental_status(originRental.getRental_status());
+		
+		String rental_id = service.rentalBoardUpdate(rental);
 		if (rental_id == null) {
 			return "redirect:/";
 		}

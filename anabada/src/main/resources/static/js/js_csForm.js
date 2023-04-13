@@ -1,10 +1,42 @@
 // csForm 관련 자바스크립트 커스텀 파일
 
-let email_check = '';
+let email_check = false;
 $(document).ready(function() {
-   $('#report_reported').on('keyup', reportedValidation);
+    reportedValidation();
+   $('#report_reported_write').on('keyup', reportedCheck);
 });
+function reportedCheck() {
+    let report_reported = $('#report_reported_write');
+    let reported_ok = $('.reported_ok');
 
+    $.ajax({
+        url: 'reportedValidation'
+        , type: 'post'
+        , data: {reported: report_reported.val()}
+        , dataType: 'json'
+        , success: function(result) {
+            if(result == 0) {
+                email_check = false;
+                reported_ok.html('해당 이메일은 등록되지 않은 사용자 입니다.');
+                reported_ok.css('color', 'red');
+                console.log($('.reported_ok').html());
+                return false;
+            }
+
+            if(result == 1) {
+                email_check = true;
+                reported_ok.html('사용자가 확인 되었습니다.');
+                reported_ok.css('color', 'green');
+                console.log($('.reported_ok').html());
+                return true
+            }
+        }
+        , error: function(e) {
+            alert(JSON.stringify(e));
+            return false;
+        }                                                       
+    })
+}
 function reportedValidation() {
     let report_reported = $('#report_reported');
     let reported_ok = $('.reported_ok');
@@ -20,6 +52,7 @@ function reportedValidation() {
                 reported_ok.html('해당 이메일은 등록되지 않은 사용자 입니다.');
                 reported_ok.css('color', 'red');
                 console.log($('.reported_ok').html());
+                return false;
             }
 
             if(result == 1) {
@@ -27,10 +60,12 @@ function reportedValidation() {
                 reported_ok.html('사용자가 확인 되었습니다.');
                 reported_ok.css('color', 'green');
                 console.log($('.reported_ok').html());
+                return true;
             }
         }
         , error: function(e) {
             alert(JSON.stringify(e));
+            return false;
         }                                                       
     })
 }

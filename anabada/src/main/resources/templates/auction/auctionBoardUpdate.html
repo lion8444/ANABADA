@@ -181,13 +181,13 @@
       
             <h2 th:text="#{auctionModify}">경매 글 수정</h2>
             
-            <form th:action="@{auctionWrite}" method="post" id="write"
+            <form th:action="@{auctionBoardUpdate}" method="post" id="write"
                     enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
-
+                <input type="hidden" name="auction_id" th:value="${auction.auction_id}">
                 
                 <div class="mb-3">
                     <label for="auction_title" th:text="#{title}">제목</label>
-                    <input type="text" class="form-control" id="auction_title" name="auction_title" th:placeholder="#{putTitle}" placeholder="제목을 입력해 주세요">
+                    <input type="text" class="form-control" id="auction_title" name="auction_title" th:placeholder="#{putTitle}" th:value="${auction.auction_title}" placeholder="제목을 입력해 주세요">
                             <div class="hidden" th:text="#{putPdName}">
  								상품명을 입력해 주세요.
 							</div>
@@ -213,7 +213,7 @@
       
                 <div class="mb-3">
                     <label for="auction_price" th:text="#{auctionWritePrice}">판매가격</label>
-                    <input type="text" class="form-control" id="auction_price" name="auction_price" th:placeholder="#{putPrice}" placeholder="가격을 입력해 주세요">
+                    <input type="text" class="form-control" id="auction_price" name="auction_price" th:value="${auction.auction_price}" th:placeholder="#{putPrice}" placeholder="가격을 입력해 주세요">
                         <div class="hidden" th:text="#{putPrice}">
  								가격을 입력해 주세요.
 						</div>
@@ -242,7 +242,7 @@
                 
                 <div class="mb-3">
                     <label for="content" th:text="#{content}">내용</label>
-                    <textarea class="form-control" rows="5" name="auction_content" id="auction_content" th:placeholder="#{putContent50}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
+                    <textarea class="form-control" rows="5" name="auction_content" id="auction_content" th:text="${auction.auction_content}" th:placeholder="#{putContent50}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
                     <div class="hidden" th:text="#{plsPutDetail50}">
                         상세설명을 50자 이상 입력해 주세요.
                     </div>

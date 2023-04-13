@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	pricecal();
-	$('.rental_sdate').change(pricecal);
-	$('.rental_edate').change(pricecal);
+	// $('.rental_sdate').change(pricecal);
+	// $('.rental_edate').change(pricecal);
 	$('.myaddr').change(myaddr);
 	$('.newaddr').change(newaddr);
 	$('.post').click(sample6_execDaumPostcode);
@@ -18,7 +18,7 @@ function pricecal() {
 	let count = edate - sdate;
 		
 	let countday = count / (1000 * 60 * 60 * 24);
-	let total = $('.rental_price_day').val() * countday;
+	let total = parseInt($('.rental_price_day').val()) * countday;
 	if($.isNumeric(total) && total > 0){
 		$('.showrental_price').val('₩ '+ comma(total));
 		$('.rental_price').val(total);

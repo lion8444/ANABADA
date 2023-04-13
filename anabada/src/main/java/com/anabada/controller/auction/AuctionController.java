@@ -354,7 +354,7 @@ public class AuctionController {
 		}
 		// 글정보를 모델에 저장
 		model.addAttribute("auction", auction);
-		
+		model.addAttribute("location", location);
 		ArrayList<Category> category_main = service.maincategory();
 		model.addAttribute("category_main", category_main);
 
@@ -369,6 +369,10 @@ public class AuctionController {
 			Location location,
 			@RequestParam(name = "uploadOne") MultipartFile uploadOne,
 			@AuthenticationPrincipal UserDetails userDetails) {
+
+		Auction originAuction = service.findOneAuction(auction.getAuction_id());
+		auction.setAuction_status(originAuction.getAuction_status());
+		auction.setAuction_date(originAuction.getAuction_date());
 		String auction_id = service.auctionBoardUpdate(auction);
 
 		// 로그인한 사용자의 아이디를 읽음

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.WebSocketSession;
 
 import com.anabada.domain.Auction;
+import com.anabada.domain.Board;
 import com.anabada.domain.Rental;
 import com.anabada.domain.Used;
 import com.anabada.domain.UserDTO;
@@ -25,6 +26,7 @@ import com.anabada.domain.user.User;
 import com.anabada.handler.ChatHandler;
 import com.anabada.service.chat.ChatService;
 import com.anabada.service.login.LoginService;
+import com.anabada.service.map.MapService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +42,9 @@ public class RestChatController {
 
     @Autowired
     LoginService service;
+
+    @Autowired
+    MapService mapService;
     
     // @Autowired
     // private ChatSession cSession;
@@ -88,11 +93,11 @@ public class RestChatController {
 
 
         log.debug("target : {}, board : {}", target, board_no);
-
+        Board board = mapService.findBoard(board_no);
         ChatRoom room = new ChatRoom();
         room.setRoomId(UUID.randomUUID().toString());
         room.setOpener(user.getUser_nick());
-        room.setName(target);
+        room.setName(board.getTitle());
         room.setTarget(target);
         room.setBoard_no(board_no);
         

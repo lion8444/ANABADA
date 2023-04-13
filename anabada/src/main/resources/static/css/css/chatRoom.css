@@ -396,3 +396,13 @@ button.send-btn:hover {
   height: 34px;
   margin: 0px;
 }
+.person .title {
+  position: absolute;
+  left: 64px;
+  top: 13px;
+}
+.person .preview {
+  position: relative;
+  left: 70px;
+  font-size: 13px;
+}

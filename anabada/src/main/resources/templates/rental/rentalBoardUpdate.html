@@ -177,15 +177,13 @@
       
             <h2>대여 글 수정</h2>
       
-            <form th:action="@{rentalWrite}" method="post" id="write"
+            <form th:action="@{rentalBoardUpdate}" method="post" id="write"
                     enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                     <!-- <input type="hidden" name="user_email" th:value="">  -->
-                    <input type="hidden" name="uloc_id" value="uloc000001">
-                    <input type="hidden" name="sloc_id" value="sloc000001">
-                
+                <input type="hidden" name="rental_id" th:value="${rental.rental_id}">
                 <div class="mb-3">
                     <label for="rental_title">제목</label>
-                    <input type="text" class="form-control" id="rental_title" name="rental_title" placeholder="제목을 입력해 주세요">
+                    <input type="text" class="form-control" id="rental_title" name="rental_title" th:value="${rental.rental_title}" placeholder="제목을 입력해 주세요">
                             <div class="hidden">
  								상품명을 입력해 주세요.
 							</div>                    
@@ -211,7 +209,7 @@
       
                 <div class="mb-3">
                     <label for="rental_price" th:text="#{rental_price_day}">대여금액(일)</label>
-                    <input type="text" class="form-control" id="rental_price" name="rental_price" placeholder="가격을 입력해 주세요">
+                    <input type="text" class="form-control" id="rental_price" name="rental_price" th:value="${rental.rental_price}" placeholder="가격을 입력해 주세요">
                         <div class="hidden">
  								가격을 입력해 주세요.
 						</div>
@@ -219,10 +217,10 @@
 
                 <div class="mb-3">
                     <label for="rental_sDate">대여 시작 날짜:</label>
-                    <input type="date" id="rental_sDate" name="rental_sDate">
+                    <input type="date" id="rental_sDate" name="rental_sDate" th:value="${rental.rental_sDate}">
                     <br>
                     <label for="rental_eDate">대여 종료 날짜:</label>
-                    <input type="date" id="rental_eDate" name="rental_eDate">
+                    <input type="date" id="rental_eDate" name="rental_eDate" th:value="${rental.rental_eDate}">
                         <div class="hidden">
  							대여기간을 정확하게 입력해주세요.
 						</div>
@@ -245,7 +243,7 @@
                 
                 <div class="mb-3">
                     <label for="content">내용</label>
-                    <textarea class="form-control" rows="5" name="rental_content" id="rental_content" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
+                    <textarea class="form-control" rows="5" name="rental_content" id="rental_content" th:text="${rental.rental_content}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
                      	<div class="hidden">
 							상세설명을 50자 이상 입력해 주세요.
                         </div>                    
@@ -262,21 +260,8 @@
                     <input type="hidden" name="lng" id="longitude" th:value="${location.lng}">
                     <input type="hidden" name="loc_name" id="loc_name" th:value="${location.loc_name}">
                 </div>
-                <!-- 지도 -->
-                <div id="map-wrapper">
-                    <input type="text" id="search">
-                    <button id="search-button" th:text="#{search}">검색</button>
-                    <div id="map"></div>
-                </div>
-                <!-- 전달할 location 값 -->
                 <div>
-                    <input type="hidden" name="lat" id="latitude" th:value="${location.lat}">
-                    <input type="hidden" name="lng" id="longitude" th:value="${location.lng}">
-                    <input type="hidden" name="loc_name" id="loc_name" th:value="${location.loc_name}">
-                </div>
-                
-                <div>
-                    <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장">
+                    <!-- <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장"> -->
                     <input type="submit"  class="btn btn-sm btn-primary" value="저장">
                 </div>
             </form>
@@ -485,6 +470,8 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>    
     <script th:src="@{/js/map/boardMap.js}"></script>
     <script th:src="@{/js/js_index.js}"></script>
+    <script th:src="@{/jQuery/jquery-3.6.3.min.js}"></script>
+	<script th:src="@{/js/hsw/rentalWrite(RBW).js}"></script>
     <!-- End Script -->
    
 </body>

@@ -267,7 +267,7 @@ $(document).ready(function() {
 
 // 중고 거래 취소 alert 확인
 function usedCancleChk() {
-    if(confirm('정말로 렌탈 취소하시겠습니까?')) {
+    if(confirm('정말로 거래를 취소하시겠습니까?')) {
         return true;
     }
 

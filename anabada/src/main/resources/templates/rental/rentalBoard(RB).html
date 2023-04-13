@@ -205,13 +205,13 @@
                                 </a>
                             </div>
                             <div class="col-auto">
-                                <input type="date" class="fsdate form-control" th:value="${fsdate}" style="height: 100%;">
+                                <input type="date" class="fsdate form-control" th:value="${fsdate}" name="fsdate" style="height: 100%;">
                             </div>
                             <div class="col-auto">
                             -
                             </div>
                             <div class="col-auto">
-                                <input type="date" class="fedate form-control" th:value="${fedate}" style="height: 100%;">
+                                <input type="date" class="fedate form-control" th:value="${fedate}" name="fedate" style="height: 100%;">
                             </div>
                         </div>
                     </div>
@@ -304,7 +304,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" th:each="rentalList, i: ${rentalList}" method="get"
                     enctype="multipart/form-data">
                     <div class="property-item mb-30">
-                        <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id})}" class="img">
+                        <a th:href="@{rentalBoardRead(rental_id=${rentalList.rental_id},fsdate=${fsdate},fedate=${fedate})}" class="img">
                             <img th:src="@{/rental/imgshow(rental_id=${rentalList.rental_id})}" alt="Image"
                                 class="img-fluid">
                         </a>
@@ -333,7 +333,7 @@
                                             th:text="${rentalList.rental_quality}">상품상태</span>
                                     </span>
                                 </div>
-                                <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id})}"
+                                <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id},fsdate=${fsdate},fedate=${fedate})}"
                                     class="underline-btn1">See details</a>
                             </div>
                         </div>

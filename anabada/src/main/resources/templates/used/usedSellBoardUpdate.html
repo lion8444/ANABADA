@@ -54,6 +54,11 @@
      <link rel="stylesheet" th:href="@{/css/css_usedBuyWrite(JSBW).css}">
       <!-- 버튼관련 css -->
     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
+    <!-- 채팅 css -->
+    <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
+    <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
+    <!-- 지도 -->
+    <link rel="stylesheet" th:href="@{/css/map/mapBoard.css}">
 
     <style>
         .hidden {
@@ -185,12 +190,12 @@
           
                 <h2 th:text="#{usedSellModify}">중고 거래 판매 글 수정</h2>
           
-                <form th:action="@{usedSellWrite}" method="post" id="write"
+                <form th:action="@{usedSellBoardUpdate}" method="post" id="write"
                         enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
-
+                    <input type="hidden" name="used_id" th:value="${used.used_id}">
                     <div class="mb-3">
                         <label for="used_title" th:text="#{title}">제목</label>
-                        <input type="text" class="form-control" id="used_title" name="used_title" th:placeholder="#{putTitle}" placeholder="제목을 입력해 주세요">
+                        <input type="text" class="form-control" id="used_title" name="used_title" th:placeholder="#{putTitle}" th:value="${used.used_title}" placeholder="제목을 입력해 주세요">
                             <div class="hidden" th:text="#{putPdName}">
  								상품명을 입력해 주세요.
 							</div>
@@ -216,7 +221,7 @@
 
                     <div class="mb-3">
                         <label for="used_price" th:text="#{sellPrice}">판매가격</label>
-                        <input type="text" class="form-control" id="used_price" name="used_price" th:placeholder="#{putPrice}" placeholder="가격을 입력해 주세요">
+                        <input type="text" class="form-control" id="used_price" name="used_price" th:placeholder="#{putPrice}" th:value="${used.used_price}" placeholder="가격을 입력해 주세요">
                         <div class="hidden" th:text="#{putPrice}">
  								가격을 입력해 주세요.
 						</div>
@@ -240,12 +245,10 @@
           
                     <div class="mb-3">
                         <label for="content" th:text="#{content}">내용</label>
-                        <textarea class="form-control" rows="5" name="used_content" id="used_content" th:placeholder="#{putContent50}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
+                        <textarea class="form-control" rows="5" name="used_content" id="used_content" th:placeholder="#{putContent50}" th:text="${used.used_content}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
                      	<div class="hidden" th:text="#{plsPutDetail50}">
 							상세설명을 50자 이상 입력해 주세요.
                         </div>
-                        <textarea class="form-control" rows="5" name="used_content" id="used_content"
-                            placeholder="내용을 50자 이상 입력해 주세요"></textarea>
                     </div>
 
                     <!-- 지도 -->
@@ -262,7 +265,7 @@
                     </div>
 
                     <div>
-                    	<input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장" th:value="#{tempSave}">
+                    	<!-- <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장" th:value="#{tempSave}"> -->
                         <input type="submit"  class="btn btn-sm btn-primary" value="저장" th:value="#{save}">
                     </div>
                 </form>

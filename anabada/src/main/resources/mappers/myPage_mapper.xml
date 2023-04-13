@@ -501,7 +501,7 @@
 			, user us
 			, used_detail ud 
 		SET 
-			u.used_status = '거래 중지'
+			u.used_status = '거래 중'
 			, us.user_account = us.user_account + #{used_price}
 			, ud.uDetail_status = '거래 중지'
 		WHERE 
@@ -520,7 +520,7 @@
 			rental r
 			, rental_detail rd 
 		SET 
-			r.rental_status = '거래 중지'
+			r.rental_status = '거래 중'
 			, rd.rDetail_status = '거래 중지'
 		WHERE 
 			r.rental_id= #{rental_id}
@@ -534,7 +534,7 @@
     		auction a
     		, auction_detail ad
     	SET
-    		a.auction_status = '거래 중지'
+    		a.auction_status = '거래 중'
     	WHERE
     		a.auction_id = #{auction_id}
     		AND

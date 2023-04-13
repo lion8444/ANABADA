@@ -277,8 +277,8 @@
                     </ul>
                 </div>   -->
                 <!-- 중고 판매 내역 -->
-                <div id="mylistbox" th:each="list, i : ${usedListSell}" th:if="${usedListSell} != null">
-                    <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
+                <div id="mylistbox" th:each="list, i : ${usedListSell}" th:if="${usedListSell} != null and ${list.used_status} != '거래 중지' and ${list.used_status} != null">
+                    <input type="hidden" th:value="${list.user_email}" id="user_email">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -363,7 +363,7 @@
                 </div> -->
 
                 <!-- 중고 구매 내역 -->
-                <div id="mylistbox" th:each="list, i : ${usedListBuy}" th:if="${usedListBuy} != null">
+                <div id="mylistbox" th:each="list, i : ${usedListBuy}" th:if="${usedListBuy} != null and ${list.uDetail_status} != '거래 중지'">
                     <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
                     <table class="mypagebox">
                         <tr>

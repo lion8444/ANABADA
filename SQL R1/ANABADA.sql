@@ -215,23 +215,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `anabada`.`report` ;
 
-CREATE TABLE IF NOT EXISTS `anabada`.`researchport` (
+CREATE TABLE IF NOT EXISTS `anabada`.`report` (
   `report_id` VARCHAR(20) NOT NULL,
   `user_email` VARCHAR(50) NOT NULL,
   `report_reported` VARCHAR(45) NOT NULL,
   `report_category` VARCHAR(45) NOT NULL,
   `report_url` VARCHAR(255) NULL,
-  `report_comment` VARCHAR(45) NOT NULL,
+  `report_comment` VARCHAR(255) NOT NULL,
   `report_answer` VARCHAR(45) NULL,
   `report_status` VARCHAR(45) NULL DEFAULT '접수 완료',
   `report_date` DATETIME NULL DEFAULT now(),
-  PRIMARY KEY (`report_id`),
-  INDEX `fk_report_user1_idx` (`user_email` ASC) VISIBLE,
-  CONSTRAINT `fk_report_user1`
-    FOREIGN KEY (`user_email`)
-    REFERENCES `anabada`.`user` (`user_email`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`report_id`))
 ENGINE = InnoDB;
 
 
@@ -347,7 +341,7 @@ DROP TABLE IF EXISTS `anabada`.`location` ;
 
 CREATE TABLE IF NOT EXISTS `anabada`.`location` (
   `loc_id` VARCHAR(20) NOT NULL,
-  `loc_name` VARCHAR(45) NOT NULL,
+  `loc_name` VARCHAR(100) NOT NULL,
   `board_no` varchar(10) unique,
   `lat` DOUBLE NOT NULL,
   `lng` DOUBLE NOT NULL,
@@ -518,21 +512,14 @@ CREATE TABLE IF NOT EXISTS `anabada`.`used_detail` (
   `uDetail_addr1` VARCHAR(255) NOT NULL,
   `uDetail_addr2` VARCHAR(255) NOT NULL,
   `uDetail_memo` VARCHAR(1000) NULL,
-  `chat_id` VARCHAR(20) NULL,
   `uDetail_price` INT NOT NULL,
-  `uDetail_status` VARCHAR(45) DEFAULT '거래 전',
+  `uDetail_status` VARCHAR(45) DEFAULT '거래 중',
   `uDetail_Date` DATETIME DEFAULT now(),
   PRIMARY KEY (`uDetail_id`),
   INDEX `fk_used_detail_used1_idx` (`used_id` ASC) VISIBLE,
-  INDEX `fk_used_detail_chat1_idx` (`chat_id` ASC) VISIBLE,
   CONSTRAINT `fk_used_detail_used1`
     FOREIGN KEY (`used_id`)
     REFERENCES `anabada`.`used` (`used_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_used_detail_chat1`
-    FOREIGN KEY (`chat_id`)
-    REFERENCES `anabada`.`chat` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -547,7 +534,6 @@ CREATE TABLE IF NOT EXISTS `anabada`.`rental_detail` (
   `rDetail_id` VARCHAR(20) NOT NULL,
   `rental_id` VARCHAR(20) NOT NULL,
   `user_email` VARCHAR(50) NOT NULL,
-  `chat_id` VARCHAR(20) NULL,
   `rDetail_person` VARCHAR(50) NOT NULL,
   `rDetail_phone` VARCHAR(50) NOT NULL,
   `rDetail_memo` VARCHAR(1000) NULL,
@@ -562,15 +548,9 @@ CREATE TABLE IF NOT EXISTS `anabada`.`rental_detail` (
   
   PRIMARY KEY (`rDetail_id`),
   INDEX `fk_rental_detail_rental1_idx` (`rental_id` ASC) VISIBLE,
-  INDEX `fk_rental_detail_chat1_idx` (`chat_id` ASC) VISIBLE,
   CONSTRAINT `fk_rental_detail_rental1`
     FOREIGN KEY (`rental_id`)
     REFERENCES `anabada`.`rental` (`rental_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_rental_detail_chat1`
-    FOREIGN KEY (`chat_id`)
-    REFERENCES `anabada`.`chat` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -585,7 +565,6 @@ CREATE TABLE IF NOT EXISTS `anabada`.`auction_detail` (
   `aDetail_id` VARCHAR(20) NOT NULL,
   `auction_id` VARCHAR(20) NOT NULL,
   `user_email` VARCHAR(50) NOT NULL,
-  `chat_id` VARCHAR(20) NULL,
   `aDetail_person` VARCHAR(50) NOT NULL,
   `aDetail_phone` VARCHAR(30) NOT NULL,
   `aDetail_post` VARCHAR(10) NOT NULL,
@@ -593,20 +572,14 @@ CREATE TABLE IF NOT EXISTS `anabada`.`auction_detail` (
   `aDetail_addr2` VARCHAR(255) NOT NULL,
   `aDetail_memo` VARCHAR(1000) NULL,
   `aDetail_price` INT NOT NULL,
-  `aDetail_status` VARCHAR(45) NULL DEFAULT '거래 전',
+  `aDetail_status` VARCHAR(45) NULL DEFAULT '입찰 중',
   `aDetail_Date` DATETIME DEFAULT now(),
 
   PRIMARY KEY (`aDetail_id`),
   INDEX `fk_auction_detail_auction1_idx` (`auction_id` ASC) VISIBLE,
-  INDEX `fk_auction_detail_chat1_idx` (`chat_id` ASC) VISIBLE,
   CONSTRAINT `fk_auction_detail_auction1`
     FOREIGN KEY (`auction_id`)
     REFERENCES `anabada`.`auction` (`auction_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_auction_detail_chat1`
-    FOREIGN KEY (`chat_id`)
-    REFERENCES `anabada`.`chat` (`chat_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

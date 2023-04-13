@@ -258,10 +258,10 @@
                 <nav class="navbar navbar-expand-sm tab ">
                     <ul class="navbar-nav w-100">                  
                       <li class="nav-item tabbox w-50 text-center">                  
-                        <a class="nav-link bg-white tabboxa sell px-5" th:href="@{/mypage/myrentallistsell(user_email=${user.user_email})}" style="font-weight: bolder;">빌린내역</a>
+                        <a class="nav-link bg-white tabboxa sell px-5" th:href="@{/mypage/myrentallistsell(user_email=${user.user_email})}" style="font-weight: bolder;">빌려준내역</a>
                       </li>         
                       <li class="nav-item tabbox w-50 text-center">    
-                        <a class="nav-link bg-white tabboxa buy px-5" th:href="@{/mypage/myrentallistbuy(user_email=${user.user_email})}" style="font-weight: bolder;">빌려준내역</a>          
+                        <a class="nav-link bg-white tabboxa buy px-5" th:href="@{/mypage/myrentallistbuy(user_email=${user.user_email})}" style="font-weight: bolder;">빌린내역</a>          
                       </li>         
                     </ul>
                 </nav>
@@ -270,8 +270,8 @@
                 <!-- <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}"> -->
 
                 <!-- 렌탈 빌린 내역 -->
-                <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null">
-                    <input type="hidden" th:value="${list.user_email}" id="user_email"></input>
+                <div id="mylistbox" th:each="list, i : ${rentalListBuy}" th:if="${rentalListBuy} != null and ${list.rDetail_status} != '거래 중지'">
+                    <input type="hidden" th:value="${list.user_email}" id="user_email">
                     <table class="mypagebox">
                         <tr>
                             <td>
@@ -339,7 +339,7 @@
                 </div>
 
                 <!-- 렌탈 빌려준 내역 -->
-                <div id="mylistbox" th:each="list, i : ${rentalListSell}" th:if="${rentalListSell} != null">
+                <div id="mylistbox" th:each="list, i : ${rentalListSell}" th:if="${rentalListSell} != null and ${list.rental_status} != '거래 중지' and ${list.rental_status} != null">
                     <table class="mypagebox">
                         <tr>
                             <td>

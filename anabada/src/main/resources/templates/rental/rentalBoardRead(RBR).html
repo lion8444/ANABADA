@@ -54,6 +54,28 @@
     <script th:src="@{/js/lanTest.js}"></script>
      <!-- 버튼관련 css -->
      <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
+     <style>
+        #map-wrapper {
+            margin: 30px 0 30px 0;
+            width: 100%;
+            height: 600px;
+        }
+
+        #map {
+            height: 100%;
+        }
+
+        strong {
+            font-weight: 600;
+            font-size: 30px;
+        }
+
+        .gomap {
+            float: right;
+            padding-top: 20px;
+            color: rgb(89, 89, 89);
+        }
+    </style>
 </head>
 
 <body>
@@ -135,7 +157,7 @@
     <!-- Close Header -->
 
     <!-- 글 상세 정보 번역 버튼 파파고 -->
-    <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}">
+    <!-- <input type="button" id="papagoSubmit3" value="번역" th:value="#{translate}"> -->
 
         <!-- 넣을부분 -->
         <div class="section">
@@ -152,10 +174,9 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-
-                        <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.rental_id}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
-                        <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${rental_sell.rental_id}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
-
+                        <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                        <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                        <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-top: 0;margin-left: 10px; bottom: 15px;">
                         <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
                         <div class="heading text-primary">
                             <h2 th:text="${rental_sell.rental_title}" id="papago0" class="papago" papagoCount="0">제목</h2>
@@ -184,7 +205,7 @@
                         <div th:if="${#authentication.name}!=${rental_sell.user_email}">
                             <div class="usedhref">
                                 <a th:onclick="|location.href='@{/rental/purchase(rental_id=${rental_sell.rental_id}, fsdate=${fsdate}, fedate=${fedate})}'|">
-                                    <button class="btn btn-secondary btn-block" value="렌탈하기">렌탈하기</button></a>
+                                    <button type="button" class="btn btn-secondary btn-block" value="렌탈하기">렌탈하기</button></a>
                             </div>
                         </div>
 
@@ -237,13 +258,7 @@
                             <button class="btn btn-secondary btn-block" value="신고" th:text="#{report}">신고</button></a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <br>
-
-        <!-- 지도넣는 부분 -->
-            <!-- 지도넣는 부분 -->
+                <!-- 지도넣는 부분 -->
             <br><br>
             <div id="map-wrapper">
                 <span><strong th:text="#{tradePlace}">직거래 선호 위치</strong><a class="gomap" href="#" th:loc_id="${location.loc_id}" th:text="#{gotoRoadMap}" onclick="viewMapRoad((this).getAttribute('loc_id'))">지도에서 길 찾기</a></span>
@@ -255,7 +270,12 @@
                 <input type="hidden" id="longitude" th:value="${location.lng}">
                 <input type="hidden" id="loc_name" th:value="${location.loc_name}">
             </div>
+            </div>
         </div>
+    </div>
+    <br>
+
+        <!-- 지도넣는 부분 -->
 
         <!-- 추천상품 -->
         <!-- <div class="section">

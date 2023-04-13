@@ -199,7 +199,6 @@ function autocomplete() {
             }
         });
         map.fitBounds(bounds);
-        makersData()
     });
 }
 

@@ -2,13 +2,13 @@
 let countAll = 0;
 
 $(document).on("click", "#goChatting", function () {
-    alert($("#target").text());
+    // alert($("#target").val());
     $.ajax({
         type: "post",
         url: "/makeChatRoom",
-        data: { target: $("#target").text(), board_no: $("#board_no").val() },
+        data: { target: $("#target").val(), board_no: $("#board_no").val() },
         success: function (data) {
-            alert(data);
+            // alert(data);
             if (data == "error") {
                 alert("채팅 방 개설에 실패하였습니다. 다시 시도해주세요.")
                 return;
@@ -242,8 +242,8 @@ function getRoomList() {
         success: function (data) {
             console.log(data);
             $.each(data, function (i, n) {
-                console.log(n);
-                console.log(i);
+                // console.log(n);
+                // console.log(i);
             });
             // 현재 로그인 된 User들
             let loginList = "";
@@ -288,8 +288,8 @@ function getRoomList() {
                         else {
                             $div = $("<li class='chatList_box2 person' onclick='enterRoom(this);'>").attr("id", data[i].roomId).attr("target", data[i].target);
                         }
-                        $img = $("<img class='avatar'>").attr("src", "/img/352479_language_icon.png");
-                        $name = $("<span class='title'>").text(data[i].target);
+                        $img = $("<img class='avatar'>").attr("src", "/img/damagochi_imgs/피츄.png");
+                        $name = $("<span class='title'>").text(data[i].name);
                     }
                     // 자신이 판매자 입장일 때
                     else {
@@ -301,7 +301,7 @@ function getRoomList() {
                         else {
                             $div = $("<li class='chatList_box2 person' onclick='enterRoom(this);'>").attr("id", data[i].roomId).attr("target", data[i].opener);
                         }
-                        $img = $("<img class='profile_img'>").attr("src", "/img/352479_language_icon.png");
+                        $img = $("<img class='avatar'>").attr("src", "/img/damagochi_imgs/피츄.png");
                         $name = $("<span class='title'>").text(data[i].name);
                     }
 

@@ -224,10 +224,10 @@
                                         <span th:text="'페널티: '+${target.user_penalty}"></span>
                                     </h5>
         
-                                    <div th:if="${#authentication.name}!=${rental.user_email}" style="text-align: right;" >
+                                    <!-- <div th:if="${#authentication.name}!=${rental.user_email}" style="text-align: right;" >
                                         <a id = goChatting>
                                         <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                     </div>
@@ -277,7 +277,7 @@
 	            	<p>배송지 선택</p>
 	            	
                 	<input type="radio" class="newaddr form-check-label" name="addr" value="new" checked>신규배송지
-	                <input type="radio" class="myaddr form-check-label" name="addr" value="default">내 주소
+	                <input type="radio" class="myaddr form-check-label" name="addr" value="default" >내 주소
 				</div>
                 <br>
 				<div class="form-group">
