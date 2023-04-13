@@ -176,7 +176,7 @@
             <h2>대여 글 쓰기</h2>
       
             <form th:action="@{rentalWrite}" method="post" id="write"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                     <!-- <input type="hidden" name="user_email" th:value="">  -->                
                 <div class="mb-3">
                     <label for="rental_title">제목</label>
@@ -253,7 +253,7 @@
                 <!-- 지도 -->
                 <div id="map-wrapper">
                     <input type="text" id="search">
-                    <button id="search-button" onclick="search()">검색</button>
+                    <button id="search-button" th:text="#{search}">검색</button>
                     <div id="map"></div>
                 </div>
                 <!-- 전달할 location 값 -->

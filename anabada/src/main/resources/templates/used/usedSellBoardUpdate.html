@@ -186,7 +186,7 @@
                 <h2 th:text="#{usedSellModify}">중고 거래 판매 글 수정</h2>
           
                 <form th:action="@{usedSellWrite}" method="post" id="write"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
 
                     <div class="mb-3">
                         <label for="used_title" th:text="#{title}">제목</label>
@@ -251,7 +251,7 @@
                     <!-- 지도 -->
                     <div id="map-wrapper">
                         <input type="text" id="search">
-                        <button id="search-button" onclick="search()">검색</button>
+                        <button id="search-button" th:text="#{search}">검색</button>
                         <div id="map"></div>
                     </div>
                     <!-- 전달할 location 값 -->
@@ -471,6 +471,7 @@
         <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
         <script th:src="@{/js/map/boardMap.js}"></script>
+        <script th:src="@{/js/js_index.js}"></script>
         <!-- End Script -->
 
     </body>

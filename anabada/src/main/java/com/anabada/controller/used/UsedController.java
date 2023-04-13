@@ -139,6 +139,8 @@ public class UsedController {
 		Used used_sell = service.usedSellBoardRead(used_id);
 		ArrayList<File> fileList = service.fileListByid(used_id);
 
+		Location location = mapservice.findBoardLocation(used_id);
+
 		UserDTO user = lservice.findUser(userDetails.getUsername());
 		UserDTO targetUser = lservice.findUser(used_sell.getUser_email());
 		
@@ -150,6 +152,7 @@ public class UsedController {
 		
 		model.addAttribute("user", user);
 		model.addAttribute("target", targetUser);
+		model.addAttribute("location", location);
 
 		model.addAttribute("used_sell", used_sell);
 		model.addAttribute("fileList", fileList);
@@ -231,6 +234,8 @@ public class UsedController {
 			return "redirect:/";
 		}
 		
+		mapservice.insertLocation(location);
+
 		// 추가된 사진 처리
 		if (!uploadOne.isEmpty()) {
 			String filename = FileService.saveFile(uploadOne, uploadPath);

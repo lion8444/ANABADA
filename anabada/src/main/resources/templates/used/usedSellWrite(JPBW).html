@@ -171,7 +171,7 @@
             <h2 th:text="#{GoUsedSellWrite}">중고 거래 판매 글 쓰기</h2>
         
             <form th:action="@{usedSellWrite}" method="post" id="write"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                     <!-- <input type="hidden" name="user_email" th:value="">  -->                    
                 <div class="mb-3">
                     <label for="used_title" th:text="#{title}">제목</label>
@@ -233,6 +233,20 @@
                         상세설명을 50자 이상 입력해 주세요.
                     </div>
                 </div>
+
+                <!-- 지도 -->
+                <div id="map-wrapper">
+                    <input type="text" id="search">
+                    <button id="search-button" th:text="#{search}">검색</button>
+                    <div id="map"></div>
+                </div>
+                <!-- 전달할 location 값 -->
+                <div>
+                    <input type="hidden" name="lat" id="latitude">
+                    <input type="hidden" name="lng" id="longitude">
+                    <input type="hidden" name="loc_name" id="loc_name">
+                </div>
+
                 
                 <div>
                     <input type="button" class="tempadd btn btn-sm btn-primary" value="임시 저장" th:value="#{tempSave}">
@@ -440,6 +454,7 @@
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>
     <script th:src="@{/js/map/boardMap.js}"></script>
+    <script th:src="@{/js/js_index.js}"></script>
     <!-- jQuery -->
     <!--         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
  --> <!-- End Script -->

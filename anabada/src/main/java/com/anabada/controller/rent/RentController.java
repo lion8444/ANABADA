@@ -138,9 +138,9 @@ public class RentController {
 		
 		// 현재날짜와 sDate를 비교 작거나같으면 -> 거래 완료 처리
 		List<RentalAndFile> listAll = mpservice.selectRentalListAll();
-		if(listAll.isEmpty()) {
-			return "redirect:/";
-		}
+		// if(listAll.isEmpty()) {
+		// 	return "redirect:/";
+		// }
 		int result = mpservice.updateRentalStatus();
 		
 		int rTradeResult = mpservice.insertRTrade(listAll);

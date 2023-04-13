@@ -182,7 +182,7 @@
             <h2 th:text="#{auctionWrite}">경매 글 쓰기</h2>
       
             <form th:action="@{auctionWrite}" method="post" id="write"
-                    enctype="multipart/form-data" onclick="viewMapRoad((this).getAttribute('loc_id'))">
+                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                 
                 <div class="mb-3">
                     <label for="auction_title" th:text="#{title}">제목</label>

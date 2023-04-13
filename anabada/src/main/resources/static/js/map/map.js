@@ -22,7 +22,10 @@ function initMap() {
     let mapCheckInterval = setInterval(function () {
         if (typeof map !== "undefined") {
             clearInterval(mapCheckInterval); // setInterval 정지
-            google.maps.event.addListener(map, 'mouseup', function(event) {
+            google.maps.event.addListener(map, 'mouseup', function() {
+                makersData();
+            });
+            google.maps.event.addListener(map, 'zoom_changed', function () {
                 makersData();
             });
         }
@@ -232,7 +235,6 @@ function geolocation() {
                     lng: position.coords.longitude,
                 };
                 map.setCenter(pos);
-                makersData()
             },
             () => {
                 handleLocationError(true, infoWindow, map.getCenter());

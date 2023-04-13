@@ -247,10 +247,11 @@
             <!-- 지도넣는 부분 -->
             <br><br>
             <div id="map-wrapper">
-                <span><strong>직거래 선호 위치</strong><a class="gomap" th:href="@{/map(loc_id=${location.loc_id})}">지도
+                <span><strong>직거래 선호 위치</strong><a class="gomap" href="#" th:loc_id="${location.loc_id}" onclick="viewMapRoad((this).getAttribute('loc_id'))">지도
                         바로가기</a></span>
                 <div id="map"></div>
             </div>
+            <br><br>
             <div>
                 <input type="hidden" id="latitude" th:value="${location.lat}">
                 <input type="hidden" id="longitude" th:value="${location.lng}">

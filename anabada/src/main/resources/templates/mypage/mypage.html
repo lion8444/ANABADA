@@ -247,27 +247,32 @@
                         <tr>
                             <th th:text="#{nickname}">닉네임</th>
                             <td th:text="${user.user_nick}"></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <th th:text="#{email}">이메일</th>
                             <td th:text="${user.user_email}"></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <th th:text="#{phone}">연락처</th>
-                            <td th:text="${user.user_phone}"</td>
+                            <td th:text="${user.user_phone}"></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <th th:text="#{address}">주소</th>
-                            <td th:text="${user.user_addr1 + user.user_addr2}"></td>
-                        </tr>
-                        <tr>
-                            <th>현재 보유 페이</th>
-                            <td th:text="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}+' PAY'" style="text-align: center;"></td>
-                            <td>
-                                <button type="submit" class="arrow-btn1" style="margin-top: 0rem" th:onclick="charge([[${user.user_nick}]])" th:text="#{goToCharge}">충전하러가기</button>
+                            <td colspan="2">
+                                <span th:text="${user.user_addr1}"></span><br>
+                                <span th:text="${user.user_addr2}"></span>
                             </td>
                         </tr>
-                        
+                        <tr>
+                            <th style="width: 200px;">현재 보유 페이</th>
+                            <td th:text="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}+' PAY'" style="text-align: left; width: 350px;"></td>
+                            <td colspan="2">
+                                <button type="submit" class="arrow-btn1" style="margin-top: 0rem" th:onclick="charge([[${user.user_nick}]])" th:text="#{goToCharge}">충전하러가기</button>
+                            </td>
+                        </tr>                        
                     </table>
                 </div>
                <br>

@@ -369,12 +369,7 @@ function joinFormSubmit() {
             ,success: (result) => {
                 console.log("result : '" + result + "'");
                 if(result != 1) {
-                    centerNotify.fire({
-                        icon: 'error',
-                        title: '회원 가입 실패',
-                        text: '메인페이지로 이동합니다.'
-                    });
-                    location.replace("/");
+                    joinError();
                 }
                 else {
                     joinNotify();
@@ -382,12 +377,7 @@ function joinFormSubmit() {
             }
             ,error: () => {
                 console.log("error");
-                centerNotify.fire({
-                    icon: 'error',
-                    title: '회원 가입 실패',
-                    text: '메인페이지로 이동합니다.'
-                });
-                location.replace("/");
+                joinError();
             }
         });
     }

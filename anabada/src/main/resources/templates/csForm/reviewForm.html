@@ -4,28 +4,28 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="author" content="Untree.co">
-	<link rel="shortcut icon" href="favicon.png">
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="author" content="Untree.co">
+   <link rel="shortcut icon" href="favicon.png">
 
-	<meta name="description" content="" />
-	<meta name="keywords" content="bootstrap, bootstrap5" />
-	
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <meta name="description" content="" />
+   <meta name="keywords" content="bootstrap, bootstrap5" />
+   
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 
-	<link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
+   <link rel="stylesheet" th:href="@{/assets/property_fonts/icomoon/style.css}">
+   <link rel="stylesheet" th:href="@{/assets/property_fonts/flaticon/font/flaticon.css}">
 
-	<link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
-	<link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
+   <link rel="stylesheet" th:href="@{/assets/property_css/tiny-slider.css}">
+   <link rel="stylesheet" th:href="@{/assets/property_css/aos.css}">
+   <link rel="stylesheet" th:href="@{/assets/property_css/style.css}">
 
-	<!-- zay에서 가져온 css -->
-	<link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
+   <!-- zay에서 가져온 css -->
+   <link rel="apple-touch-icon" th:href="@{/assets/img/apple-icon.png}">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/img/favicon.ico}">
 
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
@@ -37,7 +37,7 @@
     <link rel="stylesheet" th:href="@{/assets/css/fontawesome.min.css}">
     
 
-	<!-- 채팅 css -->
+   <!-- 채팅 css -->
     <link rel="stylesheet" th:href="@{/css/css/chatButton.css}">
     <link rel="stylesheet" th:href="@{/css/css/chatRoom.css}">
 
@@ -46,87 +46,79 @@
     <!-- 버튼관련 css -->
     <link rel="stylesheet" th:href="@{/css/css_buttons.css}">
 
-    
-	<script>
-		function saveReview() {
-        var form = document.querySelector('form');
-        var formData = new FormData(form);
+   <style>
+      .reviewButtons,textarea {
+         width: 100%;
+      }
+      .reviewButtons {
+         margin: 0;
+      }
+      .p-5 {
+         margin-top: 0px;
+         border: 0px;
+      }
+   </style>
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/csform/review');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // 후기 작성이 성공한 경우
-                alert('후기가 작성되었습니다!');
-                window.close(); // 창 닫기
-            } else {
-                alert('후기 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
-            }
-        };
-    xhr.send(formData);
-}
-    </script>
-
-	<title>리뷰 작성</title>
+   <title>리뷰 작성</title>
 </head>
 <body>
 
-				<!-- 후기 작성 폼 -->
-				<div class="d-block agent-box p-5">
-					<div class="reviewbox">
-						<!-- 리뷰하기 폼 -->
-						<form th:action="@{/csform/review}" method="post" onsubmit="return reviewValidation();">
-							<!-- 일단 value로 직접 테스트 -->
-							<div th:if="${used_detail != null}">
-								<input type="hidden" name="user_email" th:value="${used_detail.user_email}">
-								<input type="hidden" name="used_id" th:value="${used_detail.used_id}"> 								
-							</div>
+            <!-- 후기 작성 폼 -->
+            <div class="d-block agent-box p-5">
+               <div class="reviewbox">
+                  <!-- 리뷰하기 폼 -->
+                  <form th:action="@{/csform/review}" method="post" onsubmit="return reviewValidation();">
+                     <!-- 일단 value로 직접 테스트 -->
+                     <div th:if="${used_detail != null}">
+                        <input type="hidden" name="user_email" th:value="${used_detail.user_email}">
+                        <input type="hidden" name="used_id" th:value="${used_detail.used_id}">                         
+                     </div>
 
-							<div th:if="${rental_detail != null and rental != null}">
-								<div th:if="${rental_detail.user_email} == ${#authentication.name}">
-									<input type="hidden" name="user_email" th:value="${rental_detail.user_email}">
-									<input type="hidden" name="rental_id" th:value="${rental_detail.rental_id}">
-								</div>
-							
-								<div th:if="${rental.user_email} == ${#authentication.name}">
-									<input type="hidden" name="user_email" th:value="${rental.user_email}">
-									<input type="hidden" name="rental_id" th:value="${rental.rental_id}">
-								</div>
-							</div>
-							<h3 th:text="#{usedReview}">거래후기</h3>
-							<!-- <fieldset class="starFieldSet">
-								<span class="text-bold">별점을 선택해주세요</span>
-								<input type="checkbox" name="review_comment" value="5" id="rate1"><label
-									for="rate1">★</label>
-								<input type="checkbox" name="review_comment" value="4" id="rate2"><label
-									for="rate2">★</label>
-								<input type="checkbox" name="review_comment" value="3" id="rate3"><label
-									for="rate3">★</label>
-								<input type="checkbox" name="review_comment" value="2" id="rate4"><label	
-									for="rate4">★</label>
-								<input type="checkbox" name="review_comment" value="1" id="rate5"><label
-									for="rate5">★</label>
-							</fieldset> -->
+                     <div th:if="${rental_detail != null and rental != null}">
+                        <div th:if="${rental_detail.user_email} == ${#authentication.name}">
+                           <input type="hidden" name="user_email" th:value="${rental_detail.user_email}">
+                           <input type="hidden" name="rental_id" th:value="${rental_detail.rental_id}">
+                        </div>
+                     
+                        <div th:if="${rental.user_email} == ${#authentication.name}">
+                           <input type="hidden" name="user_email" th:value="${rental.user_email}">
+                           <input type="hidden" name="rental_id" th:value="${rental.rental_id}">
+                        </div>
+                     </div>
+                     <h3 th:text="#{usedReview}">거래후기</h3>
+                     <!-- <fieldset class="starFieldSet">
+                        <span class="text-bold">별점을 선택해주세요</span>
+                        <input type="checkbox" name="review_comment" value="5" id="rate1"><label
+                           for="rate1">★</label>
+                        <input type="checkbox" name="review_comment" value="4" id="rate2"><label
+                           for="rate2">★</label>
+                        <input type="checkbox" name="review_comment" value="3" id="rate3"><label
+                           for="rate3">★</label>
+                        <input type="checkbox" name="review_comment" value="2" id="rate4"><label   
+                           for="rate4">★</label>
+                        <input type="checkbox" name="review_comment" value="1" id="rate5"><label
+                           for="rate5">★</label>
+                     </fieldset> -->
 
-							<span class="star">
-								★★★★★
-								<span>★★★★★</span>
-								<input type="range" name="review_star" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
-							</span>
-							<div class="starMent" th:text="#{putStar}">별점을 입력해 주세요!</div>
-							<textarea name="review_comment" id="review_comment" cols="120" rows="10" style="resize: none;" th:placeholder="#{putReviewSincerely}"></textarea>
-							<hr>
-							<div class="reviewButtons">
-								<input class="btn btn-success" type="submit" value="후기 작성" th:value="#{writeReview}">
-								<a th:href="@{/mypage/mypage}"><input type="button" value="취소" th:value="#{cancle}" class="btn btn-success"></a>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+                     <span class="star">
+                        ★★★★★
+                        <span>★★★★★</span>
+                        <input type="range" name="review_star" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+                     </span>
+                     <div class="starMent" th:text="#{putStar}">별점을 입력해 주세요!</div>
+                     <textarea name="review_comment" id="review_comment" cols="120" rows="10" style="resize: none;" th:placeholder="#{putReviewSincerely}"></textarea>
+                     <hr>
+                     <div class="reviewButtons">
+                        <input class="btn btn-success" type="submit" value="후기 작성" th:value="#{writeReview}">
+                        <input type="button" value="취소" th:value="#{cancle}" class="btn btn-success" onclick="reviewCancle()">
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
 
 
     <script th:src="@{/assets/property_js/bootstrap.bundle.min.js}"></script>
@@ -135,14 +127,15 @@
     <script th:src="@{/assets/property_js/navbar.js}"></script>
     <script th:src="@{/assets/property_js/counter.js}"></script>
     <script th:src="@{/assets/property_js/custom.js}"></script>
-	<!-- 채팅 -->
+   <script th:src="@{/js/review/review.js}"></script>
+   <!-- 채팅 -->
     <script th:src="@{/js/chat/chatButton.js}"></script>
     <script th:src="@{/js/chat/chatRoom.js}"></script>
     <script th:src="@{/js/chat/chat.js}"></script>
 
     <!-- 제이쿼리 -->
-	<script th:src="@{/js/jquery-3.6.3.min.js}"></script>
-	<script th:src="@{/js/js_csForm.js}"></script>
-	<script th:src="@{/js/lanTest.js}"></script>
+   <script th:src="@{/js/jquery-3.6.3.min.js}"></script>
+   <script th:src="@{/js/js_csForm.js}"></script>
+   <script th:src="@{/js/lanTest.js}"></script>
   </body>
   </html>

@@ -178,7 +178,7 @@
             <h2>대여 글 수정</h2>
       
             <form th:action="@{rentalWrite}" method="post" id="write"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                     <!-- <input type="hidden" name="user_email" th:value="">  -->
                     <input type="hidden" name="uloc_id" value="uloc000001">
                     <input type="hidden" name="sloc_id" value="sloc000001">
@@ -253,7 +253,7 @@
                 <!-- 지도 -->
                 <div id="map-wrapper">
                     <input type="text" id="search">
-                    <button id="search-button" onclick="search()">검색</button>
+                    <button id="search-button" th:text="#{search}">검색</button>
                     <div id="map"></div>
                 </div>
                 <!-- 전달할 location 값 -->
@@ -265,7 +265,7 @@
                 <!-- 지도 -->
                 <div id="map-wrapper">
                     <input type="text" id="search">
-                    <button id="search-button" onclick="search()">검색</button>
+                    <button id="search-button" th:text="#{search}">검색</button>
                     <div id="map"></div>
                 </div>
                 <!-- 전달할 location 값 -->
@@ -484,6 +484,7 @@
     <!-- 지도 -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjwyFwmuChGieHHnwOfSRynzWXwx97PYo&libraries=places&callback=initMap"></script>    
     <script th:src="@{/js/map/boardMap.js}"></script>
+    <script th:src="@{/js/js_index.js}"></script>
     <!-- End Script -->
    
 </body>

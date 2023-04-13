@@ -17,10 +17,11 @@ import com.anabada.service.admin.AdminService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Secured({"ROLE_SUPER","ROLE_ADMIN"})
+
 @Slf4j
 @RequestMapping({"admin"})
 @Controller
+@Secured({"ROLE_SUPER","ROLE_ADMIN"})
 public class AdminController {
 	@Autowired
 	private AdminService service;
@@ -41,7 +42,7 @@ public class AdminController {
 		return "admin/admin_board.html";
 	}
 	
-	@GetMapping("admin")
+	@GetMapping({"/", ""})
 	public String adminPage(Model model) {
 		int sum = service.salesamount();
 		int join = service.joinamount();

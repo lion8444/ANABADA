@@ -370,18 +370,19 @@
                         </tr>
                     </table>
                 </div>
+                <div class="row">
+                    <ul class="pagination pagination-lg justify-content-center">
+                        <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
+                            <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
+                                <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
+                            </li>
+                        </span>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-            <div class="row">
-        <ul class="pagination pagination-lg justify-content-center">
-            <span th:each="counter : ${#numbers.sequence(navi.startPageGroup, navi.endPageGroup)}">
-                <li th:class="${counter == navi.currentPage} ? 'page-item active' : 'page-item'">
-                    <a class="page-link" th:text="${counter}" th:href="|javascript:pagingFormSubmit(${counter})|"></a>
-                </li>
-            </span>
-        </ul>
-    </div>
+            
     <!-- End Content -->
     <!-- 채팅 -->
     <section sec:authorize="isAuthenticated()" th:if="${user != null}">

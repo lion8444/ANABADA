@@ -23,7 +23,7 @@
 }
 @media only screen and (min-width: 1200px) {
     .container1 {
-        width: 1210px;
+        width: 100%;
     }
 }
 
