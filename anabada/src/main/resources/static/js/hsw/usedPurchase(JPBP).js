@@ -57,6 +57,7 @@ $(document).ready(function () {
 
             if ($('.rental_sdate').val() == "" || $('.rental_edate').val() == "" || $('.rental_price').val() <= 0) {
                 $('.rental_sdate ~ div').css("display", "block");
+                $('.rental_sdate').focus();
                 return false;
             } else {
                 $('.rental_sdate ~ div').css("display", "none");
@@ -64,6 +65,7 @@ $(document).ready(function () {
 
             if ($('.inname').val().trim() == "") {
                 $('.inname ~ div').css("display", "block");
+                $('.inname').focus();
                 return false;
             } else {
                 $('.inname ~ div').css("display", "none");
@@ -71,6 +73,7 @@ $(document).ready(function () {
 
             if ($('.phone').val() == "" || !check.test($('.phone').val())) {
                 $('.phone ~ div').css("display", "block");
+                $('.phone').focus();
                 return false;
             } else {
                 $('.phone ~ div').css("display", "none");
@@ -78,6 +81,7 @@ $(document).ready(function () {
 
             if ($('.post').val() == "") {
                 $('.post ~ div').css("display", "block");
+                $('.post').focus();
                 return false;
             } else {
                 $('.post ~ div').css("display", "none");
@@ -85,6 +89,7 @@ $(document).ready(function () {
 
             if (Number($('.money').val()) > Number($('.much').val())) {
                 $('.money ~ div').css("display", "block");
+                ('.money').focus();
                 return false;
             } else {
                 $('.money ~ div').css("display", "none");
@@ -93,6 +98,7 @@ $(document).ready(function () {
 
             if (!$('.agree').is(":checked")) {
                 $('.agree ~ div').css("display", "block");
+                $('.agree').focus();
                 return false;
             } else {
                 $('.agree ~ div').css("display", "none");

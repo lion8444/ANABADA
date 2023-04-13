@@ -160,6 +160,7 @@
 
             if ((!numcheck.test($('.bid_price').val())) || Number($('.renowprice').val()) >= Number($('.bid_price').val())) {
                 $('.bid_price ~ div').css("display", "block");
+                $('.bid_price').focus();
                 return false;
             } else {
                 $('.bid_price ~ div').css("display", "none");
@@ -168,6 +169,7 @@
 
             if ($('.inname').val().trim() == "") {
                 $('.inname ~ div').css("display", "block");
+                $('.inname').focus();
                 return false;
             } else {
                 $('.inname ~ div').css("display", "none");
@@ -175,6 +177,7 @@
 
             if ($('.phone').val() == "" || !check.test($('.phone').val())) {
                 $('.phone ~ div').css("display", "block");
+                $('.phone').focus();
                 return false;
             } else {
                 $('.phone ~ div').css("display", "none");
@@ -182,6 +185,7 @@
 
             if ($('.post').val() == "") {
                 $('.post ~ div').css("display", "block");
+                $('.post').focus();
                 return false;
             } else {
                 $('.post ~ div').css("display", "none");
@@ -189,6 +193,7 @@
 
             if (Number($('.money').val()) > Number($('.much').val())) {
                 $('.money ~ div').css("display", "block");
+                $('.money').focus();
                 return false;
             } else {
                 $('.money ~ div').css("display", "none");
@@ -197,6 +202,7 @@
 
             if (!$('.agree').is(":checked")) {
                 $('.agree ~ div').css("display", "block");
+                $('.agree').focus();
                 return false;
             } else {
                 $('.agree ~ div').css("display", "none");

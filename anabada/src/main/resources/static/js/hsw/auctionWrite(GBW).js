@@ -8,6 +8,7 @@ $(document).ready(function(){
 function submitcheck(){
 	if($('#auction_title').val().trim() == ""){
 		$('#auction_title ~ div').css("display" ,"block");
+		$('#auction_title').focus();
 		return false;
 	}else{
 		$('#auction_title ~ div').css("display" ,"none");
@@ -15,6 +16,7 @@ function submitcheck(){
 	
 	if($('#auction_price').val() == "" || isNaN($('#auction_price').val()) || $('#auction_price').val() <= 0){
 		$('#auction_price ~ div').css("display" ,"block");
+		$('#auction_price').focus();
 		return false;
 	}else{
 		$('#auction_price ~ div').css("display" ,"none");
@@ -22,9 +24,11 @@ function submitcheck(){
 	
 	if(!$('#auction_finish').val()){
 		$('#auction_finish ~ div').css("display" ,"block");
+		$('#auction_finish').focus();
 		return false;
 	} else if($('#auction_finish').val() < getToday()){
 		$('#auction_finish ~ div').css("display" ,"block");
+		$('#auction_finish').focus();
 		return false;
 	} else{
 		$('#auction_finish ~ div').css("display" ,"none");
@@ -32,6 +36,7 @@ function submitcheck(){
 	
 	if(!$('#uploadOne').val()){
 		$('#uploadOne ~ div').css("display" ,"block");
+		$('#uploadOne').focus();
 		return false;
 	}else{
 		$('#uploadOne ~ div').css("display" ,"none");
@@ -39,6 +44,7 @@ function submitcheck(){
 	
 	if($('#auction_content').val().trim().length <= 50){
 		$('#auction_content ~ div').css("display" ,"block");
+		$('#auction_content').focus();
 		return false;
 	}else{
 		$('#auction_content ~ div').css("display" ,"none");

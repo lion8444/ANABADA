@@ -8,18 +8,21 @@ $(document).ready(function(){
 function submitcheck(){
 	if($('#used_title').val().trim() == ""){
 		$('#used_title ~ div').css("display" ,"block");
+		$('#used_title').focus();
 		return false;
 	}else{
 		$('#used_title ~ div').css("display" ,"none");
 	}
 	if($('#used_price').val() == "" || isNaN($('#used_price').val()) || $('#used_price').val() <= 0){
 		$('#used_price ~ div').css("display" ,"block");
+		$('#used_price').focus();
 		return false;
 	}else{
 		$('#used_price ~ div').css("display" ,"none");
 	}
 	if(!$('#uploadOne').val()){
 		$('#uploadOne ~ div').css("display" ,"block");
+		$('#uploadOne').focus();
 		return false;
 	}else{
 		$('#uploadOne ~ div').css("display" ,"none");
@@ -27,6 +30,7 @@ function submitcheck(){
 	
 	if($('#used_content').val().trim().length <= 50){
 		$('#used_content ~ div').css("display" ,"block");
+		$('#used_content').focus();
 		return false;
 	}else{
 		$('#used_content ~ div').css("display" ,"none");

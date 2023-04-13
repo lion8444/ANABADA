@@ -171,7 +171,7 @@
             <h2 th:text="#{GoUsedSellWrite}">중고 거래 판매 글 쓰기</h2>
         
             <form th:action="@{usedSellWrite}" method="post" id="write"
-                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
+                    enctype="multipart/form-data" >
                     <!-- <input type="hidden" name="user_email" th:value="">  -->                    
                 <div class="mb-3">
                     <label for="used_title" th:text="#{title}">제목</label>
