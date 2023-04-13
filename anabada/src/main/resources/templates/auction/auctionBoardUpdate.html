@@ -182,7 +182,7 @@
             <h2 th:text="#{auctionModify}">경매 글 수정</h2>
             
             <form th:action="@{auctionWrite}" method="post" id="write"
-                    enctype="multipart/form-data" onclick="viewMapRoad((this).getAttribute('loc_id'))">
+                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
 
                 
                 <div class="mb-3">
@@ -250,7 +250,7 @@
                 <!-- 지도 -->
                 <div id="map-wrapper">
                     <input type="text" id="search">
-                    <button id="search-button" th:text="#{search}">검색</button>
+                    <button type="button" id="search-button" th:text="#{search}">검색</button>
                     <div id="map"></div>
                 </div>  
                 <!-- 전달할 location 값 -->

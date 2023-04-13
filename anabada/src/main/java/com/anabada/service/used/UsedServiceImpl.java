@@ -90,6 +90,7 @@ public class UsedServiceImpl implements UsedService {
 			int upu = dao.expup(used.getUser_email());
 			
 			User_character buyer_character = dao.finduserchar(used_detail.getUser_email());
+			log.debug("buyer_char : {}", buyer_character);
 			if(buyer_character.getChar_exp() == 100) {
 				int lresult = dao.levelup(buyer_character.getUser_email());
 			}

@@ -234,6 +234,7 @@ public class UsedController {
 			return "redirect:/";
 		}
 		
+		location.setBoard_no(used_id);
 		mapservice.insertLocation(location);
 
 		// 추가된 사진 처리
@@ -281,7 +282,7 @@ public class UsedController {
 		}
 		// 글정보를 모델에 저장
 		model.addAttribute("used", used);
-		
+		model.addAttribute("location", location);
 		ArrayList<Category> category_main = service.maincategory();
 		model.addAttribute("category_main", category_main);
 

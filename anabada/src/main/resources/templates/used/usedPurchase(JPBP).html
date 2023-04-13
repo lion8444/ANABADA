@@ -222,8 +222,7 @@
                             </h5>
 
                             <div th:if="${#authentication.name}!=${used.user_email}" style="text-align: right;" >
-                                <a id = goChatting>
-                                <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
+                                <button type="button" class="arrow-btn1" id="goChatting" value="채팅">채팅하러가기</button>
                             </div>
                         </div>
                     </div>
@@ -294,7 +293,7 @@
                             <input type="text" id="sample6_postcode" name="uDetail_post" class="post form-control"
                                 th:placeholder="#{postCode}">
                             <div class="usedhref">
-                                <button class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
+                                <button type="button" class="btn btn-secondary btn-block" onclick="sample6_execDaumPostcode()"
                                     th:value="#{searchPostCode}" value="우편번호 찾기">우편번호 찾기</button>
                             </div>
                             <input id="sample6_address" class="addr1 form-control" name="uDetail_addr1" type="text"
@@ -325,7 +324,7 @@
                     <input type="text" class="showmuch form-control"
                         th:value="${#numbers.formatInteger(user.user_account, 3, 'COMMA')}" readonly>
                     <div class="usedhref">
-                        <button class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전" th:onclick="charge()">충전</button>
+                        <button type="button" class="btn btn-secondary btn-block charge" th:value="#{charge}" value="충전" th:onclick="charge()">충전</button>
                     </div>
                     <input type="text" class="much" th:value="${(user.user_account)}" hidden>
                 </div>

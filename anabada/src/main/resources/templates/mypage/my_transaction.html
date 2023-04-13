@@ -398,7 +398,7 @@
                                     <!-- 거래 후기 -->             
                                     <!-- <button type="submit" class="arrow-btn1" value="거래후기" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="|location.href='@{/csform/review(used_id=${list.used_id})}'|">후기남기기</button> -->
                                     <!-- <button type="button" class="btn btn-secondary btn-block" value="거래후기" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:value="#{usedReview}" th:onclick="window.open('@{/csform/review(used_id=${list.used_id})}')">거래 후기</button> -->
-                                    <input type="submit" class="btn btn-secondary btn-block" value="거래후기" th:value="#{usedReview}" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:onclick="window.open('@{/csform/review(used_id=${list.used_id})}')">
+                                    <input type="submit" class="btn btn-secondary btn-block" value="거래후기" th:value="#{usedReview}" th:if="${list.uDetail_status == '거래 완료'} and ${#authentication.name} == ${list.buyer_email}" th:board_no="${list.used_id}" onclick="goreview((this).getAttribute('board_no'))">
 
                                     <!-- <button type="submit" class="arrow-btn1" style="margin-top: 0rem" th:onclick="charge([[${user.user_nick}]])">충전하러가기</button> -->
                                     

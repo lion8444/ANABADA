@@ -722,6 +722,10 @@ CREATE TABLE IF NOT EXISTS `anabada`.`search` (
   UNIQUE INDEX `search_no_UNIQUE` (`search_no` ASC) VISIBLE)
 ENGINE = InnoDB;
 
+insert into `character`
+(char_id, char_name, char_date, char_grade, char_one, char_two, char_three)
+values
+('CHAR000000', 'default', '2023-04-02 00:00:00', 'C', '피츄.png', '피카츄.png', '라이츄.png');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

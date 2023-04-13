@@ -199,7 +199,7 @@
                             <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
                             <div class="text">
                                 
-                                <h5 id="target" th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
+                                <h5 th:text="'닉네임: '+${target.user_nick}">닉네임</h5>
                                 <h5 th:text="'레벨: '+${target.user_level}">레벨</h5>
                                 <h5 th:text="'국적: '+${target.user_nation}">국적</h5>
     
@@ -209,8 +209,7 @@
                                 </h5>
     
                                 <div th:if="${#authentication.name}!=${rental_sell.user_email}" style="text-align: right;" >
-                                    <a id = goChatting>
-                                    <button class="arrow-btn1" value="채팅">채팅하러가기</button></a>
+                                    <button type="button" class="arrow-btn1" value="채팅" id="goChatting" th:text="#{doChat}">채팅하러가기</button>
                                 </div>
                             </div>
                         </div>
@@ -247,8 +246,7 @@
             <!-- 지도넣는 부분 -->
             <br><br>
             <div id="map-wrapper">
-                <span><strong>직거래 선호 위치</strong><a class="gomap" href="#" th:loc_id="${location.loc_id}" onclick="viewMapRoad((this).getAttribute('loc_id'))">지도
-                        바로가기</a></span>
+                <span><strong th:text="#{tradePlace}">직거래 선호 위치</strong><a class="gomap" href="#" th:loc_id="${location.loc_id}" th:text="#{gotoRoadMap}" onclick="viewMapRoad((this).getAttribute('loc_id'))">지도에서 길 찾기</a></span>
                 <div id="map"></div>
             </div>
             <br><br>
@@ -329,7 +327,8 @@
 
 
         <!-- 채팅 -->
-        <input type="hidden"  id="board_num" th:value="${rental_sell.rental_id}">
+        <input type="hidden"  id="target" th:value="${target.user_nick}">
+    <input type="hidden"  id="board_no" th:value="${rental_sell.rental_id}">
         <section sec:authorize="isAuthenticated()" th:if="${user != null}">
             <input type="hidden" name="" id="user_nick" th:value="${user.user_nick}">
             <button class="chatbox-open">

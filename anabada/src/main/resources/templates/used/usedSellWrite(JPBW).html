@@ -171,7 +171,7 @@
             <h2 th:text="#{GoUsedSellWrite}">중고 거래 판매 글 쓰기</h2>
         
             <form th:action="@{usedSellWrite}" method="post" id="write"
-                    enctype="multipart/form-data" >
+                    enctype="multipart/form-data" onkeydown="return event.key != 'Enter';">
                     <!-- <input type="hidden" name="user_email" th:value="">  -->                    
                 <div class="mb-3">
                     <label for="used_title" th:text="#{title}">제목</label>
@@ -221,11 +221,6 @@
                     <input type="file" id="upload" name="upload" value="10장까지 가능" multiple>
                 </div>
                 
-                
-                <div class="mb-3">
-                    *글 편집하는 기능 넣는 부분
-                </div>
-        
                 <div class="mb-3">
                     <label for="content" th:text="#{content}">내용</label>
                     <textarea class="form-control" rows="5" name="used_content" id="used_content" th:placeholder="#{putContent50}" placeholder="내용을 50자 이상 입력해 주세요" ></textarea>
@@ -237,7 +232,7 @@
                 <!-- 지도 -->
                 <div id="map-wrapper">
                     <input type="text" id="search">
-                    <button id="search-button" th:text="#{search}">검색</button>
+                    <button type="button" id="search-button" th:text="#{search}">검색</button>
                     <div id="map"></div>
                 </div>
                 <!-- 전달할 location 값 -->

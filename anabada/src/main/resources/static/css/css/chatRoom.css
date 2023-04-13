@@ -387,3 +387,12 @@ button.send-btn:hover {
 .format {
   display: none;
 }
+
+.person .avatar {
+  position: absolute;
+  top: 3px;
+  left: 34px;
+  width: 34px;
+  height: 34px;
+  margin: 0px;
+}
