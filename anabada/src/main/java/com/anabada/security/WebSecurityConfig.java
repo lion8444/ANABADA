@@ -46,7 +46,7 @@ public class WebSecurityConfig {
                 "/css/**",
                 "/js/**").permitAll()
         .antMatchers("/mypage/**").hasRole("USER")
-       .antMatchers("/admin/**").hasAnyRole("ADMIN, SUPER")		// admin만 허용        
+       .antMatchers("/admin/**").hasRole("ADMIN")		// admin만 허용        
         .anyRequest().authenticated()
         .and()
         .csrf().disable().exceptionHandling()

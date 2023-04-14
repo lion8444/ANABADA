@@ -229,15 +229,15 @@
                 <div class="row">
                     <span class="col-md-4">
                         <span class="card mb-4 product-wap rounded-0">
-                            <img class="card-img rounded-0 img-fluid" th:src="@{/assets/img/pikachu.png}">
-                            <!-- <div th:if="${selectDama.char_selected} == 1">
+                            <!-- <img class="card-img rounded-0 img-fluid" th:src="@{/assets/img/pikachu.png}"> -->
+                            <div th:if="${selectDama.char_selected} == 1">
                                 <span class="card rounded-0">
                                     <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 1 and ${selectDama.char_level} < 4" th:src="@{/img/damagochi_imgs/}+${selectDama.char_one}">
                                     <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 4 and ${selectDama.char_level} < 7" th:src="@{/img/damagochi_imgs/}+${selectDama.char_two}">
                                     <img class="card-img rounded-0 img-fluid" th:if="${selectDama.char_level} >= 7" th:src="@{/img/damagochi_imgs/}+${selectDama.char_three}">
                                 </span> 
                             </div> 
-                             --><span class="card-body">
+                            <span class="card-body">
                                 <b>Lv.&nbsp;<span th:text="${user.user_level}">레벨</span></b>
                             </span>
                         </span>

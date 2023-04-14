@@ -52,7 +52,7 @@
 		)
 		VALUES
 		(
-			func_seq_10('UCHA')
+			'UCHA000003'
 			, #{user_email}
 			, 'CHAR000000'
 			, 1

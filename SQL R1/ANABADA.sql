@@ -611,7 +611,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `anabada`.`uTrade` ;
 
-CREATE TABLE IF NOT EXISTS `anabada`.`uTrade` (
+CREATE TABLE IF NOT EXISTS `anabada`.`uTrade` ( 
   `uTrade_id` VARCHAR(20) NOT NULL,
   `used_id` VARCHAR(20) NOT NULL,
   `uDetail_id` VARCHAR(20) NOT NULL,
@@ -621,13 +621,11 @@ CREATE TABLE IF NOT EXISTS `anabada`.`uTrade` (
   CONSTRAINT `fk_uTrade_used1`
     FOREIGN KEY (`used_id`)
     REFERENCES `anabada`.`used` (`used_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_uTrade_used_detail1`
     FOREIGN KEY (`uDetail_id`)
     REFERENCES `anabada`.`used_detail` (`uDetail_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -646,13 +644,11 @@ CREATE TABLE IF NOT EXISTS `anabada`.`rTrade` (
   CONSTRAINT `fk_rTrade_rental1`
     FOREIGN KEY (`rental_id`)
     REFERENCES `anabada`.`rental` (`rental_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_rTrade_rental_detail1`
     FOREIGN KEY (`rDetail_id`)
     REFERENCES `anabada`.`rental_detail` (`rDetail_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -671,13 +667,11 @@ CREATE TABLE IF NOT EXISTS `anabada`.`aTrade` (
   CONSTRAINT `fk_aTrade_auction1`
     FOREIGN KEY (`auction_id`)
     REFERENCES `anabada`.`auction` (`auction_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE,
   CONSTRAINT `fk_aTrade_auction_detail1`
     FOREIGN KEY (`aDetail_id`)
     REFERENCES `anabada`.`auction_detail` (`aDetail_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE)
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------

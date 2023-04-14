@@ -167,8 +167,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4" id="contentText">
-                    <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${used_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${used_sell.used_id}" th:email="${#authentication.name}">
-                    <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${used_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${used_sell.used_id}" th:email="${#authentication.name}">
+                    <!-- <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${used_sell.user_email}" src="/img/wish_imgs/like.png" th:boardNo="${used_sell.used_id}" th:email="${#authentication.name}">
+                    <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${used_sell.user_email}" src="/img/wish_imgs/unlike.png" th:boardNo="${used_sell.used_id}" th:email="${#authentication.name}"> -->
                     <!-- 글 상세 정보 번역 버튼 파파고 -->
                     <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-top: 0;margin-left: 10px; bottom: 15px;">
 

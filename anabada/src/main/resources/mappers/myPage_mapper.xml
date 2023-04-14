@@ -499,19 +499,20 @@
     	UPDATE 
 			used u
 			, user us
-			, used_detail ud 
 		SET 
 			u.used_status = '거래 중'
 			, us.user_account = us.user_account + #{used_price}
-			, ud.uDetail_status = '거래 중지'
 		WHERE 
 			u.used_id = #{used_id} 
 			AND
-			ud.used_id = #{used_id}
-			AND
 			ud.user_email = #{buyer_email}
+		UNION
+		delete from
+			used_detail
+		where
+			uDetail_id = #{uDetail_id}
 			AND
-			ud.uDetail_id = #{uDetail_id}
+			used_id = #{used_id}
     </update>
     
     <!-- 렌탈 취소하기  -->

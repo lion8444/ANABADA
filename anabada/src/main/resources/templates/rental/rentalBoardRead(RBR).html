@@ -174,8 +174,8 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
-                        <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                        <!-- <input type="image" id="deleteWish" th:if="${wish != null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/like.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}">
+                        <input type="image" id="insertWish" th:if="${wish == null} and ${#authentication.name} != ${rental_sell.user_email}" th:src="@{/img/wish_imgs/unlike.png}" th:boardNo="${rental_sell.rental_id}" th:email="${#authentication.name}"> -->
                         <input type="button" class="arrow-btn1" id="papagoSubmit" value="번역" th:value="#{translate}" style="margin-top: 0;margin-left: 10px; bottom: 15px;">
                         <input type="hidden" name="rental_id" id="rental_id" th:value="${rental_sell.rental_id}">
                         <div class="heading text-primary">

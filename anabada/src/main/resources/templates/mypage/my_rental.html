@@ -281,7 +281,7 @@
                             </td>
                             <td >   
                                 <div class="mypageTitle">
-                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${list.rental_id})}"><span th:text="${list.rental_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
+                                    <a th:href="@{/rental/rentalBoardRead(rental_id=${rentalList.rental_id},fsdate=${fsdate},fedate=${fedate})}"><span th:text="${list.rental_title}" th:id="|papagoD${i.index}|" class="papago2" th:papagoCount="${i.index}" style="text-align: center;">제목</span></a>
                                         <div th:if="${list.rDetail_sDateFormat} != null">
                                             <span>렌탈기한:</span>
                                             <span th:text="${list.rDetail_sDateFormat}"></span> ~

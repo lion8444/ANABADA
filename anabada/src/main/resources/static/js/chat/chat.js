@@ -120,7 +120,8 @@ function connect() {
     // var wsUri = "ws://10.10.8.90:80/ws/chat";
     // wifi 17
     // var wsUri = "ws://10.10.17.155:80/ws/chat";
-    var wsUri = "ws://localhost:80/ws/chat";
+    // var wsUri = "ws://localhost:80/ws/chat";
+    var wsUri = "ws://10.10.5.103:80/ws/chat";
     // 소켓 객체 생성
     websocket = new WebSocket(wsUri);
     //웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
